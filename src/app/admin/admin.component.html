@@ -1,0 +1,73 @@
+<div class="d-flex">
+    <!-- Sidebar -->
+    <div id="sidebar"  style="width: 250px;">
+      <div class="logo">
+        <i class="fa-solid fa-graduation-cap" style="color: #fff;"></i>
+        <h4>SMART</h4>
+        <h5>TRACK</h5>
+      </div>
+      <div  id="list">
+        <div class="dash">
+          <i class="fa-solid fa-chart-line" style="color: #fff;"></i>
+          <a routerLink="/Dashboard" class="list-group-item list-group-item-action ">Dashboard</a>
+        </div>
+        <div class="dash">
+          <i class="fa-solid fa-user" style="color: #ffffff;"></i>
+          <a routerLink="/student-list" class="list-group-item list-group-item-action ">Student List</a>
+        </div>
+        <div class="dash" >
+          <i class="fa-solid fa-user-plus" style="color: #ffffff;"></i>
+          <a routerLink="/student" active class="list-group-item list-group-item-action ">Add Student</a>
+        </div>
+        <div class="dash active" >
+          <i class="fa-solid fa-user-shield" style="color: #ffffff;"></i>
+          <a routerLink="/Add-admin" active class="list-group-item list-group-item-action ">Add Admin</a>
+        </div>
+        <div class="dash">
+          <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i>
+          <a routerLink="" id="Logout" class="list-group-item list-group-item-action ">Logout</a>
+        </div>
+       
+       
+      </div>
+    </div>
+  
+    <!-- Main Content -->
+    <div id="page-content-wrapper" class="flex-grow-1">
+        <div class="header">
+          <h2 id="head">Add Admin</h2>
+          <img src="../../assets/profile.png" alt="">
+        </div>
+        
+    
+        <hr>
+       
+        <div class="row mt-5" style="margin-top: 50px;">
+      
+          <div class="col-3">
+              <label for="inputState" class="form-label">UserName</label>
+              <input [(ngModel)]="admin.userName" type="text" title="text" placeholder="userName" class="form-control m-1">
+          </div>
+          
+          <div class="col-3">
+              <label for="inputState" class="form-label">password</label>
+              <input [(ngModel)]="admin.password" type="text" title="text" placeholder="password" class="form-control m-1">
+          </div>
+
+          <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
+            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off" checked>
+            <label class="btn btn-outline-primary" for="vbtn-radio1">website admin</label>
+            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off">
+            <label class="btn btn-outline-primary" for="vbtn-radio2">cantine admin</label>
+            
+          </div>
+
+          <div class="col-2" id="save">
+            <button style="background-color: #191BA9;align-items: center;" class="form-control mb-5  text-light mt-5" type="button" (click)="addAdmin()">Save</button>
+         </div>
+         
+         
+        </div>
+        
+    </div>
+</div>

@@ -1,0 +1,35 @@
+.calendar-container {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  h2 {
+    text-align: center;
+  }
+  
+  .highlight-date .mat-calendar-body-cell-content {
+    background-color: #03A9F4 !important; /* Light blue for highlight */
+    color: white !important;
+    border-radius: 50%;
+  }
+  
+  .container{
+    width: 44%;
+    position: relative;
+    bottom: 420px;
+    left: 290px;
+    
+    background-color: #fff;
+    border-radius:  8px;
+    border: .81px;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
+    0 10px 10px rgba(0,0,0,0.22);
+    
+}
+.custom-event {
+  border-radius: 10px; /* Adjust the shape */
+  padding: 5px; /* Add some padding */
+}
+
+  

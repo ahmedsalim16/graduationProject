@@ -1,0 +1,83 @@
+<div class="d-flex">
+    <!-- Sidebar -->
+    <div id="sidebar"  style="width: 250px;">
+      <div class="logo">
+        <i class="fa-solid fa-graduation-cap" style="color: #fff;"></i>
+        <h4>SMART</h4>
+        <h5>TRACK</h5>
+      </div>
+      <div  id="list">
+        <div class="dash active">
+          <i class="fa-solid fa-chart-line" style="color: #fff;"></i>
+          <a routerLink="/Dashboard" class="list-group-item list-group-item-action ">Dashboard</a>
+        </div>
+        <div class="dash">
+          <i class="fa-solid fa-user" style="color: #ffffff;"></i>
+          <a routerLink="/student-list" class="list-group-item list-group-item-action ">Student List</a>
+        </div>
+        <div class="dash" >
+          <i class="fa-solid fa-user-plus" style="color: #ffffff;"></i>
+          <a routerLink="/student" active class="list-group-item list-group-item-action ">Add Student</a>
+        </div>
+        <div class="dash" >
+          <i class="fa-solid fa-user-shield" style="color: #ffffff;"></i>
+          <a routerLink="/Add-admin" active class="list-group-item list-group-item-action ">Add Admin</a>
+        </div>
+        <div class="dash">
+          <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i>
+          <a routerLink="" id="Logout" class="list-group-item list-group-item-action ">Logout</a>
+        </div>
+       
+       
+      </div>
+    </div>
+  
+    <!-- Main Content -->
+    <div id="page-content-wrapper" class="flex-grow-1">
+      <div class="header">
+        <!-- search bar --> 
+        <div class="form-outline mt-3 p-5">
+          <i class="fa-solid fa-magnifying-glass" style="color: #7fbde4a6;"></i>
+          <input type="search" id="search" [(ngModel)]="searchtext" class="form-control" placeholder="Search..." id="search">
+          <!-- <label id="ser" class="form-label" for="search">Search...</label> -->
+        </div>
+        <img src="../../assets/profile.png" alt="">
+      </div>
+      <h1 id="Welcome" style="position: relative;top: -80px">Welcome Admin!</h1>
+
+      <div class="stud">
+       <div class="user">
+        <div class="i"><i class="fa-solid fa-user-tie" style="color: #ffffff;"></i></div> 
+        <div class="user2">
+            <h5>Student</h5>
+            <h1>932</h1>
+        </div>
+       </div>
+       <div class="user" >
+        <div class="i" style="background-color: #D9D9D9;"><i class="fa-solid fa-user-group" style="color: #ffffff;"></i></div> 
+        <div class="user2">
+            <h5>Parents</h5>
+            <h1>245</h1>
+        </div>
+       </div>
+       <div class="user">
+        <div class="i" style="background-color: #C1EAF2;"><i class="fa-solid fa-dollar-sign" style="color: #ffffff;"></i></div> 
+        <div class="user2">
+            <h5>Earning</h5>
+            <h1>$10,000</h1>
+        </div>
+       </div>
+       <div class="user">
+       <div class="i" style="background-color:#5CC2F2;"><i class="fa-solid fa-utensils" style="color: #ffffff;"></i></div> 
+        <div class="user2">
+            <h5>Foods</h5>
+            <h1>32K</h1>
+        </div>
+       </div>
+      </div>
+
+     <app-chart></app-chart>
+    <app-calendar style="height: 47px; display: block;"></app-calendar>
+
+</div>     
+

@@ -1,0 +1,6 @@
+{
+  "routes": [
+    "/student",
+    "/student-list"
+  ]
+}

@@ -1,0 +1,82 @@
+<app-header></app-header>
+
+
+<div class="csv-file-chooser-section">
+
+    <input type="file" #fileImportInput name="File Upload" id="csvFileUpload" (change)="fileChangeListener($event)"
+      accept=".csv" />
+  
+    <label>
+      Parse Headers?
+    </label>
+    <select aria-placeholder="Parse headers?" [(ngModel)]="header">
+      <option selected [value]="true">Yes</option>
+      <option [value]="false">No</option>
+    </select>
+  </div>
+  
+  <div class="csv-result-table">
+  
+    <table class="table">
+      <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">ID</th>
+            <th scope="col">First name</th>
+            <th scope="col">Last name</th>
+            <th scope="col">Full name</th>
+            <th scope="col">Email</th>
+            <th scope="col">address</th>
+            <th scope="col">City</th>
+            <th scope="col">grade</th>
+            <th scope="col">Gender</th>
+            <th scope="col">age</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let csvData of csvRecords|paginate:{itemsPerPage:itemsPerPage,currentPage:pageNumber,totalItems:totalItems};let i = index">
+  
+          <td>{{i+1}}</td>
+          <td>
+            <span>{{csvData.ID}}</span>
+          </td>
+          <td>
+            <span>{{csvData.FirstName}}</span>
+          </td>
+          <td>
+            <span>{{csvData.LastName}}</span>
+          </td>
+          <td>
+            <span>{{csvData.FirstName}} {{csvData.LastName}}</span>
+          </td>
+          <td>
+            <span>{{csvData.Email}}</span>
+          </td>
+          <td>
+            <span>{{csvData.address}}</span>
+          </td>
+          <td>
+            <span>{{csvData.City}}</span>
+          </td>
+          <td>
+            <span>{{csvData.grade}}</span>
+          </td>
+          <td>
+            <span>{{csvData.gender}}</span>
+          </td>
+          <td>
+            <span>{{csvData.age}}</span>
+          </td>
+          <td><i id="edit" class="fa-solid fa-pen-to-square" [routerLink]="['/update',csvData.id]" title="edit"></i></td>
+          <td><i class="fa-solid fa-trash" aria-hidden="true" (click)="delete(csvData.id)" title="delete"></i></td>
+  
+        </tr>
+      </tbody>
+    </table>
+  
+  </div>
+
+  <div class="pagination">
+    
+    <pagination-controls (pageChange)="pagechanged($event)" previousLabel="prev" nextLabel="Next"></pagination-controls>
+  </div>

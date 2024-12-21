@@ -1,0 +1,23 @@
+.text-info{
+    font-size: 18px;
+    font-weight: bold;
+    
+}
+
+i{
+    color: #bc2028;
+    cursor: pointer;
+    
+
+}
+i:hover{
+    scale: 1.5 ;
+}
+#edit{
+    color:#59c7f3
+}
+#csv{
+    font-size: 28px;
+    color:#59c7f3;
+    cursor: pointer;
+}

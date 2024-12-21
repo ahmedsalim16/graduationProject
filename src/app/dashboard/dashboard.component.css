@@ -1,0 +1,147 @@
+*{
+    font-family:sans-serif;
+  }
+
+.header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    bottom: 60px;
+}
+#search{
+    width: 25vw;
+    border-radius: 18px;
+    text-align: center;
+}
+.form-outline label{
+    position: relative;
+    bottom: 29px;
+    left: 32px;
+    opacity: 0.6;
+
+}
+
+
+img{
+  width: 40px;
+  height: 35px;
+  position: relative;
+  left: -50px;
+}
+.fa-magnifying-glass::before{
+    position: relative;
+    bottom: -32px;
+    left: 7px
+}
+
+
+  #sidebar {
+      height: 100vh;
+      background-color: #191BA9;
+      color: white;
+    }
+  #list{
+      background-color: transparent;
+      margin-top: 25px;
+      font-size: 21px;
+      font-weight: bold;
+      padding: 41px;
+      padding-top: 0px;
+    }
+  #list a{
+      padding-top: 25px;
+      left: 15px;
+  }
+  
+  .dash i{
+      position: relative;
+      top: 57px;
+      left: -22px;
+      font-size: 25px;
+  }
+  .dash{
+    opacity: .5;
+  }
+  .dash:hover{
+    scale: 1.2;
+    opacity: 1;
+  }
+  .active{
+    scale: 1.1;
+    opacity: 1;
+  }
+  
+  
+  .logo{
+  
+      font-size: 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+  #page-content-wrapper {
+      width: 100%;
+      margin-left: 30px;
+    }
+  
+    .mt-5 {
+      margin-top: 8rem ;
+  }
+  #head{
+    margin-top: 30px;
+    font-weight: bold;
+  }
+  .stud{
+    display: flex;
+    justify-content: space-around;
+    border-radius: 12px;
+    width: 84%;
+    position: relative;
+    height: 107px;
+    left: 7%;
+    top: -77px;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
+			0 10px 10px rgba(0,0,0,0.22);
+  }
+  .user{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  h1{
+    font-weight: bold;
+  }
+  .i{
+    background-color: #191BA9;
+    font-size: 30px;
+    border-radius: 28px;
+    height: 55px;
+    width: 55px;
+    position: relative;
+    left: -19px;
+  }
+  .fa-user-tie{
+    position: relative;
+    left: 14px;
+  }
+  .fa-user-group{
+    position: relative;
+    left: 10px;
+    top: 3px;
+
+  }
+  .fa-dollar-sign{
+    position: relative;
+    left: 18px;
+    top: 5px;
+
+  }
+  .fa-utensils{
+    position: relative;
+    left: 13px;
+    top: 5px;
+
+  }

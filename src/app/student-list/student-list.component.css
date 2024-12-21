@@ -1,0 +1,160 @@
+/* .text-info{
+    font-size: 18px;
+    font-weight: bold;
+    
+}
+
+i{
+    color: #bc2028;
+    cursor: pointer;
+    
+
+}
+i:hover{
+    scale: 1.5 ;
+}
+#edit{
+    color:#59c7f3
+}
+#csv{
+    font-size: 28px;
+    color:#59c7f3;
+    cursor: pointer;
+} */
+
+*{
+    font-family:sans-serif;
+  }
+
+.header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    bottom: 40px;
+}
+#search{
+    width: 25vw;
+    border-radius: 18px;
+    text-align: center;
+}
+.form-outline label{
+    position: relative;
+    bottom: 29px;
+    left: 32px;
+    opacity: 0.6;
+
+}
+
+
+img{
+  width: 40px;
+  height: 35px;
+  position: relative;
+  left: -50px;
+}
+.fa-magnifying-glass::before{
+    position: relative;
+    bottom: -32px;
+    left: 7px
+}
+
+
+  #sidebar {
+      height: 100vh;
+      background-color: #191BA9;
+      color: white;
+    }
+  #list{
+      background-color: transparent;
+      margin-top: 25px;
+      font-size: 21px;
+      font-weight: bold;
+      padding: 41px;
+      padding-top: 0px;
+    }
+  #list a{
+      padding-top: 25px;
+      left: 15px;
+  }
+  
+  .dash i{
+      position: relative;
+      top: 57px;
+      left: -22px;
+      font-size: 25px;
+  }
+  .dash{
+    opacity: .5;
+  }
+  .dash:hover{
+    scale: 1.2;
+    opacity: 1;
+  }
+  .active{
+    scale: 1.1;
+    opacity: 1;
+  }
+  
+  
+  .logo{
+  
+      font-size: 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+  #page-content-wrapper {
+      width: 100%;
+      margin-left: 30px;
+    }
+  
+    .mt-5 {
+      margin-top: 8rem ;
+  }
+  #head{
+    margin-top: 30px;
+    font-weight: bold;
+  }
+
+  #add{
+    background-color: #5CC2F2;
+    color: white;
+    border-radius: 19px;
+    border: none;
+    width: 173px;
+    height: 52px;
+    font-weight: bold;
+    font-size: 20px;
+
+  }
+  .stud{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    
+  }
+
+  #addfilter{
+    border-radius: 10px;
+    border: none;
+    width: 173px;
+    height: 52px;
+    font-weight: bold;
+    font-size: 20px;
+    position: relative;
+    left: 380px;
+    background-color: #D9D9D9;
+    color: #fff;
+
+  }
+
+  button{
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
+			0 10px 10px rgba(0,0,0,0.22);
+  }
+
+  button:active {
+    transform: scale(0.95);
+  }

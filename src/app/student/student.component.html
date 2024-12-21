@@ -1,0 +1,220 @@
+<!-- <div class="row mt-5">
+ 
+    <!-- <div class="col-md-6">
+      <label for="inputEmail4" class="form-label">Firstname</label>
+      <input [(ngModel)]="student.Fname" type="text" class="form-control" placeholder="First name" aria-label="First name">
+    </div>
+    <div class="col-md-6">
+      <label for="inputEmail4" class="form-label">Lastname</label>
+      <input [(ngModel)]="student.Lname" type="text" class="form-control" placeholder="Last name" aria-label="Last name">
+    </div>
+    <div class="col-md-6">
+      <label for="inputEmail4" class="form-label">Email</label>
+      <input [(ngModel)]="student.email" type="email" class="form-control" id="inputEmail4">
+    </div>
+    <div class="col-md-6">
+      <label for="age" class="form-label">Age</label>
+      <input [(ngModel)]="student.age" type="number" class="form-control" id="age" title="age">
+    </div>
+    <div class="col-12">
+      <label for="inputAddress" class="form-label">Address</label>
+      <input [(ngModel)]="student.address" type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+    </div>
+    <div class="col-md-6">
+      <label for="inputCity" class="form-label">City</label>
+      <input [(ngModel)]="student.city" type="text" class="form-control" id="inputCity" title="city">
+    </div>
+    <div class="col-md-4">
+      <label for="inputState" class="form-label">Grade</label>
+      <select [(ngModel)]="student.grade" id="inputState" class="form-select">
+        
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <label for="inputState2" class="form-label">Gender</label>
+      <select [(ngModel)]="student.gender" id="inputState2" class="form-select">
+        <option selected>gender</option>
+        <option>male</option>
+        <option>female</option>
+      </select>
+    </div>
+    <div class="col-12">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="gridCheck">
+        <label class="form-check-label" for="gridCheck">
+          Check me out
+        </label>
+      </div>
+    </div>
+    <div class="col-12">
+      <button  type="submit" class="btn btn-primary"(click)="addStudent()" >Sign in</button>
+    </div>
+  
+</div>  -->
+
+<!-- <app-header></app-header>
+<div class="row mt-5">
+  
+    <div class="col-6">
+        <label for="inputState" class="form-label">Firstname</label>
+        <input [(ngModel)]="student.firstName" type="text" title="text" placeholder="Fname" class="form-control m-1">
+    </div>
+    
+    <div class="col-6">
+        <label for="inputState" class="form-label">Lastname</label>
+        <input [(ngModel)]="student.lastName" type="text" title="text" placeholder="Lname" class="form-control m-1">
+    </div>
+    <div class="col-6">
+        <label for="inputState" class="form-label">Email</label>
+        <input [(ngModel)]="student.email" type="email" title="power" placeholder="email" class="form-control m-1">
+    </div>
+    <div class="col-6">
+        <label for="inputState" class="form-label">Address</label>
+        <input [(ngModel)]="student.address" type="text" title="image" placeholder="address" class="form-control m-1">
+    </div>
+    <div class="col-3">
+        <label for="inputState" class="form-label">City</label>
+        <input [(ngModel)]="student.city" type="text" title="image" placeholder="city" class="form-control m-1">
+    </div>
+    <div class="col-md-3">
+        <label for="inputState" class="form-label">Grade</label>
+        <select [(ngModel)]="student.grade" id="inputState" class="form-select">
+          <option disabled>Choose Grade</option>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+          <option>6</option>
+        </select>
+      </div>
+    <div class="col-md-3">
+        <label for="inputState" class="form-label">gender</label>
+        <select [(ngModel)]="student.gender" id="gender" class="form-select" title="gender"  >
+         
+          <option>Male</option>
+          <option>Female</option>
+        
+        </select>
+      </div>
+    <div class="col-3">
+        <label for="inputState" class="form-label">Age</label>
+        <input [(ngModel)]="student.age" type="number" title="image" placeholder="age" class="form-control m-1">
+    </div>
+    <div class="col-3" >
+       <button  class="form-control mb-5 bg-info text-light mt-5" type="button" (click)="addStudent()">Create</button>
+    </div>
+   
+</div> -->
+
+
+<div class="d-flex">
+  <!-- Sidebar -->
+  <div id="sidebar"  style="width: 250px;">
+    <div class="logo">
+      <i class="fa-solid fa-graduation-cap" style="color: #fff;"></i>
+      <h4>SMART</h4>
+      <h5>TRACK</h5>
+    </div>
+    <div  id="list">
+      <div class="dash">
+        <i class="fa-solid fa-chart-line" style="color: #fff;"></i>
+        <a routerLink="/Dashboard" class="list-group-item list-group-item-action ">Dashboard</a>
+      </div>
+      <div class="dash">
+        <i class="fa-solid fa-user" style="color: #ffffff;"></i>
+        <a routerLink="/student-list" class="list-group-item list-group-item-action ">Student List</a>
+      </div>
+      <div class="dash active" >
+        <i class="fa-solid fa-user-plus" style="color: #ffffff;"></i>
+        <a routerLink="/student" active class="list-group-item list-group-item-action ">Add Student</a>
+      </div>
+      <div class="dash" >
+        <i class="fa-solid fa-user-shield" style="color: #ffffff;"></i>
+        <a routerLink="/Add-admin" active class="list-group-item list-group-item-action ">Add Admin</a>
+      </div>
+      <div class="dash">
+        <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i>
+        <a routerLink="" id="Logout" class="list-group-item list-group-item-action ">Logout</a>
+      </div>
+     
+     
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div id="page-content-wrapper" class="flex-grow-1">
+    <div class="header">
+      <h2 id="head">Add Students</h2>
+      <img src="../../assets/profile.png" alt="">
+    </div>
+    
+
+    <hr>
+   
+    <div class="row mt-5" style="margin-top: 50px;">
+  
+      <div class="col-3">
+          <label for="inputState" class="form-label">Firstname</label>
+          <input [(ngModel)]="student.firstName" type="text" title="text" placeholder="Fname" class="form-control m-1">
+      </div>
+      
+      <div class="col-3">
+          <label for="inputState" class="form-label">Lastname</label>
+          <input [(ngModel)]="student.lastName" type="text" title="text" placeholder="Lname" class="form-control m-1">
+      </div>
+      <div class="col-md-3">
+        <label for="inputState" class="form-label">Gender</label>
+        <select [(ngModel)]="student.gender" id="gender" class="form-select" title="gender"  >
+         
+          <option>Male</option>
+          <option>Female</option>
+        
+        </select>
+      </div>
+      <div class="col-5">
+          <label for="inputState" class="form-label">Email</label>
+          <input [(ngModel)]="student.email" type="email" title="power" placeholder="email" class="form-control m-1">
+      </div>
+      <div class="col-5">
+          <label for="inputState" class="form-label">Phone</label>
+          <input [(ngModel)]="student.phone" type="text" title="image" placeholder="Phone" class="form-control m-1">
+      </div>
+      <div class="col-4">
+          <label for="inputState" class="form-label">Address</label>
+          <input [(ngModel)]="student.address" type="text" title="image" placeholder="Address" class="form-control m-1">
+      </div>
+      <div class="col-md-3">
+          <label for="inputState" class="form-label">Grade</label>
+          <select [(ngModel)]="student.grade" id="inputState" class="form-select">
+            <option disabled>Choose Grade</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+          </select>
+        </div>
+     
+      <div class="col-3">
+          <label for="inputState" class="form-label">Age</label>
+          <input [(ngModel)]="student.age" type="number" title="image" placeholder="age" class="form-control m-1">
+      </div>
+      <div class="col-3">
+          <label for="inputState" class="form-label">Uploud Student Photo</label>
+          <input [(ngModel)]="student.photo" type="file" title="image" class="form-control m-1">
+      </div>
+      <div class="col-2" id="save">
+         <button style="background-color: #191BA9;" class="form-control mb-5  text-light mt-5" type="button" (click)="addStudent()">Save</button>
+      </div>
+     
+  </div> 
+</div>
+
