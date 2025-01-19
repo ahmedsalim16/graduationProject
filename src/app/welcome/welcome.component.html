@@ -1,22 +1,22 @@
 
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
-		<form action="#">
+		<div class="form">
 			<h1>login to your Account</h1>
 			
 			
 			<div class="input-box">
-                <input class="email" type="text" placeholder="Enter your email address" [(ngModel)]="obj.userName" required/>
+                <input class="email" [(ngModel)]="obj.userName" type="text" placeholder="Enter your username"  required/>
                 <i class="fa-solid fa-envelope"></i>
             </div>
             <div class="input-box">
-                <input class="pass" id="pass" type="password" placeholder="Enter your password" [(ngModel)]="obj.password"  required/>
+                <input class="pass" [(ngModel)]="obj.password" id="pass" type="password" placeholder="Enter your password"   required/>
                 <i class="fa-solid fa-lock"></i>
                 <i class="fa-regular fa-eye-slash" onclick="showPass()" style="cursor: pointer;"></i>
             </div>
 			<a href="#" style="color:#5CC2F2 ;">Forgot your password?</a>
-			<button id="login" (click)="loginPage()">Login</button>
-		</form>
+			<button id="login" type="submit"  (click)="loginPage()">Login</button>
+		</div>
 	</div>
 	<div class="form-container sign-in-container">
         <div class="logo">

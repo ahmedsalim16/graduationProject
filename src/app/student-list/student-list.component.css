@@ -158,3 +158,19 @@ img{
   button:active {
     transform: scale(0.95);
   }
+
+  #edit{
+    color: #191BA9;
+    cursor: pointer;
+
+  }
+  #edit:hover{
+    scale: 1.2;
+  }
+  #delete{
+    color: darkred;
+    cursor: pointer;
+  }
+  #delete:hover{
+    scale: 1.2;
+  }

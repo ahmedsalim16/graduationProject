@@ -87,7 +87,7 @@
 
 
 
-<section>
+<!-- <section>
 
   <span></span>
   <span></span>
@@ -351,12 +351,45 @@
                   <a href="#">Signup</a>
               </div>
               <div class="inputBx">
-                  <input type="submit" value="Login" id="btn" (click)="loginPage()" />
-              </div>
+                   <input type="submit" value="Login" id="btn" (click)="loginPage()" /> -->
+              <!-- </div>
           </div>
       </div>
   </div>
-</section>
+</section> --> 
 
 
 <!-- Section: Design Block -->
+
+
+
+
+<div class="container" id="container">
+	<div class="form-container sign-up-container">
+		<div class="form">
+			<h1>login to your Account</h1>
+			
+			
+			<div class="input-box">
+                <input class="email" [(ngModel)]="username"  type="text" placeholder="Enter your username"  required/>
+                <i class="fa-solid fa-envelope"></i>
+            </div>
+            <div class="input-box">
+                <input class="pass" [(ngModel)]="passWord"  id="pass" type="password" placeholder="Enter your password"   required/>
+                <i class="fa-solid fa-lock"></i>
+                <i class="fa-regular fa-eye-slash" onclick="showPass()" style="cursor: pointer;"></i>
+            </div>
+			<a href="#" style="color:#5CC2F2 ;">Forgot your password?</a>
+			<button id="login" type="button"  (click)="loginPage()">Login</button>
+		</div>
+    
+	</div>
+  <div class="overlay-panel overlay-left">
+    <img src="../../assets/a4e461fe3742a7cf10a1008ffcb18744.png" alt="">
+    <div class="logo2">
+      <i class="fa-solid fa-graduation-cap" style="color: #fff;"></i>
+      <h4>SMART</h4>
+      <h5>TRACK</h5>
+    </div>
+  </div>
+</div>

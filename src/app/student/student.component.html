@@ -161,55 +161,52 @@
     <div class="row mt-5" style="margin-top: 50px;">
   
       <div class="col-3">
-          <label for="inputState" class="form-label">Firstname</label>
-          <input [(ngModel)]="student.firstName" type="text" title="text" placeholder="Fname" class="form-control m-1">
+          <label for="inputState" class="form-label">FullName</label>
+          <input [(ngModel)]="student.FullName" type="text" title="text" placeholder="FullName" class="form-control m-1">
       </div>
       
-      <div class="col-3">
-          <label for="inputState" class="form-label">Lastname</label>
-          <input [(ngModel)]="student.lastName" type="text" title="text" placeholder="Lname" class="form-control m-1">
-      </div>
+      
       <div class="col-md-3">
         <label for="inputState" class="form-label">Gender</label>
-        <select [(ngModel)]="student.gender" id="gender" class="form-select" title="gender"  >
+        <select [(ngModel)]="student.Gender"  (ngModelChange)="student.Gender = +$event" id="gender" class="form-select" title="gender"  >
          
-          <option>Male</option>
-          <option>Female</option>
+          
+          <option [value]="0">male</option>
+          <option [value]="1">female</option>
         
         </select>
       </div>
-      <div class="col-5">
-          <label for="inputState" class="form-label">Email</label>
-          <input [(ngModel)]="student.email" type="email" title="power" placeholder="email" class="form-control m-1">
+      <div class="col-md-3">
+        <label for="inputState" class="form-label">Grade</label>
+        <input [(ngModel)]="student.Grade" type="number" title="grade" placeholder="grade" class="form-control m-1">
+        <!-- <select [(ngModel)]="student.Grade" id="inputState" class="form-select">
+          <option disabled>Choose Grade</option>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+          <option>6</option>
+        </select> -->
       </div>
+     
       <div class="col-5">
-          <label for="inputState" class="form-label">Phone</label>
-          <input [(ngModel)]="student.phone" type="text" title="image" placeholder="Phone" class="form-control m-1">
+          <label for="inputState" class="form-label">City</label>
+          <input [(ngModel)]="student.City" type="text" title="city" placeholder="City" class="form-control m-1">
       </div>
       <div class="col-4">
-          <label for="inputState" class="form-label">Address</label>
-          <input [(ngModel)]="student.address" type="text" title="image" placeholder="Address" class="form-control m-1">
+          <label for="inputState" class="form-label">Street</label>
+          <input [(ngModel)]="student.Street" type="text" title="Street" placeholder="Street" class="form-control m-1">
       </div>
-      <div class="col-md-3">
-          <label for="inputState" class="form-label">Grade</label>
-          <select [(ngModel)]="student.grade" id="inputState" class="form-select">
-            <option disabled>Choose Grade</option>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-            <option>6</option>
-          </select>
-        </div>
+      
      
       <div class="col-3">
-          <label for="inputState" class="form-label">Age</label>
-          <input [(ngModel)]="student.age" type="number" title="image" placeholder="age" class="form-control m-1">
+          <label for="inputState" class="form-label">BirthDate</label>
+          <input [(ngModel)]="student.BirthDate" type="text" title="BirthDate" placeholder="mm/dd/yy" class="form-control m-1">
       </div>
       <div class="col-3">
           <label for="inputState" class="form-label">Uploud Student Photo</label>
-          <input [(ngModel)]="student.photo" type="file" title="image" class="form-control m-1">
+          <input  (change)="onFileChange($event)" type="file" title="image" class="form-control m-1">
       </div>
       <div class="col-2" id="save">
          <button style="background-color: #191BA9;" class="form-control mb-5  text-light mt-5" type="button" (click)="addStudent()">Save</button>

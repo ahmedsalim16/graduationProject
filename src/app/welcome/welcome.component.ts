@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from '../shared.service';
 import {  Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-welcome',
@@ -11,27 +12,34 @@ import { HttpClient } from '@angular/common/http';
 export class WelcomeComponent implements OnInit {
 constructor(private shared:SharedService,private router:Router,private http:HttpClient){}
 
-
+username:string='';
+passWord:string='';
 
   ngOnInit(): void {
   
   }
-
+  
+   headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   obj:any={
-    userName:'',
-    password:'',
-    twoFactorCode:'',
-    twoFactorRecoveryCode:''
+    userName:this.username,
+    password:this.passWord
+    
   }
 
   loginPage(){
-    this.shared.loginPage(this.obj).subscribe((res:any)=>{
+    this.shared.loginPage(this.obj,this.headers).subscribe((res:any)=>{
       
         console.log("res",res);
         localStorage.setItem('token',res.accessToken);
-        sessionStorage.setItem('token',res.accessToken);
-        alert("login succeeded");
+         sessionStorage.setItem('token',res.accessToken);
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Loggin Successfull",
+          showConfirmButton: false,
+          timer: 1500
+        });
         this.router.navigateByUrl('student')
      
       
@@ -39,7 +47,13 @@ constructor(private shared:SharedService,private router:Router,private http:Http
     },
   
       err=>{
-        alert("Invalid Email or Password");
+        Swal.fire({
+          position: "top-end",
+          icon: "error",
+          title: "wrong username or password",
+          showConfirmButton: false,
+          timer: 1500
+        });
         console.log(err);
         }
     

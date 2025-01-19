@@ -58,12 +58,69 @@
   
 </div> -->
 
-<app-header></app-header>
+<!-- <div class="row mt-5">
+ 
+    <!-- <div class="col-md-6">
+      <label for="inputEmail4" class="form-label">Firstname</label>
+      <input [(ngModel)]="student.Fname" type="text" class="form-control" placeholder="First name" aria-label="First name">
+    </div>
+    <div class="col-md-6">
+      <label for="inputEmail4" class="form-label">Lastname</label>
+      <input [(ngModel)]="student.Lname" type="text" class="form-control" placeholder="Last name" aria-label="Last name">
+    </div>
+    <div class="col-md-6">
+      <label for="inputEmail4" class="form-label">Email</label>
+      <input [(ngModel)]="student.email" type="email" class="form-control" id="inputEmail4">
+    </div>
+    <div class="col-md-6">
+      <label for="age" class="form-label">Age</label>
+      <input [(ngModel)]="student.age" type="number" class="form-control" id="age" title="age">
+    </div>
+    <div class="col-12">
+      <label for="inputAddress" class="form-label">Address</label>
+      <input [(ngModel)]="student.address" type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+    </div>
+    <div class="col-md-6">
+      <label for="inputCity" class="form-label">City</label>
+      <input [(ngModel)]="student.city" type="text" class="form-control" id="inputCity" title="city">
+    </div>
+    <div class="col-md-4">
+      <label for="inputState" class="form-label">Grade</label>
+      <select [(ngModel)]="student.grade" id="inputState" class="form-select">
+        
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <label for="inputState2" class="form-label">Gender</label>
+      <select [(ngModel)]="student.gender" id="inputState2" class="form-select">
+        <option selected>gender</option>
+        <option>male</option>
+        <option>female</option>
+      </select>
+    </div>
+    <div class="col-12">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="gridCheck">
+        <label class="form-check-label" for="gridCheck">
+          Check me out
+        </label>
+      </div>
+    </div>
+    <div class="col-12">
+      <button  type="submit" class="btn btn-primary"(click)="addStudent()" >Sign in</button>
+    </div>
+  
+</div>  -->
+
+<!-- <app-header></app-header>
 <div class="row mt-5">
-    <!-- <div class="col-6">
-        <label for="inputState" class="form-label">ID</label>
-        <input [(ngModel)]="student.id" type="number" title="text" placeholder="ID" class="form-control m-1">
-    </div> -->
+  
     <div class="col-6">
         <label for="inputState" class="form-label">Firstname</label>
         <input [(ngModel)]="student.firstName" type="text" title="text" placeholder="Fname" class="form-control m-1">
@@ -88,7 +145,7 @@
     <div class="col-md-3">
         <label for="inputState" class="form-label">Grade</label>
         <select [(ngModel)]="student.grade" id="inputState" class="form-select">
-          <option selected>Choose Grade</option>
+          <option disabled>Choose Grade</option>
           <option>1</option>
           <option>2</option>
           <option>3</option>
@@ -99,8 +156,8 @@
       </div>
     <div class="col-md-3">
         <label for="inputState" class="form-label">gender</label>
-        <select [(ngModel)]="student.gender" id="gender" class="form-select" title="gender">
-          <option selected>Gender</option>
+        <select [(ngModel)]="student.gender" id="gender" class="form-select" title="gender"  >
+         
           <option>Male</option>
           <option>Female</option>
         
@@ -111,7 +168,95 @@
         <input [(ngModel)]="student.age" type="number" title="image" placeholder="age" class="form-control m-1">
     </div>
     <div class="col-3" >
-       <button  class="form-control mb-5 bg-info text-light mt-5" type="button" (click)="updateStudent()">Update</button>
+       <button  class="form-control mb-5 bg-info text-light mt-5" type="button" (click)="addStudent()">Create</button>
     </div>
+   
+</div> -->
+
+
+<div class="d-flex">
+  <!-- Sidebar -->
+  <div id="sidebar"  style="width: 250px;">
+    <div class="logo">
+      <i class="fa-solid fa-graduation-cap" style="color: #fff;"></i>
+      <h4>SMART</h4>
+      <h5>TRACK</h5>
+    </div>
+    
+  </div>
+
+  <!-- Main Content -->
+  <div id="page-content-wrapper" class="flex-grow-1">
+    <div class="header">
+      <h2 id="head">Update Students</h2>
+      <img src="../../assets/profile.png" alt="">
+    </div>
+    
+
+    <hr>
+   
+    <div class="row mt-5" style="margin-top: 50px;">
+  
+      <div class="col-3">
+          <label for="inputState" class="form-label">ID</label>
+          <input [(ngModel)]="student.Id" type="text" title="ID" placeholder="ID" class="form-control m-1">
+      </div>
+      <div class="col-3">
+          <label for="inputState" class="form-label">FullName</label>
+          <input [(ngModel)]="student.FullName" type="text" title="text" placeholder="FullName" class="form-control m-1">
+      </div>
+      
+      
+      <div class="col-md-3">
+        <label for="inputState" class="form-label">Gender</label>
+        <select [(ngModel)]="student.Gender" id="gender" class="form-select" title="gender"  >
+         
+          <option > </option>
+          <option [value]="0">male</option>
+          <option [value]="1">female</option>
+        
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label for="inputState" class="form-label">Grade</label>
+        <input [(ngModel)]="student.Grade" type="number" title="grade" placeholder="grade" class="form-control m-1">
+        <!-- <select [(ngModel)]="student.Grade" id="inputState" class="form-select">
+          <option disabled>Choose Grade</option>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+          <option>6</option>
+        </select> -->
+      </div>
+     
+      <div class="col-5">
+          <label for="inputState" class="form-label">City</label>
+          <input [(ngModel)]="student.City" type="text" title="city" placeholder="City" class="form-control m-1">
+      </div>
+      <div class="col-4">
+          <label for="inputState" class="form-label">Street</label>
+          <input [(ngModel)]="student.Street" type="text" title="Street" placeholder="Street" class="form-control m-1">
+      </div>
+      
+     
+      <div class="col-3">
+          <label for="inputState" class="form-label">BirthDate</label>
+          <input [(ngModel)]="student.BirthDate" type="text" title="BirthDate" placeholder="mm/dd/yy" class="form-control m-1">
+      </div>
+      <div class="col-3">
+          <label for="inputState" class="form-label">Uploud Student Photo</label>
+          <input [(ngModel)]="student.StudentImg" type="file"  (change)="handleFileInput($event)" title="image" class="form-control m-1">
+      </div>
+      
+     
+  </div> 
+</div>
+
+
+    
+       <button id="edit" class="form-control mb-5 bg-info text-light mt-5" type="button" (click)="updateStudent()">Update</button>
+    
    
 </div>

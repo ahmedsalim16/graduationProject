@@ -27,7 +27,7 @@ export class Grade1Component implements OnInit {
   }
 
   getStudents(){
-    this.shared.getAllStudentsg1(this.grade,this.pageNumber,this.pagesize).subscribe(
+    this.shared.getAllStudentsgrade(this.grade,this.pageNumber,this.pagesize).subscribe(
       res=>{
         
          this.student=res;
@@ -41,19 +41,19 @@ export class Grade1Component implements OnInit {
     )
   }
 
-  delete(id:number){
-    this.shared.deleteStudent(id) .subscribe(
-      res=>{
-        console.log(res);
-       this.ngOnInit()
-        //this.student=this.student.filter((a:any)=>a.id!=id);
-        },
-        err=>{
-          console.log(err);
-          }
-    )
+  // delete(id:number){
+  //   this.shared.deleteStudent(id) .subscribe(
+  //     res=>{
+  //       console.log(res);
+  //      this.ngOnInit()
+  //       //this.student=this.student.filter((a:any)=>a.id!=id);
+  //       },
+  //       err=>{
+  //         console.log(err);
+  //         }
+  //   )
 
-  }
+  // }
 
   pagechanged(event:any){
     this.pageNumber=event;

@@ -48,19 +48,59 @@
               <label for="inputState" class="form-label">UserName</label>
               <input [(ngModel)]="admin.userName" type="text" title="text" placeholder="userName" class="form-control m-1">
           </div>
+          <div class="col-3">
+              <label for="inputState" class="form-label">email</label>
+              <input [(ngModel)]="admin.email" type="email" title="text" placeholder="email" class="form-control m-1">
+          </div>
           
           <div class="col-3">
               <label for="inputState" class="form-label">password</label>
               <input [(ngModel)]="admin.password" type="text" title="text" placeholder="password" class="form-control m-1">
           </div>
-
-          <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
-            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off" checked>
-            <label class="btn btn-outline-primary" for="vbtn-radio1">website admin</label>
-            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off">
-            <label class="btn btn-outline-primary" for="vbtn-radio2">cantine admin</label>
-            
+          <div class="col-3">
+              <label for="inputState" class="form-label">confirm password</label>
+              <input [(ngModel)]="admin.confirmPassword" type="text" title="text" placeholder="confirmPassword" class="form-control m-1">
           </div>
+
+
+
+<fieldset>
+  <legend class="sr-only">Role Selection</legend>
+
+  <div class="space-y-2">
+
+    <label for="Option1" class="flex cursor-pointer  gap-7">
+      <div class="flex items-center">
+        &#8203;
+        <input type="checkbox"  [(ngModel)]="selectedOption"  (change)="selectOption('admin')" [value]="'admin'"  class="size-4 rounded border-gray-300" id="Option1" />
+      </div>
+
+      <div>
+        <strong class="font-medium text-gray-900"> Admin </strong>
+      </div>
+    </label>
+
+    <label for="Option2" class="flex cursor-pointer  gap-7">
+      <div class="flex items-center">
+        &#8203;
+        <input type="checkbox" [(ngModel)]="selectedOption"   (change)="selectOption('cashier')" [value]="'cashier'" class="size-4 rounded border-gray-300" id="Option2" />
+      </div>
+
+      <div>
+        <strong class="font-medium text-gray-900"> cashier </strong>
+      </div>
+    </label>
+  </div>
+</fieldset>
+<!-- <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+  <input type="radio" [(ngModel)]="admin.role"   [checked]="selectedOption === 'cashier'"(change)="selectOption('cashier')" class="btn-check" id="btncheck1" autocomplete="off">
+  <label class="btn btn-outline-primary" for="btncheck1">cashier</label>
+
+  <input type="checkbox" [(ngModel)]="admin.role"  [checked]="selectedOption === 'admin'"(change)="selectOption('admin')" class="btn-check" id="btncheck2" autocomplete="off">
+  <label class="btn btn-outline-primary" for="btncheck2">Admin</label>
+
+  
+</div> -->
 
           <div class="col-2" id="save">
             <button style="background-color: #191BA9;align-items: center;" class="form-control mb-5  text-light mt-5" type="button" (click)="addAdmin()">Save</button>

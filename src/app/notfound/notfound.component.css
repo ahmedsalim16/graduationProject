@@ -1,0 +1,11 @@
+.button{
+    background-color: #191BA9;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+}
+.link{
+    text-decoration: none;
+    color: #fff;
+}

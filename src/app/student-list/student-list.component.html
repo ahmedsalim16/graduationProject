@@ -169,22 +169,23 @@
           </button>
           <ul class="dropdown-menu">
             <li class="dropend">
-              <a class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" href="#">Grade</a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">1</a></li>
-                <li><a class="dropdown-item" href="#">2</a></li>
-                <li><a class="dropdown-item" href="#">3</a></li>
-                <li><a class="dropdown-item" href="#">4</a></li>
-                <li><a class="dropdown-item" href="#">5</a></li>
-                <li><a class="dropdown-item" href="#">6</a></li>
+              <a class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" >Grade</a>
+              <ul class="dropdown-menu" >
+                <li><a class="dropdown-item" (click)="getStudents()">All Students</a></li>
+                <li><a class="dropdown-item" (click)="filterByGrade1()">1</a></li>
+                <li><a class="dropdown-item" (click)="filterByGrade2()">2</a></li>
+                <li><a class="dropdown-item" (click)="filterByGrade3()">3</a></li>
+                <li><a class="dropdown-item" (click)="filterByGrade4()">4</a></li>
+                <li><a class="dropdown-item" (click)="filterByGrade5()">5</a></li>
+                <li><a class="dropdown-item" (click)="filterByGrade6()">6</a></li>
 
               </ul>
             </li>
 
             <li class="dropend"><a class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" href="#">Gender</a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Male</a></li>
-                <li><a class="dropdown-item" href="#">Female</a></li>
+                <li><a class="dropdown-item" (click)="filterByGenderM()">Male</a></li>
+                <li><a class="dropdown-item" (click)="filterByGenderF()">Female</a></li>
                 
 
               </ul>
@@ -209,34 +210,37 @@
             <tr>
               <th scope="col">#</th>
               <th scope="col">ID</th>
-              <th scope="col">First name</th>
-              <th scope="col">Last name</th>
               <th scope="col">Full name</th>
-              <th scope="col">Email</th>
-              <th scope="col">address</th>
-              <th scope="col">City</th>
+              <th scope="col">gender</th>
               <th scope="col">grade</th>
-              <th scope="col">Gender</th>
-              <th scope="col">age</th>
+              <th scope="col">city</th>
+              <th scope="col">street</th>
+              <th scope="col">studentImg</th>
+              <th scope="col">birthDate</th>
             </tr>
           </thead>
           <tbody> 
             
-                   <tr *ngFor="let index of student|filter:searchtext |paginate:{itemsPerPage:itemsPerPage,currentPage:pageNumber,totalItems:totalItems}; let i=index">
+                   <tr *ngFor="let index of filteredStudents |paginate:{itemsPerPage:itemsPerPage,currentPage:pageNumber,totalItems:totalItems}; let i=index">
                       
                       <td>{{i+1}}</td>
                       <td>{{index.id}}</td>
-                      <td>{{index.firstName}}</td>
-                      <td>{{index.lastName}}</td>
-                      <td>{{index.firstName}} {{index.lastName}}</td>
-                      <td>{{index.email}}</td>
-                      <td>{{index.address}}</td>
-                      <td>{{index.city}}</td>
-                      <td>{{index.grade}}</td>
+                      <td>{{index.fullName}}</td>
                       <td>{{index.gender}}</td>
-                      <td>{{index.age}}</td>
+                      <td>{{index.grade}}</td>
+                      <td>{{index.city}}</td>
+                      <td>{{index.street}}</td>
+                      <td><img
+                        *ngIf="index.studentImg"
+                        [src]="'https://your-image-server.com/uploads/' +index.studentImg"
+                        alt="Student Image"
+                        width="50"
+                        height="50"
+                        loading="lazy"
+                      /></td>
+                      <td>{{index.birthDate ? (index.birthDate | date: 'yyyy-MM-dd') : 'N/A'}}</td>
                       <td><i id="edit" class="fa-solid fa-pen-to-square" [routerLink]="['/update',index.id]" title="edit"></i></td>
-                      <td><i class="fa-solid fa-trash" aria-hidden="true" (click)="delete(index.id)" title="delete"></i></td>
+                      <td><i id="delete" class="fa-solid fa-trash" aria-hidden="true" (click)="delete(index.id)" title="delete"></i></td>
                      
                     
                     </tr>
