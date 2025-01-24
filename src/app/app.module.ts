@@ -46,6 +46,9 @@ import { MatInputModule } from '@angular/material/input';
 import { CalendarComponent } from './calendar/calendar.component';
 import { AdminComponent } from './admin/admin.component';
 import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
+import { AdminListComponent } from './admin-list/admin-list.component';
+import { AdminUpdateComponent } from './admin-update/admin-update.component';
+import { AbsenceListComponent } from './absence-list/absence-list.component';
  //import { Ng2SearchPipeModule } from 'ng2-search-filter';
 //  export function createTranslateLoader(http:HttpClient){
 //   return new TranslateHttpLoader(http,'assets/i18n/','.json');
@@ -73,6 +76,9 @@ import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular
     ChartComponent,
     CalendarComponent,
     AdminComponent,
+    AdminListComponent,
+    AdminUpdateComponent,
+    AbsenceListComponent,
     
     
     

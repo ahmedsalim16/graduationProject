@@ -3,7 +3,7 @@ import { Component, Injectable } from '@angular/core';
 import path from 'path';
 import { StudentComponent } from './student/student.component';
 import { RouterLink } from '@angular/router';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiResponse } from './api';
 
 @Injectable({
@@ -12,14 +12,19 @@ import { ApiResponse } from './api';
 export class SharedService {
 
   constructor( private http:HttpClient) { }
+  private studentCountSource = new BehaviorSubject<number>(0); // حالة العدد الافتراضية هي 0
+  studentCount$ = this.studentCountSource.asObservable();
+  setStudentCount(count: number): void {
+    this.studentCountSource.next(count); // تحديث العدد وإعلام الكومبوننتات المشتركة
+  }
   
   private Url='http://adhamapis.runasp.net/api/Account/'/* put the back-end server link */
   private Url2='https://salimapi.runasp.net/account/'/* put the back-end server link */
  // private Url='https://jsonplaceholder.typicode.com/users'/* put the back-end server link */
   //studentList:any[]=[]
 
-  createNewStudent(student:any){
-    return this.http.post("https://adhamapis.runasp.net/api/Student/add",student, {
+  createNewStudent(studentData: any){
+    return this.http.post("https://adhamapis.runasp.net/api/Student/add",studentData, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -30,9 +35,42 @@ export class SharedService {
     return this.http.post("https://adhamapis.runasp.net/api/User/Add",admin)
 
   }
+  getAllAdmins(PageNumber:number,pagesize:number):Observable<ApiResponse>{//?pageSize=10&pageNumber=1
+    // return this.http.get(this.Url+`getall?pageSize=${pagesize}&pageNumber=${PageNumber}`)
+    const params = new HttpParams()
+       .set('pageNumber', PageNumber.toString())
+       .set('pageSize', pagesize.toString());
+       return this.http.get<ApiResponse>("https://adhamapis.runasp.net/api/User/GetAll");
+   }
+   filterAdmins(filters: {  role?: string; pageNumber: number; pageSize: number }) {
+    let params = new URLSearchParams();
+    if (filters.role !== undefined) {
+      params.append('role', filters.role.toString());
+    }
+    params.append('pageNumber', filters.pageNumber.toString());
+    params.append('pageSize', filters.pageSize.toString());
+  
+    return this.http.get(`https://adhamapis.runasp.net/api/User/GetAll?${params.toString()}`);
+  }
+
+  getAdminById(id:any): Observable<any>{
+    return this.http.get<any>("https://adhamapis.runasp.net/api/User/GetById/"+id)
+  }
+
+  updateAdmin(adminData: any): Observable<any> {
+    return this.http.put('https://adhamapis.runasp.net/api/User/Update', adminData, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+  
 
 
 
+  deleteadmins(id:string){
+   
+     
+   return this.http.delete("https://adhamapis.runasp.net/api/User/Delete/"+id)
+  }
   deleteStudent(id:string){
    
      
@@ -51,10 +89,25 @@ export class SharedService {
       .set('pageSize', pagesize.toString());
       return this.http.get<ApiResponse>("https://adhamapis.runasp.net/api/Student/GetAll"+`?Gender=${gender}`)
   }
-
-  getAllStudents(){
-    return this.http.get(this.Url+'getall')
+  filterStudents(filters: { gender?: number; grade?: number; pageNumber: number; pageSize: number }) {
+    let params = new URLSearchParams();
+  
+    if (filters.gender !== undefined) {
+      params.append('gender', filters.gender.toString());
+    }
+    if (filters.grade !== undefined) {
+      params.append('grade', filters.grade.toString());
+    }
+    params.append('pageNumber', filters.pageNumber.toString());
+    params.append('pageSize', filters.pageSize.toString());
+  
+    return this.http.get(`https://adhamapis.runasp.net/api/Student/GetAll?${params.toString()}`);
   }
+ 
+  
+  
+
+  
   getAllStudentspagination(PageNumber:number,pagesize:number):Observable<ApiResponse>{//?pageSize=10&pageNumber=1
    // return this.http.get(this.Url+`getall?pageSize=${pagesize}&pageNumber=${PageNumber}`)
    const params = new HttpParams()
@@ -74,10 +127,35 @@ export class SharedService {
   loginPage(loginObj: any,headers:any):Observable<any>{
     return this.http.post("https://adhamapis.runasp.net/api/Account/login",loginObj)
   }
+  private token: string | null = null; 
 
-  getToken(){
-    return localStorage.getItem('token')
+ 
+  setToken(token: string) {
+    this.token = token;
+    localStorage.setItem('token', token); 
+    console.log('Token has been set:', token); 
   }
+
+  getToken(): string | null {
+    if (!this.token) {
+      this.token = localStorage.getItem('token'); 
+    }
+    console.log('Retrieved token:', this.token); 
+    return this.token;
+  }
+  
+  
+
+  private baseUrl = 'https://adhamapis.runasp.net/api/Student';
+  getStudentCountByGender(gender?: number): Observable<any> {
+    let url = `${this.baseUrl}/GetCount`;
+    if (gender !== undefined) {
+      url += `?gender=${gender}`;
+    }
+    return this.http.get<any>(url); // استدعاء الـ API وإرجاع البيانات
+  }
+
+
   // search(search:string){
   //   return this.http.get(this.Url+`Search?searchValue=${search}`)
   // }

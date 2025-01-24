@@ -2,13 +2,12 @@
   font-family:sans-serif;
 }
 #sidebar {
-    height: 100vh;
     background-color: #191BA9;
     color: white;
   }
 #list{
     background-color: transparent;
-    margin-top: 25px;
+    margin-top: -10px;
     font-size: 21px;
     font-weight: bold;
     padding: 41px;

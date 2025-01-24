@@ -1,28 +1,22 @@
-
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { ngxCsv } from 'ngx-csv';
 import { SharedService } from '../shared.service';
-import { customeInterceptor } from '../custome.interceptor';
-import { Token } from '@angular/compiler';
-import { HttpRequest, HttpHandler } from '@angular/common/http';
-import { ngxCsv } from 'ngx-csv/ngx-csv';
-import { number } from 'echarts';
-import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AuthService } from '../auth.service';
 
 @Component({
-  selector: 'app-student-list',
-  templateUrl: './student-list.component.html',
-  styleUrl: './student-list.component.css'
+  selector: 'app-absence-list',
+  templateUrl: './absence-list.component.html',
+  styleUrl: './absence-list.component.css'
 })
-export class StudentListComponent implements OnInit {
+export class AbsenceListComponent {
 pagination: any;
-  constructor(public shared:SharedService,private router:Router,public authService:AuthService){}
+  constructor(public shared:SharedService,public authService:AuthService){}
   student: any[] = [];
   searchtext:string='';
   pagesize:number=20;
-  totalItems:number=20;
-  itemsPerPage:number=5;
+  totalItems:number;
+  itemsPerPage:number=4;
   pageNumber:number=1;
   count:number=0;
   gender: number | null = null; // لتخزين نوع الجنس المختار
@@ -38,25 +32,25 @@ grade: number | null = null;
 
 
  
-getStudents(){
-  localStorage.getItem('token');
-  this.shared.getAllStudentspagination(this.pageNumber,this.pagesize).subscribe(
-    response=>{
-      console.log(response)
-      if (response && response.result && Array.isArray(response.result)) {
-        this.student = response.result; // إذا كانت البيانات موجودة، خزّنها
-      } else {
-        console.error('Error: Invalid response format or no data found.');
-        this.student = []; // تفريغ المصفوفة إذا لم توجد بيانات
-      }
+// getStudents(){
+//   localStorage.getItem('token');
+//   this.shared.getAllStudentspagination(this.pageNumber,this.pagesize).subscribe(
+//     response=>{
+//       console.log(response)
+//       if (response && response.result && Array.isArray(response.result)) {
+//         this.student = response.result; // إذا كانت البيانات موجودة، خزّنها
+//       } else {
+//         console.error('Error: Invalid response format or no data found.');
+//         this.student = []; // تفريغ المصفوفة إذا لم توجد بيانات
+//       }
 
-    },
-    err=>{
-      console.log(err);
+//     },
+//     err=>{
+//       console.log(err);
       
-    }
-  )
-}
+//     }
+//   )
+// }
 
 
 
@@ -171,9 +165,9 @@ delete(id: string) {
   }
 
   logout(): void {
-    this.authService.logout(); // استدعاء وظيفة تسجيل الخروج من الخدمة
+    this.authService.logout(); 
   }
-  
+
   downloadCsvFile(){
     var options = { 
       fieldSeparator: ',',
@@ -188,27 +182,4 @@ delete(id: string) {
    
     new ngxCsv(this.student, 'my-first-csv', options);
   }
-
-  // search(searchtext: string=''){
-  //   this.shared.search(searchtext).subscribe(
-  //     res=>{
-  //       this.student=res;
-
-  //     },
-  //     err=>{
-  //       console.log(err);
-  //     }
-  //   )
-      
-  // }
-
-  // onPrevious(){
-  //   this.PageNumber --;
-  //   this.shared.getAllStudents(this.PageNumber,this.pagesize);
-  // }
-  // onNext() {
-  //   this.PageNumber ++;
-  //   this.shared.getAllStudents(this.PageNumber,this.pagesize);
-  // }
-
 }

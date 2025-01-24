@@ -14,13 +14,13 @@
     border-radius: 18px;
     text-align: center;
 }
-.form-outline label{
+/* .form-outline label{
     position: relative;
     bottom: 29px;
     left: 32px;
     opacity: 0.6;
 
-}
+} */
 
 
 img{
@@ -37,13 +37,12 @@ img{
 
 
   #sidebar {
-      height: 100vh;
       background-color: #191BA9;
       color: white;
     }
   #list{
       background-color: transparent;
-      margin-top: 25px;
+      margin-top: -10px;
       font-size: 21px;
       font-weight: bold;
       padding: 41px;

@@ -125,7 +125,7 @@
           <i class="fa-solid fa-chart-line" style="color: #fff;"></i>
           <a routerLink="/Dashboard" class="list-group-item list-group-item-action ">Dashboard</a>
         </div>
-        <div class="dash active">
+        <div class="dash ">
           <i class="fa-solid fa-user" style="color: #ffffff;"></i>
           <a routerLink="/student-list" class="list-group-item list-group-item-action ">Student List</a>
         </div>
@@ -141,8 +141,8 @@
           <i class="fa-solid fa-users-line" style="color: #ffffff;"></i>
           <a routerLink="/admin-list" active class="list-group-item list-group-item-action ">Admin List</a>
         </div>
-        <div class="dash " >
-          <i class="fa-solid fa-children" style="color: #ffffff;"></i>
+        <div class="dash active" >
+            <i class="fa-solid fa-children" style="color: #ffffff;"></i>
           <a routerLink="/absence-list" active class="list-group-item list-group-item-action ">absence List</a>
         </div>
         <div class="dash" style="cursor: pointer;">
@@ -231,13 +231,13 @@
               <th scope="col">grade</th>
               <th scope="col">city</th>
               <th scope="col">street</th>
-              <th scope="col">rfidTag_Id</th>
+              <th scope="col">studentImg</th>
               <th scope="col">birthDate</th>
             </tr>
           </thead>
           <tbody> 
             
-                   <tr *ngFor="let index of filteredStudents |paginate:{itemsPerPage:itemsPerPage,currentPage:pageNumber}; let i=index">
+                   <tr *ngFor="let index of filteredStudents |paginate:{itemsPerPage:itemsPerPage,currentPage:pageNumber,totalItems:totalItems}; let i=index">
                       
                       <td>{{i+1}}</td>
                       <td>{{index.id}}</td>
@@ -246,7 +246,14 @@
                       <td>{{index.grade}}</td>
                       <td>{{index.city}}</td>
                       <td>{{index.street}}</td>
-                      <td>{{index.rfidTag_Id}}</td>
+                      <td><img
+                        *ngIf="index.studentImg"
+                        [src]="'https://your-image-server.com/uploads/' +index.studentImg"
+                        alt="Student Image"
+                        width="50"
+                        height="50"
+                        loading="lazy"
+                      /></td>
                       <td>{{index.birthDate ? (index.birthDate | date: 'yyyy-MM-dd') : 'N/A'}}</td>
                       <td><i id="edit" class="fa-solid fa-pen-to-square" [routerLink]="['/update',index.id]" title="edit"></i></td>
                       <td><i id="delete" class="fa-solid fa-trash" aria-hidden="true" (click)="delete(index.id)" title="delete"></i></td>

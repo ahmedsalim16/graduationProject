@@ -56,16 +56,15 @@ export class UpdateComponent implements OnInit{
     formData.append('City', this.student.City);
     formData.append('Street', this.student.Street);
     formData.append('BirthDate', this.student.BirthDate);
-    if (this.student.StudentImg instanceof File) {
-      formData.append('StudentImg', this.student.StudentImg);
-    }
+    formData.append('rfidTag_Id', this.student.rfidTag_Id);
+    
   
     this._shared.updateStudent(formData).subscribe(
       (res) => {
         Swal.fire({
                                    position: "top-end",
                                    icon: "success",
-                                   title: "Stydent updated Successfull",
+                                   title: "Student updated Successfull",
                                    showConfirmButton: false,
                                    timer: 1500
                                  });

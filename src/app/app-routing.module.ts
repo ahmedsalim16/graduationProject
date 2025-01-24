@@ -16,16 +16,23 @@ import { CsvFileComponent } from './csv-file/csv-file.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminComponent } from './admin/admin.component';
+import { AdminListComponent } from './admin-list/admin-list.component';
+import { AdminUpdateComponent } from './admin-update/admin-update.component';
+import { AbsenceListComponent } from './absence-list/absence-list.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
 { path: '', redirectTo:'/welcome',pathMatch:'full' },
 { path: 'welcome', component:WelcomeComponent },
-{ path: 'Dashboard', component:DashboardComponent },
+{ path: 'Dashboard', component:DashboardComponent,canActivate: [AuthGuard] },
 { path: 'login', component:LoginComponent },
-{ path: 'student', component:StudentComponent },
-{ path: 'Add-admin', component:AdminComponent },
+{ path: 'student', component:StudentComponent ,canActivate: [AuthGuard]},
+{ path: 'Add-admin', component:AdminComponent ,canActivate: [AuthGuard]},
 { path: 'header', component: HeaderComponent },
-{ path: 'student-list', component:StudentListComponent},
+{ path: 'student-list', component:StudentListComponent,canActivate: [AuthGuard]},
+{ path: 'admin-list', component:AdminListComponent,canActivate: [AuthGuard]},
+{ path: 'admin-update/:id', component:AdminUpdateComponent},
+{ path: 'absence-list', component:AbsenceListComponent,canActivate: [AuthGuard]},
 { path: 'grade1', component:Grade1Component},
 { path: 'grade2', component:Grade2Component},
 { path: 'grade3', component:Grade3Component},

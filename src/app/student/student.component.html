@@ -139,9 +139,17 @@
         <i class="fa-solid fa-user-shield" style="color: #ffffff;"></i>
         <a routerLink="/Add-admin" active class="list-group-item list-group-item-action ">Add Admin</a>
       </div>
-      <div class="dash">
+      <div class="dash" >
+        <i class="fa-solid fa-users-line" style="color: #ffffff;"></i>
+        <a routerLink="/admin-list" active class="list-group-item list-group-item-action ">Admin List</a>
+      </div>
+      <div class="dash " >
+        <i class="fa-solid fa-children" style="color: #ffffff;"></i>
+        <a routerLink="/absence-list" active class="list-group-item list-group-item-action ">absence List</a>
+      </div>
+      <div class="dash" style="cursor: pointer;">
         <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i>
-        <a routerLink="" id="Logout" class="list-group-item list-group-item-action ">Logout</a>
+        <a (click)="logout()" id="Logout" class="list-group-item list-group-item-action ">Logout</a>
       </div>
      
      
@@ -178,8 +186,7 @@
       </div>
       <div class="col-md-3">
         <label for="inputState" class="form-label">Grade</label>
-        <input [(ngModel)]="student.Grade" type="number" title="grade" placeholder="grade" class="form-control m-1">
-        <!-- <select [(ngModel)]="student.Grade" id="inputState" class="form-select">
+        <select [(ngModel)]="student.Grade" id="inputState" class="form-select">
           <option disabled>Choose Grade</option>
           <option>1</option>
           <option>2</option>
@@ -187,7 +194,7 @@
           <option>4</option>
           <option>5</option>
           <option>6</option>
-        </select> -->
+        </select>
       </div>
      
       <div class="col-5">
@@ -205,8 +212,8 @@
           <input [(ngModel)]="student.BirthDate" type="text" title="BirthDate" placeholder="mm/dd/yy" class="form-control m-1">
       </div>
       <div class="col-3">
-          <label for="inputState" class="form-label">Uploud Student Photo</label>
-          <input  (change)="onFileChange($event)" type="file" title="image" class="form-control m-1">
+          <label for="inputState" class="form-label">rfidTag_Id</label>
+          <input [(ngModel)]="student.rfidTag_Id"  type="text" title="image" class="form-control m-1">
       </div>
       <div class="col-2" id="save">
          <button style="background-color: #191BA9;" class="form-control mb-5  text-light mt-5" type="button" (click)="addStudent()">Save</button>

@@ -3,6 +3,7 @@ import { SharedService } from '../shared.service';
 import { NgForm } from '@angular/forms';
 import { Loginmodel } from '../loginmodel';
 import Swal from 'sweetalert2';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-admin',
@@ -11,7 +12,7 @@ import Swal from 'sweetalert2';
 })
 export class AdminComponent implements OnInit {
   public login:Loginmodel
-  constructor(public shared:SharedService){
+  constructor(public shared:SharedService,public authService:AuthService){
    this.login=new Loginmodel();
   }
   ngOnInit(): void {
@@ -83,5 +84,9 @@ export class AdminComponent implements OnInit {
         this.selectedOption = option;
         this.admin.role = option === 'admin' ? 2 : 1; // Admin = 2, Cashier = 1
       }
+    }
+
+    logout(): void {
+      this.authService.logout(); // استدعاء وظيفة تسجيل الخروج من الخدمة
     }
 }

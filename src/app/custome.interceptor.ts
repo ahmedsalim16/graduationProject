@@ -13,16 +13,19 @@ export class customeInterceptor implements HttpInterceptor  {
   //   req=req.clone({headers:req.headers.set('Authorization','Bearer'+localToken)})
   //   return next.handle(req);
   // }
-  intercept(req: HttpRequest<unknown>,next: HttpHandler){
-    let authService=this.injector.get(SharedService);
-    let tokenreq=req.clone({
-      setHeaders:{
-        Authorization:`Bearer ${authService.getToken()}`
+  intercept(req: HttpRequest<unknown>, next: HttpHandler) {
+    let authService = this.injector.get(SharedService); // استدعاء الخدمة
+    let token = authService.getToken(); // استرجاع التوكن
+    console.log('Token in interceptor:', token); // التحقق من التوكن
+    let tokenreq = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token || ''}` // تأكد من عدم إرسال undefined
       }
-    })
-    return next.handle(tokenreq)
-
+    });
+    return next.handle(tokenreq); // متابعة الطلب
   }
+  
+  
   
 };
 

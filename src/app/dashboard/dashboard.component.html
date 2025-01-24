@@ -23,9 +23,17 @@
           <i class="fa-solid fa-user-shield" style="color: #ffffff;"></i>
           <a routerLink="/Add-admin" active class="list-group-item list-group-item-action ">Add Admin</a>
         </div>
-        <div class="dash">
+        <div class="dash" >
+          <i class="fa-solid fa-users-line" style="color: #ffffff;"></i>
+          <a routerLink="/admin-list" active class="list-group-item list-group-item-action ">Admin List</a>
+        </div>
+        <div class="dash " >
+          <i class="fa-solid fa-children" style="color: #ffffff;"></i>
+          <a routerLink="/absence-list" active class="list-group-item list-group-item-action ">absence List</a>
+        </div>
+        <div class="dash" style="cursor: pointer;">
           <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i>
-          <a routerLink="" id="Logout" class="list-group-item list-group-item-action ">Logout</a>
+          <a (click)="logout()" id="Logout" class="list-group-item list-group-item-action ">Logout</a>
         </div>
        
        
@@ -37,20 +45,19 @@
       <div class="header">
         <!-- search bar --> 
         <div class="form-outline mt-3 p-5">
-          <i class="fa-solid fa-magnifying-glass" style="color: #7fbde4a6;"></i>
-          <input type="search" id="search" [(ngModel)]="searchtext" class="form-control" placeholder="Search..." id="search">
+          <h1 id="Welcome" >Welcome Admin!</h1>
+
           <!-- <label id="ser" class="form-label" for="search">Search...</label> -->
         </div>
         <img src="../../assets/profile.png" alt="">
       </div>
-      <h1 id="Welcome" style="position: relative;top: -80px">Welcome Admin!</h1>
 
       <div class="stud">
        <div class="user">
         <div class="i"><i class="fa-solid fa-user-tie" style="color: #ffffff;"></i></div> 
         <div class="user2">
             <h5>Student</h5>
-            <h1>932</h1>
+            <h1>{{ studentCount }}</h1>
         </div>
        </div>
        <div class="user" >
@@ -77,7 +84,7 @@
       </div>
 
      <app-chart></app-chart>
-    <app-calendar style="height: 47px; display: block;"></app-calendar>
+    <app-calendar style="height: 48px; display: block;"></app-calendar>
 
 </div>     
 

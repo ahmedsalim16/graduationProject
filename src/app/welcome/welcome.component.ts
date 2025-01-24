@@ -31,8 +31,9 @@ passWord:string='';
     this.shared.loginPage(this.obj,this.headers).subscribe((res:any)=>{
       
         console.log("res",res);
-        localStorage.setItem('token',res.accessToken);
-         sessionStorage.setItem('token',res.accessToken);
+        this.shared.setToken(res.token);
+        localStorage.setItem('token',res.token);
+         sessionStorage.setItem('token',res.token);
         Swal.fire({
           position: "top-end",
           icon: "success",

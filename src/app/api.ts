@@ -12,5 +12,6 @@ export interface Student {
   export interface ApiResponse {
     message: string;
     result: Student[];
+    totalCount: number;
   }
  

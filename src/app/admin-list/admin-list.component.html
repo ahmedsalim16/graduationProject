@@ -1,0 +1,152 @@
+
+
+
+
+  <div class="d-flex">
+    <!-- Sidebar -->
+    <div id="sidebar"  style="width: 250px;">
+      <div class="logo">
+        <i class="fa-solid fa-graduation-cap" style="color: #fff;"></i>
+        <h4>SMART</h4>
+        <h5>TRACK</h5>
+      </div>
+      <div  id="list">
+        <div class="dash">
+          <i class="fa-solid fa-chart-line" style="color: #fff;"></i>
+          <a routerLink="/Dashboard" class="list-group-item list-group-item-action ">Dashboard</a>
+        </div>
+        <div class="dash ">
+          <i class="fa-solid fa-user" style="color: #ffffff;"></i>
+          <a routerLink="/student-list" class="list-group-item list-group-item-action ">Student List</a>
+        </div>
+        <div class="dash" >
+          <i class="fa-solid fa-user-plus" style="color: #ffffff;"></i>
+          <a routerLink="/student" active class="list-group-item list-group-item-action ">Add Student</a>
+        </div>
+        <div class="dash" >
+          <i class="fa-solid fa-user-shield" style="color: #ffffff;"></i>
+          <a routerLink="/Add-admin" active class="list-group-item list-group-item-action ">Add Admin</a>
+        </div>
+        <div class="dash active" >
+          <i class="fa-solid fa-users-line" style="color: #ffffff;"></i>
+          <a routerLink="/admin-list" active class="list-group-item list-group-item-action ">Admin List</a>
+        </div>
+        <div class="dash " >
+          <i class="fa-solid fa-children" style="color: #ffffff;"></i>
+          <a routerLink="/absence-list" active class="list-group-item list-group-item-action ">absence List</a>
+        </div>
+        <div class="dash" style="cursor: pointer;">
+          <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i>
+          <a (click)="logout()" id="Logout" class="list-group-item list-group-item-action ">Logout</a>
+        </div>
+       
+       
+      </div>
+    </div>
+  
+    <!-- Main Content -->
+    <div id="page-content-wrapper" class="flex-grow-1">
+      <div class="header">
+        <!-- search bar --> 
+        <div class="form-outline mt-3 p-5">
+          <i class="fa-solid fa-magnifying-glass" style="color: #7fbde4a6;"></i>
+          <input type="search" id="search" [(ngModel)]="searchtext" class="form-control" placeholder="Search..." id="search">
+          <!-- <label id="ser" class="form-label" for="search">Search...</label> -->
+        </div>
+        <img src="../../assets/profile.png" alt="">
+      </div>
+
+      
+      
+      <div class="stud">
+        <h2 id="head">Admins</h2>
+
+  <div class="buttons">
+    <!-- Sort Button -->
+    
+
+
+      <div class="dropdown">
+        <button class="btn dropdown-toggle" id="addfilter" type="button" data-bs-auto-close="outside" data-bs-toggle="dropdown" aria-expanded="false">
+          + Add Filter
+        </button>
+        <ul class="dropdown-menu">
+          
+      
+          <!-- Filter by role -->
+          <li class="dropend">
+            <a class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown">role</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" (click)="role = null; filteradmins()">All roles</a></li>
+              <li><a class="dropdown-item" (click)="role = 'Cashier'; filteradmins()">Cachier</a></li>
+              <li><a class="dropdown-item" (click)="role = 'admin'; filteradmins()">admin</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      
+      
+
+      <div class="filter-container">
+      <button id="add" type="button" ><a routerLink="/Add-admin" style="text-decoration: none;color: #fff;">+Add Admins</a></button>
+      </div>
+
+      </div>
+       
+        
+      </div>
+      
+    
+      
+     
+      <div class="row mt-5" style="margin-top: 50px;">
+        <table class="table">
+          <thead class="table-secondary">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">ID</th>
+              <th scope="col">User name</th>
+              <th scope="col">email</th>
+              <th scope="col">first name</th>
+              <th scope="col">last name</th>
+              <th scope="col">phone number</th>
+              <th scope="col">gender</th>
+              <th scope="col">role</th>
+              <th scope="col">created on</th>
+            </tr>
+          </thead>
+          <tbody> 
+            
+                   <tr *ngFor="let index of filteredadmins |paginate:{itemsPerPage:itemsPerPage,currentPage:pageNumber,totalItems:totalItems}; let i=index">
+                      
+                      <td>{{i+1}}</td>
+                      <td>{{index.id}}</td>
+                      <td>{{index.userName }}</td>
+                      <td>{{index.email}}</td>
+                      <td>{{index.firstName}}</td>
+                      <td>{{index.lastName}}</td>
+                      <td>{{index.phoneNumber}}</td>
+                      <td>{{index.gender}}</td>
+                      <td>{{index.role}}</td>
+                      
+                      <td>{{index.createdOn ? (index.createdOn | date: 'yyyy-MM-dd') : 'N/A'}}</td>
+                      <td><i id="edit" class="fa-solid fa-pen-to-square" [routerLink]="['/admin-update',index.id]" title="edit"></i></td>
+                      <td><i id="delete" class="fa-solid fa-trash" aria-hidden="true" (click)="delete(index.id)" title="delete"></i></td>
+                     
+                    
+                    </tr>
+      
+             
+            
+           
+          </tbody>
+        </table>
+           <div class="pagination">
+    
+    <pagination-controls (pageChange)="pagechanged($event)" previousLabel="prev" nextLabel="Next"></pagination-controls>
+  </div> 
+       
+       
+    </div> 
+  </div>
+  
