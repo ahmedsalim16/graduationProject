@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { SharedService } from '../shared.service';
+import { SharedService } from '../services/shared.service';
 import {  Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import Swal from 'sweetalert2';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-welcome',
@@ -10,7 +11,7 @@ import Swal from 'sweetalert2';
   styleUrl: './welcome.component.css'
 })
 export class WelcomeComponent implements OnInit {
-constructor(private shared:SharedService,private router:Router,private http:HttpClient){}
+constructor(private shared:SharedService,private router:Router,private http:HttpClient,private authService:AuthService){}
 
 username:string='';
 passWord:string='';
@@ -34,6 +35,7 @@ passWord:string='';
         this.shared.setToken(res.token);
         localStorage.setItem('token',res.token);
          sessionStorage.setItem('token',res.token);
+         this.authService.setAdminId(res.id);
         Swal.fire({
           position: "top-end",
           icon: "success",
@@ -41,7 +43,7 @@ passWord:string='';
           showConfirmButton: false,
           timer: 1500
         });
-        this.router.navigateByUrl('student')
+        this.router.navigateByUrl('Dashboard')
      
       
       

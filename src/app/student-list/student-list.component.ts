@@ -1,6 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
-import { SharedService } from '../shared.service';
+import { SharedService } from '../services/shared.service';
 import { customeInterceptor } from '../custome.interceptor';
 import { Token } from '@angular/compiler';
 import { HttpRequest, HttpHandler } from '@angular/common/http';
@@ -8,7 +8,7 @@ import { ngxCsv } from 'ngx-csv/ngx-csv';
 import { number } from 'echarts';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-student-list',
@@ -28,14 +28,23 @@ pagination: any;
   gender: number | null = null; // لتخزين نوع الجنس المختار
 grade: number | null = null;
   s='search for student';
+  adminId: string | null = null;
  public qrValue:string;
 
   ngOnInit(): void {
     
     this.filterStudents();
+    this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
+    console.log('Admin ID:', this.adminId);
 
   }
-
+  navigateToAdminUpdate(): void {
+    if (this.adminId) {
+      this.router.navigate(['/admin-update', this.adminId]);
+    } else {
+      console.error('Admin ID not found!');
+    }
+  }
 
  
 getStudents(){
@@ -172,6 +181,7 @@ delete(id: string) {
 
   logout(): void {
     this.authService.logout(); // استدعاء وظيفة تسجيل الخروج من الخدمة
+    this.authService.clearAdminId();
   }
   
   downloadCsvFile(){
@@ -181,12 +191,19 @@ delete(id: string) {
       decimalseparator: '.',
       showLabels: true, 
       showTitle: false,
-      title: 'my title',
+      title: 'Students data',
       useBom: true,
-      headers: ["ID","FirstName", "LastName", "Email","address","City","grade","gender","age"]
+      headers: ['ID',
+        'FullName',
+        'Gender',
+        'Grade',
+        'City',
+        'Street',
+        'BirthDate',
+        'Rfid-Tag',]
     };
    
-    new ngxCsv(this.student, 'my-first-csv', options);
+    new ngxCsv(this.student, 'student-list', options);
   }
 
   // search(searchtext: string=''){

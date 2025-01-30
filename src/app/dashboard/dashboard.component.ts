@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { SharedService } from '../shared.service';
-import { AuthService } from '../auth.service';
+import { SharedService } from '../services/shared.service';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,8 +12,8 @@ export class DashboardComponent implements OnInit {
   studentCount: number = 0; // العدد الكلي للطلاب
   maleStudentCount: number = 0; // عدد الطلاب الذكور
   femaleStudentCount: number = 0; // عدد الطالبات الإناث
-
-  constructor(public shared: SharedService,public authService:AuthService) {}
+  adminId: string | null = null;
+  constructor(public shared: SharedService,public authService:AuthService,private router: Router) {}
 
   ngOnInit(): void {
     // الحصول على العدد الكلي للطلاب
@@ -21,6 +22,17 @@ export class DashboardComponent implements OnInit {
     // الحصول على عدد الطلاب حسب الجنس
     this.getStudentCountByGender(0); // طلاب ذكور
     this.getStudentCountByGender(1); // طالبات إناث
+    this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
+    console.log('Admin ID:', this.adminId);
+
+  }
+
+  navigateToAdminUpdate(): void {
+    if (this.adminId) {
+      this.router.navigate(['/admin-update', this.adminId]);
+    } else {
+      console.error('Admin ID not found!');
+    }
   }
 
   getTotalStudentCount(): void {

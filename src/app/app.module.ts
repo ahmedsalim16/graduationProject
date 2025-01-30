@@ -12,12 +12,6 @@ import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common
 import { UpdateComponent } from './update/update.component';
 import { FilterPipe } from './filter.pipe';
 import { LoginComponent } from './login/login.component';
-import { Grade1Component } from './grade1/grade1.component';
-import { Grade2Component } from './grade2/grade2.component';
-import { Grade3Component } from './grade3/grade3.component';
-import { Grade4Component } from './grade4/grade4.component';
-import { Grade5Component } from './grade5/grade5.component';
-import { Grade6Component } from './grade6/grade6.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
@@ -64,12 +58,6 @@ import { AbsenceListComponent } from './absence-list/absence-list.component';
     UpdateComponent,
     FilterPipe,
     LoginComponent,
-    Grade1Component,
-    Grade2Component,
-    Grade3Component,
-    Grade4Component,
-    Grade5Component,
-    Grade6Component,
     CsvFileComponent,
     WelcomeComponent,
     DashboardComponent,

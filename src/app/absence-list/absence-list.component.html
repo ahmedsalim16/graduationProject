@@ -1,277 +1,155 @@
-
-<!-- <app-header></app-header>
-
-<div class="row ml-3">
-  <div class="col-md-4 mt-2">
-    <label for="qr">QR Text</label>
-    <textarea class="form-control" type="text" id="qr" [(ngModel)]="qrValue"></textarea>
-  </div>
-
-</div>
-<div class="col-md-2">
-  <qrcode [qrdata]="qrValue" [width]="20" colorDark="#59c7f3" colorLight="#fff"></qrcode>
-</div>
-<div class="row ">
-  <div class="col-md-1 offset-md-8">
-    <i class="fa-solid fa-download" id="csv" title="download file.csv" (click)="downloadCsvFile()"></i>
-
-  </div>
-</div> -->
-
-
-
-<!-- search bar -->
-<!-- <div class="form-outline mt-3 p-5">
-  <label for="search" class="text-info"  >{{s|titlecase}}</label>
-  <input type="search" [(ngModel)]="searchtext" class="form-control" id="search"placeholder="student name" >
-</div> -->
-
-
-
-
-
-
-
-<!-- <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">ID</th>
-        <th scope="col">First name</th>
-        <th scope="col">Last name</th>
-        <th scope="col">Full name</th>
-        <th scope="col">Email</th>
-        <th scope="col">address</th>
-        <th scope="col">City</th>
-        <th scope="col">grade</th>
-        <th scope="col">Gender</th>
-        <th scope="col">age</th>
-      </tr>
-    </thead>
-    <tbody> -->
-      <!-- |paginate:{itemsPerPage:5,currentPage:pageNumber} -->
-            <!-- <tr *ngFor="let index of student|filter:searchtext |paginate:{itemsPerPage:itemsPerPage,currentPage:pageNumber,totalItems:totalItems}; let i=index">
-                
-                <td>{{i+1}}</td>
-                <td>{{index.id}}</td>
-                <td>{{index.firstName}}</td>
-                <td>{{index.lastName}}</td>
-                <td>{{index.firstName}} {{index.lastName}}</td>
-                <td>{{index.email}}</td>
-                <td>{{index.address}}</td>
-                <td>{{index.city}}</td>
-                <td>{{index.grade}}</td>
-                <td>{{index.gender}}</td>
-                <td>{{index.age}}</td>
-                <td><i id="edit" class="fa-solid fa-pen-to-square" [routerLink]="['/update',index.id]" title="edit"></i></td>
-                <td><i class="fa-solid fa-trash" aria-hidden="true" (click)="delete(index.id)" title="delete"></i></td>
-               
-              
-              </tr>
-
-       
-      
-     
-    </tbody>
-  </table> -->
-
-  <!-- <div class="d-flex justify-content-center" >
-    <pagination- (pageChanged)="pageNumber=$event"></pagination->
-  </div> -->
-
-  <!-- <div class="pagination">
-    
-    <pagination-controls (pageChange)="pagechanged($event)" previousLabel="prev" nextLabel="Next"></pagination-controls>
-  </div> -->
-
-
-  
-<!-- 
-  <div class="col-2">
-    <div class="dataTables_length"><label>Show
-        <select [(ngModel)]="pagesize" (change)="shared.getAllStudents(PageNumber,pagesize)">
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="20">20</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
-        </select> entries</label>
+<div class="d-flex">
+  <!-- Sidebar -->
+  <div id="sidebar" style="width: 250px;">
+    <div class="logo">
+      <i class="fa-solid fa-graduation-cap" style="color: #fff;cursor: pointer;"[routerLink]='["/Dashboard"]' ></i>
+      <h4>SMART</h4>
+      <h5>TRACK</h5>
+    </div>
+    <div id="list">
+      <div class="dash">
+        <i class="fa-solid fa-chart-line" style="color: #fff;"></i>
+        <a routerLink="/Dashboard" class="list-group-item list-group-item-action">Dashboard</a>
+      </div>
+      <div class="dash">
+        <i class="fa-solid fa-user" style="color: #ffffff;"></i>
+        <a routerLink="/student-list" class="list-group-item list-group-item-action">Student List</a>
+      </div>
+      <div class="dash">
+        <i class="fa-solid fa-user-plus" style="color: #ffffff;"></i>
+        <a routerLink="/student" active class="list-group-item list-group-item-action">Add Student</a>
+      </div>
+      <div class="dash">
+        <i class="fa-solid fa-user-shield" style="color: #ffffff;"></i>
+        <a routerLink="/Add-admin" active class="list-group-item list-group-item-action">Add Admin</a>
+      </div>
+      <div class="dash">
+        <i class="fa-solid fa-users-line" style="color: #ffffff;"></i>
+        <a routerLink="/admin-list" active class="list-group-item list-group-item-action">Admin List</a>
+      </div>
+      <div class="dash active">
+        <i class="fa-solid fa-children" style="color: #ffffff;"></i>
+        <a routerLink="/absence-list" active class="list-group-item list-group-item-action">Absence List</a>
+      </div>
+      <div class="dash" style="cursor: pointer;">
+        <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i>
+        <a (click)="logout()" id="Logout" class="list-group-item list-group-item-action">Logout</a>
+      </div>
     </div>
   </div>
-  <div class="col-md-10" style="float:right;text-align: right">
-    <div class="paginations">
-      <div>
-        <div class="btn-group" id="radioBtn">
-          <a class="btn btn-primary btn-sm notActive" (click)="onPrevious()"> Previous </a>
-          <a class="btn btn-primary btn-sm active">{{PageNumber}}</a>
-          <a class="btn btn-primary btn-sm notActive" (click)="onNext()">Next </a>
+
+  <!-- Main Content -->
+  <div id="page-content-wrapper" class="flex-grow-1">
+    <div class="header">
+      <!-- Search Bar -->
+      <div class="form-outline mt-3 p-5">
+        <i class="fa-solid fa-magnifying-glass" style="color: #7fbde4a6;"></i>
+        <input type="search" id="search" [(ngModel)]="searchtext" class="form-control" placeholder="Search...">
+      </div>
+      <img src="../../assets/profile.png" alt="Profile" 
+      (click)="navigateToAdminUpdate()" 
+      [routerLink]="['/admin-update',adminId]"
+      title="update">
+    </div>
+    <div class="container mt-4">
+      <!-- عنوان الصفحة -->
+      <h2 class="text-center mb-4">Absence List</h2>
+    
+      <!-- فورم الفلاتر -->
+      <div class="card p-3 mb-4">
+        <h5>Filter Students</h5>
+        <div class="row">
+          <!-- إدخال الصف -->
+          <div class="col-md-4 mb-3">
+            <label for="gradeSelect" class="form-label">Grade</label>
+            <select
+              id="gradeSelect"
+              class="form-select"
+              [(ngModel)]="grade"
+            >
+              <option value="" selected>-- Select Grade --</option>
+              <option *ngFor="let g of [1, 2, 3, 4, 5, 6]" [value]="g">
+                Grade {{ g }}
+              </option>
+            </select>
+          </div>
+    
+          <!-- إدخال التاريخ -->
+          <div class="col-md-4 mb-3">
+            <label for="dateInput" class="form-label">Date</label>
+            <input
+              type="date"
+              id="dateInput"
+              class="form-control"
+              [(ngModel)]="startDate"
+            />
+          </div>
+    
+          <!-- زر تطبيق الفلتر -->
+          <div class="col-md-4 mb-3 d-flex align-items-end">
+            <button
+              class="btn btn-primary w-100"
+              (click)="filterStudents()"
+            >
+              Apply Filter
+            </button>
+          </div>
+        </div>
+      </div>
+    
+      <!-- جدول عرض البيانات -->
+      <div class="card">
+        <div class="card-body">
+          <h5>Students List</h5>
+    
+          <!-- الجدول -->
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead class="table-secondary">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">ID</th>
+                  <th scope="col">Full name</th>
+                  <th scope="col">gender</th>
+                  <th scope="col">grade</th>
+                  <th scope="col">city</th>
+                  <th scope="col">street</th>
+                  <th scope="col">birthDate</th>
+                  <th scope="col">rfidTag_Id</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let student of filteredStudents | paginate: { itemsPerPage: itemsPerPage, currentPage: pageNumber }; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ student.id }}</td>
+                  <td>{{ student.fullName | titlecase }}</td>
+                  <td>{{ student.gender }}</td>
+                  <td>{{ student.grade }}</td>
+                  <td>{{ student.city }}</td>
+                  <td>{{ student.street }}</td>
+                  <td>{{ student.birthDate ? (student.birthDate | date: 'yyyy-MM-dd') : 'N/A' }}</td>
+                  <td>{{ student.rfidTag_Id }}</td>
+                  
+                </tr>
+                <tr *ngIf="!filteredStudents.length">
+                  <td colspan="9" class="text-center">No data available</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
-  </div> -->
-
-
-
-  <div class="d-flex">
-    <!-- Sidebar -->
-    <div id="sidebar"  style="width: 250px;">
-      <div class="logo">
-        <i class="fa-solid fa-graduation-cap" style="color: #fff;"></i>
-        <h4>SMART</h4>
-        <h5>TRACK</h5>
+    
+      <div class="pagination">
+        <pagination-controls (pageChange)="pagechanged($event)" previousLabel="Prev" nextLabel="Next"></pagination-controls>
       </div>
-      <div  id="list">
-        <div class="dash">
-          <i class="fa-solid fa-chart-line" style="color: #fff;"></i>
-          <a routerLink="/Dashboard" class="list-group-item list-group-item-action ">Dashboard</a>
-        </div>
-        <div class="dash ">
-          <i class="fa-solid fa-user" style="color: #ffffff;"></i>
-          <a routerLink="/student-list" class="list-group-item list-group-item-action ">Student List</a>
-        </div>
-        <div class="dash" >
-          <i class="fa-solid fa-user-plus" style="color: #ffffff;"></i>
-          <a routerLink="/student" active class="list-group-item list-group-item-action ">Add Student</a>
-        </div>
-        <div class="dash" >
-          <i class="fa-solid fa-user-shield" style="color: #ffffff;"></i>
-          <a routerLink="/Add-admin" active class="list-group-item list-group-item-action ">Add Admin</a>
-        </div>
-        <div class="dash" >
-          <i class="fa-solid fa-users-line" style="color: #ffffff;"></i>
-          <a routerLink="/admin-list" active class="list-group-item list-group-item-action ">Admin List</a>
-        </div>
-        <div class="dash active" >
-            <i class="fa-solid fa-children" style="color: #ffffff;"></i>
-          <a routerLink="/absence-list" active class="list-group-item list-group-item-action ">absence List</a>
-        </div>
-        <div class="dash" style="cursor: pointer;">
-          <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i>
-          <a (click)="logout()" id="Logout" class="list-group-item list-group-item-action ">Logout</a>
-        </div>
-       
-       
+      <div *ngIf="filteredStudents.length" class="col-md-1">
+        <i class="fa-solid fa-download"  id="csv" title="download file.csv" (click)="downloadCsvFile()"></i>
+    
       </div>
     </div>
-  
-    <!-- Main Content -->
-    <div id="page-content-wrapper" class="flex-grow-1">
-      <div class="header">
-        <!-- search bar --> 
-        <div class="form-outline mt-3 p-5">
-          <i class="fa-solid fa-magnifying-glass" style="color: #7fbde4a6;"></i>
-          <input type="search" id="search" [(ngModel)]="searchtext" class="form-control" placeholder="Search..." id="search">
-          <!-- <label id="ser" class="form-label" for="search">Search...</label> -->
-        </div>
-        <img src="../../assets/profile.png" alt="">
-      </div>
-
-      
-      
-      <div class="stud">
-        <h2 id="head">Students</h2>
-
-  <div class="buttons">
-    <!-- Sort Button -->
-    <button id='sort' class="btn btn-sm btn-outline-primary mt-2 ms-2" (click)="sortByGradeAscending()">
-      Sort by Grade
-    </button>
-
-
-      <div class="dropdown">
-        <button class="btn dropdown-toggle" id="addfilter" type="button" data-bs-auto-close="outside" data-bs-toggle="dropdown" aria-expanded="false">
-          + Add Filter
-        </button>
-        <ul class="dropdown-menu">
-          <!-- Filter by Grade -->
-          <li class="dropend">
-            <a class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown">Grade</a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" (click)="grade = null; filterStudents()">All Grades</a></li>
-              <li *ngFor="let g of [1, 2, 3, 4, 5, 6]">
-                <a class="dropdown-item" (click)="grade = g; filterStudents()">{{ g }}</a>
-              </li>
-            </ul>
-          </li>
-      
-          <!-- Filter by Gender -->
-          <li class="dropend">
-            <a class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown">Gender</a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" (click)="gender = null; filterStudents()">All Genders</a></li>
-              <li><a class="dropdown-item" (click)="gender = 0; filterStudents()">Male</a></li>
-              <li><a class="dropdown-item" (click)="gender = 1; filterStudents()">Female</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-      
-      
-
-      <div class="filter-container">
-      <button id="add" type="button" ><a routerLink="/student" style="text-decoration: none;color: #fff;">+Add Student</a></button>
-      </div>
-
-      </div>
-       
-        
-      </div>
-      
     
-      
-     
-      <div class="row mt-5" style="margin-top: 50px;">
-        <table class="table">
-          <thead class="table-secondary">
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">ID</th>
-              <th scope="col">Full name</th>
-              <th scope="col">gender</th>
-              <th scope="col">grade</th>
-              <th scope="col">city</th>
-              <th scope="col">street</th>
-              <th scope="col">studentImg</th>
-              <th scope="col">birthDate</th>
-            </tr>
-          </thead>
-          <tbody> 
-            
-                   <tr *ngFor="let index of filteredStudents |paginate:{itemsPerPage:itemsPerPage,currentPage:pageNumber,totalItems:totalItems}; let i=index">
-                      
-                      <td>{{i+1}}</td>
-                      <td>{{index.id}}</td>
-                      <td>{{index.fullName | titlecase}}</td>
-                      <td>{{index.gender}}</td>
-                      <td>{{index.grade}}</td>
-                      <td>{{index.city}}</td>
-                      <td>{{index.street}}</td>
-                      <td><img
-                        *ngIf="index.studentImg"
-                        [src]="'https://your-image-server.com/uploads/' +index.studentImg"
-                        alt="Student Image"
-                        width="50"
-                        height="50"
-                        loading="lazy"
-                      /></td>
-                      <td>{{index.birthDate ? (index.birthDate | date: 'yyyy-MM-dd') : 'N/A'}}</td>
-                      <td><i id="edit" class="fa-solid fa-pen-to-square" [routerLink]="['/update',index.id]" title="edit"></i></td>
-                      <td><i id="delete" class="fa-solid fa-trash" aria-hidden="true" (click)="delete(index.id)" title="delete"></i></td>
-                     
-                    
-                    </tr>
-      
-             
-            
-           
-          </tbody>
-        </table>
-           <div class="pagination">
-    
-    <pagination-controls (pageChange)="pagechanged($event)" previousLabel="prev" nextLabel="Next"></pagination-controls>
-  </div> 
-       
-       
-    </div> 
   </div>
-  
+

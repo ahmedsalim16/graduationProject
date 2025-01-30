@@ -49,7 +49,10 @@
 
           <!-- <label id="ser" class="form-label" for="search">Search...</label> -->
         </div>
-        <img src="../../assets/profile.png" alt="">
+        <img src="../../assets/profile.png" alt="Profile" 
+      (click)="navigateToAdminUpdate()" 
+      [routerLink]="['/admin-update',adminId]"
+      title="update">
       </div>
 
       <div class="stud">

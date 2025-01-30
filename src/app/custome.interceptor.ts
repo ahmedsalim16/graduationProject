@@ -1,7 +1,7 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { Injectable,Injector } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SharedService } from './shared.service';
+import { SharedService } from './services/shared.service';
 
 @Injectable()
 export class customeInterceptor implements HttpInterceptor  {
@@ -16,7 +16,7 @@ export class customeInterceptor implements HttpInterceptor  {
   intercept(req: HttpRequest<unknown>, next: HttpHandler) {
     let authService = this.injector.get(SharedService); // استدعاء الخدمة
     let token = authService.getToken(); // استرجاع التوكن
-    console.log('Token in interceptor:', token); // التحقق من التوكن
+     
     let tokenreq = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token || ''}` // تأكد من عدم إرسال undefined

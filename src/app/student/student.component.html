@@ -118,7 +118,7 @@
   <!-- Sidebar -->
   <div id="sidebar"  style="width: 250px;">
     <div class="logo">
-      <i class="fa-solid fa-graduation-cap" style="color: #fff;"></i>
+      <i class="fa-solid fa-graduation-cap" style="color: #fff;cursor: pointer" [routerLink]='["/Dashboard"]'></i>
       <h4>SMART</h4>
       <h5>TRACK</h5>
     </div>
@@ -160,7 +160,10 @@
   <div id="page-content-wrapper" class="flex-grow-1">
     <div class="header">
       <h2 id="head">Add Students</h2>
-      <img src="../../assets/profile.png" alt="">
+      <img src="../../assets/profile.png" alt="Profile" 
+      (click)="navigateToAdminUpdate()" 
+      [routerLink]="['/admin-update',adminId]"
+      title="update">
     </div>
     
 
@@ -213,7 +216,7 @@
       </div>
       <div class="col-3">
           <label for="inputState" class="form-label">rfidTag_Id</label>
-          <input [(ngModel)]="student.rfidTag_Id"  type="text" title="image" class="form-control m-1">
+          <input [(ngModel)]="student.rfidTag_Id"  type="text" title="image" placeholder="rfidTag_Id" class="form-control m-1">
       </div>
       <div class="col-2" id="save">
          <button style="background-color: #191BA9;" class="form-control mb-5  text-light mt-5" type="button" (click)="addStudent()">Save</button>

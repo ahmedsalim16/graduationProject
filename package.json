@@ -27,6 +27,7 @@
     "@fullcalendar/angular": "^6.1.15",
     "@fullcalendar/core": "^6.1.15",
     "@fullcalendar/daygrid": "^6.1.15",
+    "@microsoft/signalr": "^8.0.7",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
     "@techiediaries/ngx-qrcode": "^9.1.0",

@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { SharedService } from '../shared.service';
+import { SharedService } from '../services/shared.service';
 import { text } from 'stream/consumers';
 import { Loginmodel } from '../loginmodel';
 import { log } from 'console';
 import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { number } from 'echarts';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-student',
@@ -15,11 +16,22 @@ import { AuthService } from '../auth.service';
 })
 export class StudentComponent implements OnInit{
   public login:Loginmodel
-  constructor(public shared:SharedService,public authService:AuthService){
+  adminId: string | null = null;
+  admin:any={};
+  constructor(public shared:SharedService,public authService:AuthService,private router: Router,private act: ActivatedRoute){
    this.login=new Loginmodel();
   }
-  ngOnInit(){}
-
+  ngOnInit(){
+    this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
+    console.log('Admin ID:', this.adminId);
+  }
+  navigateToAdminUpdate(): void {
+    if (this.adminId) {
+      this.router.navigate(['/admin-update', this.adminId]);
+    } else {
+      console.error('Admin ID not found!');
+    }
+  }
  
 
   student ={

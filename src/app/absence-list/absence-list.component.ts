@@ -1,185 +1,160 @@
 import { Component } from '@angular/core';
-import { ngxCsv } from 'ngx-csv';
-import { SharedService } from '../shared.service';
+import { SharedService } from '../services/shared.service';
 import Swal from 'sweetalert2';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/auth.service';
+import { ngxCsv } from 'ngx-csv';
+import { Router } from '@angular/router';
+import { SignalrService } from '../services/signalr.service';
 
 @Component({
   selector: 'app-absence-list',
   templateUrl: './absence-list.component.html',
-  styleUrl: './absence-list.component.css'
+  styleUrls: ['./absence-list.component.css'],
 })
 export class AbsenceListComponent {
-pagination: any;
-  constructor(public shared:SharedService,public authService:AuthService){}
+  pagination: any;
   student: any[] = [];
-  searchtext:string='';
-  pagesize:number=20;
-  totalItems:number;
-  itemsPerPage:number=4;
-  pageNumber:number=1;
-  count:number=0;
-  gender: number | null = null; // لتخزين نوع الجنس المختار
-grade: number | null = null;
-  s='search for student';
- public qrValue:string;
+  searchtext: string = '';
+  pagesize: number = 20;
+  totalItems: number;
+  itemsPerPage: number = 4;
+  pageNumber: number = 1;
+  count: number = 0;
+  grade: number | null = null; // لتخزين قيمة الصف الدراسي
+  startDate: string | null = null; // لتخزين قيمة التاريخ
+  showTable: boolean = false; // لتحديد ما إذا كان يجب عرض الجدول
+  adminId: string | null = null;
+  receivedMessage: string = '';
+  userMessage: string = '';
+  constructor(public shared: SharedService, public authService: AuthService,private router: Router,private signalRService: SignalrService) {}
 
   ngOnInit(): void {
-    
-    this.filterStudents();
+    // this.signalRService.startConnection();
 
+    // // استلام إشعارات التحديث وإعادة تحميل القائمة عند وصول تحديث جديد
+    // this.signalRService.message$.subscribe((message) => {
+    //   if (message === 'Updated') {
+    //     this.filterStudents(); // إعادة جلب البيانات من الـ API
+    //   }
+    // });
+    this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
+    console.log('Admin ID:', this.adminId);
   }
-
-
- 
-// getStudents(){
-//   localStorage.getItem('token');
-//   this.shared.getAllStudentspagination(this.pageNumber,this.pagesize).subscribe(
-//     response=>{
-//       console.log(response)
-//       if (response && response.result && Array.isArray(response.result)) {
-//         this.student = response.result; // إذا كانت البيانات موجودة، خزّنها
-//       } else {
-//         console.error('Error: Invalid response format or no data found.');
-//         this.student = []; // تفريغ المصفوفة إذا لم توجد بيانات
-//       }
-
-//     },
-//     err=>{
-//       console.log(err);
-      
-//     }
-//   )
-// }
-
-
-
-// filterByGenderM(){
-//   this.shared.getAllStudentsgender(this.gender=0,this.pageNumber,this.pagesize).subscribe(
-//     response=>{
-//       console.log(response)
-//       if (response && response.result && Array.isArray(response.result)) {
-//         this.student = response.result; // إذا كانت البيانات موجودة، خزّنها
-//       } else {
-//         console.error('Error: Invalid response format or no data found.');
-//         this.student = []; // تفريغ المصفوفة إذا لم توجد بيانات
-//       }
-      
-
-//     },
-//     err=>{
-//       console.log(err);
-      
-//     }
-//   )
   
-// }
-// filterByGenderF(){
-//   this.shared.getAllStudentsgender(this.gender=1,this.pageNumber,this.pagesize).subscribe(
-//     response=>{
-//       console.log(response)
-//       if (response && response.result && Array.isArray(response.result)) {
-//         this.student = response.result; // إذا كانت البيانات موجودة، خزّنها
-//       } else {
-//         console.error('Error: Invalid response format or no data found.');
-//         this.student = []; // تفريغ المصفوفة إذا لم توجد بيانات
-//       }
-      
 
-//     },
-//     err=>{
-//       console.log(err);
-      
-//     }
-//   )
-  
-// }
-filterStudents() {
-  localStorage.getItem('token');
-  const filters = {
-    gender: this.gender ?? undefined, // إذا كانت null قم بإرسال undefined
-    grade: this.grade ?? undefined,   // إذا كانت null قم بإرسال undefined
-    pageNumber: this.pageNumber,
-    pageSize: this.pagesize,
-  };
-
-  this.shared.filterStudents(filters).subscribe(
-    (response: any) => {
-      if (response && response.result && Array.isArray(response.result)) {
-        this.student = response.result; // تحديث قائمة الطلاب
-        console.log('Filtered Students:', this.student);
-      } else {
-        console.error('No data found or invalid response format.');
-        this.student = [];
-      }
-    },
-    (err) => {
-      console.error('Error while filtering students:', err);
+  navigateToAdminUpdate(): void {
+    if (this.adminId) {
+      this.router.navigate(['/admin-update', this.adminId]);
+    } else {
+      console.error('Admin ID not found!');
     }
-  );
-}
-
-sortByGradeAscending() {
-  if (this.student && Array.isArray(this.student)) {
-    this.student.sort((a: any, b: any) => a.grade - b.grade);
-    console.log('Sorted Students by Grade Ascending:', this.student);
   }
-}
 
-
-delete(id: string) {
-  Swal.fire({
-    title: 'Are you sure?',
-    text: 'You will not be able to recover this student!',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'Yes, delete it!',
-    cancelButtonText: 'No, keep it',
-  }).then((result) => {
-    if (result.isConfirmed) {
-      this.shared.deleteStudent(id).subscribe(
-        (res) => {
-          console.log('Student deleted:', res);
-          this.student = this.student.filter((student: any) => student.id !== id);
-          Swal.fire('Deleted!', 'The student has been deleted.', 'success');
-        },
-        (err) => {
-          console.error('Error while deleting student:', err);
-          Swal.fire('Error!', 'There was an error deleting the student.', 'error');
+  filterStudents() {
+    const selectedGrade = this.grade ?? 0; // الصف الافتراضي 0
+    const selectedDate = this.startDate ?? ''; // التاريخ الافتراضي فارغ
+  
+    this.shared.getAllAbsents(selectedGrade, selectedDate).subscribe(
+      (response: any) => {
+        console.log("data:",response);
+        if (response && response.result && Array.isArray(response.result)) {
+          this.student = response.result; // تحديث قائمة الطلاب بالبيانات القادمة من الخادم
+        } else {
+          console.warn('No valid data returned from the server.');
+          this.student = []; // إذا لم تكن هناك بيانات، اجعل القائمة فارغة
         }
-      );
-    }
-  });
-}
+      },
+      (error) => {
+        console.error('Error fetching absents:', error);
+        this.student = []; // في حالة الخطأ، اجعل القائمة فارغة
+      }
+    );
+  }
+ 
 
-  pagechanged(event:any){
-    this.pageNumber=event;
-    // this.getStudents();
+  /**
+   * حذف طالب بناءً على ID
+   * @param id
+   */
+  delete(id: string) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this student!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.shared.deleteStudent(id).subscribe(
+          (res) => {
+            console.log('Student deleted:', res);
+            this.student = this.student.filter(
+              (student: any) => student.id !== id
+            );
+            this.signalRService.sendMessage('Absence list updated');
+            Swal.fire('Deleted!', 'The student has been deleted.', 'success');
+          },
+          (err) => {
+            console.error('Error while deleting student:', err);
+            Swal.fire('Error!', 'There was an error deleting the student.', 'error');
+          }
+        );
+      }
+    });
   }
 
+  /**
+   * تحديث الصفحة عند التغيير
+   * @param event
+   */
+  pagechanged(event: any) {
+    this.pageNumber = event;
+  }
+
+  /**
+   * فلترة الطلاب عند البحث النصي
+   */
   get filteredStudents() {
-    return this.student.filter(student => 
-      student.fullName.toLowerCase().includes(this.searchtext.toLowerCase()) ||
-      student.city.toLowerCase().includes(this.searchtext.toLowerCase())
+    return this.student.filter(
+      (student) =>
+        student.fullName.toLowerCase().includes(this.searchtext.toLowerCase()) ||
+        student.city.toLowerCase().includes(this.searchtext.toLowerCase())
     );
   }
 
+  /**
+   * تسجيل الخروج
+   */
   logout(): void {
-    this.authService.logout(); 
+    this.authService.logout();
   }
 
-  downloadCsvFile(){
-    var options = { 
+  /**
+   * تحميل ملف CSV يحتوي على بيانات الطلاب
+   */
+  downloadCsvFile() {
+    var options = {
       fieldSeparator: ',',
       quoteStrings: '"',
       decimalseparator: '.',
-      showLabels: true, 
+      showLabels: true,
       showTitle: false,
-      title: 'my title',
+      title: 'Absence Data',
       useBom: true,
-      headers: ["ID","FirstName", "LastName", "Email","address","City","grade","gender","age"]
+      headers: [
+        'ID',
+        'FullName',
+        'Gender',
+        'Grade',
+        'City',
+        'Street',
+        'BirthDate',
+        'Rfid-Tag',
+        
+      ],
     };
-   
-    new ngxCsv(this.student, 'my-first-csv', options);
+
+    new ngxCsv(this.student, 'absence-data', options);
   }
 }

@@ -199,28 +199,28 @@
   
       <div class="col-3">
           <label for="inputState" class="form-label">ID</label>
-          <input [(ngModel)]="student.Id" type="text" title="ID" placeholder="ID" class="form-control m-1">
+          <input [(ngModel)]="student.id" type="text" title="ID" placeholder="ID" class="form-control m-1">
       </div>
       <div class="col-3">
           <label for="inputState" class="form-label">FullName</label>
-          <input [(ngModel)]="student.FullName" type="text" title="text" placeholder="FullName" class="form-control m-1">
+          <input [(ngModel)]="student.fullName" type="text" title="text" placeholder="FullName" class="form-control m-1">
       </div>
       
       
       <div class="col-md-3">
         <label for="inputState" class="form-label">Gender</label>
-        <select [(ngModel)]="student.Gender" id="gender" class="form-select" title="gender"  >
+        <select [(ngModel)]="student.gender" id="gender" class="form-select" title="gender"  >
          
-          <option > </option>
-          <option [value]="0">male</option>
-          <option [value]="1">female</option>
+          
+          <option [value]="'Male'">Male</option>
+          <option [value]="'Female'">Female</option>
         
         </select>
       </div>
       <div class="col-md-3">
         <label for="inputState" class="form-label">Grade</label>
-        <input [(ngModel)]="student.Grade" type="number" title="grade" placeholder="grade" class="form-control m-1">
-        <!-- <select [(ngModel)]="student.Grade" id="inputState" class="form-select">
+        
+        <select [(ngModel)]="student.grade" id="inputState" class="form-select">
           <option disabled>Choose Grade</option>
           <option>1</option>
           <option>2</option>
@@ -228,26 +228,26 @@
           <option>4</option>
           <option>5</option>
           <option>6</option>
-        </select> -->
+        </select>
       </div>
      
       <div class="col-5">
           <label for="inputState" class="form-label">City</label>
-          <input [(ngModel)]="student.City" type="text" title="city" placeholder="City" class="form-control m-1">
+          <input [(ngModel)]="student.city" type="text" title="city" placeholder="City" class="form-control m-1">
       </div>
       <div class="col-4">
           <label for="inputState" class="form-label">Street</label>
-          <input [(ngModel)]="student.Street" type="text" title="Street" placeholder="Street" class="form-control m-1">
+          <input [(ngModel)]="student.street" type="text" title="Street" placeholder="Street" class="form-control m-1">
       </div>
       
      
       <div class="col-3">
           <label for="inputState" class="form-label">BirthDate</label>
-          <input [(ngModel)]="student.BirthDate" type="text" title="BirthDate" placeholder="mm/dd/yy" class="form-control m-1">
+          <input [(ngModel)]="student.birthDate" type="text" title="BirthDate" placeholder="mm/dd/yy" class="form-control m-1">
       </div>
       <div class="col-3">
           <label for="inputState" class="form-label">rfidTag_Id</label>
-          <input [(ngModel)]="student.rfidTag_Id" type="text"   title="image" class="form-control m-1">
+          <input [(ngModel)]="student.rfidTag_Id" type="text"   title="rfidTag_Id" placeholder="rfidTag_Id" class="form-control m-1">
       </div>
       
      

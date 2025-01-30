@@ -28,6 +28,10 @@ img{
   height: 35px;
   position: relative;
   left: -50px;
+  cursor: pointer;
+}
+img:hover{
+  scale: 1.2;
 }
 .fa-magnifying-glass::before{
     position: relative;

@@ -3,7 +3,7 @@ import { ngxCsv } from 'ngx-csv/ngx-csv';
 import { ViewChild } from '@angular/core';
 import { NgxCsvParser } from 'ngx-csv-parser';
 import { NgxCSVParserError } from 'ngx-csv-parser';
-import { SharedService } from '../shared.service';
+import { SharedService } from '../services/shared.service';
 @Component({
   selector: 'app-csv-file',
   templateUrl: './csv-file.component.html',

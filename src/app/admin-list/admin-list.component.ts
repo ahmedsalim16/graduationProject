@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { SharedService } from '../shared.service';
+import { SharedService } from '../services/shared.service';
 import Swal from 'sweetalert2';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
+import { ngxCsv } from 'ngx-csv';
 
 @Component({
   selector: 'app-admin-list',
@@ -10,7 +12,7 @@ import { AuthService } from '../auth.service';
 })
 export class AdminListComponent {
 pagination: any;
-  constructor(public shared:SharedService,public authService:AuthService){}
+  constructor(public shared:SharedService,public authService:AuthService,private router: Router){}
   admins: any[] = [];
   searchtext:string='';
   pagesize:number=20;
@@ -21,14 +23,23 @@ pagination: any;
   role: string | null = null; // لتخزين نوع الجنس المختار
 grade: number | null = null;
   s='search for admins';
+  adminId: string | null = null;
  public qrValue:string;
 
   ngOnInit(): void {
     
     this.filteradmins();
+    this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
+    console.log('Admin ID:', this.adminId);
 
   }
-
+  navigateToAdminUpdate(): void {
+    if (this.adminId) {
+      this.router.navigate(['/admin-update', this.adminId]);
+    } else {
+      console.error('Admin ID not found!');
+    }
+  }
 
  
 // getadmins(){
@@ -119,4 +130,30 @@ delete(id: string) {
   logout(): void {
     this.authService.logout(); // استدعاء وظيفة تسجيل الخروج من الخدمة
   }
+
+  downloadCsvFile() {
+      var options = {
+        fieldSeparator: ',',
+        quoteStrings: '"',
+        decimalseparator: '.',
+        showLabels: true,
+        showTitle: false,
+        title: 'Admins Data',
+        useBom: true,
+        headers: [
+          'ID',
+          'UserName',
+          'Email',
+          'FirstName',
+          'LastName',
+          'PhoneNumber',
+          'Gender',
+          'Role',
+          'CreatedOn',
+          
+        ],
+      };
+  
+      new ngxCsv(this.admins, 'admins-data', options);
+    }
 }

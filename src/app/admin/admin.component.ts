@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { SharedService } from '../shared.service';
+import { SharedService } from '../services/shared.service';
 import { NgForm } from '@angular/forms';
 import { Loginmodel } from '../loginmodel';
 import Swal from 'sweetalert2';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -12,17 +13,23 @@ import { AuthService } from '../auth.service';
 })
 export class AdminComponent implements OnInit {
   public login:Loginmodel
-  constructor(public shared:SharedService,public authService:AuthService){
+  adminId: string | null = null;
+  constructor(public shared:SharedService,public authService:AuthService,private router: Router){
    this.login=new Loginmodel();
   }
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
+    console.log('Admin ID:', this.adminId);
   }
 
 
-  onsubmit(form:NgForm){
-    console.log(this.login)
-   }
+  navigateToAdminUpdate(): void {
+    if (this.adminId) {
+      this.router.navigate(['/admin-update', this.adminId]);
+    } else {
+      console.error('Admin ID not found!');
+    }
+  }
  
    admin ={
      userName:'',
@@ -61,7 +68,7 @@ export class AdminComponent implements OnInit {
         Swal.fire({
                   position: "top-end",
                   icon: "error",
-                  title: "This account already exists",
+                  title: "error while adding an Admin",
                   showConfirmButton: false,
                   timer: 1500
                 });
@@ -72,19 +79,14 @@ export class AdminComponent implements OnInit {
     }
 
 
-    selectedOption: string | null = null;
+    selectedOption: string | null = null; // القيمة المختارة
 
     selectOption(option: string): void {
-      if (this.selectedOption === option) {
-        // Uncheck if the same option is selected again
-        this.selectedOption = null;
-        this.admin.role = 0; // Reset role to 0
-      } else {
-        // Check the new option and set role
-        this.selectedOption = option;
-        this.admin.role = option === 'admin' ? 2 : 1; // Admin = 2, Cashier = 1
-      }
+      this.selectedOption = option; // تحديد الخيار الجديد
+      this.admin.role = option === 'admin' ? 1 : 2; // Admin = 2, Cashier = 1
     }
+
+
 
     logout(): void {
       this.authService.logout(); // استدعاء وظيفة تسجيل الخروج من الخدمة

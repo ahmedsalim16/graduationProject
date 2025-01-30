@@ -2,7 +2,7 @@
     <!-- Sidebar -->
     <div id="sidebar"  style="width: 250px;">
       <div class="logo">
-        <i class="fa-solid fa-graduation-cap" style="color: #fff;"></i>
+        <i class="fa-solid fa-graduation-cap" style="color: #fff;cursor: pointer"[routerLink]='["/Dashboard"]'></i>
         <h4>SMART</h4>
         <h5>TRACK</h5>
       </div>
@@ -12,7 +12,7 @@
     <!-- Main Content -->
     <div id="page-content-wrapper" class="flex-grow-1">
       <div class="header">
-        <h2 id="head">Update Students</h2>
+        <h2 id="head">Update Admins</h2>
         <img src="../../assets/profile.png" alt="">
       </div>
       
@@ -51,8 +51,8 @@
             <select [(ngModel)]="admin.gender" id="gender" class="form-select" title="gender"  >
              
               
-              <option [value]="0">male</option>
-              <option [value]="1">female</option>
+              <option [value]="'Male'">Male</option>
+              <option [value]="'Female'">Female</option>
             
             </select>
           </div>

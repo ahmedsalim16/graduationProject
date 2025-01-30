@@ -116,7 +116,7 @@
     <!-- Sidebar -->
     <div id="sidebar"  style="width: 250px;">
       <div class="logo">
-        <i class="fa-solid fa-graduation-cap" style="color: #fff;"></i>
+        <i class="fa-solid fa-graduation-cap" style="color: #fff;cursor: pointer"[routerLink]='["/Dashboard"]'></i>
         <h4>SMART</h4>
         <h5>TRACK</h5>
       </div>
@@ -163,7 +163,10 @@
           <input type="search" id="search" [(ngModel)]="searchtext" class="form-control" placeholder="Search..." id="search">
           <!-- <label id="ser" class="form-label" for="search">Search...</label> -->
         </div>
-        <img src="../../assets/profile.png" alt="">
+        <img src="../../assets/profile.png" alt="Profile" 
+      (click)="navigateToAdminUpdate()" 
+      [routerLink]="['/admin-update',adminId]"
+      title="update">
       </div>
 
       
@@ -221,7 +224,7 @@
       
      
       <div class="row mt-5" style="margin-top: 50px;">
-        <table class="table">
+        <table class="table table-bordered">
           <thead class="table-secondary">
             <tr>
               <th scope="col">#</th>
@@ -263,7 +266,10 @@
     
     <pagination-controls (pageChange)="pagechanged($event)" previousLabel="prev" nextLabel="Next"></pagination-controls>
   </div> 
-       
+  <div *ngIf="filteredStudents.length" class="col-md-1">
+    <i class="fa-solid fa-download"  id="csv" title="download file.csv" (click)="downloadCsvFile()"></i>
+
+  </div>
        
     </div> 
   </div>

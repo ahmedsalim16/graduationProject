@@ -2,7 +2,7 @@
     <!-- Sidebar -->
     <div id="sidebar"  style="width: 250px;">
       <div class="logo">
-        <i class="fa-solid fa-graduation-cap" style="color: #fff;"></i>
+        <i class="fa-solid fa-graduation-cap" style="color: #fff;cursor: pointer"[routerLink]='["/Dashboard"]'></i>
         <h4>SMART</h4>
         <h5>TRACK</h5>
       </div>
@@ -44,7 +44,10 @@
     <div id="page-content-wrapper" class="flex-grow-1">
         <div class="header">
           <h2 id="head">Add Admin</h2>
-          <img src="../../assets/profile.png" alt="">
+          <img src="../../assets/profile.png" alt="Profile" 
+      (click)="navigateToAdminUpdate()" 
+      [routerLink]="['/admin-update',adminId]"
+      title="update">
         </div>
         
     
@@ -80,8 +83,12 @@
     <label for="Option1" class="flex cursor-pointer  gap-7">
       <div class="flex items-center">
         &#8203;
-        <input type="checkbox"  [(ngModel)]="selectedOption"  (change)="selectOption('admin')" [value]="'admin'"  class="size-4 rounded border-gray-300" id="Option1" />
-      </div>
+        <input 
+        type="radio" 
+        name="role" 
+        [value]="'admin'" 
+        [(ngModel)]="selectedOption" 
+        (change)="selectOption('admin')" />      </div>
 
       <div>
         <strong class="font-medium text-gray-900"> Admin </strong>
@@ -91,8 +98,13 @@
     <label for="Option2" class="flex cursor-pointer  gap-7">
       <div class="flex items-center">
         &#8203;
-        <input type="checkbox" [(ngModel)]="selectedOption"   (change)="selectOption('cashier')" [value]="'cashier'" class="size-4 rounded border-gray-300" id="Option2" />
-      </div>
+        <input 
+        type="radio" 
+        name="role" 
+        [value]="'cashier'" 
+        [(ngModel)]="selectedOption" 
+        (change)="selectOption('cashier')" />
+        </div>
 
       <div>
         <strong class="font-medium text-gray-900"> cashier </strong>

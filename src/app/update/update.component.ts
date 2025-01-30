@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SharedService } from '../shared.service';
+import { SharedService } from '../services/shared.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -28,16 +28,32 @@ export class UpdateComponent implements OnInit{
     //     console.log(err);
     //   }
     // )
-    const studentId = this.act.snapshot.paramMap.get('id'); // الحصول على ID من مسار URL
+    const studentId = this.act.snapshot.paramMap.get('id');
     if (studentId) {
-      this.getStudentById(studentId); // استدعاء البيانات
+      this.getStudentById(studentId);
     }
+  
+    console.log('Current student object:', this.student);
 
   }
   getStudentById(id: string): void {
     this._shared.getStudentById(id).subscribe(
       (data) => {
-        this.student = data; // ملء كائن الطالب بالبيانات المسترجعة
+        this.student = data.result; 
+        if (this.student) {
+          // تحويل التاريخ إلى نص
+          if (this.student.birthDate) {
+            this.student.birthDate = new Date(this.student.birthDate).toLocaleDateString(); // مثال لتحويل التاريخ إلى نص منسق
+          }
+  
+          if (this.student.gender) {
+            console.log('Gender is already a string:', this.student.gender);
+          } else {
+            console.warn('Gender field is missing or empty:', this.student.gender);
+            this.student.gender = 'Unknown'; // وضع قيمة افتراضية إذا لم يكن موجودًا
+          }
+        }
+        
         console.log('Student data fetched successfully:', data);
       },
       (error) => {
@@ -45,21 +61,35 @@ export class UpdateComponent implements OnInit{
       }
     );
   }
+
+  formatDateToYYYYMMDD(date: string): string {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = (d.getMonth() + 1).toString().padStart(2, '0');
+    const day = d.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`; // صيغة YYYY-MM-DD
+  }
   
 
   updateStudent() {
-    const formData = new FormData();
-    formData.append('Id', this.student.Id);
-    formData.append('FullName', this.student.FullName);
-    formData.append('Gender', this.student.Gender);
-    formData.append('Grade', this.student.Grade.toString());
-    formData.append('City', this.student.City);
-    formData.append('Street', this.student.Street);
-    formData.append('BirthDate', this.student.BirthDate);
-    formData.append('rfidTag_Id', this.student.rfidTag_Id);
-    
+    this.student.birthDate = this.formatDateToYYYYMMDD(this.student.birthDate);
+    const genderValue = this.student.gender === 'Male' ? 0 : this.student.gender === 'Female' ? 1 : null;
+  console.log('Original Gender:', this.student.gender); // عرض النص الأصلي
+  console.log('Gender Value:', genderValue);
+    const studentData = {
+      id: this.student.id || '',
+      userName: this.student.userName || '',
+      gender: genderValue,
+      grade: this.student.grade || '',
+      city: this.student.city || 'N/A',
+      street: this.student.street || 'N/A',
+      birthDate: this.student.birthDate || 'N/A',
+      rfidTag_Id: this.student.rfidTag_Id || 'N/A',
+       // تحويل النص إلى رقم
+    };
+   
   
-    this._shared.updateStudent(formData).subscribe(
+    this._shared.updateStudent(studentData).subscribe(
       (res) => {
         Swal.fire({
                                    position: "top-end",

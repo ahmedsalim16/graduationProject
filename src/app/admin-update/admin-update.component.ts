@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SharedService } from '../shared.service';
+import { SharedService } from '../services/shared.service';
 import Swal from 'sweetalert2';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-admin-update',
@@ -27,8 +27,22 @@ admin:any = {};
   getadminById(id: string): void {
     this._shared.getAdminById(id).subscribe(
       (data) => {
-        this.admin = data; // ملء كائن الطالب بالبيانات المسترجعة
-        console.log('admin data fetched successfully:', data);
+        // ملء كائن الطالب بالبيانات المسترجعة
+        this.admin = data.result;
+  
+        // تحويل الحقول المطلوبة إلى نصوص
+        if (this.admin) {
+          
+  
+          if (this.admin.gender) {
+            console.log('Gender is already a string:', this.admin.gender);
+          } else {
+            console.warn('Gender field is missing or empty:', this.admin.gender);
+            this.admin.gender = 'Unknown'; // وضع قيمة افتراضية إذا لم يكن موجودًا
+          }
+        }
+  
+        console.log('admin data fetched successfully:', this.admin);
       },
       (error) => {
         console.error('Error fetching admin data:', error);
@@ -36,8 +50,12 @@ admin:any = {};
     );
   }
   
+  
 
   updateadmin() {
+    const genderValue = this.admin.gender === 'Male' ? 0 : this.admin.gender === 'Female' ? 1 : null;
+  console.log('Original Gender:', this.admin.gender); // عرض النص الأصلي
+  console.log('Gender Value:', genderValue);
     const adminData = {
       id: this.admin.id || '',
       userName: this.admin.userName || '',
@@ -45,7 +63,7 @@ admin:any = {};
       firstName: this.admin.firstName || 'N/A',
       lastName: this.admin.lastName || 'N/A',
       phoneNumber: this.admin.phoneNumber || 'N/A',
-      gender: +this.admin.gender // تحويل النص إلى رقم
+      gender: genderValue // تحويل النص إلى رقم
     };
   
     console.log('Data being sent:', adminData);

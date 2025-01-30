@@ -1,10 +1,10 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, Injectable } from '@angular/core';
 import path from 'path';
-import { StudentComponent } from './student/student.component';
+import { StudentComponent } from '../student/student.component';
 import { RouterLink } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ApiResponse } from './api';
+import { ApiResponse } from '../api';
 
 @Injectable({
   providedIn: 'root'
@@ -120,7 +120,7 @@ export class SharedService {
     return this.http.get<any>("https://adhamapis.runasp.net/api/Student/GetById/"+id)
   }
 
-  updateStudent(student: FormData):Observable<any> {
+  updateStudent(student: any):Observable<any> {
     return this.http.put("https://adhamapis.runasp.net/api/Student/update",student)
   }
   headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -133,14 +133,14 @@ export class SharedService {
   setToken(token: string) {
     this.token = token;
     localStorage.setItem('token', token); 
-    console.log('Token has been set:', token); 
+    
   }
 
   getToken(): string | null {
     if (!this.token) {
       this.token = localStorage.getItem('token'); 
     }
-    console.log('Retrieved token:', this.token); 
+     
     return this.token;
   }
   
@@ -152,9 +152,18 @@ export class SharedService {
     if (gender !== undefined) {
       url += `?gender=${gender}`;
     }
-    return this.http.get<any>(url); // استدعاء الـ API وإرجاع البيانات
+    return this.http.get<any>(url);
   }
+  private baseUrl2='https://adhamapis.runasp.net/api/Attendance';
+  getAllAbsents(grade: number, date: string): Observable<ApiResponse> {
+    
+    const params = new HttpParams()
+      .set('Grade', grade.toString())
+      .set('date', date);
 
+    
+    return this.http.get<ApiResponse>(`${this.baseUrl2}/GetAllAbsents?`, { params });
+  }
 
   // search(search:string){
   //   return this.http.get(this.Url+`Search?searchValue=${search}`)

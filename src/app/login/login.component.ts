@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { StudentComponent } from '../student/student.component';
-import { SharedService } from '../shared.service';
+import { SharedService } from '../services/shared.service';
 import { Router, RouterLink, Routes } from '@angular/router';
 import { link } from 'fs';
 import path from 'path';

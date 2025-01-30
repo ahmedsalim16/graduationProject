@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EChartsOption } from 'echarts';
 import * as echarts from 'echarts';
-import { SharedService } from '../shared.service';
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'app-chart',
