@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { CalendarOptions, EventApi } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-calendar',
@@ -35,31 +36,51 @@ export class CalendarComponent implements OnInit {
   }
 
   onDateClick(info: any) {
-    const eventTitle = prompt("Enter event title:");
-    if (eventTitle) {
-      // استخدام التاريخ الذي تم النقر عليه (info.dateStr)
-      const newEvent = { 
-        title: eventTitle, 
-        start: info.startStr, // تاريخ البدء
-        color: '#191BA9', 
-        textColor: '#fff' 
-      };
-
-      // إضافة الحدث إلى القائمة
-      this.savedEvents.push(newEvent);
-
-      // حفظ الأحداث في localStorage
-      localStorage.setItem('events', JSON.stringify(this.savedEvents));
-
-      // تحديث الأحداث في التقويم
-      this.calendarOptions.events = [...this.savedEvents];
-
-      // إعادة تحميل التقويم يدويًا
-      const calendarApi = info.view.calendar;
-      calendarApi.refetchEvents();
-    }
+    Swal.fire({
+      title: 'Add a New Event',
+      input: 'text',
+      inputLabel: 'Event Title',
+      inputPlaceholder: 'Enter the event title here...',
+      showCancelButton: true,
+      confirmButtonText: 'Save',
+      cancelButtonText: 'Cancel',
+      allowOutsideClick: false, // Prevent closing by clicking outside the modal
+      inputValidator: (value) => {
+        if (!value) {
+          return 'You need to enter an event title!';
+        }
+        return null;
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const eventTitle = result.value;
+  
+        // Use the clicked date (info.dateStr)
+        const newEvent = { 
+          title: eventTitle, 
+          start: info.startStr, // Event start date
+          color: '#191BA9', 
+          textColor: '#fff' 
+        };
+  
+        // Add the event to the list
+        this.savedEvents.push(newEvent);
+  
+        // Save events to localStorage
+        localStorage.setItem('events', JSON.stringify(this.savedEvents));
+  
+        // Update events in the calendar
+        this.calendarOptions.events = [...this.savedEvents];
+  
+        // Manually reload the calendar
+        const calendarApi = info.view.calendar;
+        calendarApi.refetchEvents();
+  
+        // Show a success message
+        Swal.fire('Success!', 'The event has been added.', 'success');
+      }
+    });
   }
-
   // دالة حذف الحدث
   deleteEvent(event: EventApi) {
     // البحث عن الحدث في القائمة وحذفه
