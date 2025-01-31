@@ -11,6 +11,8 @@
       <ng-template #eventContent let-arg>
         <b>{{arg.timeText}}</b>
         <i>{{arg.event.title}}</i>
+        <br>
+        <i (click)="deleteEvent(arg.event)" class="fa-solid fa-trash" aria-hidden="true" style="color: red;cursor: pointer;" title="delete"></i>
       </ng-template>
     </full-calendar>
   </div>

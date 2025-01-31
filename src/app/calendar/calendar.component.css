@@ -15,7 +15,7 @@
   }
   
   .container{
-    width: 44%;
+    width: 46%;
     position: relative;
     bottom: 420px;
     left: 290px;
@@ -32,4 +32,33 @@
   padding: 5px; /* Add some padding */
 }
 
-  
+ /* تغيير لون الخلفية للأحداث المهمة */
+.event-darkblue {
+  background-color: #0D47A1 !important;
+  color: white !important;
+  border-radius: 50% !important;
+}
+
+.event-lightblue {
+  background-color: #03A9F4 !important;
+  color: white !important;
+  border-radius: 60% !important;
+}
+
+/* تمييز أيام الجمعة */
+.fc-daygrid-day.fc-day-fri {
+  background-color: #E0E0E0 !important;
+}
+
+/* ضبط شكل التقويم */
+.fc-daygrid-day-number {
+  font-weight: bold;
+  font-size: 14px;
+}
+.fc-daygrid-day-events {
+  margin-top: 1px;
+  display: flex;
+}
+.fc .fc-daygrid-day-events{
+  display: flex;
+}

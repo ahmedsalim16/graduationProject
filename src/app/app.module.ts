@@ -40,6 +40,8 @@ import { MatInputModule } from '@angular/material/input';
 import { CalendarComponent } from './calendar/calendar.component';
 import { AdminComponent } from './admin/admin.component';
 import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 import { AdminListComponent } from './admin-list/admin-list.component';
 import { AdminUpdateComponent } from './admin-update/admin-update.component';
 import { AbsenceListComponent } from './absence-list/absence-list.component';
