@@ -133,8 +133,8 @@
                       <td>{{index.role}}</td>
                       
                       <td>{{index.createdOn ? (index.createdOn | date: 'yyyy-MM-dd') : 'N/A'}}</td>
-                      <td><i id="edit" class="fa-solid fa-pen-to-square" [routerLink]="['/admin-update',index.id]" title="edit"></i></td>
-                      <td><i id="delete" class="fa-solid fa-trash" aria-hidden="true" (click)="delete(index.id)" title="delete"></i></td>
+                      <td><i id="edit" class="fa-solid fa-pen-to-square " [routerLink]="['/admin-update',index.id]" title="edit"></i></td>
+                      <td><i id="delete" class="fa-solid fa-trash-can " style="color: #d21919;" aria-hidden="true" (click)="delete(index.id)" title="delete"></i></td>
                      
                     
                     </tr>

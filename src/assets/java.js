@@ -40,7 +40,28 @@ signInButton.addEventListener('click', () => {
 	container.classList.remove("right-panel-active");
 });
 
+const edit=document.getElementById('edit');
+const delet=document.getElementById('delete');
 
+if (edit) {
+    edit.addEventListener('mouseenter', () => {
+      edit.classList.add("fa-flip");
+    });
+  
+    edit.addEventListener('mouseleave', () => {
+      edit.classList.remove("fa-flip");
+    });
+  }
+  
+  if (delet) {
+    delet.addEventListener('mouseenter', () => {
+      delet.classList.add("fa-bounce");
+    });
+  
+    delet.addEventListener('mouseleave', () => {
+      delet.classList.remove("fa-bounce");
+    });
+  }
 
 // const { match } = require("assert");
 

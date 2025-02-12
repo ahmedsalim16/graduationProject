@@ -179,6 +179,7 @@ img:hover{
   }
   #edit:hover{
     scale: 1.2;
+    rotate: 30deg;
   }
   #delete{
     color: darkred;
@@ -186,6 +187,7 @@ img:hover{
   }
   #delete:hover{
     scale: 1.2;
+    rotate: 30deg;
   }
   #sort {
     padding: 5px 10px; 

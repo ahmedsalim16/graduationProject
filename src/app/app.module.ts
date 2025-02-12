@@ -45,6 +45,8 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { AdminListComponent } from './admin-list/admin-list.component';
 import { AdminUpdateComponent } from './admin-update/admin-update.component';
 import { AbsenceListComponent } from './absence-list/absence-list.component';
+import lottie from "lottie-web";
+import { defineElement } from "@lordicon/element"
  //import { Ng2SearchPipeModule } from 'ng2-search-filter';
 //  export function createTranslateLoader(http:HttpClient){
 //   return new TranslateHttpLoader(http,'assets/i18n/','.json');
@@ -102,7 +104,7 @@ import { AbsenceListComponent } from './absence-list/absence-list.component';
     MatNativeDateModule,
     MatInputModule,
     FullCalendarModule,
-    
+
     // TranslateModule.forRoot({
     //   defaultLanguage: 'en',
     //   useDefaultLang:true,

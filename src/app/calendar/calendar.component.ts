@@ -59,7 +59,7 @@ export class CalendarComponent implements OnInit {
         const newEvent = { 
           title: eventTitle, 
           start: info.startStr, // Event start date
-          color: '#191BA9', 
+          color: '#5CC2F2', 
           textColor: '#fff' 
         };
   
@@ -97,4 +97,8 @@ export class CalendarComponent implements OnInit {
     // إعادة تحميل التقويم يدويًا
     event.remove(); // إزالة الحدث من التقويم
   }
+
+  // scrollToNext() {
+  //   document.getElementById('next-section')?.scrollIntoView({ behavior: 'smooth' });
+  // }
 }

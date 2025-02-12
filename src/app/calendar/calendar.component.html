@@ -7,7 +7,7 @@
     <p *ngIf="selectedDate">Selected Date: {{ selectedDate | date }}</p>
   </div> -->
   <div class="container">
-    <full-calendar [options]="calendarOptions">
+    <full-calendar [options]="calendarOptions" id="calender">
       <ng-template #eventContent let-arg>
         <b>{{arg.timeText}}</b>
         <i>{{arg.event.title}}</i>

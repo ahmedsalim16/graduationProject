@@ -7,6 +7,15 @@
   h2 {
     text-align: center;
   }
+  #calender, #calender *, #calender::after, #calender::before {
+    box-sizing: border-box;
+    border-radius: 30px;
+    text-decoration: none;
+   }
+   #calender table{
+    border-radius: 30px;
+   }
+
   
   .highlight-date .mat-calendar-body-cell-content {
     background-color: #03A9F4 !important; /* Light blue for highlight */
@@ -28,7 +37,7 @@
     
 }
 .custom-event {
-  border-radius: 10px; /* Adjust the shape */
+  border-radius: 20px; /* Adjust the shape */
   padding: 5px; /* Add some padding */
 }
 
@@ -62,3 +71,56 @@
 .fc .fc-daygrid-day-events{
   display: flex;
 }
+
+
+/* تطبيق border-radius على الجدول */
+#calender .fc-scrollgrid {
+  /* زوايا دائرية */
+  overflow: hidden; /* لإخفاء الزوايا الزائدة */
+}
+
+
+
+/* إزالة text-decoration من الروابط */
+#calender a {
+  text-decoration: none !important;
+}
+
+/* إزالة text-decoration من الأحداث */
+#calender .fc-event {
+  text-decoration: none !important;
+}
+
+/* تحسين شكل الأحداث */
+#calender .fc-event {
+  /* زوايا دائرية للأحداث */
+  padding: 5px; /* إضافة بعض المساحة الداخلية */
+}
+
+
+
+/* تحسين شكل الأرقام في الأيام */
+#calender .fc-daygrid-day-number {
+  font-weight: bold;
+  font-size: 14px;
+  text-decoration: none !important; /* إزالة text-decoration */
+}
+
+/* تحسين شكل الأحداث في الأيام */
+#calender .fc-daygrid-day-events {
+  margin-top: 1px;
+  display: flex;
+  text-decoration: none !important; /* إزالة text-decoration */
+}
+
+/* تحسين شكل التقويم بشكل عام */
+#calender {
+  /* زوايا دائرية للتقويم */
+  
+  text-decoration: none; /* لإخفاء الزوايا الزائدة */
+}
+#calender .fc-scrollgrid {
+  border-radius: 30px; /* زوايا دائرية */
+  overflow: hidden; /* لإخفاء الزوايا الزائدة */
+}
+
