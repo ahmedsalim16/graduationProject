@@ -78,7 +78,7 @@ export class UpdateComponent implements OnInit{
   console.log('Gender Value:', genderValue);
     const studentData = {
       id: this.student.id || '',
-      userName: this.student.userName || '',
+      fullName: this.student.fullName || '',
       gender: genderValue,
       grade: this.student.grade || '',
       city: this.student.city || 'N/A',

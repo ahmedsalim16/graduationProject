@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
-  private adminId: string | null = null;
+  private userId: string | null = null;
   constructor(private router: Router) {}
 
   // تسجيل الخروج
@@ -20,21 +20,21 @@ export class AuthService {
   }
 
   setAdminId(id: string): void {
-    this.adminId = id;
+    this.userId = id;
     localStorage.setItem('adminId', id); // تخزين ID في localStorage
   }
 
   // الحصول على الـ ID
   getAdminId(): string | null {
-    if (!this.adminId) {
-      this.adminId = localStorage.getItem('adminId'); // استرجاع من localStorage
+    if (!this.userId) {
+      this.userId = localStorage.getItem('adminId'); // استرجاع من localStorage
     }
-    return this.adminId;
+    return this.userId;
   }
 
   // حذف الـ ID عند تسجيل الخروج
   clearAdminId(): void {
-    this.adminId = null;
+    this.userId = null;
     localStorage.removeItem('adminId');
   }
 }

@@ -14,6 +14,7 @@ import { AdminListComponent } from './admin-list/admin-list.component';
 import { AdminUpdateComponent } from './admin-update/admin-update.component';
 import { AbsenceListComponent } from './absence-list/absence-list.component';
 import { AuthGuard } from './services/auth.guard';
+import { MessagesComponent } from './messages/messages.component';
 
 const routes: Routes = [
 { path: '', redirectTo:'/welcome',pathMatch:'full' },
@@ -28,6 +29,7 @@ const routes: Routes = [
 { path: 'admin-update/:id', component:AdminUpdateComponent},
 { path: 'absence-list', component:AbsenceListComponent,canActivate: [AuthGuard]},
 { path: 'update/:id',component:UpdateComponent},
+{ path: 'Send-email',component:MessagesComponent,canActivate: [AuthGuard]},
 { path: 'csv-file',component:CsvFileComponent},
 { path: '**', component:NotfoundComponent }
 ];

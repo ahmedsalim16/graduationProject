@@ -24,7 +24,7 @@ export class SharedService {
   //studentList:any[]=[]
 
   createNewStudent(studentData: any){
-    return this.http.post("https://adhamapis.runasp.net/api/Student/add",studentData, {
+    return this.http.post("https://school-api.runasp.net/api/Student/Add",studentData, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -32,7 +32,7 @@ export class SharedService {
 
   }
   createNewAdmin(admin:any){
-    return this.http.post("https://adhamapis.runasp.net/api/User/Add",admin)
+    return this.http.post("https://school-api.runasp.net/api/User/Add",admin)
 
   }
   getAllAdmins(PageNumber:number,pagesize:number):Observable<ApiResponse>{//?pageSize=10&pageNumber=1
@@ -40,7 +40,7 @@ export class SharedService {
     const params = new HttpParams()
        .set('pageNumber', PageNumber.toString())
        .set('pageSize', pagesize.toString());
-       return this.http.get<ApiResponse>("https://adhamapis.runasp.net/api/User/GetAll");
+       return this.http.get<ApiResponse>("https://school-api.runasp.net/api/User/GetAll");
    }
    filterAdmins(filters: {  role?: string; pageNumber: number; pageSize: number }) {
     let params = new URLSearchParams();
@@ -50,15 +50,15 @@ export class SharedService {
     params.append('pageNumber', filters.pageNumber.toString());
     params.append('pageSize', filters.pageSize.toString());
   
-    return this.http.get(`https://adhamapis.runasp.net/api/User/GetAll?${params.toString()}`);
+    return this.http.get(`https://school-api.runasp.net/api/User/GetAll?${params.toString()}`);
   }
 
   getAdminById(id:any): Observable<any>{
-    return this.http.get<any>("https://adhamapis.runasp.net/api/User/GetById/"+id)
+    return this.http.get<any>("https://school-api.runasp.net/api/User/GetById/"+id)
   }
 
   updateAdmin(adminData: any): Observable<any> {
-    return this.http.put('https://adhamapis.runasp.net/api/User/Update', adminData, {
+    return this.http.put('https://school-api.runasp.net/api/User/Update', adminData, {
       headers: { 'Content-Type': 'application/json' }
     });
   }
@@ -69,25 +69,25 @@ export class SharedService {
   deleteadmins(id:string){
    
      
-   return this.http.delete("https://adhamapis.runasp.net/api/User/Delete/"+id)
+   return this.http.delete("https://school-api.runasp.net/api/User/Delete/"+id)
   }
   deleteStudent(id:string){
    
      
-   return this.http.delete("https://adhamapis.runasp.net/api/Student/Delete?id="+id)
+   return this.http.delete("https://school-api.runasp.net/api/Student/Delete/"+id)
   }
 
   getAllStudentsgrade(grade:number,PageNumber:number,pagesize:number):Observable<ApiResponse>{
     const params = new HttpParams()
       .set('pageNumber', PageNumber.toString())
       .set('pageSize', pagesize.toString());
-      return this.http.get<ApiResponse>("https://adhamapis.runasp.net/api/Student/GetAll"+`?Grade=${grade}`)
+      return this.http.get<ApiResponse>("https://school-api.runasp.net/api/Student/GetAll"+`?Grade=${grade}`)
   }
   getAllStudentsgender(gender:number,PageNumber:number,pagesize:number):Observable<ApiResponse>{
     const params = new HttpParams()
       .set('pageNumber', PageNumber.toString())
       .set('pageSize', pagesize.toString());
-      return this.http.get<ApiResponse>("https://adhamapis.runasp.net/api/Student/GetAll"+`?Gender=${gender}`)
+      return this.http.get<ApiResponse>("https://school-api.runasp.net/api/Student/GetAll"+`?Gender=${gender}`)
   }
   filterStudents(filters: { gender?: number; grade?: number; pageNumber: number; pageSize: number }) {
     let params = new URLSearchParams();
@@ -101,7 +101,7 @@ export class SharedService {
     params.append('pageNumber', filters.pageNumber.toString());
     params.append('pageSize', filters.pageSize.toString());
   
-    return this.http.get(`https://adhamapis.runasp.net/api/Student/GetAll?${params.toString()}`);
+    return this.http.get(`https://school-api.runasp.net/api/Student/GetAll?${params.toString()}`);
   }
  
   
@@ -117,15 +117,15 @@ export class SharedService {
   }
 //////////////////////    (update)
   getStudentById(id:any): Observable<any>{
-    return this.http.get<any>("https://adhamapis.runasp.net/api/Student/GetById/"+id)
+    return this.http.get<any>("https://school-api.runasp.net/api/Student/GetById/"+id)
   }
 
   updateStudent(student: any):Observable<any> {
-    return this.http.put("https://adhamapis.runasp.net/api/Student/update",student)
+    return this.http.put("https://school-api.runasp.net/api/Student/Update",student)
   }
   headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   loginPage(loginObj: any,headers:any):Observable<any>{
-    return this.http.post("https://adhamapis.runasp.net/api/Account/login",loginObj)
+    return this.http.post("https://school-api.runasp.net/api/Account/login",loginObj)
   }
   private token: string | null = null; 
 
@@ -146,7 +146,7 @@ export class SharedService {
   
   
 
-  private baseUrl = 'https://adhamapis.runasp.net/api/Student';
+  private baseUrl = 'https://school-api.runasp.net/api/Student';
   getStudentCountByGender(gender?: number): Observable<any> {
     let url = `${this.baseUrl}/GetCount`;
     if (gender !== undefined) {
@@ -154,7 +154,7 @@ export class SharedService {
     }
     return this.http.get<any>(url);
   }
-  private baseUrl2='https://adhamapis.runasp.net/api/Attendance';
+  private baseUrl2='https://school-api.runasp.net/api/Attendance';
   getAllAbsents(grade: number, date: string): Observable<ApiResponse> {
     
     const params = new HttpParams()
@@ -164,7 +164,9 @@ export class SharedService {
     
     return this.http.get<ApiResponse>(`${this.baseUrl2}/GetAllAbsents?`, { params });
   }
-
+  sendEmail(emailData: any) {
+    return this.http.post('https://school-api.runasp.net/api/Email', emailData,{ responseType: 'text' });
+  }
   // search(search:string){
   //   return this.http.get(this.Url+`Search?searchValue=${search}`)
   // }

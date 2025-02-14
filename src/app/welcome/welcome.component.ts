@@ -35,7 +35,7 @@ passWord:string='';
         this.shared.setToken(res.token);
         localStorage.setItem('token',res.token);
          sessionStorage.setItem('token',res.token);
-         this.authService.setAdminId(res.id);
+         this.authService.setAdminId(res.userId);
         Swal.fire({
           position: "top-end",
           icon: "success",

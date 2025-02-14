@@ -83,7 +83,7 @@ export class AdminComponent implements OnInit {
 
     selectOption(option: string): void {
       this.selectedOption = option; // تحديد الخيار الجديد
-      this.admin.role = option === 'admin' ? 1 : 2; // Admin = 2, Cashier = 1
+      this.admin.role = option === 'admin' ? 0 : 1; // Admin = 2, Cashier = 1
     }
 
 

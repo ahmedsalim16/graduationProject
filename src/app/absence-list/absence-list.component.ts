@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import { AuthService } from '../services/auth.service';
 import { ngxCsv } from 'ngx-csv';
 import { Router } from '@angular/router';
-import { SignalrService } from '../services/signalr.service';
+
 
 @Component({
   selector: 'app-absence-list',
@@ -26,7 +26,7 @@ export class AbsenceListComponent {
   adminId: string | null = null;
   receivedMessage: string = '';
   userMessage: string = '';
-  constructor(public shared: SharedService, public authService: AuthService,private router: Router,private signalRService: SignalrService) {}
+  constructor(public shared: SharedService, public authService: AuthService,private router: Router) {}
 
   ngOnInit(): void {
     // this.signalRService.startConnection();
@@ -72,38 +72,7 @@ export class AbsenceListComponent {
   }
  
 
-  /**
-   * حذف طالب بناءً على ID
-   * @param id
-   */
-  delete(id: string) {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'You will not be able to recover this student!',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'No, keep it',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.shared.deleteStudent(id).subscribe(
-          (res) => {
-            console.log('Student deleted:', res);
-            this.student = this.student.filter(
-              (student: any) => student.id !== id
-            );
-            this.signalRService.sendMessage('Absence list updated');
-            Swal.fire('Deleted!', 'The student has been deleted.', 'success');
-          },
-          (err) => {
-            console.error('Error while deleting student:', err);
-            Swal.fire('Error!', 'There was an error deleting the student.', 'error');
-          }
-        );
-      }
-    });
-  }
-
+  
   /**
    * تحديث الصفحة عند التغيير
    * @param event

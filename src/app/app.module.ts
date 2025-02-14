@@ -47,6 +47,7 @@ import { AdminUpdateComponent } from './admin-update/admin-update.component';
 import { AbsenceListComponent } from './absence-list/absence-list.component';
 import lottie from "lottie-web";
 import { defineElement } from "@lordicon/element"
+import { SignalRService } from './services/signalr.service';
  //import { Ng2SearchPipeModule } from 'ng2-search-filter';
 //  export function createTranslateLoader(http:HttpClient){
 //   return new TranslateHttpLoader(http,'assets/i18n/','.json');
@@ -127,7 +128,8 @@ import { defineElement } from "@lordicon/element"
     provideFirestore(() => getFirestore()),
     provideFunctions(() => getFunctions()),
     provideRemoteConfig(() => getRemoteConfig()),
-   { provide:HTTP_INTERCEPTORS,useClass:customeInterceptor,multi:true}
+   { provide:HTTP_INTERCEPTORS,useClass:customeInterceptor,multi:true},
+   SignalRService,
   ],
   bootstrap: [AppComponent]
 })

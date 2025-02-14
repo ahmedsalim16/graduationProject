@@ -2,12 +2,12 @@
     <!-- Sidebar -->
     <div id="sidebar"  style="width: 250px;">
       <div class="logo">
-        <i class="fa-solid fa-graduation-cap" style="color: #fff;"></i>
+        <i class="fa-solid fa-graduation-cap" style="color: #fff;cursor: pointer" [routerLink]="['/Dashboard']"></i>
         <h4>SMART</h4>
         <h5>TRACK</h5>
       </div>
       <div  id="list">
-        <div class="dash active">
+        <div class="dash">
           <i class="fa-solid fa-chart-line" style="color: #fff;"></i>
           <a routerLink="/Dashboard" class="list-group-item list-group-item-action ">Dashboard</a>
         </div>
@@ -19,7 +19,7 @@
           <i class="fa-solid fa-user-plus" style="color: #ffffff;"></i>
           <a routerLink="/student" active class="list-group-item list-group-item-action ">Add Student</a>
         </div>
-        <div class="dash" >
+        <div class="dash " >
           <i class="fa-solid fa-user-shield" style="color: #ffffff;"></i>
           <a routerLink="/Add-admin" active class="list-group-item list-group-item-action ">Add Admin</a>
         </div>
@@ -31,7 +31,7 @@
           <i class="fa-solid fa-children" style="color: #ffffff;"></i>
           <a routerLink="/absence-list" active class="list-group-item list-group-item-action ">absence List</a>
         </div>
-        <div class="dash " >
+        <div class="dash active" >
           <i class="fa-solid fa-paper-plane" style="color: #ffffff;"></i>
           <a routerLink="/Send-email" active class="list-group-item list-group-item-action ">Send Emails</a>
         </div>
@@ -46,52 +46,36 @@
   
     <!-- Main Content -->
     <div id="page-content-wrapper" class="flex-grow-1">
-      <div class="header">
-        <!-- search bar --> 
-        <div class="form-outline mt-3 p-5">
-          <h1 id="Welcome" >Welcome Admin!</h1>
-
-          <!-- <label id="ser" class="form-label" for="search">Search...</label> -->
-        </div>
-        <img src="../../assets/profile.png" alt="Profile" 
+        <div class="header">
+          <h2 id="head">Send Email</h2>
+          <img src="../../assets/profile.png" alt="Profile" 
       (click)="navigateToAdminUpdate()" 
       [routerLink]="['/admin-update',adminId]"
       title="update">
-      </div>
-
-      <div class="stud">
-       <div class="user">
-        <div class="i"><i class="fa-solid fa-user-tie" style="color: #ffffff;"></i></div> 
-        <div class="user2">
-            <h5>Student</h5>
-            <h1>{{ studentCount }}</h1>
         </div>
-       </div>
-       <div class="user" >
-        <div class="i" style="background-color: #D9D9D9;"><i class="fa-solid fa-user-group" style="color: #ffffff;"></i></div> 
-        <div class="user2">
-            <h5>Parents</h5>
-            <h1>245</h1>
-        </div>
-       </div>
-       <div class="user">
-        <div class="i" style="background-color: #C1EAF2;"><i class="fa-solid fa-dollar-sign" style="color: #ffffff;"></i></div> 
-        <div class="user2">
-            <h5>Earning</h5>
-            <h1>$10,000</h1>
-        </div>
-       </div>
-       <div class="user">
-       <div class="i" style="background-color:#5CC2F2;"><i class="fa-solid fa-utensils" style="color: #ffffff;"></i></div> 
-        <div class="user2">
-            <h5>Foods</h5>
-            <h1>32K</h1>
-        </div>
-       </div>
-      </div>
+        
+    
+        <hr>
+       
+        <div class="row mt-5" style="margin-top: 50px;">
+      
+          <form (submit)="sendEmail(); $event.preventDefault()">
+            <label for="toEmail">Send To</label>
+            <input type="email" id="toEmail" [(ngModel)]="emailData.toEmail" name="toEmail" class="form-control m-1" required />
+        
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" [(ngModel)]="emailData.subject" name="subject" class="form-control m-1" required />
+        
+            <label for="body">Body</label>
+            <textarea id="body" [(ngModel)]="emailData.body" name="body" required class="form-control m-1"></textarea>
+        
 
-     <app-chart></app-chart>
-    <app-calendar style="height: 48px; display: block;"></app-calendar>
-
-</div>     
-
+          <div class="col-2" id="save">
+            <button style="background-color: #191BA9;align-items: center;" class="form-control mb-5  text-light mt-5" type="submit">Send</button>
+         </div>
+         
+          </form>
+        </div>
+        
+    </div>
+</div>

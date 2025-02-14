@@ -35,6 +35,10 @@
           <i class="fa-solid fa-children" style="color: #ffffff;"></i>
           <a routerLink="/absence-list" active class="list-group-item list-group-item-action ">absence List</a>
         </div>
+        <div class="dash " >
+          <i class="fa-solid fa-paper-plane" style="color: #ffffff;"></i>
+          <a routerLink="/Send-email" active class="list-group-item list-group-item-action ">Send Emails</a>
+        </div>
         <div class="dash" style="cursor: pointer;">
           <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i>
           <a (click)="logout()" id="Logout" class="list-group-item list-group-item-action ">Logout</a>
@@ -114,7 +118,7 @@
               <th scope="col">last name</th>
               <th scope="col">phone number</th>
               <th scope="col">gender</th>
-              <th scope="col">role</th>
+              
               <th scope="col">created on</th>
             </tr>
           </thead>
@@ -130,7 +134,7 @@
                       <td>{{index.lastName}}</td>
                       <td>{{index.phoneNumber}}</td>
                       <td>{{index.gender}}</td>
-                      <td>{{index.role}}</td>
+                      
                       
                       <td>{{index.createdOn ? (index.createdOn | date: 'yyyy-MM-dd') : 'N/A'}}</td>
                       <td><i id="edit" class="fa-solid fa-pen-to-square " [routerLink]="['/admin-update',index.id]" title="edit"></i></td>
