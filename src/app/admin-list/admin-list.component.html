@@ -6,7 +6,7 @@
     <!-- Sidebar -->
     <div id="sidebar"  style="width: 250px;">
       <div class="logo">
-        <i class="fa-solid fa-graduation-cap" style="color: #fff;cursor: pointer"[routerLink]='["/Dashboard"]'></i>
+        <i class="fa-solid fa-graduation-cap animated-icon" style="color: #fff;cursor: pointer"[routerLink]='["/Dashboard"]'></i>
         <h4>SMART</h4>
         <h5>TRACK</h5>
       </div>
@@ -118,6 +118,7 @@
               <th scope="col">last name</th>
               <th scope="col">phone number</th>
               <th scope="col">gender</th>
+              <th scope="col">Role</th>
               
               <th scope="col">created on</th>
             </tr>
@@ -134,6 +135,7 @@
                       <td>{{index.lastName}}</td>
                       <td>{{index.phoneNumber}}</td>
                       <td>{{index.gender}}</td>
+                      <td>{{index.role}}</td>
                       
                       
                       <td>{{index.createdOn ? (index.createdOn | date: 'yyyy-MM-dd') : 'N/A'}}</td>

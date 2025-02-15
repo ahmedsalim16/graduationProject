@@ -352,3 +352,16 @@ input {
 	width: 40px;
 }
 
+@keyframes bounceAnimation {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.animated-icon {
+    animation: bounceAnimation 0.6s ease-in-out infinite;
+    animation-delay: 3s;
+}
