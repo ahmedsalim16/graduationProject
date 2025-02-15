@@ -2,23 +2,24 @@
 
 
 
- document.addEventListener("DOMContentLoaded", function () {
-  const pwShowHide = document.querySelectorAll(".fa-eye-slash");
+// document.addEventListener("DOMContentLoaded", function () {
+//   const pwShowHide = document.querySelectorAll(".fa-eye-slash");
 
-  pwShowHide.forEach((icon) => {
-    icon.addEventListener("click", function () {
-      let getPwInput = this.parentElement.querySelector("input");
+//   pwShowHide.forEach((icon) => {
+//     icon.addEventListener("click", function () {
+//       let getPwInput = this.parentElement.querySelector("input");
 
-      if (getPwInput.type === "password") {
-        getPwInput.type = "text";
-        this.classList.replace("fa-eye-slash", "fa-eye");
-      } else {
-        getPwInput.type = "password";
-        this.classList.replace("fa-eye", "fa-eye-slash");
-      }
-    });
-  });
-});
+//       if (getPwInput.type === "password") {
+//         getPwInput.type = "text";
+//         this.classList.replace("fa-eye-slash", "fa-eye");
+//       } else {
+//         getPwInput.type = "password";
+//         this.classList.replace("fa-eye", "fa-eye-slash");
+//       }
+//     });
+//   });
+// });
+
 
 
  

@@ -10,6 +10,8 @@ import { SharedService } from '../services/shared.service';
   styleUrl: './reset-password.component.css'
 })
 export class ResetPasswordComponent {
+  showPassword: boolean = false;
+    showConfirmPassword: boolean = false;
   resetData = {
     password: '',
     confirmPassword: '',
@@ -31,7 +33,7 @@ export class ResetPasswordComponent {
 
       if (!this.resetData.token || !this.resetData.email) {
         Swal.fire('Error', 'Invalid reset link!', 'error');
-        this.router.navigate(['/login']);
+        this.router.navigate(['/welcome']);
       }
     });
   }
@@ -59,4 +61,12 @@ export class ResetPasswordComponent {
       }
     });
   }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+}
+
+toggleConfirmPasswordVisibility() {
+    this.showConfirmPassword = !this.showConfirmPassword;
+}
 }

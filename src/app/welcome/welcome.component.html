@@ -10,9 +10,10 @@
                 <i class="fa-solid fa-envelope"></i>
             </div>
             <div class="input-box">
-                <input class="pass" [(ngModel)]="obj.password" id="pass" type="password" placeholder="Enter your password"   required/>
+                <input class="pass" [(ngModel)]="obj.password" [type]="showPassword ? 'text' : 'password'" id="pass" type="password" placeholder="Enter your password"   required/>
                 <i class="fa-solid fa-lock"></i>
-                <i class="fa-regular fa-eye-slash"  style="cursor: pointer;"></i>
+                <i class="fa-solid" [ngClass]="showPassword ? 'fa-eye' : 'fa-eye-slash'"
+                    (click)="togglePasswordVisibility()"></i>
             </div>
 			<a routerLink="/forgot-password" style="color:#5CC2F2 ;">Forgot your password?</a>
 			<button id="login" type="submit"  (click)="loginPage()">Login</button>

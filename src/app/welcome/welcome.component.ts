@@ -15,7 +15,8 @@ constructor(private shared:SharedService,private router:Router,private http:Http
 isRightPanelActive = false;
 username:string='';
 passWord:string='';
-
+showPassword: boolean = false;
+showConfirmPassword: boolean = false;
   ngOnInit(): void {
   
   }
@@ -74,5 +75,13 @@ passWord:string='';
     this.isRightPanelActive = false;
     this.cdr.detectChanges();
   }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+}
+
+toggleConfirmPasswordVisibility() {
+    this.showConfirmPassword = !this.showConfirmPassword;
+}
 
 }
