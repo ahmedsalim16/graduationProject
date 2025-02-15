@@ -48,6 +48,8 @@ import { AbsenceListComponent } from './absence-list/absence-list.component';
 import lottie from "lottie-web";
 import { defineElement } from "@lordicon/element"
 import { SignalRService } from './services/signalr.service';
+import { ForgetPasswordComponent } from './forget-password/forget-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
  //import { Ng2SearchPipeModule } from 'ng2-search-filter';
 //  export function createTranslateLoader(http:HttpClient){
 //   return new TranslateHttpLoader(http,'assets/i18n/','.json');
@@ -72,6 +74,8 @@ import { SignalRService } from './services/signalr.service';
     AdminListComponent,
     AdminUpdateComponent,
     AbsenceListComponent,
+    ForgetPasswordComponent,
+    ResetPasswordComponent,
     
     
     

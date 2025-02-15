@@ -2,23 +2,24 @@
 
 
 
- function showPass(){
-  pwshowhide=document.querySelectorAll(".fa-eye-slash");
-  pwshowhide.forEach(icon=>{
-    icon.addEventListener('click',()=>{
-    let getpwInput=icon.parentElement.querySelector("input")
-    if(getpwInput.type==="password"){
-        getpwInput.type="text";
-        icon.classList.replace("fa-eye-slash","fa-eye");
-    }
-    else{
-        getpwInput.type="password";
-        icon.classList.replace("fa-eye","fa-eye-slash");
-    }
-  })
-  });
+ document.addEventListener("DOMContentLoaded", function () {
+  const pwShowHide = document.querySelectorAll(".fa-eye-slash");
 
- }
+  pwShowHide.forEach((icon) => {
+    icon.addEventListener("click", function () {
+      let getPwInput = this.parentElement.querySelector("input");
+
+      if (getPwInput.type === "password") {
+        getPwInput.type = "text";
+        this.classList.replace("fa-eye-slash", "fa-eye");
+      } else {
+        getPwInput.type = "password";
+        this.classList.replace("fa-eye", "fa-eye-slash");
+      }
+    });
+  });
+});
+
 
  
 
@@ -28,17 +29,17 @@
 //   x.parentNode.removeChild(x);
 
 // }
-const signUpButton = document.getElementById('get');
+// const signUpButton = document.getElementById('get');
 
-const container = document.getElementById('container');
+// const container = document.getElementById('container');
 
-signUpButton.addEventListener('click', () => {
-	container.classList.add("right-panel-active");
-});
+// signUpButton.addEventListener('click', () => {
+// 	container.classList.add("right-panel-active");
+// });
 
-signInButton.addEventListener('click', () => {
-	container.classList.remove("right-panel-active");
-});
+// signInButton.addEventListener('click', () => {
+// 	container.classList.remove("right-panel-active");
+// });
 
 const edit=document.getElementById('edit');
 const delet=document.getElementById('delete');

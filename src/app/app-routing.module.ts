@@ -15,6 +15,8 @@ import { AdminUpdateComponent } from './admin-update/admin-update.component';
 import { AbsenceListComponent } from './absence-list/absence-list.component';
 import { AuthGuard } from './services/auth.guard';
 import { MessagesComponent } from './messages/messages.component';
+import { ForgetPasswordComponent } from './forget-password/forget-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 const routes: Routes = [
 { path: '', redirectTo:'/welcome',pathMatch:'full' },
@@ -30,6 +32,8 @@ const routes: Routes = [
 { path: 'absence-list', component:AbsenceListComponent,canActivate: [AuthGuard]},
 { path: 'update/:id',component:UpdateComponent},
 { path: 'Send-email',component:MessagesComponent,canActivate: [AuthGuard]},
+{ path: 'forgot-password',component:ForgetPasswordComponent},
+{ path: 'reset-password',component:ResetPasswordComponent},
 { path: 'csv-file',component:CsvFileComponent},
 { path: '**', component:NotfoundComponent }
 ];

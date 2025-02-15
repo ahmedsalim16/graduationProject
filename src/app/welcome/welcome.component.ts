@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { SharedService } from '../services/shared.service';
 import {  Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -11,8 +11,8 @@ import { AuthService } from '../services/auth.service';
   styleUrl: './welcome.component.css'
 })
 export class WelcomeComponent implements OnInit {
-constructor(private shared:SharedService,private router:Router,private http:HttpClient,private authService:AuthService){}
-
+constructor(private shared:SharedService,private router:Router,private http:HttpClient,private authService:AuthService,private cdr: ChangeDetectorRef){}
+isRightPanelActive = false;
 username:string='';
 passWord:string='';
 
@@ -64,6 +64,15 @@ passWord:string='';
     
 
   
+  }
+  activateRightPanel() {
+    this.isRightPanelActive = true;
+    this.cdr.detectChanges(); // إجبار Angular على إعادة التحديث
+  }
+
+  deactivateRightPanel() {
+    this.isRightPanelActive = false;
+    this.cdr.detectChanges();
   }
 
 }

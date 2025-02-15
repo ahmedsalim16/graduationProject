@@ -3,7 +3,7 @@ import { Component, Injectable } from '@angular/core';
 import path from 'path';
 import { StudentComponent } from '../student/student.component';
 import { RouterLink } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
 import { ApiResponse } from '../api';
 
 @Injectable({
@@ -167,6 +167,23 @@ export class SharedService {
   sendEmail(emailData: any) {
     return this.http.post('https://school-api.runasp.net/api/Email', emailData,{ responseType: 'text' });
   }
+
+  forgotPassword(email: string): Observable<any> {
+    const body = {
+      email: email,
+      clientUrl: 'http://localhost:4200/reset-password'  // ضع الرابط الفعلي لصفحة إعادة التعيين
+    };
+    return this.http.post(`https://school-api.runasp.net/api/Account/forgotPassword`, body);
+  }
+
+  resetPassword(data: any): Observable<any> {
+    return this.http.post(`https://school-api.runasp.net/api/Account/resetPassword`, data,{ responseType: 'text' }).pipe(
+      catchError((error) => {
+        console.error('Reset Password API Error:', error);
+        return throwError(error);
+      })
+    );
+  }
   // search(search:string){
   //   return this.http.get(this.Url+`Search?searchValue=${search}`)
   // }
@@ -179,4 +196,3 @@ export class SharedService {
   //   }
   // }
 }
-
