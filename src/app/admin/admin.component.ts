@@ -55,7 +55,7 @@ export class AdminComponent implements OnInit {
        
          }
          Swal.fire({
-                   position: "top-end",
+                   position: "center",
                    icon: "success",
                    title: "admin added Successfull",
                    showConfirmButton: false,
@@ -66,7 +66,7 @@ export class AdminComponent implements OnInit {
        },
        err=>{
         Swal.fire({
-                  position: "top-end",
+                  position: "center",
                   icon: "error",
                   title: "error while adding an Admin",
                   showConfirmButton: false,

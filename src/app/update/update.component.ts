@@ -92,7 +92,7 @@ export class UpdateComponent implements OnInit{
     this._shared.updateStudent(studentData).subscribe(
       (res) => {
         Swal.fire({
-                                   position: "top-end",
+                                   position: "center",
                                    icon: "success",
                                    title: "Student updated Successfull",
                                    showConfirmButton: false,
@@ -103,7 +103,7 @@ export class UpdateComponent implements OnInit{
       },
       (err) => {
         Swal.fire({
-                                   position: "top-end",
+                                   position: "center",
                                    icon: "error",
                                    title: "can't update student",
                                    showConfirmButton: false,

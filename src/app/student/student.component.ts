@@ -71,7 +71,7 @@ export class StudentComponent implements OnInit{
           rfidTag_Id:'',
         };
         Swal.fire({
-          position: 'top-end',
+          position: 'center',
           icon: 'success',
           title: 'Student added successfully',
           showConfirmButton: false,
@@ -81,7 +81,7 @@ export class StudentComponent implements OnInit{
       },
       (err) => {
         Swal.fire({
-          position: 'top-end',
+          position: 'center',
           icon: 'error',
           title: err.error?.message || 'An error occurred',
           showConfirmButton: false,

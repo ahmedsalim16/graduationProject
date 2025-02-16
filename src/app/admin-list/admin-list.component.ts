@@ -134,6 +134,19 @@ delete(id: string) {
   }
 
   downloadCsvFile() {
+    const formattedAdmins = this.admins.map(admin => ({
+      ID: admin.id,
+      UserName: admin.userName,
+      Email: admin.email,
+      FirstName: admin.firstName,
+      LastName: admin.lastName,
+      PhoneNumber: admin.phoneNumber,
+      Gender: admin.gender,
+      Role: admin.role,
+      CreatedOn: this.formatDateTime(admin.createdOn) // تحويل التاريخ
+    }));
+
+
       var options = {
         fieldSeparator: ',',
         quoteStrings: '"',
@@ -156,6 +169,10 @@ delete(id: string) {
         ],
       };
   
-      new ngxCsv(this.admins, 'admins-data', options);
+      new ngxCsv(formattedAdmins, 'admins-data', options);
+    }
+    formatDateTime(dateString: string): string {
+      const date = new Date(dateString);
+      return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
     }
 }

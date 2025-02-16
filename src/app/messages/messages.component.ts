@@ -33,7 +33,7 @@ export class MessagesComponent implements OnInit{
     sendEmail() {
       if (!this.emailData.toEmail || !this.emailData.subject || !this.emailData.body) {
         Swal.fire({
-          position: 'top-end',
+          position: 'center',
           icon: 'error',
           title: 'Please Fill all fields',
           showConfirmButton: false,
@@ -45,7 +45,7 @@ export class MessagesComponent implements OnInit{
       this.shared.sendEmail(this.emailData).subscribe({
         next: (response) => {
           Swal.fire({
-                    position: 'top-end',
+                    position: 'center',
                     icon: 'success',
                     title: 'Message Sent successfully',
                     showConfirmButton: false,
@@ -56,7 +56,7 @@ export class MessagesComponent implements OnInit{
         },
         error: (error) => {
            Swal.fire({
-                    position: 'top-end',
+                    position: 'center',
                     icon: 'error',
                     title: error.error?.message || 'An error occurred',
                     showConfirmButton: false,

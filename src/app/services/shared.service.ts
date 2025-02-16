@@ -171,7 +171,7 @@ export class SharedService {
   forgotPassword(email: string): Observable<any> {
     const body = {
       email: email,
-      clientUrl: 'http://localhost:4200/reset-password'  // ضع الرابط الفعلي لصفحة إعادة التعيين
+      clientUrl: 'https://student-7e31f.web.app/reset-password'  // ضع الرابط الفعلي لصفحة إعادة التعيين
     };
     return this.http.post(`https://school-api.runasp.net/api/Account/forgotPassword`, body);
   }

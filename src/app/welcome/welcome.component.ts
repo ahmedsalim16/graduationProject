@@ -38,7 +38,7 @@ showConfirmPassword: boolean = false;
          sessionStorage.setItem('token',res.token);
          this.authService.setAdminId(res.userId);
         Swal.fire({
-          position: "top-end",
+          position: "center",
           icon: "success",
           title: "Loggin Successfull",
           showConfirmButton: false,
@@ -52,7 +52,7 @@ showConfirmPassword: boolean = false;
   
       err=>{
         Swal.fire({
-          position: "top-end",
+          position: "center",
           icon: "error",
           title: "wrong username or password",
           showConfirmButton: false,

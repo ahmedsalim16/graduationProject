@@ -202,11 +202,26 @@ delete(id: string) {
         'City',
         'Street',
         'BirthDate',
-        'Rfid-Tag',]
+        'RfidTag',
+        ]
     };
+    const formattedStudents = this.student.map(s => ({
+      ID: s.id,
+      FullName: s.fullName,
+      Gender: s.gender,
+      Grade: s.grade,
+      City: s.city,
+      Street: s.street,
+      BirthDate: s.birthDate ? new Date(s.birthDate).toISOString().split('T')[0] : '', // YYYY-MM-DD
+      RfidTag: s.rfidTag_Id ,
+      
+    }));
+  
    
-    new ngxCsv(this.student, 'student-list', options);
+    new ngxCsv(formattedStudents, 'student-list', options);
   }
+
+ 
 
   // search(searchtext: string=''){
   //   this.shared.search(searchtext).subscribe(
