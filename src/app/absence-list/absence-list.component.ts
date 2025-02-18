@@ -103,27 +103,47 @@ export class AbsenceListComponent {
    * تحميل ملف CSV يحتوي على بيانات الطلاب
    */
   downloadCsvFile() {
-    var options = {
+    var options = { 
       fieldSeparator: ',',
       quoteStrings: '"',
       decimalseparator: '.',
-      showLabels: true,
+      showLabels: true, 
       showTitle: false,
-      title: 'Absence Data',
+      title: 'Students data',
       useBom: true,
-      headers: [
-        'ID',
+      headers: ['ID',
         'FullName',
         'Gender',
         'Grade',
         'City',
         'Street',
         'BirthDate',
-        'Rfid-Tag',
-        
-      ],
+        'RfidTag',
+        ]
     };
-
-    new ngxCsv(this.student, 'absence-data', options);
+    const formattedStudents = this.student.map(s => ({
+      ID: s.id,
+      FullName: s.fullName,
+      Gender: s.gender,
+      Grade: s.grade,
+      City: s.city,
+      Street: s.street,
+      BirthDate: s.birthDate ? new Date(s.birthDate).toISOString().split('T')[0] : '', // YYYY-MM-DD
+      RfidTag: s.rfidTag_Id ,
+      
+    }));
+  
+   
+    new ngxCsv(formattedStudents, 'student-list', options);
+  }
+  isStudentOpen = false;
+  isAdminOpen = false;
+  
+  toggleDropdown(menu: string) {
+    if (menu === 'student') {
+      this.isStudentOpen = !this.isStudentOpen;
+    } else if (menu === 'admin') {
+      this.isAdminOpen = !this.isAdminOpen;
+    }
   }
 }

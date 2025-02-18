@@ -5,6 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 import { SharedService } from '../services/shared.service';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
@@ -12,7 +13,7 @@ import Swal from 'sweetalert2';
   templateUrl: './messages.component.html',
   styleUrl: './messages.component.css',
   standalone:true,
-  imports:[FormsModule,RouterModule],
+  imports:[FormsModule,RouterModule,CommonModule],
 })
 
 export class MessagesComponent implements OnInit{
@@ -79,6 +80,16 @@ export class MessagesComponent implements OnInit{
   
     logout(): void {
       this.authService.logout(); // استدعاء وظيفة تسجيل الخروج من الخدمة
+    }
+    isStudentOpen = false;
+    isAdminOpen = false;
+    
+    toggleDropdown(menu: string) {
+      if (menu === 'student') {
+        this.isStudentOpen = !this.isStudentOpen;
+      } else if (menu === 'admin') {
+        this.isAdminOpen = !this.isAdminOpen;
+      }
     }
   }
   

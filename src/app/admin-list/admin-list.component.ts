@@ -175,4 +175,14 @@ delete(id: string) {
       const date = new Date(dateString);
       return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
     }
+    isStudentOpen = false;
+    isAdminOpen = false;
+    
+    toggleDropdown(menu: string) {
+      if (menu === 'student') {
+        this.isStudentOpen = !this.isStudentOpen;
+      } else if (menu === 'admin') {
+        this.isAdminOpen = !this.isAdminOpen;
+      }
+    }
 }

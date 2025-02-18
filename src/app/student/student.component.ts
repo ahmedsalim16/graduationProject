@@ -115,7 +115,17 @@ export class StudentComponent implements OnInit{
     console.log(this.StudentImg)
   }
   
-  
+  isStudentOpen = false;
+isAdminOpen = false;
+
+toggleDropdown(menu: string) {
+  if (menu === 'student') {
+    this.isStudentOpen = !this.isStudentOpen;
+  } else if (menu === 'admin') {
+    this.isAdminOpen = !this.isAdminOpen;
+  }
+}
+
 }
 
 

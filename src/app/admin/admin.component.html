@@ -1,46 +1,53 @@
 <div class="d-flex">
     <!-- Sidebar -->
-    <div id="sidebar"  style="width: 250px;">
+    <div id="sidebar">
       <div class="logo">
-        <i class="fa-solid fa-graduation-cap animated-icon" style="color: #fff;cursor: pointer"[routerLink]='["/Dashboard"]'></i>
+        <i class="fa-solid fa-graduation-cap animated-icon" style="color: #fff; cursor: pointer" [routerLink]="['/Dashboard']"></i>
         <h4>SMART</h4>
         <h5>TRACK</h5>
       </div>
-      <div  id="list">
+  
+      <div id="list">
+        <!-- Dashboard -->
         <div class="dash">
           <i class="fa-solid fa-chart-line" style="color: #fff;"></i>
-          <a routerLink="/Dashboard" class="list-group-item list-group-item-action ">Dashboard</a>
+          <a routerLink="/Dashboard" class="list-group-item list-group-item-action">Dashboard</a>
         </div>
-        <div class="dash">
+  
+        <!-- Student Dropdown -->
+        <div class="dash" (click)="toggleDropdown('student')" style="cursor: pointer;">
           <i class="fa-solid fa-user" style="color: #ffffff;"></i>
-          <a routerLink="/student-list" class="list-group-item list-group-item-action ">Student List</a>
+          <span class="list-group-item list-group-item-action">Student</span>
+          <i class="fa-solid fa-chevron-right dropdown-arrow" [class.rotate]="isStudentOpen"></i>
         </div>
-        <div class="dash" >
-          <i class="fa-solid fa-user-plus" style="color: #ffffff;"></i>
-          <a routerLink="/student" active class="list-group-item list-group-item-action ">Add Student</a>
+        <div class="dropdown-content" [ngClass]="{'show': isStudentOpen}">
+          <a routerLink="/student" class="list-group-item" >Add Student</a>
+          <a routerLink="/student-list" class="list-group-item">Student List</a>
+          <a routerLink="/absence-list" class="list-group-item">Absence List</a>
         </div>
-        <div class="dash active" >
+  
+        <!-- Admin Dropdown -->
+        <div class="dash" (click)="toggleDropdown('admin')" style="cursor: pointer;">
           <i class="fa-solid fa-user-shield" style="color: #ffffff;"></i>
-          <a routerLink="/Add-admin" active class="list-group-item list-group-item-action ">Add Admin</a>
+          <span class="list-group-item list-group-item-action">Admin</span>
+          <i class="fa-solid fa-chevron-right dropdown-arrow" [class.rotate]="isAdminOpen"></i>
         </div>
-        <div class="dash" >
-          <i class="fa-solid fa-users-line" style="color: #ffffff;"></i>
-          <a routerLink="/admin-list" active class="list-group-item list-group-item-action ">Admin List</a>
+        <div class="dropdown-content" [ngClass]="{'show': isAdminOpen}">
+          <a routerLink="/Add-admin" class="list-group-item active" style="opacity: 1;">Add Admin</a>
+          <a routerLink="/admin-list" class="list-group-item">Admin List</a>
         </div>
-        <div class="dash " >
-          <i class="fa-solid fa-children" style="color: #ffffff;"></i>
-          <a routerLink="/absence-list" active class="list-group-item list-group-item-action ">absence List</a>
-        </div>
-        <div class="dash " >
+  
+        <!-- Send Emails -->
+        <div class="dash">
           <i class="fa-solid fa-paper-plane" style="color: #ffffff;"></i>
-          <a routerLink="/Send-email" active class="list-group-item list-group-item-action ">Send Emails</a>
+          <a routerLink="/Send-email" class="list-group-item list-group-item-action">Send Report</a>
         </div>
+  
+        <!-- Logout -->
         <div class="dash" style="cursor: pointer;">
           <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i>
-          <a (click)="logout()" id="Logout" class="list-group-item list-group-item-action ">Logout</a>
+          <a (click)="logout()" id="Logout" class="list-group-item list-group-item-action">Logout</a>
         </div>
-       
-       
       </div>
     </div>
   
@@ -127,7 +134,7 @@
 </div> -->
 
           <div class="col-2" id="save">
-            <button style="background-color: #191BA9;align-items: center;" class="form-control mb-5  text-light mt-5" type="button" (click)="addAdmin()">Save</button>
+            <button style="background-color: #00015d;align-items: center;" class="form-control mb-5  text-light mt-5" type="button" (click)="addAdmin()">Save</button>
          </div>
          
          

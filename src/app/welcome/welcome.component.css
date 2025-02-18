@@ -137,7 +137,7 @@ button.ghost {
     border-bottom: 1.5px solid #aaaaaa;
 }
 .input-box input:focus{
-    border-color: #191BA9;
+    border-color: #00015d;
 }
 .input-box i{
     position: absolute;
@@ -287,7 +287,7 @@ input {
 }
 
 .overlay {
-	background-color: #191BA9;
+	background-color: #00015d;
 	
 	background-repeat: no-repeat;
 	background-size: cover;

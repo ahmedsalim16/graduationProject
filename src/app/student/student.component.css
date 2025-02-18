@@ -2,29 +2,45 @@
   font-family:sans-serif;
 }
 #sidebar {
-    background-color: #191BA9;
-    color: white;
-  }
+  width: 250px;
+  background-color: #00015d;
+  color: white;
+  height: 100vh;
+  overflow-y: auto;
+}
 #list{
-    background-color: transparent;
-    margin-top: -10px;
-    font-size: 21px;
-    font-weight: bold;
-    padding: 41px;
-    padding-top: 0px;
-  }
+  background-color: transparent;
+  margin-top: 12px;
+  font-size: 17px;
+  font-weight: bold;
+  padding: 41px;
+  padding-top: 0px;
+}
 #list a{
     padding-top: 25px;
     left: 15px;
+   
+}
+#list a:hover{
+  opacity: 1;
 }
 
 .dash i{
-    position: relative;
-    top: 57px;
-    left: -22px;
-    font-size: 25px;
+  position: relative;
+  top: 8px;
+  left: -8px;
+  font-size: 25px;
 }
 .dash{
+  opacity: .5;
+  padding-top: 43px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between; /* يجعل السهم في أقصى اليمين */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  
+}
+.dropdown-content a{
   opacity: .5;
 }
 .dash:hover{
@@ -114,4 +130,28 @@ button:active {
 .animated-icon {
   animation: bounceAnimation 0.6s ease-in-out infinite;
   animation-delay: 3s;
+}
+
+
+
+/* السهم بجانب النص وليس تحته */
+.dropdown-arrow {
+  float: right;
+  transition: transform 0.3s;
+}
+
+/* دوران السهم عند فتح القائمة */
+.rotate {
+  transform: rotate(90deg);
+}
+
+/* تصميم القوائم المنسدلة */
+.dropdown-content {
+  display: none;
+  padding-left: 20px;
+  background-color: transparent;
+}
+
+.show {
+  display: block;
 }

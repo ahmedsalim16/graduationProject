@@ -221,7 +221,16 @@ delete(id: string) {
     new ngxCsv(formattedStudents, 'student-list', options);
   }
 
- 
+  isStudentOpen = false;
+  isAdminOpen = false;
+  
+  toggleDropdown(menu: string) {
+    if (menu === 'student') {
+      this.isStudentOpen = !this.isStudentOpen;
+    } else if (menu === 'admin') {
+      this.isAdminOpen = !this.isAdminOpen;
+    }
+  }
 
   // search(searchtext: string=''){
   //   this.shared.search(searchtext).subscribe(

@@ -90,5 +90,16 @@ export class AdminComponent implements OnInit {
 
     logout(): void {
       this.authService.logout(); // استدعاء وظيفة تسجيل الخروج من الخدمة
+ 
+    }
+    isStudentOpen = false;
+    isAdminOpen = false;
+    
+    toggleDropdown(menu: string) {
+      if (menu === 'student') {
+        this.isStudentOpen = !this.isStudentOpen;
+      } else if (menu === 'admin') {
+        this.isAdminOpen = !this.isAdminOpen;
+      }
     }
 }
