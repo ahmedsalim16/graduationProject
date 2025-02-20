@@ -1,6 +1,6 @@
 <div class="d-flex">
     <!-- Sidebar -->
-    <div id="sidebar">
+    <div id="sidebar" [ngClass]="{'hidden': !isSidebarOpen}">
       <div class="logo">
         <i class="fa-solid fa-graduation-cap animated-icon" style="color: #fff; cursor: pointer" [routerLink]="['/Dashboard']"></i>
         <h4>SMART</h4>
@@ -54,6 +54,7 @@
     <!-- Main Content -->
     <div id="page-content-wrapper" class="flex-grow-1">
         <div class="header">
+          <button id="toggle-sidebar" class="menu-btn" (click)="toggleSidebar()">☰</button>
           <h2 id="head">Add Admin</h2>
           <img src="../../assets/profile.png" alt="Profile" 
       (click)="navigateToAdminUpdate()" 

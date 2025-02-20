@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { SharedService } from '../services/shared.service';
 import { text } from 'stream/consumers';
 import { Loginmodel } from '../loginmodel';
@@ -18,7 +18,7 @@ export class StudentComponent implements OnInit{
   public login:Loginmodel
   adminId: string | null = null;
   admin:any={};
-  constructor(public shared:SharedService,public authService:AuthService,private router: Router,private act: ActivatedRoute){
+  constructor(public shared:SharedService,public authService:AuthService,private router: Router,private act: ActivatedRoute,private renderer: Renderer2, private el: ElementRef){
    this.login=new Loginmodel();
   }
   ngOnInit(){
@@ -126,6 +126,25 @@ toggleDropdown(menu: string) {
   }
 }
 
+// isSidebarOpen: boolean = true; // افتراضيًا، القائمة مفتوحة
+
+// toggleSidebar() {
+//   this.isSidebarOpen = !this.isSidebarOpen;
+// }
+
+ isSidebarHidden: boolean = false;
+
+ toggleSidebar(): void {
+    this.isSidebarHidden = !this.isSidebarHidden;
+    
+    if (this.isSidebarHidden) {
+      this.renderer.addClass(document.body, 'sidebar-hidden');
+    } else {
+      this.renderer.removeClass(document.body, 'sidebar-hidden');
+    }
+  }
+
 }
+
 
 

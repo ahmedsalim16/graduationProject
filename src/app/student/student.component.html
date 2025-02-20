@@ -115,8 +115,10 @@
 
 
 <div class="d-flex">
+
+
   <!-- Sidebar -->
-  <div id="sidebar">
+  <div id="sidebar" [class.hidden]="isSidebarHidden">
     <div class="logo">
       <i class="fa-solid fa-graduation-cap animated-icon" style="color: #fff; cursor: pointer" [routerLink]="['/Dashboard']"></i>
       <h4>SMART</h4>
@@ -175,6 +177,7 @@
   <!-- Main Content -->
   <div id="page-content-wrapper" class="flex-grow-1">
     <div class="header">
+      <button id="toggle-sidebar" class="menu-btn" (click)="toggleSidebar()">☰</button>
       <h2 id="head">Add Students</h2>
       <img src="../../assets/profile.png" alt="Profile" 
       (click)="navigateToAdminUpdate()" 
@@ -234,9 +237,11 @@
           <label for="inputState" class="form-label">rfidTag_Id</label>
           <input [(ngModel)]="student.rfidTag_Id"  type="text" title="image" placeholder="rfidTag_Id" class="form-control m-1">
       </div>
-      <div class="col-2" id="save">
-         <button style="background-color: #00015d;" class="form-control mb-5  text-light mt-5" type="button" (click)="addStudent()">Save</button>
-      </div>
+      <div class="col-12 d-flex justify-content-center">
+        <button style="background-color: #00015d; :hover{scale: 1.1}; width: 80px;" class="btn btn-primary text-light mt-3" 
+        type="button" (click)="addStudent()">Save</button>
+     </div>
+     
      
   </div> 
 </div>

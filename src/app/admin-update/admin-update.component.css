@@ -59,11 +59,21 @@
     font-weight: bold;
   }
   #edit{
-    position: relative;
     width: 200px;
     height: 50px;
-    top: 450px;
-    right: 300px;
+    margin-top: 20px; /* إضافة هامش علوي */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    position: absolute;
+    right: 10%;
+    bottom: 20px;
   
   }
   .col-3{
@@ -102,3 +112,74 @@
     transform: scale(0.95);
   }  
     
+
+  @media (max-width: 768px) {
+    #sidebar {
+      width: 60px;
+      height: 145vh; /* تقليل العرض */
+      transform: translateX(0); /* التأكد من أنه ظاهر */
+      z-index: 1000;
+      overflow: hidden; /* إخفاء المحتوى الزائد */
+      transition: width 0.3s ease-in-out; /* تأثير لطيف عند الفتح */
+    }
+    #edit {
+      width: 97px;
+      height: 30px;
+      font-size: 14px;
+      transform: translateX(50%);
+      bottom: -337px; /* تقليل المسافة من الأسفل */
+    }
+   
+  
+    #sidebar:hover {
+      width: 180px; /* تكبيره عند التمرير */
+    }
+  
+    #page-content-wrapper {
+      margin-left: 60px; /* تعويض تصغير الـ sidebar */
+    }
+  
+    .sidebar-open {
+      transform: translateX(0);
+    }
+    #sidebar.hidden {
+      transform: translateX(-100%);
+    }
+  
+    #page-content-wrapper {
+      margin-left: 60px;
+      transition: margin-left 0.3s ease-in-out;
+    }
+  
+    #page-content-wrapper.full-width {
+      margin-left: 0;
+    }
+  
+    .header {
+      justify-content: center;
+      text-align: center;
+    }
+  
+    .menu-btn {
+      display: block;
+      margin-bottom: 10px;
+    }
+  
+    .col-3,
+    .col-5,
+    .col-4,
+    .col-md-3 {
+      flex: 1 1 100%;
+    }
+  
+    img {
+      left: 0;
+    }
+  
+    input,
+    textarea,
+    select {
+      font-size: 12px;
+      padding: 6px;
+    }
+  }

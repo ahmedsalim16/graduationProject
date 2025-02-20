@@ -76,4 +76,9 @@ export class DashboardComponent implements OnInit {
       this.isAdminOpen = !this.isAdminOpen;
     }
   }
+  isSidebarOpen: boolean = true; // افتراضيًا، القائمة مفتوحة
+
+toggleSidebar() {
+  this.isSidebarOpen = !this.isSidebarOpen;
+}
 }

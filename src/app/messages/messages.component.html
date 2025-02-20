@@ -1,6 +1,6 @@
 <div class="d-flex">
     <!-- Sidebar -->
-    <div id="sidebar">
+    <div id="sidebar" [ngClass]="{'hidden': !isSidebarOpen}">
       <div class="logo">
         <i class="fa-solid fa-graduation-cap animated-icon" style="color: #fff; cursor: pointer" [routerLink]="['/Dashboard']"></i>
         <h4>SMART</h4>
@@ -54,6 +54,7 @@
     <!-- Main Content -->
     <div id="page-content-wrapper" class="flex-grow-1">
         <div class="header">
+          <button id="toggle-sidebar" class="menu-btn" (click)="toggleSidebar()">☰</button>
           <h2 id="head">Send Email</h2>
           <img src="../../assets/profile.png" alt="Profile" 
       (click)="navigateToAdminUpdate()" 
@@ -78,7 +79,7 @@
         
 
           <div class="col-2" id="save">
-            <button style="background-color: #00015d;align-items: center;" class="form-control mb-5  text-light mt-5" type="submit">Send</button>
+            <button style="background-color: #00015d;align-items: center;width: max-content;" class="form-control mb-5  text-light mt-5" type="submit">Send</button>
          </div>
          
           </form>

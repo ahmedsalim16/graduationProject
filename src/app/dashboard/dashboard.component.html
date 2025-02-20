@@ -1,6 +1,6 @@
 <div class="d-flex">
     <!-- Sidebar -->
-    <div id="sidebar">
+    <div id="sidebar" [ngClass]="{'hidden': !isSidebarOpen}"> 
       <div class="logo">
         <i class="fa-solid fa-graduation-cap animated-icon" style="color: #fff; cursor: pointer" [routerLink]="['/Dashboard']"></i>
         <h4>SMART</h4>
@@ -54,6 +54,7 @@
     <!-- Main Content -->
     <div id="page-content-wrapper" class="flex-grow-1">
       <div class="header">
+        <button id="toggle-sidebar" class="menu-btn" (click)="toggleSidebar()">☰</button>
         <!-- search bar --> 
         <div class="form-outline mt-3 p-5">
           <h1 id="Welcome" >Welcome Admin!</h1>

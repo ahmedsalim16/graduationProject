@@ -1,6 +1,14 @@
 
 
+document.addEventListener("DOMContentLoaded", function () {
+  const sidebar = document.getElementById("sidebar");
+  const pageContent = document.getElementById("page-content-wrapper");
+  const toggleButton = document.getElementById("toggle-sidebar");
 
+  toggleButton.addEventListener("click", function () {
+    document.body.classList.toggle("sidebar-hidden");
+  });
+});
 
 // document.addEventListener("DOMContentLoaded", function () {
 //   const pwShowHide = document.querySelectorAll(".fa-eye-slash");

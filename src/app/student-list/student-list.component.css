@@ -64,12 +64,28 @@ img:hover{
 }
 
 
+body {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+}
+
 #sidebar {
   width: 250px;
+  min-width: 250px;
   background-color: #00015d;
   color: white;
   height: 100vh;
   overflow-y: auto;
+  transition: transform 0.3s ease-in-out;
+}
+.hidden {
+  transform: translateX(-100%);
+}
+.menu-btn{
+  border: none;
+    color: #fff;
+    background-color: #0a469f;
 }
 #list{
   background-color: transparent;
@@ -127,6 +143,10 @@ img:hover{
   #page-content-wrapper {
       width: 100%;
       margin-left: 30px;
+      transition: margin-left 0.3s ease-in-out;
+    }
+    .sidebar-hidden #page-content-wrapper {
+      margin-left: 0 !important;
     }
   
     .mt-5 {
@@ -270,4 +290,87 @@ img:hover{
 
 .show {
   display: block;
+}
+
+@media (max-width: 768px) {
+  #sidebar {
+    width: 60px;
+    height: 145vh; /* تقليل العرض */
+    transform: translateX(0); /* التأكد من أنه ظاهر */
+    z-index: 1000;
+    overflow: hidden; /* إخفاء المحتوى الزائد */
+    transition: width 0.3s ease-in-out; /* تأثير لطيف عند الفتح */
+  }
+ .buttons{
+  display: flex;
+    align-items: center;
+    position: relative;
+    left: 70px;
+}
+
+  #sidebar:hover {
+    width: 180px; /* تكبيره عند التمرير */
+  }
+
+  #page-content-wrapper {
+    margin-left: 60px; /* تعويض تصغير الـ sidebar */
+  }
+
+  .sidebar-open {
+    transform: translateX(0);
+  }
+  #sidebar.hidden {
+    transform: translateX(-100%);
+  }
+
+  #page-content-wrapper {
+    margin-left: 60px;
+    transition: margin-left 0.3s ease-in-out;
+  }
+
+  #page-content-wrapper.full-width {
+    margin-left: 0;
+  }
+
+  .header {
+    justify-content: space-between;
+    text-align: center;
+  }
+  .fa-magnifying-glass::before{
+    position: relative;
+    bottom: -30px;
+    left: -75px;
+
+  }
+
+  .menu-btn {
+    display: block;
+    
+  }
+
+  .col-3,
+  .col-5,
+  .col-4,
+  .col-md-3 {
+    flex: 1 1 100%;
+  }
+
+  img {
+    left: 0;
+  }
+
+  input,
+  textarea,
+  select {
+    font-size: 12px;
+    padding: 6px;
+  }
+  @media (max-width: 425px) {
+    .fa-magnifying-glass::before{
+      position: relative;
+      bottom: -30px;
+      left: -30px;
+  
+    }
+  }
 }

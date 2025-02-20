@@ -1,12 +1,28 @@
 *{
   font-family:sans-serif;
 }
+body {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+}
+
 #sidebar {
   width: 250px;
+  min-width: 250px;
   background-color: #00015d;
   color: white;
   height: 100vh;
   overflow-y: auto;
+  transition: transform 0.3s ease-in-out;
+}
+.hidden {
+  transform: translateX(-100%);
+}
+.menu-btn{
+  border: none;
+    color: #fff;
+    background-color: #0a469f;
 }
 #list{
   background-color: transparent;
@@ -61,9 +77,16 @@
     align-items: center;
   }
   
-#page-content-wrapper {
+  #page-content-wrapper {
+    flex-grow: 1;  /* يجعل العنصر يتمدد */
+    padding: 20px; /* إضافة تباعد داخلي */
+    transition: margin-left 0.3s ease-in-out;
+  }
+  
+  /* عند إخفاء القائمة الجانبية */
+  .sidebar-hidden #page-content-wrapper {
     width: 100%;
-    margin-left: 30px;
+    margin-left: 0 !important;
   }
 
   .mt-5 {
@@ -73,11 +96,7 @@
   margin-top: 30px;
   font-weight: bold;
 }
-#save{
-  position: relative;
-  left: 565px;
 
-}
 .col-3{
   padding: 10px;
 }
@@ -155,3 +174,68 @@ button:active {
 .show {
   display: block;
 }
+
+@media (max-width: 768px) {
+  #sidebar {
+    width: 60px;
+    height: 145vh; /* تقليل العرض */
+    transform: translateX(0); /* التأكد من أنه ظاهر */
+    z-index: 1000;
+    overflow: hidden; /* إخفاء المحتوى الزائد */
+    transition: width 0.3s ease-in-out; /* تأثير لطيف عند الفتح */
+  }
+ 
+
+  #sidebar:hover {
+    width: 180px; /* تكبيره عند التمرير */
+  }
+
+  #page-content-wrapper {
+    margin-left: 60px; /* تعويض تصغير الـ sidebar */
+  }
+
+  .sidebar-open {
+    transform: translateX(0);
+  }
+  #sidebar.hidden {
+    transform: translateX(-100%);
+  }
+
+  #page-content-wrapper {
+    margin-left: 60px;
+    transition: margin-left 0.3s ease-in-out;
+  }
+
+  #page-content-wrapper.full-width {
+    margin-left: 0;
+  }
+
+  .header {
+    justify-content: space-between;
+    text-align: center;
+  }
+
+  .menu-btn {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .col-3,
+  .col-5,
+  .col-4,
+  .col-md-3 {
+    flex: 1 1 100%;
+  }
+
+  img {
+    left: 0;
+  }
+
+  input,
+  textarea,
+  select {
+    font-size: 12px;
+    padding: 6px;
+  }
+}
+
