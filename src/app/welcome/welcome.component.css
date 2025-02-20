@@ -365,3 +365,72 @@ input {
     animation: bounceAnimation 0.6s ease-in-out infinite;
     animation-delay: 3s;
 }
+
+@media (max-width: 768px) {
+    .container {
+        width: 90vw;
+        top: 5vh;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    input {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    button {
+        padding: 10px 25px;
+        font-size: 12px;
+    }
+
+    .input-box i {
+        font-size: 16px;
+    }
+	.logo2{
+		bottom: 52vh;
+		right: 147px;
+	}
+}
+
+/* تحسين إضافي للجوالات الصغيرة جدًا */
+@media (max-width: 480px) {
+    .container {
+        width: 96vw;
+        height: 92vh;
+		display: contents;
+    }
+	body{
+		flex-direction: row;
+	}
+
+    h1 {
+        font-size: 18px;
+    }
+
+    input {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    button {
+        padding: 8px 20px;
+        font-size: 10px;
+    }
+	.input-box{
+		position: relative;
+		margin-top: 30px;
+		height: 40px;
+		width: 235%;
+	}
+	a{
+		font-size: 10px;
+	}
+
+    .input-box i {
+        font-size: 14px;
+    }
+}

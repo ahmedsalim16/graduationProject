@@ -26,3 +26,26 @@
     
 
 }
+
+
+@media (max-width :1024px){
+    .container{
+        width: max-content;
+        height: max-content;
+       
+        position: static;
+      }
+}
+@media (max-width :768px){
+    .container{
+        width: max-content;
+        height: max-content;
+        margin-left: 24px;
+        position: static;
+      }
+}
+@media (max-width: 480px) {
+    .container{
+        margin-left: 253px;
+    }
+}

@@ -124,3 +124,25 @@
   overflow: hidden; /* لإخفاء الزوايا الزائدة */
 }
 
+@media (max-width: 1024px) {
+  .container{
+    width: 55vw;
+    position: static;
+    margin-top: 10px;
+  }
+}
+@media (max-width: 768px) {
+  .container{
+    width: 72vw;
+    margin-top: 10px;
+    position: static;
+  }
+}
+@media (max-width: 480px) {
+  .container{
+    width: 90vw;
+    margin-top: 10px;
+    margin-left: 40px;
+    position: static;
+  }
+}
