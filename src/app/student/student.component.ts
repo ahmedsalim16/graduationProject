@@ -132,18 +132,12 @@ toggleDropdown(menu: string) {
 //   this.isSidebarOpen = !this.isSidebarOpen;
 // }
 
- isSidebarHidden: boolean = false;
+ 
+  isSidebarOpen: boolean = true; // افتراضيًا، القائمة مفتوحة
 
- toggleSidebar(): void {
-    this.isSidebarHidden = !this.isSidebarHidden;
-    
-    if (this.isSidebarHidden) {
-      this.renderer.addClass(document.body, 'sidebar-hidden');
-    } else {
-      this.renderer.removeClass(document.body, 'sidebar-hidden');
-    }
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
   }
-
 }
 
 

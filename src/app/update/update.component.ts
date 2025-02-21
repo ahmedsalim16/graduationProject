@@ -54,7 +54,7 @@ export class UpdateComponent implements OnInit{
           }
         }
         
-        console.log('Student data fetched successfully:', data);
+        console.log('Student data fetched successfully:', this.student);
       },
       (error) => {
         console.error('Error fetching student data:', error);

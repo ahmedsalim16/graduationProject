@@ -22,7 +22,7 @@ pagination: any;
   searchtext:string='';
   pagesize:number=20;
   totalItems:number=20;
-  itemsPerPage:number=5;
+  itemsPerPage:number=6;
   pageNumber:number=1;
   count:number=0;
   gender: number | null = null; // لتخزين نوع الجنس المختار
@@ -203,6 +203,7 @@ delete(id: string) {
         'Street',
         'BirthDate',
         'RfidTag',
+        'createdOn'
         ]
     };
     const formattedStudents = this.student.map(s => ({
@@ -214,6 +215,7 @@ delete(id: string) {
       Street: s.street,
       BirthDate: s.birthDate ? new Date(s.birthDate).toISOString().split('T')[0] : '', // YYYY-MM-DD
       RfidTag: s.rfidTag_Id ,
+      createdOn: s.createdOn ,
       
     }));
   

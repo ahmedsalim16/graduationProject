@@ -19,9 +19,9 @@ export class AuthService {
     return !!localStorage.getItem('token'); // التحقق من وجود التوكن
   }
 
-  setAdminId(id: string): void {
-    this.userId = id;
-    localStorage.setItem('adminId', id); // تخزين ID في localStorage
+  setAdminId(Id: string): void {
+    this.userId = Id;
+    localStorage.setItem('adminId', Id); // تخزين ID في localStorage
   }
 
   // الحصول على الـ ID

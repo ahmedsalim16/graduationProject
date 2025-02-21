@@ -47,15 +47,30 @@ body {
 
 #sidebar {
   width: 250px;
-  min-width: 250px;
+  
   background-color: #00015d;
   color: white;
   height: 100vh;
-  overflow-y: auto;
+  overflow: hidden;
   transition: transform 0.3s ease-in-out;
 }
-.hidden {
-  transform: translateX(-100%);
+#sidebar.hidden {
+  width: 80px;
+  transform: translateX(-20%);
+  
+}
+
+/* إخفاء النصوص عند الإغلاق */
+#sidebar.hidden .list-group-item,
+#sidebar.hidden h4,
+#sidebar.hidden h5 {
+  display: none;
+}
+
+/* التأكد من أن الأيقونات تبقى مرئية */
+#sidebar i {
+  font-size: 24px;
+  transition: font-size 0.3s ease-in-out;
 }
 .menu-btn{
   border: none;
@@ -225,30 +240,12 @@ body {
 
 @media (max-width: 768px) {
   #sidebar {
-    width: 60px;
-    height: 145vh; /* تقليل العرض */
-    transform: translateX(0); /* التأكد من أنه ظاهر */
-    z-index: 1000;
-    overflow: hidden; /* إخفاء المحتوى الزائد */
-    transition: width 0.3s ease-in-out; /* تأثير لطيف عند الفتح */
-  }
-  .stud{
-    display: flex;
-    justify-content: space-around;
-    border-radius: 12px;
-    width: 86%;
-    position: relative;
-    height: 153px;
-    left: 7%;
-    top: -77px;
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-    flex-wrap: wrap;
-  }
-  .chart-container{
     width: max-content;
-    height: max-content;
-    margin-left: 24px;
-    position: static;
+    height: 200vh; /* تقليل العرض */
+    transform: translateX(0); /* التأكد من أنه ظاهر */
+    z-index: 1000; 
+    overflow: visible;/* إخفاء المحتوى الزائد */
+    transition: width 0.3s ease-in-out; /* تأثير لطيف عند الفتح */
   }
  
 
@@ -264,8 +261,31 @@ body {
     transform: translateX(0);
   }
   #sidebar.hidden {
-    transform: translateX(-100%);
+    width: 80px;
+    transform: translateX(-20%);
+    
   }
+  .stud{
+    display: flex;
+    justify-content: space-between;
+    border-radius: 12px;
+    width: max-content;
+    position: relative;
+    height: 153px;
+    left: 2%;
+    top: -77px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    
+  }
+  .chart-container{
+    width: max-content;
+    height: max-content;
+    margin-left: 24px;
+    position: static;
+  }
+ 
+
+  
 
   #page-content-wrapper {
     display: flex;
@@ -282,11 +302,7 @@ body {
 }
 
 /* التأكد من أن القائمة الجانبية لا تعيق العناصر */
-#sidebar {
-    width: 60px;
-    height: auto;
-    z-index: 1000;
-}
+
 
 #sidebar:hover {
     width: 180px;
@@ -322,5 +338,25 @@ body {
   select {
     font-size: 12px;
     padding: 6px;
+  }
+  .user{
+    padding:8px
+  }
+}
+
+@media (max-width: 480px) {
+  .stud{
+    display: flex;
+    justify-content: space-between;
+    border-radius: 12px;
+    width: max-content;
+    position: relative;
+    height: 153px;
+    left: 39%;
+    top: -77px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  }
+  .user{
+    padding:5px
   }
 }

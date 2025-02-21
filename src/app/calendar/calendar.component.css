@@ -26,8 +26,8 @@
   .container{
     width: 46%;
     position: relative;
-    bottom: 420px;
-    left: 290px;
+    bottom: 455px;
+    left: 319px;
     
     background-color: #fff;
     border-radius:  8px;
@@ -140,9 +140,9 @@
 }
 @media (max-width: 480px) {
   .container{
-    width: 90vw;
-    margin-top: 10px;
-    margin-left: 40px;
-    position: static;
+    width: 150vw;
+        margin-top: 10px;
+        margin-left: 62vw;
+        position: static;
   }
 }

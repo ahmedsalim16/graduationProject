@@ -3,50 +3,51 @@
     <div id="sidebar" [ngClass]="{'hidden': !isSidebarOpen}">
       <div class="logo">
         <i class="fa-solid fa-graduation-cap animated-icon" style="color: #fff; cursor: pointer" [routerLink]="['/Dashboard']"></i>
-        <h4>SMART</h4>
-        <h5>TRACK</h5>
+        <h4 *ngIf="isSidebarOpen">SMART</h4>
+        <h5 *ngIf="isSidebarOpen">TRACK</h5>
       </div>
-  
+    
+    
       <div id="list">
         <!-- Dashboard -->
         <div class="dash">
           <i class="fa-solid fa-chart-line" style="color: #fff;"></i>
-          <a routerLink="/Dashboard" class="list-group-item list-group-item-action">Dashboard</a>
+          <a routerLink="/Dashboard" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Dashboard</a>
         </div>
-  
+    
         <!-- Student Dropdown -->
         <div class="dash" (click)="toggleDropdown('student')" style="cursor: pointer;">
           <i class="fa-solid fa-user" style="color: #ffffff;"></i>
-          <span class="list-group-item list-group-item-action">Student</span>
-          <i class="fa-solid fa-chevron-right dropdown-arrow" [class.rotate]="isStudentOpen"></i>
+          <span class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Student</span>
+          <i class="fa-solid fa-chevron-right dropdown-arrow" [class.rotate]="isStudentOpen" *ngIf="isSidebarOpen"></i>
         </div>
-        <div class="dropdown-content" [ngClass]="{'show': isStudentOpen}">
+        <div class="dropdown-content" [ngClass]="{'show': isStudentOpen}" *ngIf="isSidebarOpen">
           <a routerLink="/student" class="list-group-item">Add Student</a>
           <a routerLink="/student-list" class="list-group-item">Student List</a>
           <a routerLink="/absence-list" class="list-group-item">Absence List</a>
         </div>
-  
+    
         <!-- Admin Dropdown -->
         <div class="dash" (click)="toggleDropdown('admin')" style="cursor: pointer;">
           <i class="fa-solid fa-user-shield" style="color: #ffffff;"></i>
-          <span class="list-group-item list-group-item-action">Admin</span>
-          <i class="fa-solid fa-chevron-right dropdown-arrow" [class.rotate]="isAdminOpen"></i>
+          <span class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Admin</span>
+          <i class="fa-solid fa-chevron-right dropdown-arrow" [class.rotate]="isAdminOpen" *ngIf="isSidebarOpen"></i>
         </div>
-        <div class="dropdown-content" [ngClass]="{'show': isAdminOpen}">
-          <a routerLink="/Add-admin" class="list-group-item">Add Admin</a>
+        <div class="dropdown-content" [ngClass]="{'show': isAdminOpen}" *ngIf="isSidebarOpen">
+          <a routerLink="/Add-admin" class="list-group-item" >Add Admin</a>
           <a routerLink="/admin-list" class="list-group-item">Admin List</a>
         </div>
-  
+    
         <!-- Send Emails -->
-        <div class="dash active" style="opacity: 1;">
+        <div class="dash">
           <i class="fa-solid fa-paper-plane" style="color: #ffffff;"></i>
-          <a routerLink="/Send-email" class="list-group-item list-group-item-action ">Send Report</a>
+          <a routerLink="/Send-email" class="list-group-item list-group-item-action active" style="opacity: 1;" *ngIf="isSidebarOpen">Send Report</a>
         </div>
-  
+    
         <!-- Logout -->
         <div class="dash" style="cursor: pointer;">
           <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i>
-          <a (click)="logout()" id="Logout" class="list-group-item list-group-item-action">Logout</a>
+          <a (click)="logout()" id="Logout" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Logout</a>
         </div>
       </div>
     </div>

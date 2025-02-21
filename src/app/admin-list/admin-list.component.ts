@@ -124,8 +124,8 @@ delete(id: string) {
 
   get filteredadmins() {
     return this.admins.filter(admins => 
-      admins.userName.toLowerCase().includes(this.searchtext.toLowerCase()) ||
-      admins.email.toLowerCase().includes(this.searchtext.toLowerCase()) 
+      admins.userName.includes(this.searchtext.toLowerCase()) ||
+      admins.email.includes(this.searchtext.toLowerCase()) 
     );
   }
 

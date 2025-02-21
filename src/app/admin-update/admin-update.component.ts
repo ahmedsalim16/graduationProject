@@ -34,11 +34,11 @@ admin:any = {};
         if (this.admin) {
           
   
-          if (this.admin.gender) {
-            console.log('Gender is already a string:', this.admin.gender);
+          if (this.admin.Gender) {
+            console.log('Gender is already a string:', this.admin.Gender);
           } else {
-            console.warn('Gender field is missing or empty:', this.admin.gender);
-            this.admin.gender = 'Unknown'; // وضع قيمة افتراضية إذا لم يكن موجودًا
+            console.warn('Gender field is missing or empty:', this.admin.Gender);
+            this.admin.Gender = 'Unknown'; // وضع قيمة افتراضية إذا لم يكن موجودًا
           }
         }
   
@@ -63,6 +63,7 @@ admin:any = {};
       firstName: this.admin.firstName || 'N/A',
       lastName: this.admin.lastName || 'N/A',
       phoneNumber: this.admin.phoneNumber || 'N/A',
+      address: this.admin.address || 'N/A',
       gender: genderValue // تحويل النص إلى رقم
     };
   
