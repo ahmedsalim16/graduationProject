@@ -17,6 +17,7 @@ import { AuthGuard } from './services/auth.guard';
 import { MessagesComponent } from './messages/messages.component';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
 const routes: Routes = [
 { path: '', redirectTo:'/welcome',pathMatch:'full' },
@@ -34,6 +35,7 @@ const routes: Routes = [
 { path: 'Send-email',component:MessagesComponent,canActivate: [AuthGuard]},
 { path: 'forgot-password',component:ForgetPasswordComponent},
 { path: 'reset-password',component:ResetPasswordComponent},
+{ path: 'unauthorized', component: UnauthorizedComponent },
 { path: 'csv-file',component:CsvFileComponent},
 { path: '**', component:NotfoundComponent }
 ];

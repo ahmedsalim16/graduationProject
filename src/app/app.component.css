@@ -1,4 +1,14 @@
 body{
     background-color: #fff;
-    margin: 0;
+    margin: 0px;
 }
+html[dir="rtl"] {
+    direction: rtl;
+    text-align: right;
+  }
+  
+  html[dir="ltr"] {
+    direction: ltr;
+    text-align: left;
+  }
+  

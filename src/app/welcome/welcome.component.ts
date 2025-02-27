@@ -34,9 +34,14 @@ showConfirmPassword: boolean = false;
       
         console.log("res",res);
         this.shared.setToken(res.token);
-        localStorage.setItem('token',res.token);
+        // localStorage.setItem('token',res.token);
          sessionStorage.setItem('token',res.token);
-         this.authService.setAdminId(res.userId);
+        //  this.authService.setAdminId(res.userId);
+            localStorage.setItem('refreshTokenExpiration', res.refreshTokenExpiration);
+            localStorage.setItem('userId', res.userId);
+            localStorage.setItem('username', res.username);
+            localStorage.setItem('email', res.email);
+            localStorage.setItem('roles', JSON.stringify(res.roles));
         Swal.fire({
           position: "center",
           icon: "success",
@@ -44,8 +49,10 @@ showConfirmPassword: boolean = false;
           showConfirmButton: false,
           timer: 1500
         });
-        this.router.navigateByUrl('Dashboard')
-     
+        
+        setTimeout(() => {
+          this.router.navigate(['/Dashboard']);
+        }, 1500);
       
       
     },

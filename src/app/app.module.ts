@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule,PLATFORM_ID } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -20,8 +20,6 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getFunctions, httpsCallableFromURL, provideFunctions } from '@angular/fire/functions';
 import { getRemoteConfig, provideRemoteConfig } from '@angular/fire/remote-config';
 import { customeInterceptor } from './custome.interceptor';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { QRCodeComponent, QRCodeModule } from 'angularx-qrcode';
 import { NgxQRCodeModule, QrcodeComponent } from '@techiediaries/ngx-qrcode';
 import { CsvFileComponent } from './csv-file/csv-file.component';
@@ -50,10 +48,45 @@ import { defineElement } from "@lordicon/element"
 import { SignalRService } from './services/signalr.service';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { isPlatformBrowser } from '@angular/common';
+import { AuthService } from './services/auth.service';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+
  //import { Ng2SearchPipeModule } from 'ng2-search-filter';
 //  export function createTranslateLoader(http:HttpClient){
 //   return new TranslateHttpLoader(http,'assets/i18n/','.json');
 //  }
+
+// export function HttpLoaderFactory(http: HttpClient) {
+//   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+// }
+
+// // ✅ وظيفة تهيئة الترجمة عند بدء التشغيل
+// export function initializeTranslation(translate: TranslateService, platformId: any) {
+//   return () => new Promise<void>((resolve) => {
+//     if (isPlatformBrowser(platformId)) { // ✅ التأكد من أن الكود يعمل في المتصفح فقط
+//       const browserLang = navigator?.language?.split('-')[0] || 'en';
+//       translate.setDefaultLang('en');
+//       translate.use(browserLang.match(/en|ar/) ? browserLang : 'en').subscribe(() => {
+//         resolve();
+//       }, () => resolve());
+//     } else {
+//       translate.setDefaultLang('en');
+//       resolve();
+//     }
+//   });
+// }
+
+// export function checkAuth(authService: AuthService) {
+//   return () => {
+//     if (typeof window !== 'undefined') {
+//       return authService.isLoggedIn();
+//     }
+//     return false; // ❌ تجاهل التحقق عند تشغيل التطبيق على السيرفر
+//   };
+// }
 
 @NgModule({
   declarations: [
@@ -76,6 +109,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     AbsenceListComponent,
     ForgetPasswordComponent,
     ResetPasswordComponent,
+    UnauthorizedComponent,
     
     
     
@@ -109,6 +143,14 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     MatNativeDateModule,
     MatInputModule,
     FullCalendarModule,
+    HttpClientModule,
+    // TranslateModule.forRoot({
+    //   loader: {
+    //     provide: TranslateLoader,
+    //     useFactory: HttpLoaderFactory,
+    //     deps: [HttpClient]
+    //   }
+    // })
 
     // TranslateModule.forRoot({
     //   defaultLanguage: 'en',
@@ -134,6 +176,19 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     provideRemoteConfig(() => getRemoteConfig()),
    { provide:HTTP_INTERCEPTORS,useClass:customeInterceptor,multi:true},
    SignalRService,
+  //  {
+  //   provide: APP_INITIALIZER,
+  //   useFactory: checkAuth,
+  //   deps: [AuthService],
+  //   multi: true
+  // },
+  //  {
+  //   provide: APP_INITIALIZER,
+  //   useFactory: initializeTranslation,
+  //   deps: [TranslateService],
+  //   multi: true
+  // }
+
   ],
   bootstrap: [AppComponent]
 })

@@ -6,12 +6,27 @@ import { Injectable } from '@angular/core';
 })
 export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
-
   canActivate(): boolean {
+    const roles = JSON.parse(localStorage.getItem('roles') || '[]');     
+
     if (this.authService.isLoggedIn()) {
-      return true; // السماح بالوصول
+      if (roles.includes('Admin')) {
+        return true;     
+      } 
+      else if (roles.includes('Manager')) {
+        this.router.navigate(['/manager-dashboard']);
+        return false;
+      } 
+      else if (roles.includes('Cashier')) {
+        this.router.navigate(['/unauthorized']); 
+        return false;
+      } 
+      else {
+        this.router.navigate(['/unauthorized']);
+        return false;
+      }
     } else {
-      this.router.navigate(['/welcome']); // إعادة التوجيه إلى تسجيل الدخول
+      this.router.navigate(['/welcome']); 
       return false;
     }
   }
