@@ -30,8 +30,10 @@ showConfirmPassword: boolean = false;
   }
 
   loginPage(){
+     
     this.shared.loginPage(this.obj,this.headers).subscribe((res:any)=>{
-      
+      console.log("Login Request Data:", JSON.stringify(this.obj));
+
         console.log("res",res);
         this.shared.setToken(res.token);
         // localStorage.setItem('token',res.token);
@@ -42,17 +44,35 @@ showConfirmPassword: boolean = false;
             localStorage.setItem('username', res.username);
             localStorage.setItem('email', res.email);
             localStorage.setItem('roles', JSON.stringify(res.roles));
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Loggin Successfull",
-          showConfirmButton: false,
-          timer: 1500
-        });
-        
-        setTimeout(() => {
-          this.router.navigate(['/Dashboard']);
-        }, 1500);
+            if ('owner' in res) {
+            localStorage.setItem('owner', JSON.stringify(res.owner));
+            }
+
+            const roles = JSON.parse(localStorage.getItem('roles') || '[]');
+            const owner = localStorage.getItem('owner') === 'true'; 
+            
+            if (roles.includes('Admin') ) {
+              this.router.navigate(['/add-school']); // توجيه إلى صفحة إضافة المدرسة
+            } else if ( roles.includes('Manager')) {
+              this.router.navigate(['/Dashboard']); // توجيه إلى لوحة التحكم الخاصة بالمدرسة
+            } else {
+              Swal.fire({
+                position: "center",
+                icon: 'error',
+                title: 'Access Denied',
+                text: 'You are not allowed to access this system',
+                showConfirmButton: false,
+                timer: 1500
+              });
+              this.router.navigate(['/welcome']);
+            }
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'Login Successful',
+              showConfirmButton: false,
+              timer: 1500
+            });
       
       
     },

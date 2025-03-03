@@ -56,7 +56,7 @@ export class SharedService {
   getAdminById(id:any): Observable<any>{
     return this.http.get<any>("https://school-api.runasp.net/api/User/GetById/"+id)
   }
-
+  
   updateAdmin(adminData: any): Observable<any> {
     return this.http.put('https://school-api.runasp.net/api/User/Update', adminData, {
       headers: { 'Content-Type': 'application/json' }
@@ -135,7 +135,7 @@ export class SharedService {
     localStorage.setItem('token', token); 
     
   }
-
+  
   getToken(): string | null {
     if (!this.token) {
       this.token = localStorage.getItem('token'); 
@@ -184,8 +184,30 @@ export class SharedService {
       })
     );
   }
+
+  filterSchools(filters: { pageNumber: number; pageSize: number }) {
+    let params = new URLSearchParams();
+  
+    
+    params.append('pageNumber', filters.pageNumber.toString());
+    params.append('pageSize', filters.pageSize.toString());
+  
+    return this.http.get(`https://school-api.runasp.net/api/School/GetAll?${params.toString()}`);
+  }
+
+  deleteSchool(id:string){
+   
+    
+    return this.http.delete("https://school-api.runasp.net/api/School/Delete/"+id)
+  }
+  getSchoolById(id:any): Observable<any>{
+    return this.http.get<any>("https://school-api.runasp.net/api/School/GetById/"+id)
+  }
+  updateSchool(school: any):Observable<any> {
+    return this.http.put("https://school-api.runasp.net/api/School/Update",school)
+  }
   // search(search:string){
-  //   return this.http.get(this.Url+`Search?searchValue=${search}`)
+    //   return this.http.get(this.Url+`Search?searchValue=${search}`)
   // }
 
   // Email:string;

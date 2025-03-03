@@ -1,0 +1,66 @@
+<div class="d-flex">
+    <!-- Sidebar -->
+    <div id="sidebar"  style="width: 250px;">
+      <div class="logo">
+        <i class="fa-solid fa-graduation-cap" style="color: #fff;cursor: pointer"[routerLink]='["/add-school"]'></i>
+        <h4>SMART</h4>
+        <h5>TRACK</h5>
+      </div>
+      
+    </div>
+  
+    <!-- Main Content -->
+    <div id="page-content-wrapper" class="flex-grow-1">
+      <div class="header">
+        <h2 id="head">Update School</h2>
+        <img src="../../assets/profile.png" alt="">
+      </div>
+      
+  
+      <hr>
+     
+      <div class="row mt-5" style="margin-top: 50px;">
+        <form (ngSubmit)="updateschool()">
+        <div class="col-3">
+            <label for="inputState" class="form-label">ID</label>
+            <input [(ngModel)]="schoolData.SchoolTenantId" type="text" name="SchoolTenantId" title="text" placeholder="id" class="form-control m-1">
+        </div>
+        <div class="col-3">
+            <label for="inputState" class="form-label">Description</label>
+            <input [(ngModel)]="schoolData.Description" type="text" name="Description" title="text" placeholder="Description" class="form-control m-1">
+        </div>
+        <div class="col-3">
+          <label for="inputState" class="form-label">Address</label>
+          <input type="text" [(ngModel)]="schoolData.Address" name="Address" class="form-control m-1" placeholder="Address" required>
+           
+        </div>
+       
+        <div class="col-3">
+            <label for="inputState" class="form-label">Country</label>
+            <input [(ngModel)]="schoolData.Country" name="Country" type="text" title="Country" placeholder="Country" class="form-control m-1" required>
+        </div>
+        <div class="col-3">
+            <label for="inputState" class="form-label">PhoneNumber</label>
+            <input [(ngModel)]="schoolData.PhoneNumber" name="PhoneNumber" type="text" title="PhoneNumber" placeholder="PhoneNumber" class="form-control m-1" required>
+        </div>
+        
+       
+        <div class="col-3">
+            <label for="inputState" class="form-label">Email</label>
+            <input [(ngModel)]="schoolData.Email" name="Email" type="text" title="Email" placeholder="Email" class="form-control m-1" required>
+        </div>
+        <div class="col-3">
+            <label for="inputState" class="form-label">School Logo</label>
+            <input [(ngModel)]="schoolData.SchoolLogo" name="SchoolLogo" (change)="onFileSelected($event)" type="file" title="SchoolLogo" placeholder="SchoolLogo" class="form-control m-1" >
+        </div>
+        
+        <button id="edit" class="form-control mb-5 bg-info text-light mt-5" type="submit" >Update</button>
+        </form>
+    </div> 
+  </div>
+  
+  
+      
+      
+     
+  </div>

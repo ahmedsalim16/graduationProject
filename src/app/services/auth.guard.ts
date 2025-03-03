@@ -1,4 +1,4 @@
-import { CanActivate, CanActivateFn, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from './auth.service';
 import { Injectable } from '@angular/core';
 @Injectable({
@@ -6,28 +6,30 @@ import { Injectable } from '@angular/core';
 })
 export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
-  canActivate(): boolean {
-    const roles = JSON.parse(localStorage.getItem('roles') || '[]');     
-
-    if (this.authService.isLoggedIn()) {
-      if (roles.includes('Admin')) {
-        return true;     
-      } 
-      else if (roles.includes('Manager')) {
-        this.router.navigate(['/manager-dashboard']);
-        return false;
-      } 
-      else if (roles.includes('Cashier')) {
-        this.router.navigate(['/unauthorized']); 
-        return false;
-      } 
-      else {
-        this.router.navigate(['/unauthorized']);
-        return false;
-      }
-    } else {
-      this.router.navigate(['/welcome']); 
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    const token = localStorage.getItem('token');
+    const roles = JSON.parse(localStorage.getItem('role') || '[]');
+    // const owner = JSON.parse(localStorage.getItem('owner') || 'false');
+  
+    if (!token) {
+      this.router.navigate(['/welcome']);
       return false;
     }
+    if (this.authService.isLoggedIn()) {
+      if (roles.includes('Admin')) {
+        this.router.navigate(['/add-school']);
+        
+      } else if (roles.includes('Manager')) {
+        this.router.navigate(['/Dashboard']);
+      }
+      return true;
+    } else {
+      this.router.navigate(['/welcome']);
+      return false;
+    }
+  
+   
+  
   }
+  
 };

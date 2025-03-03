@@ -53,6 +53,10 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { isPlatformBrowser } from '@angular/common';
 import { AuthService } from './services/auth.service';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { AddSchoolComponent } from './managers/add-school/add-school.component';
+import { SchoolListComponent } from './managers/school-list/school-list.component';
+import { UpdateSchoolComponent } from './managers/update-school/update-school.component';
+import { AddOwnerComponent } from './managers/add-owner/add-owner.component';
 
  //import { Ng2SearchPipeModule } from 'ng2-search-filter';
 //  export function createTranslateLoader(http:HttpClient){
@@ -110,6 +114,10 @@ import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
     ForgetPasswordComponent,
     ResetPasswordComponent,
     UnauthorizedComponent,
+    AddSchoolComponent,
+    SchoolListComponent,
+    UpdateSchoolComponent,
+    AddOwnerComponent,
     
     
     

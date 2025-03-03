@@ -1,0 +1,106 @@
+
+<div class="d-flex">
+
+
+    <!-- Sidebar -->
+    <div id="sidebar" [ngClass]="{'hidden': !isSidebarOpen}">
+      <div class="logo">
+        <i class="fa-solid fa-graduation-cap animated-icon" style="color: #fff; cursor: pointer" [routerLink]="['/add-school']"></i>
+        <h4 *ngIf="isSidebarOpen">SMART</h4>
+        <h5 *ngIf="isSidebarOpen">TRACK</h5>
+      </div>
+    
+    
+      <div id="list">
+        
+        <div class="dash active" style="cursor: pointer;opacity: 1;">
+          <i class="fa-solid fa-school" style="color: #ffffff;"></i>
+          <a routerLink="/add-school"class="list-group-item list-group-item-action"  *ngIf="isSidebarOpen">Add School</a>
+        </div>
+    
+        <div class="dash" style="cursor: pointer;">
+          <i class="fa-solid fa-school-circle-check" style="color: #ffffff;"></i>
+          <a routerLink="/school-list" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Schools</a>
+        </div>
+
+        <div class="dash" style="cursor: pointer;">
+          <i class="fa-solid fa-user-tie" style="color: #ffffff;"></i>
+          <a routerLink="/add-owner" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Add Managers</a>
+        </div>
+    
+        <!-- Logout -->
+        <div class="dash" style="cursor: pointer;">
+          <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i>
+          <a (click)="logout()" id="Logout" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Logout</a>
+        </div>
+      </div>
+    </div>
+  
+  
+    
+  
+  
+  
+    <!-- Main Content -->
+    <div id="page-content-wrapper" class="flex-grow-1">
+      <div class="header">
+        <button id="toggle-sidebar" class="menu-btn" (click)="toggleSidebar()">☰</button>
+        <h2 id="head">Add School</h2>
+        <img src="../../assets/profile.png" alt="Profile" 
+        (click)="navigateToAdminUpdate()" 
+      [routerLink]="['/admin-update',adminId]"
+      title="update">
+      </div>
+      
+  
+      <hr>
+     
+      <div class="row mt-5" style="margin-top: 50px;">
+        <form (ngSubmit)="addSchool()" enctype="multipart/form-data">
+
+        <div class="col-3">
+            <label for="inputState" class="form-label">School Name</label>
+            <input type="text" [(ngModel)]="schoolData.Name" name="Name" title="Name" placeholder="Name" class="form-control m-1" required>
+        </div>
+        
+        
+        <div class="col-md-3">
+          <label for="inputState" class="form-label">Description</label>
+          <input type="text" [(ngModel)]="schoolData.Description" name="Description"  placeholder="Description" class="form-select" title="Description" required >
+           
+            
+        </div>
+        <div class="col-md-3">
+          <label for="inputState" class="form-label">Address</label>
+          <input type="text" [(ngModel)]="schoolData.Address" name="Address" class="form-select" placeholder="Address" required>
+           
+        </div>
+       
+        <div class="col-5">
+            <label for="inputState" class="form-label">Country</label>
+            <input [(ngModel)]="schoolData.Country" name="Country" type="text" title="Country" placeholder="Country" class="form-control m-1" required>
+        </div>
+        <div class="col-4">
+            <label for="inputState" class="form-label">PhoneNumber</label>
+            <input [(ngModel)]="schoolData.PhoneNumber" name="PhoneNumber" type="text" title="PhoneNumber" placeholder="PhoneNumber" class="form-control m-1" required>
+        </div>
+        
+       
+        <div class="col-3">
+            <label for="inputState" class="form-label">Email</label>
+            <input [(ngModel)]="schoolData.Email" name="Email" type="text" title="Email" placeholder="Email" class="form-control m-1" required>
+        </div>
+        <div class="col-3">
+            <label for="inputState" class="form-label">School Logo</label>
+            <input [(ngModel)]="schoolData.SchoolLogo" name="SchoolLogo" (change)="onFileSelected($event)" type="file" title="SchoolLogo" placeholder="SchoolLogo" class="form-control m-1" >
+        </div>
+        <div class="col-12 d-flex justify-content-center">
+          <button style="background-color: #00015d; :hover{scale: 1.1}; width: 80px;" class="btn btn-primary text-light mt-3" 
+          type="submit">Save</button>
+       </div>
+       
+        </form>
+    </div> 
+  </div>
+  
+  

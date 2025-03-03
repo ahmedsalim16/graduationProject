@@ -15,13 +15,14 @@ export class AuthService {
     return this.http.post<any>(`${this.API_URL}`, credentials)
       .pipe(
         tap(response => {
-          if (response.isAuthenticated) {
+          if (response.isAuthenticated && response.token) {
             localStorage.setItem('token', response.token);
             localStorage.setItem('refreshTokenExpiration', response.refreshTokenExpiration);
             localStorage.setItem('userId', response.userId);
             localStorage.setItem('username', response.username);
             localStorage.setItem('email', response.email);
             localStorage.setItem('roles', JSON.stringify(response.roles));
+            localStorage.setItem('owner', JSON.stringify(response.owner)); 
 
             this.userLoggedIn.next(true);
           }

@@ -18,6 +18,10 @@ import { MessagesComponent } from './messages/messages.component';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { AddSchoolComponent } from './managers/add-school/add-school.component';
+import { SchoolListComponent } from './managers/school-list/school-list.component';
+import { UpdateSchoolComponent } from './managers/update-school/update-school.component';
+import { AddOwnerComponent } from './managers/add-owner/add-owner.component';
 
 const routes: Routes = [
 { path: '', redirectTo:'/welcome',pathMatch:'full' },
@@ -36,6 +40,10 @@ const routes: Routes = [
 { path: 'forgot-password',component:ForgetPasswordComponent},
 { path: 'reset-password',component:ResetPasswordComponent},
 { path: 'unauthorized', component: UnauthorizedComponent },
+{ path: 'add-school', component: AddSchoolComponent ,canActivate: [AuthGuard]},
+{ path: 'school-list', component: SchoolListComponent ,canActivate: [AuthGuard]},
+{ path: 'update-school/:id', component: UpdateSchoolComponent},
+{ path: 'add-owner', component: AddOwnerComponent ,canActivate: [AuthGuard]},
 { path: 'csv-file',component:CsvFileComponent},
 { path: '**', component:NotfoundComponent }
 ];

@@ -14,11 +14,42 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent {
   title = 'studentsystem';
-  constructor(private router: Router, private authService: AuthService) {
-    if (this.authService.isLoggedIn()) {
-      this.router.navigateByUrl('/Dashboard');
+  constructor(private router: Router, private authService: AuthService) {}
+
+  
+
+  ngOnInit() {
+    this.redirectUser();
+  }
+
+  redirectUser() {
+    const token = localStorage.getItem('token');
+    const roles = JSON.parse(localStorage.getItem('roles') || '[]');
+   
+
+    if (token) {
+      if (roles.includes('Admin')) {
+        this.router.navigate(['/add-school']);
+      } else if (roles.includes('Manager')) {
+        this.router.navigate(['/Dashboard']);
+      } else {
+        this.router.navigate(['/welcome']); // إذا لم يكن له صلاحية، إعادة توجيهه للصفحة الرئيسية
+      }
+    } else {
+      this.router.navigate(['/welcome']); // إذا لم يكن مسجلاً، إرساله لصفحة تسجيل الدخول
     }
   }
+
+
+
+
+
+
+
+
+
+
+
   //private translate:TranslateService
   // constructor(private translate: TranslateService, @Inject(PLATFORM_ID) private platformId: any) {
   //   if (isPlatformBrowser(this.platformId)) { // ✅ يعمل فقط في المتصفح
