@@ -11,6 +11,7 @@ import { SharedService } from '../../services/shared.service';
 })
 export class AddOwnerComponent implements OnInit {
   adminId: string | null = null;
+  adminName:string | null = localStorage.getItem('username');
 constructor(public shared:SharedService,public authService:AuthService,private router: Router){}
 
 

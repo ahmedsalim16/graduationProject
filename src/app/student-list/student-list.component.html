@@ -176,6 +176,7 @@
           <input type="search" id="search" [(ngModel)]="searchtext" class="form-control" placeholder="Search..." id="search">
           <!-- <label id="ser" class="form-label" for="search">Search...</label> -->
         </div>
+        <h1 id="adminName">{{adminName}}</h1>
         <img src="../../assets/profile.png" alt="Profile" 
       (click)="navigateToAdminUpdate()" 
       [routerLink]="['/admin-update',adminId]"
@@ -255,7 +256,7 @@
           </thead>
           <tbody> 
             
-                   <tr *ngFor="let index of filteredStudents |paginate:{itemsPerPage:itemsPerPage,currentPage:pageNumber}; let i=index">
+                   <tr *ngFor="let index of filteredStudents |paginate:{itemsPerPage:itemsPerPage,currentPage:pageNumber,totalItems:totalItems}; let i=index">
                       
                       <td>{{i+1}}</td>
                       <td>{{index.id}}</td>

@@ -23,6 +23,7 @@ pagination: any;
  
   s='search for schools';
   adminId: string | null = null;
+  adminName:string | null = localStorage.getItem('username');
  public qrValue:string;
 
   ngOnInit(): void {

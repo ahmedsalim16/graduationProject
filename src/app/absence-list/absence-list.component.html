@@ -61,6 +61,7 @@
         <i class="fa-solid fa-magnifying-glass" style="color: #7fbde4a6;"></i>
         <input type="search" id="search" [(ngModel)]="searchtext" class="form-control" placeholder="Search...">
       </div>
+      <h1 id="adminName">{{adminName}}</h1>
       <img src="../../assets/profile.png" alt="Profile" 
       (click)="navigateToAdminUpdate()" 
       [routerLink]="['/admin-update',adminId]"

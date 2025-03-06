@@ -25,6 +25,8 @@ export class MessagesComponent implements OnInit{
   };
     messages: any[] = [];
     adminId: string | null = null;
+  adminName:string | null = localStorage.getItem('username');
+
     constructor(public authService:AuthService,private router: Router,private shared:SharedService) {}
   ngOnInit(): void {
     this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن

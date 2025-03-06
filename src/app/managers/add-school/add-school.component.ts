@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 export class AddSchoolComponent implements OnInit {
   adminId: string | null = null;
 school:any;
+adminName:string | null = localStorage.getItem('username');
 constructor(public shared:SharedService,public authService:AuthService,private router: Router,private http: HttpClient){}
 
 ngOnInit(): void {

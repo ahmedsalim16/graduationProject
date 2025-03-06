@@ -15,7 +15,7 @@ pagination: any;
   constructor(public shared:SharedService,public authService:AuthService,private router: Router){}
   admins: any[] = [];
   searchtext:string='';
-  pagesize:number=20;
+  pagesize:number=100;
   totalItems:number;
   itemsPerPage:number=4;
   pageNumber:number=1;
@@ -27,6 +27,7 @@ grade: number | null = null;
  public qrValue:string;
  isOwner:string | null = null;
  MId:string | null = localStorage.getItem('userId');
+ adminName:string | null = localStorage.getItem('username');
   ngOnInit(): void {
     
     this.filteradmins();

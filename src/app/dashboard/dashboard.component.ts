@@ -13,6 +13,7 @@ export class DashboardComponent implements OnInit {
   maleStudentCount: number = 0; // عدد الطلاب الذكور
   femaleStudentCount: number = 0; // عدد الطالبات الإناث
   adminId: string | null = null;
+  adminName:string | null = localStorage.getItem('username');
   constructor(public shared: SharedService,public authService:AuthService,private router: Router) {}
 
   ngOnInit(): void {

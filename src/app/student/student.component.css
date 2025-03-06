@@ -189,6 +189,14 @@ button:active {
 .show {
   display: block;
 }
+#adminName{
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'DM Sans';
+  position: relative;
+  left: 165px;
+  
+}
 #csv{
   background-color: #0a469f;
     color: #fff;

@@ -24,6 +24,7 @@ export class AbsenceListComponent {
   startDate: string | null = null; // لتخزين قيمة التاريخ
   showTable: boolean = false; // لتحديد ما إذا كان يجب عرض الجدول
   adminId: string | null = null;
+  adminName:string | null = localStorage.getItem('username');
   receivedMessage: string = '';
   userMessage: string = '';
   constructor(public shared: SharedService, public authService: AuthService,private router: Router) {}

@@ -180,6 +180,7 @@
     <div class="header">
       <button id="toggle-sidebar" class="menu-btn" (click)="toggleSidebar()">☰</button>
       <h2 id="head">Add Students</h2>
+      <h1 id="adminName">{{adminName}}</h1>
       <img src="../../assets/profile.png" alt="Profile" 
       (click)="navigateToAdminUpdate()" 
       [routerLink]="['/admin-update',adminId]"

@@ -20,15 +20,16 @@ pagination: any;
   constructor(public shared:SharedService,private router:Router,public authService:AuthService){}
   student: any[] = [];
   searchtext:string='';
-  pagesize:number=20;
-  totalItems:number=20;
-  itemsPerPage:number=6;
+  pagesize:number=1000;
+  totalItems:number;
+  itemsPerPage:number=10;
   pageNumber:number=1;
   count:number=0;
-  gender: number | null = null; // لتخزين نوع الجنس المختار
+  gender: number | null = null;
 grade: number | null = null;
   s='search for student';
   adminId: string | null = null;
+  adminName:string | null = localStorage.getItem('username');
  public qrValue:string;
 
   ngOnInit(): void {

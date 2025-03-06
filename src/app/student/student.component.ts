@@ -20,6 +20,7 @@ export class StudentComponent implements OnInit{
   adminId: string | null = null;
   admin:any={};
   selectedFile: File | null = null;
+  adminName:string | null = localStorage.getItem('username');
   constructor(public shared:SharedService,public authService:AuthService,private router: Router,private http: HttpClient,private act: ActivatedRoute,private renderer: Renderer2, private el: ElementRef){
    this.login=new Loginmodel();
   }
