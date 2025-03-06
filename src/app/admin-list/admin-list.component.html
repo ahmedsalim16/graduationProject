@@ -93,6 +93,7 @@
               <li><a class="dropdown-item" (click)="role = null; filteradmins()">All roles</a></li>
               <li><a class="dropdown-item" (click)="role = 'Cashier'; filteradmins()">Cachier</a></li>
               <li><a class="dropdown-item" (click)="role = 'admin'; filteradmins()">admin</a></li>
+              <li><a class="dropdown-item" (click)="role = 'manager'; filteradmins()">Manager</a></li>
             </ul>
           </li>
         </ul>
@@ -147,8 +148,8 @@
                       
                       
                       <td>{{index.createdOn ? (index.createdOn | date: 'yyyy-MM-dd') : 'N/A'}}</td>
-                      <td><i id="edit" class="fa-solid fa-pen-to-square " [routerLink]="['/admin-update',index.id]" title="edit"></i></td>
-                      <td><i id="delete" class="fa-solid fa-trash-can " style="color: #d21919;" aria-hidden="true" (click)="delete(index.id)" title="delete"></i></td>
+                      <td *ngIf="!(index.role==='admin')&&(index.id===MId)"><i id="edit" class="fa-solid fa-pen-to-square " [routerLink]="['/admin-update',index.id]" title="edit"></i></td>
+                      <td *ngIf="(index.role==='Cashier'|| index.role==='Manager')&&(IsOwner()===true)"><i id="delete" class="fa-solid fa-trash-can " style="color: #d21919;" aria-hidden="true" (click)="delete(index.id)" title="delete"></i></td>
                      
                     
                     </tr>

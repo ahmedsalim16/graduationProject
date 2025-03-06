@@ -70,7 +70,7 @@ school:any = {};
 
   updateschool() {
     const formData = new FormData();
-    formData.append('SchoolTenantId', this.schoolData.schoolTenantId);
+    formData.append('SchoolTenantId', this.schoolData.SchoolTenantId);
     formData.append('Description', this.schoolData.Description);
     formData.append('Address', this.schoolData.Address);
     formData.append('Country', this.schoolData.Country);
@@ -87,7 +87,7 @@ school:any = {};
   
     console.log('Data being sent:', this.schoolData);
   
-    this._shared.updateSchool(this.schoolData).subscribe(
+    this._shared.updateSchool(formData).subscribe(
       (res) => {
         console.log('Response from server:', res);
         Swal.fire({

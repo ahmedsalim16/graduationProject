@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { number } from 'echarts';
 import { AuthService } from '../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-student',
@@ -18,7 +19,8 @@ export class StudentComponent implements OnInit{
   public login:Loginmodel
   adminId: string | null = null;
   admin:any={};
-  constructor(public shared:SharedService,public authService:AuthService,private router: Router,private act: ActivatedRoute,private renderer: Renderer2, private el: ElementRef){
+  selectedFile: File | null = null;
+  constructor(public shared:SharedService,public authService:AuthService,private router: Router,private http: HttpClient,private act: ActivatedRoute,private renderer: Renderer2, private el: ElementRef){
    this.login=new Loginmodel();
   }
   ngOnInit(){
@@ -137,6 +139,54 @@ toggleDropdown(menu: string) {
 
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file && file.type === 'text/csv') {
+      this.selectedFile = file;
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid File',
+        text: 'Please select a valid CSV file.',
+      });
+      this.selectedFile = null;
+    }
+  }
+
+  uploadCSV() {
+    if (!this.selectedFile) {
+      Swal.fire({
+        icon: 'error',
+        title: 'No File Selected',
+        text: 'Please select a CSV file to upload.',
+      });
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', this.selectedFile);
+
+    this.http.post('https://school-api.runasp.net/api/Student/UploadFile', formData).subscribe(
+      (response) => {
+        console.log('Upload Success:', response);
+        Swal.fire({
+          icon: 'success',
+          title: 'Upload Successful',
+          text: 'The CSV file has been uploaded and processed successfully.',
+        });
+      },
+      (error) => {
+        console.error('Upload Error:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Upload Failed',
+          text: error.error?.message || 'There was an error uploading the file.',
+        });
+      }
+    );
   }
 }
 

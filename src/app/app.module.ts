@@ -57,6 +57,7 @@ import { AddSchoolComponent } from './managers/add-school/add-school.component';
 import { SchoolListComponent } from './managers/school-list/school-list.component';
 import { UpdateSchoolComponent } from './managers/update-school/update-school.component';
 import { AddOwnerComponent } from './managers/add-owner/add-owner.component';
+import { authInterceptor } from './services/auth.interceptor';
 
  //import { Ng2SearchPipeModule } from 'ng2-search-filter';
 //  export function createTranslateLoader(http:HttpClient){
@@ -183,6 +184,7 @@ import { AddOwnerComponent } from './managers/add-owner/add-owner.component';
     provideFunctions(() => getFunctions()),
     provideRemoteConfig(() => getRemoteConfig()),
    { provide:HTTP_INTERCEPTORS,useClass:customeInterceptor,multi:true},
+   { provide: HTTP_INTERCEPTORS, useClass: authInterceptor, multi: true },
    SignalRService,
   //  {
   //   provide: APP_INITIALIZER,

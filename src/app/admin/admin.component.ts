@@ -36,7 +36,8 @@ export class AdminComponent implements OnInit {
      email:'',
      password:'',
      confirmPassword:'',
-     role:0,
+     role:1,
+     owner:false
  
    }
    
@@ -51,7 +52,8 @@ export class AdminComponent implements OnInit {
           email:'',
           password:'',
           confirmPassword:'',
-          role:0,
+          role:1,
+          owner:false
        
          }
          Swal.fire({
@@ -83,7 +85,7 @@ export class AdminComponent implements OnInit {
 
     selectOption(option: string): void {
       this.selectedOption = option; // تحديد الخيار الجديد
-      this.admin.role = option === 'admin' ? 0 : 1; // Admin = 2, Cashier = 1
+      this.admin.role = option === 'manager' ? 3 : 1; // manager = 3, Cashier = 1
     }
 
 

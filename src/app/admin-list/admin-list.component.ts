@@ -25,7 +25,8 @@ grade: number | null = null;
   s='search for admins';
   adminId: string | null = null;
  public qrValue:string;
-
+ isOwner:string | null = null;
+ MId:string | null = localStorage.getItem('userId');
   ngOnInit(): void {
     
     this.filteradmins();
@@ -41,6 +42,15 @@ grade: number | null = null;
     }
   }
 
+  IsOwner():boolean{
+    this.isOwner=localStorage.getItem('owner')
+    if(this.isOwner=='true'){
+      return true
+    }
+    else{
+      return false
+    }
+  }
  
 // getadmins(){
 //   localStorage.getItem('token');

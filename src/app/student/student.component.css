@@ -189,6 +189,20 @@ button:active {
 .show {
   display: block;
 }
+#csv{
+  background-color: #0a469f;
+    color: #fff;
+    font-family: serif;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+#csv:disabled{
+    background-color: gainsboro;
+    color: #413f3f;
+    font-family: serif;
+    border-radius: 5px;
+    margin-top: 10px;
+}
 
 @media (max-width: 768px) {
   #sidebar {
