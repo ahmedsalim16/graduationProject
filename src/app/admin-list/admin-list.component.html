@@ -63,11 +63,13 @@
           <input type="search" id="search" [(ngModel)]="searchtext" class="form-control" placeholder="Search..." id="search">
           <!-- <label id="ser" class="form-label" for="search">Search...</label> -->
         </div>
-        <h1 id="adminName">{{adminName}}</h1>
-        <img src="../../assets/profile.png" alt="Profile" 
-      (click)="navigateToAdminUpdate()" 
-      [routerLink]="['/admin-update',adminId]"
-      title="update">
+        <div class="profile-container">
+          <img class="profile-img" src="../../assets/profile.png" alt="Profile" 
+          (click)="navigateToAdminUpdate()" 
+          [routerLink]="['/admin-update',adminId]" />
+          <span class="profile-name">{{adminName}}</span>
+  
+        </div>
       </div>
 
       
@@ -93,7 +95,6 @@
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" (click)="role = null; filteradmins()">All roles</a></li>
               <li><a class="dropdown-item" (click)="role = 'Cashier'; filteradmins()">Cachier</a></li>
-              <li><a class="dropdown-item" (click)="role = 'admin'; filteradmins()">admin</a></li>
               <li><a class="dropdown-item" (click)="role = 'manager'; filteradmins()">Manager</a></li>
             </ul>
           </li>

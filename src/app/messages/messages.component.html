@@ -57,11 +57,13 @@
         <div class="header">
           <button id="toggle-sidebar" class="menu-btn" (click)="toggleSidebar()">☰</button>
           <h2 id="head">Send Email</h2>
-          <h1 id="adminName">{{adminName}}</h1>
-          <img src="../../assets/profile.png" alt="Profile" 
-      (click)="navigateToAdminUpdate()" 
-      [routerLink]="['/admin-update',adminId]"
-      title="update">
+          <div class="profile-container">
+            <img class="profile-img" src="../../assets/profile.png" alt="Profile" 
+            (click)="navigateToAdminUpdate()" 
+            [routerLink]="['/admin-update',adminId]" />
+            <span class="profile-name">{{adminName}}</span>
+    
+          </div>
         </div>
         
     

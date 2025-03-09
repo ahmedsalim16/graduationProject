@@ -12,6 +12,7 @@ import { AuthService } from '../services/auth.service';
 export class AdminUpdateComponent {
 admin:any = {};
   id:any;
+ roles = JSON.parse(localStorage.getItem('roles') || '[]');
   constructor(private act: ActivatedRoute,private _shared:SharedService,private router:Router,public authService:AuthService) { 
 
   }
@@ -79,7 +80,13 @@ admin:any = {};
           showConfirmButton: false,
           timer: 1500
         });
-        this.router.navigate(['/admin-list']);
+        if(this.roles.includes('Admin')){
+          this.router.navigate(['/add-school']);
+        }
+        else if(this.roles.includes('Manager')){
+
+          this.router.navigate(['/admin-list']);
+        }
       },
       (err) => {
         console.error('Error:', err);

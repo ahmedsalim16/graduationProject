@@ -199,14 +199,31 @@ img:hover{
 .show {
   display: block;
 }
-#adminName{
-  font-size: 20px;
-  font-weight: bold;
-  font-family: 'DM Sans';
+.profile-container {
   position: relative;
-  left: 165px;
-  
+  display: inline-block;
 }
+
+.profile-name {
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: black;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.profile-container:hover .profile-name {
+  visibility: visible;
+  opacity: 1;
+}
+
 
 @media (max-width: 768px) {
   #sidebar {

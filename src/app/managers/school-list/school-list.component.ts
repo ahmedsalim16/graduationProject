@@ -17,7 +17,7 @@ pagination: any;
   searchtext:string='';
   pagesize:number=20;
   totalItems:number;
-  itemsPerPage:number=4;
+  itemsPerPage:number=2;
   pageNumber:number=1;
   count:number=0;
  
