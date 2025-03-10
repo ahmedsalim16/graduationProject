@@ -268,8 +268,9 @@ img:hover{
   }
 
   .menu-btn {
-    display: block;
-    margin-bottom: 10px;
+    position: relative;
+    left: -20px;
+    top: 8px;
   }
 
   .col-3,
@@ -280,7 +281,8 @@ img:hover{
   }
 
   img {
-    left: 0;
+    left: 4px;
+    top: 8px;
   }
 
   input,

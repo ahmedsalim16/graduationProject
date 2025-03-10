@@ -332,7 +332,7 @@ body {
 @media (max-width: 768px) {
   #sidebar {
     width: max-content;
-    height: 145vh; /* تقليل العرض */
+    height: auto; /* تقليل العرض */
     transform: translateX(0); /* التأكد من أنه ظاهر */
     z-index: 1000; 
     overflow: visible;/* إخفاء المحتوى الزائد */
@@ -386,8 +386,9 @@ body {
   }
 
   .menu-btn {
-    display: block;
-    
+    position: relative;
+    left: -20px;
+    top: 8px;
   }
 
   .col-3,
@@ -398,7 +399,8 @@ body {
   }
 
   img {
-    left: 0;
+    left: 4px;
+    top: 8px;
   }
 
   input,

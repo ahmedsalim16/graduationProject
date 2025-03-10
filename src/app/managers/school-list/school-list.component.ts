@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ngxCsv } from 'ngx-csv';
 import Swal from 'sweetalert2';
@@ -12,7 +12,7 @@ import { SharedService } from '../../services/shared.service';
 })
 export class SchoolListComponent {
 pagination: any;
-  constructor(public shared:SharedService,public authService:AuthService,private router: Router){}
+  constructor(public shared:SharedService,public authService:AuthService,private router: Router,private cdr: ChangeDetectorRef){}
   schools: any[] = [];
   searchtext:string='';
   pagesize:number=20;
@@ -27,12 +27,23 @@ pagination: any;
  public qrValue:string;
 
   ngOnInit(): void {
-    
+    this.updateItemsPerPage(); // تحديد عدد العناصر بناءً على حجم الشاشة عند التحميل
+    window.addEventListener('resize', this.updateItemsPerPage.bind(this));
     this.filterschools();
     this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
     console.log('Admin ID:', this.adminId);
 
   }
+  
+  updateItemsPerPage(): void {
+    if (window.innerWidth < 768) {
+      this.itemsPerPage = 1; // موبايل
+    } else {
+      this.itemsPerPage = 2; // سطح المكتب
+    }
+    this.cdr.detectChanges(); // تحديث الواجهة لضمان تطبيق التغيير فورًا
+  }
+
   navigateToAdminUpdate(): void {
     if (this.adminId) {
       this.router.navigate(['/admin-update', this.adminId]);

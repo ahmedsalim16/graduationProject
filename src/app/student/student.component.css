@@ -104,9 +104,9 @@ body {
     margin-left: 0 !important;
   }
 
-  .mt-5 {
+  /* .mt-5 {
     margin-top: 8rem ;
-}
+} */
 #head{
   margin-top: 30px;
   font-weight: bold;
@@ -232,7 +232,7 @@ button:active {
 @media (max-width: 768px) {
   #sidebar {
     width: max-content;
-    height: 145vh; /* تقليل العرض */
+    height: auto; /* تقليل العرض */
     transform: translateX(0); /* التأكد من أنه ظاهر */
     z-index: 1000; 
     overflow: visible;/* إخفاء المحتوى الزائد */
@@ -272,8 +272,9 @@ button:active {
   }
 
   .menu-btn {
-    display: block;
-    margin-bottom: 10px;
+    position: relative;
+    left: -20px;
+    top: 8px;
   }
 
   .col-3,
@@ -284,7 +285,8 @@ button:active {
   }
 
   img {
-    left: 0;
+    left: 4px;
+    top: 8px;
   }
 
   input,

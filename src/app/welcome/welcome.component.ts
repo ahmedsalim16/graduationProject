@@ -43,6 +43,7 @@ showConfirmPassword: boolean = false;
             localStorage.setItem('userId', res.userId);
             localStorage.setItem('username', res.username);
             localStorage.setItem('email', res.email);
+            localStorage.setItem('schoolTenantId', res.schoolTenantId);
             localStorage.setItem('roles', JSON.stringify(res.roles));
             if ('owner' in res) {
             localStorage.setItem('owner', JSON.stringify(res.owner));

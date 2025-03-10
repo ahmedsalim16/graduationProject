@@ -21,6 +21,7 @@ export class AuthService {
             localStorage.setItem('userId', response.userId);
             localStorage.setItem('username', response.username);
             localStorage.setItem('email', response.email);
+            localStorage.setItem('schoolTenantId', response.schoolTenantId);
             localStorage.setItem('roles', JSON.stringify(response.roles));
             localStorage.setItem('owner', JSON.stringify(response.owner)); 
 
@@ -31,12 +32,7 @@ export class AuthService {
   }
   // تسجيل الخروج
   logout(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshTokenExpiration');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('username');
-    localStorage.removeItem('email');
-    localStorage.removeItem('roles');
+    localStorage.clear()
     this.userLoggedIn.next(false); // إزالة التوكن من التخزين المحلي
     this.router.navigate(['/welcome']); // الانتقال إلى صفحة تسجيل الدخول
   }

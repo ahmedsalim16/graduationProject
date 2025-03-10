@@ -85,7 +85,7 @@ filteradmins() {
   this.shared.filterAdmins(filters).subscribe(
     (response: any) => {
       if (response && response.result && Array.isArray(response.result)) {
-        this.admins = response.result.filter((user: any) => user.role !== 'Admin' && user.role !== 'Parent'); // تحديث قائمة الطلاب
+        this.admins = response.result.filter((user: any) => user.role !== 'Admin' && user.role !== 'Parent'&& user.schoolTenantId===localStorage.getItem('schoolTenantId')); // تحديث قائمة الطلاب
         console.log('Filtered admins:', this.admins);
       } else {
         console.error('No data found or invalid response format.');

@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { SharedService } from '../services/shared.service';
 import { customeInterceptor } from '../custome.interceptor';
 import { Token } from '@angular/compiler';
@@ -17,7 +17,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class StudentListComponent implements OnInit {
 pagination: any;
-  constructor(public shared:SharedService,private router:Router,public authService:AuthService){}
+  constructor(public shared:SharedService,private router:Router,public authService:AuthService,private cdr: ChangeDetectorRef){}
   student: any[] = [];
   searchtext:string='';
   pagesize:number=1000;
@@ -33,12 +33,22 @@ grade: number | null = null;
  public qrValue:string;
 
   ngOnInit(): void {
-    
+    this.updateItemsPerPage(); // تحديد عدد العناصر بناءً على حجم الشاشة عند التحميل
+    window.addEventListener('resize', this.updateItemsPerPage.bind(this));
     this.filterStudents();
     this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
     console.log('Admin ID:', this.adminId);
 
   }
+  updateItemsPerPage(): void {
+    if (window.innerWidth < 768) {
+      this.itemsPerPage = 5; // موبايل
+    } else {
+      this.itemsPerPage = 10; // سطح المكتب
+    }
+    this.cdr.detectChanges(); // تحديث الواجهة لضمان تطبيق التغيير فورًا
+  }
+
   navigateToAdminUpdate(): void {
     if (this.adminId) {
       this.router.navigate(['/admin-update', this.adminId]);
