@@ -22,6 +22,7 @@ import { AddSchoolComponent } from './managers/add-school/add-school.component';
 import { SchoolListComponent } from './managers/school-list/school-list.component';
 import { UpdateSchoolComponent } from './managers/update-school/update-school.component';
 import { AddOwnerComponent } from './managers/add-owner/add-owner.component';
+import { AdminDashboardComponent } from './managers/admin-dashboard/admin-dashboard.component';
 
 const routes: Routes = [
 { path: '', redirectTo:'/welcome',pathMatch:'full' },
@@ -43,6 +44,7 @@ const routes: Routes = [
 { path: 'add-school', component: AddSchoolComponent ,canActivate: [AuthGuard]},
 { path: 'school-list', component: SchoolListComponent ,canActivate: [AuthGuard]},
 { path: 'update-school/:id', component: UpdateSchoolComponent},
+{ path: 'dashboard', component: AdminDashboardComponent,canActivate: [AuthGuard]},
 { path: 'add-owner', component: AddOwnerComponent ,canActivate: [AuthGuard]},
 { path: 'csv-file',component:CsvFileComponent},
 { path: '**', component:NotfoundComponent }

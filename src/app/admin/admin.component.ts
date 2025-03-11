@@ -15,6 +15,7 @@ export class AdminComponent implements OnInit {
   public login:Loginmodel
   adminId: string | null = null;
   adminName:string | null = localStorage.getItem('username');
+  schoolName:string | null = localStorage.getItem('schoolTenantId');
   constructor(public shared:SharedService,public authService:AuthService,private router: Router){
    this.login=new Loginmodel();
   }

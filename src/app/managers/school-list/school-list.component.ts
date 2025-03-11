@@ -17,7 +17,7 @@ pagination: any;
   searchtext:string='';
   pagesize:number=20;
   totalItems:number;
-  itemsPerPage:number=2;
+  itemsPerPage:number=1;
   pageNumber:number=1;
   count:number=0;
  
@@ -27,22 +27,22 @@ pagination: any;
  public qrValue:string;
 
   ngOnInit(): void {
-    this.updateItemsPerPage(); // تحديد عدد العناصر بناءً على حجم الشاشة عند التحميل
-    window.addEventListener('resize', this.updateItemsPerPage.bind(this));
+    // this.updateItemsPerPage(); // تحديد عدد العناصر بناءً على حجم الشاشة عند التحميل
+    // window.addEventListener('resize', this.updateItemsPerPage.bind(this));
     this.filterschools();
     this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
     console.log('Admin ID:', this.adminId);
 
   }
   
-  updateItemsPerPage(): void {
-    if (window.innerWidth < 768) {
-      this.itemsPerPage = 1; // موبايل
-    } else {
-      this.itemsPerPage = 2; // سطح المكتب
-    }
-    this.cdr.detectChanges(); // تحديث الواجهة لضمان تطبيق التغيير فورًا
-  }
+  // updateItemsPerPage(): void {
+  //   if (window.innerWidth < 768) {
+  //     this.itemsPerPage = 1; // موبايل
+  //   } else {
+  //     this.itemsPerPage = 2; // سطح المكتب
+  //   }
+  //   this.cdr.detectChanges(); // تحديث الواجهة لضمان تطبيق التغيير فورًا
+  // }
 
   navigateToAdminUpdate(): void {
     if (this.adminId) {
@@ -133,7 +133,7 @@ delete(id: string) {
       PhoneNumber: school.phoneNumber,
       email: school.email,
       schoolLogo: school.schoolLogo,
-      CreatedOn: this.formatDateTime(school.createdOn) // تحويل التاريخ
+      CreatedOn:school.createdOn ? new Date(school.createdOn).toISOString().split('T')[0] : '', // تحويل التاريخ
     }));
 
 

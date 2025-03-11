@@ -117,8 +117,7 @@
     <div id="sidebar" [ngClass]="{'hidden': !isSidebarOpen}">
       <div class="logo">
         <i class="fa-solid fa-graduation-cap animated-icon" style="color: #fff; cursor: pointer" [routerLink]="['/Dashboard']"></i>
-        <h4 *ngIf="isSidebarOpen">SMART</h4>
-        <h5 *ngIf="isSidebarOpen">TRACK</h5>
+        <h4 *ngIf="isSidebarOpen">{{schoolName}}</h4>
       </div>
     
     
@@ -253,6 +252,7 @@
               <th scope="col">street</th>
               <th scope="col">birthDate</th>
               <th scope="col">rfidTag_Id</th>
+              <th scope="col">Student Image</th>
               <th scope="col">createdOn</th>
             </tr>
           </thead>
@@ -269,6 +269,9 @@
                       <td>{{index.street}}</td>
                       <td>{{index.birthDate ? (index.birthDate | date: 'yyyy-MM-dd') : 'N/A'}}</td>
                       <td>{{index.rfidTag_Id}}</td>
+                      <td>
+                        <img *ngIf="index.studentImage" [src]="getImageUrl(index.studentImage)" alt="studentImage" class="school-logo" loading="lazy">
+                      </td>
                       <td>{{index.createdOn ? (index.createdOn | date: 'yyyy-MM-dd') : 'N/A'}}</td>
                       <td><i id="edit" class="fa-solid fa-pen-to-square " [routerLink]="['/update',index.id]" title="edit"></i></td>
                       <td><i id="delete" class="fa-solid fa-trash-can " style="color: #d21919;" (click)="delete(index.id)" title="delete"></i></td>

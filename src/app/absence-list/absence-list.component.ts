@@ -25,6 +25,7 @@ export class AbsenceListComponent {
   showTable: boolean = false; // لتحديد ما إذا كان يجب عرض الجدول
   adminId: string | null = null;
   adminName:string | null = localStorage.getItem('username');
+  schoolName:string | null = localStorage.getItem('schoolTenantId');
   receivedMessage: string = '';
   userMessage: string = '';
   constructor(public shared: SharedService, public authService: AuthService,private router: Router) {}

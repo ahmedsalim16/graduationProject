@@ -28,6 +28,7 @@ grade: number | null = null;
  isOwner:string | null = null;
  MId:string | null = localStorage.getItem('userId');
  adminName:string | null = localStorage.getItem('username');
+ schoolName:string | null = localStorage.getItem('schoolTenantId');
   ngOnInit(): void {
     
     this.filteradmins();
@@ -154,7 +155,8 @@ delete(id: string) {
       PhoneNumber: admin.phoneNumber,
       Gender: admin.gender,
       Role: admin.role,
-      CreatedOn: this.formatDateTime(admin.createdOn) // تحويل التاريخ
+      CreatedOn:admin.createdOn ? new Date(admin.createdOn).toISOString().split('T')[0] : '', 
+      IsOwner: admin.owner,
     }));
 
 
@@ -176,6 +178,7 @@ delete(id: string) {
           'Gender',
           'Role',
           'CreatedOn',
+          'IsOwner',
           
         ],
       };

@@ -12,7 +12,10 @@
     
     
       <div id="list">
-        
+        <div class="dash">
+          <i class="fa-solid fa-chart-line" style="color: #fff;"></i>
+          <a routerLink="/dashboard" class="list-group-item list-group-item-action active" *ngIf="isSidebarOpen">Dashboard</a>
+        </div>
         <div class="dash active" style="cursor: pointer;opacity: 1;">
           <i class="fa-solid fa-school" style="color: #ffffff;"></i>
           <a routerLink="/add-school"class="list-group-item list-group-item-action"  *ngIf="isSidebarOpen">Add School</a>

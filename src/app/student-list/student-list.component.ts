@@ -22,7 +22,7 @@ pagination: any;
   searchtext:string='';
   pagesize:number=1000;
   totalItems:number;
-  itemsPerPage:number=10;
+  itemsPerPage:number=5;
   pageNumber:number=1;
   count:number=0;
   gender: number | null = null;
@@ -30,24 +30,25 @@ grade: number | null = null;
   s='search for student';
   adminId: string | null = null;
   adminName:string | null = localStorage.getItem('username');
+  schoolName:string | null = localStorage.getItem('schoolTenantId');
  public qrValue:string;
 
   ngOnInit(): void {
-    this.updateItemsPerPage(); // تحديد عدد العناصر بناءً على حجم الشاشة عند التحميل
-    window.addEventListener('resize', this.updateItemsPerPage.bind(this));
+    // this.updateItemsPerPage(); // تحديد عدد العناصر بناءً على حجم الشاشة عند التحميل
+    // window.addEventListener('resize', this.updateItemsPerPage.bind(this));
     this.filterStudents();
     this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
     console.log('Admin ID:', this.adminId);
 
   }
-  updateItemsPerPage(): void {
-    if (window.innerWidth < 768) {
-      this.itemsPerPage = 5; // موبايل
-    } else {
-      this.itemsPerPage = 10; // سطح المكتب
-    }
-    this.cdr.detectChanges(); // تحديث الواجهة لضمان تطبيق التغيير فورًا
-  }
+  // updateItemsPerPage(): void {
+  //   if (window.innerWidth < 768) {
+  //     this.itemsPerPage = 5; // موبايل
+  //   } else {
+  //     this.itemsPerPage = 10; // سطح المكتب
+  //   }
+  //   this.cdr.detectChanges(); // تحديث الواجهة لضمان تطبيق التغيير فورًا
+  // }
 
   navigateToAdminUpdate(): void {
     if (this.adminId) {
@@ -248,6 +249,12 @@ delete(id: string) {
 
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
+  }
+  getImageUrl(logoPath: string): string {
+    if (!logoPath) {
+      return '../../assets/default-logo.png'; // صورة افتراضية إذا لم يكن هناك لوجو
+    }
+    return `https://school-api.runasp.net//${logoPath}`; // ضع هنا رابط السيرفر الصحيح
   }
   // search(searchtext: string=''){
   //   this.shared.search(searchtext).subscribe(

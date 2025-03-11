@@ -121,8 +121,7 @@
   <div id="sidebar" [ngClass]="{'hidden': !isSidebarOpen}">
     <div class="logo">
       <i class="fa-solid fa-graduation-cap animated-icon" style="color: #fff; cursor: pointer" [routerLink]="['/Dashboard']"></i>
-      <h4 *ngIf="isSidebarOpen">SMART</h4>
-      <h5 *ngIf="isSidebarOpen">TRACK</h5>
+      <h4 *ngIf="isSidebarOpen">{{schoolName}}</h4>
     </div>
   
   
@@ -193,16 +192,17 @@
     <hr>
    
     <div class="row" >
-  
-      <div class="col-3">
+      <form (ngSubmit)="addStudent()" enctype="multipart/form-data">
+        <div class="row">
+      <div class="col-md-3">
           <label for="inputState" class="form-label">FullName</label>
-          <input [(ngModel)]="student.FullName" type="text" title="text" placeholder="FullName" class="form-control m-1">
+          <input [(ngModel)]="student.FullName" name="FullName" type="text" title="text" placeholder="FullName" class="form-control m-1">
       </div>
       
       
       <div class="col-md-3">
         <label for="inputState" class="form-label">Gender</label>
-        <select [(ngModel)]="student.Gender"  (ngModelChange)="student.Gender = +$event" id="gender" class="form-select" title="gender"  >
+        <select [(ngModel)]="student.Gender" name="Gender"   (ngModelChange)="student.Gender = +$event" id="gender" class="form-select" title="gender"  >
          
           
           <option [value]="0">male</option>
@@ -210,49 +210,57 @@
         
         </select>
       </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+          <label for="inputState" class="form-label">Grade</label>
+          <select [(ngModel)]="student.Grade" name="Grade" id="inputState" class="form-select">
+            <option disabled>Choose Grade</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+            <option>7</option>
+            <option>8</option>
+          </select>
+        </div>
       <div class="col-md-3">
-        <label for="inputState" class="form-label">Grade</label>
-        <select [(ngModel)]="student.Grade" id="inputState" class="form-select">
-          <option disabled>Choose Grade</option>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-          <option>6</option>
-          <option>7</option>
-          <option>8</option>
-        </select>
-      </div>
-     
-      <div class="col-5">
           <label for="inputState" class="form-label">City</label>
-          <input [(ngModel)]="student.City" type="text" title="city" placeholder="City" class="form-control m-1">
+          <input [(ngModel)]="student.City" name="City" type="text" title="city" placeholder="City" class="form-control m-1">
       </div>
-      <div class="col-4">
+      <div class="col-md-3">
           <label for="inputState" class="form-label">Street</label>
-          <input [(ngModel)]="student.Street" type="text" title="Street" placeholder="Street" class="form-control m-1">
+          <input [(ngModel)]="student.Street" name="Street" type="text" title="Street" placeholder="Street" class="form-control m-1">
       </div>
       
      
-      <div class="col-3">
+    </div>
+    <div class="row d-flex gap-3">
+      <div class="col-md-5">
           <label for="inputState" class="form-label">BirthDate</label>
-          <input [(ngModel)]="student.BirthDate" type="text" title="BirthDate" placeholder="mm/dd/yy" class="form-control m-1">
+          <input [(ngModel)]="student.BirthDate" name="BirthDate" type="text" title="BirthDate" placeholder="mm/dd/yy" class="form-control m-1">
       </div>
-      <div class="col-3">
-          <label for="inputState" class="form-label">rfidTag_Id</label>
-          <input [(ngModel)]="student.rfidTag_Id"  type="text" title="rfid_tag" placeholder="rfidTag_Id" class="form-control m-1">
+      <div class="col-md-6">
+          <label for="inputState" class="form-label">RfidTag_Id</label>
+          <input [(ngModel)]="student.RfidTag_Id" name="RfidTag_Id"  type="text" title="rfid_tag" placeholder="rfidTag_Id" class="form-control m-1">
       </div>
+      <div class="col-md-3">
+          <label for="inputState" class="form-label">Student Image</label>
+          <input [(ngModel)]="student.StudentImage" name="StudentImage"  type="file" title="img" (change)="onFileChange($event)" class="form-control m-1">
+      </div>
+    </div>
       <div class="col-12 d-flex justify-content-center">
         <button style="background-color: #00015d; :hover{scale: 1.1}; width: 80px;" class="btn btn-primary text-light mt-3" 
-        type="button" (click)="addStudent()">Save</button>
+        type="submit" >Save</button>
      </div>
-      <div class="col-3">
-        <input type="file" (change)="onFileSelected($event)" accept=".csv">
-        <button id="csv" (click)="uploadCSV()" [disabled]="!selectedFile">Upload CSV</button>
+    </form>
+    <div class="col-3">
+      <input type="file" (change)="onFileSelected($event)" accept=".csv">
+      <button id="csv" (click)="uploadCSV()" [disabled]="!selectedFile">Upload CSV</button>
 
-     </div>
-     
+   </div>
      
   </div> 
 </div>

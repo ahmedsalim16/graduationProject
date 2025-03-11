@@ -21,6 +21,7 @@ export class StudentComponent implements OnInit{
   admin:any={};
   selectedFile: File | null = null;
   adminName:string | null = localStorage.getItem('username');
+  schoolName:string | null = localStorage.getItem('schoolTenantId');
   constructor(public shared:SharedService,public authService:AuthService,private router: Router,private http: HttpClient,private act: ActivatedRoute,private renderer: Renderer2, private el: ElementRef){
    this.login=new Loginmodel();
   }
@@ -44,7 +45,8 @@ export class StudentComponent implements OnInit{
           City: '',
           Street: '',
           BirthDate: '',
-          rfidTag_Id:'',
+          RfidTag_Id:'',
+          StudentImage:null,
    
 
   }
@@ -59,20 +61,28 @@ export class StudentComponent implements OnInit{
   
 
   addStudent() {
-    
+    console.log('Student Data:', this.student);
     this.student.BirthDate = this.formatDateToYYYYMMDD(this.student.BirthDate);
 
-    this.shared.createNewStudent(this.student).subscribe(
-      (res) => {
-        this.student = {
-          FullName: '',
-          Gender: 0,
-          Grade: 0,
-          City: '',
-          Street: '',
-          BirthDate: '',
-          rfidTag_Id:'',
-        };
+    const formData = new FormData();
+
+  formData.append('FullName', this.student.FullName);
+  formData.append('Gender', this.student.Gender.toString()); // تحويل الرقم إلى نص
+  formData.append('Grade', this.student.Grade.toString());
+  formData.append('City', this.student.City);
+  formData.append('Street', this.student.Street);
+  formData.append('BirthDate', this.formatDateToYYYYMMDD(this.student.BirthDate)); 
+  formData.append('RfidTag_Id', this.student.RfidTag_Id);
+
+  if (this.student.StudentImage) {
+    formData.append('StudentImage', this.student.StudentImage); // إضافة صورة الطالب
+  }
+  console.log(formData);
+  this.shared.createNewStudent(formData).subscribe(
+    (res) => {
+     
+      this.student = { FullName: '', Gender: 0, Grade: 0, City: '', Street: '', BirthDate: '', RfidTag_Id: '' ,StudentImage:null};
+      
         Swal.fire({
           position: 'center',
           icon: 'success',
@@ -114,8 +124,10 @@ export class StudentComponent implements OnInit{
 
   StudentImg:any;
   onFileChange(event: any): void {
-    this.StudentImg=event.target.files[0] // الحصول على أول ملف من المدخل
-    console.log(this.StudentImg)
+    const file = event.target.files[0];
+  if (file) {
+    this.student.StudentImage = file;
+  }
   }
   
   isStudentOpen = false;

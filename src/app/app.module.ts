@@ -58,6 +58,7 @@ import { SchoolListComponent } from './managers/school-list/school-list.componen
 import { UpdateSchoolComponent } from './managers/update-school/update-school.component';
 import { AddOwnerComponent } from './managers/add-owner/add-owner.component';
 import { authInterceptor } from './services/auth.interceptor';
+import { AdminDashboardComponent } from './managers/admin-dashboard/admin-dashboard.component';
 
  //import { Ng2SearchPipeModule } from 'ng2-search-filter';
 //  export function createTranslateLoader(http:HttpClient){
@@ -119,6 +120,7 @@ import { authInterceptor } from './services/auth.interceptor';
     SchoolListComponent,
     UpdateSchoolComponent,
     AddOwnerComponent,
+    AdminDashboardComponent,
     
     
     

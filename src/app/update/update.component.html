@@ -196,20 +196,20 @@
     <hr>
    
     <div class="row mt-5" style="margin-top: 50px;">
-  
+      <form (ngSubmit)="updateStudent()" enctype="multipart/form-data">
       <div class="col-3">
           <label for="inputState" class="form-label">ID</label>
-          <input [(ngModel)]="student.id" type="text" title="ID" placeholder="ID" class="form-control m-1">
+          <input [(ngModel)]="studentData.Id" name="Id" type="text" title="ID" placeholder="ID" class="form-control m-1">
       </div>
       <div class="col-3">
           <label for="inputState" class="form-label">FullName</label>
-          <input [(ngModel)]="student.fullName" type="text" title="text" placeholder="FullName" class="form-control m-1">
+          <input [(ngModel)]="studentData.FullName" name="FullName" type="text" title="text" placeholder="FullName" class="form-control m-1">
       </div>
       
       
       <div class="col-md-3">
         <label for="inputState" class="form-label">Gender</label>
-        <select [(ngModel)]="student.gender" id="gender" class="form-select" title="gender"  >
+        <select [(ngModel)]="studentData.Gender" name="Gender" id="gender" class="form-select" title="gender"  >
          
           
           <option [value]="'Male'">Male</option>
@@ -220,7 +220,7 @@
       <div class="col-md-3">
         <label for="inputState" class="form-label">Grade</label>
         
-        <select [(ngModel)]="student.grade" id="inputState" class="form-select">
+        <select [(ngModel)]="studentData.Grade" name="Grade" id="inputState" class="form-select">
           <option disabled>Choose Grade</option>
           <option>1</option>
           <option>2</option>
@@ -228,35 +228,41 @@
           <option>4</option>
           <option>5</option>
           <option>6</option>
+          <option>7</option>
+          <option>8</option>
         </select>
       </div>
      
       <div class="col-5">
           <label for="inputState" class="form-label">City</label>
-          <input [(ngModel)]="student.city" type="text" title="city" placeholder="City" class="form-control m-1">
+          <input [(ngModel)]="studentData.City" name="City" type="text" title="city" placeholder="City" class="form-control m-1">
       </div>
       <div class="col-4">
           <label for="inputState" class="form-label">Street</label>
-          <input [(ngModel)]="student.street" type="text" title="Street" placeholder="Street" class="form-control m-1">
+          <input [(ngModel)]="studentData.Street" name="Street" type="text" title="Street" placeholder="Street" class="form-control m-1">
       </div>
       
      
       <div class="col-3">
           <label for="inputState" class="form-label">BirthDate</label>
-          <input [(ngModel)]="student.birthDate" type="text" title="BirthDate" placeholder="mm/dd/yy" class="form-control m-1">
+          <input [(ngModel)]="studentData.BirthDate" name="BirthDate" type="text" title="BirthDate" placeholder="mm/dd/yy" class="form-control m-1">
       </div>
       <div class="col-3">
           <label for="inputState" class="form-label">rfidTag_Id</label>
-          <input [(ngModel)]="student.rfidTag_Id" type="text"   title="rfidTag_Id" placeholder="rfidTag_Id" class="form-control m-1">
+          <input [(ngModel)]="studentData.RfidTag_Id" name="RfidTag_Id" type="text"   title="rfidTag_Id" placeholder="rfidTag_Id" class="form-control m-1">
       </div>
+      <div class="col-3">
+        <label for="inputState" class="form-label">Student Image</label>
+        <input [(ngModel)]="studentData.StudentImage" name="StudentImage"  type="file" title="img" (change)="onFileSelected($event)" class="form-control m-1">
+    </div>
       
-     
+      <button id="edit" class="form-control mb-5 bg-info text-light mt-5" type="submit">Update</button>
+      </form>
   </div> 
 </div>
 
 
     
-       <button id="edit" class="form-control mb-5 bg-info text-light mt-5" type="button" (click)="updateStudent()">Update</button>
     
    
 </div>

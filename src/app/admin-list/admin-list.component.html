@@ -4,8 +4,8 @@
     <div id="sidebar" [ngClass]="{'hidden': !isSidebarOpen}">
       <div class="logo">
         <i class="fa-solid fa-graduation-cap animated-icon" style="color: #fff; cursor: pointer" [routerLink]="['/Dashboard']"></i>
-        <h4 *ngIf="isSidebarOpen">SMART</h4>
-        <h5 *ngIf="isSidebarOpen">TRACK</h5>
+        <h4 *ngIf="isSidebarOpen">{{schoolName}}</h4>
+        
       </div>
     
     

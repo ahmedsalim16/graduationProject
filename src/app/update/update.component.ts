@@ -11,9 +11,18 @@ import Swal from 'sweetalert2';
 export class UpdateComponent implements OnInit{
   student:any = {};
   id:any;
-  constructor(private act: ActivatedRoute,private _shared:SharedService,private router:Router) { 
-
-  }
+  constructor(private act: ActivatedRoute,private _shared:SharedService,private router:Router) {}
+  studentData :any={
+     Id:'',
+     FullName: '',
+     Gender: 0,
+     Grade: 0,
+     City: '',
+     Street: '',
+     BirthDate: '',
+     RfidTag_Id:'',
+     StudentImage:null,
+   }
   ngOnInit(): void {
     
     // this.id = this.act.snapshot.paramMap.get('id');
@@ -40,6 +49,17 @@ export class UpdateComponent implements OnInit{
     this._shared.getStudentById(id).subscribe(
       (data) => {
         this.student = data.result; 
+        this.studentData={
+          Id:this.student.id ||'',
+          FullName:this.student.fullName ||'',
+          Gender:this.student.gender|| '',
+          Grade:this.student.grade|| 0,
+          City:this.student.city|| '',
+          Street:this.student.street|| '',
+          BirthDate:this.student.birthDate ||'',
+          RfidTag_Id:this.student.rfidTag_Id||'',
+          StudentImage:this.student.studentImage||null,
+        }
         if (this.student) {
           // تحويل التاريخ إلى نص
           if (this.student.birthDate) {
@@ -72,44 +92,59 @@ export class UpdateComponent implements OnInit{
   
 
   updateStudent() {
-    this.student.birthDate = this.formatDateToYYYYMMDD(this.student.birthDate);
-    const genderValue = this.student.gender === 'Male' ? 0 : this.student.gender === 'Female' ? 1 : null;
-  console.log('Original Gender:', this.student.gender); // عرض النص الأصلي
-  console.log('Gender Value:', genderValue);
-    const studentData = {
-      id: this.student.id || '',
-      fullName: this.student.fullName || '',
-      gender: genderValue,
-      grade: this.student.grade || '',
-      city: this.student.city || 'N/A',
-      street: this.student.street || 'N/A',
-      birthDate: this.student.birthDate || 'N/A',
-      rfidTag_Id: this.student.rfidTag_Id || 'N/A',
-       // تحويل النص إلى رقم
-    };
-   
+    const formData = new FormData();
   
-    this._shared.updateStudent(studentData).subscribe(
+    // تحويل تاريخ الميلاد إلى الصيغة المطلوبة
+    this.student.birthDate = this.formatDateToYYYYMMDD(this.student.birthDate);
+  
+    // تحويل الجنس إلى قيمة رقمية
+    const genderValue = this.student.gender === 'Male' ? 0 : this.student.gender === 'Female' ? 1 : null;
+    
+    console.log('Original Gender:', this.student.gender);
+    console.log('Gender Value:', genderValue);
+  
+    // إضافة البيانات إلى FormData
+    formData.append('Id', this.studentData.Id || '');
+    formData.append('FullName', this.studentData.FullName || '');
+    formData.append('Gender', genderValue !== null ? genderValue.toString() : '');
+    formData.append('Grade', this.studentData.Grade ||'');
+    formData.append('City', this.studentData.City || 'N/A');
+    formData.append('Street', this.studentData.Street || 'N/A');
+    formData.append('BirthDate', this.studentData.BirthDate || 'N/A');
+    formData.append('RfidTag_Id', this.studentData.RfidTag_Id || 'N/A');
+  
+    // إضافة الصورة إذا كانت موجودة
+    if (this.studentData.StudentImage instanceof File) {
+      formData.append('StudentImage', this.studentData.StudentImage);
+    } else if (this.studentData.StudentImage) {
+      // إذا كانت SchoolLogo موجودة كرابط، يمكنك إرساله كنص
+      formData.append('StudentImage', this.studentData.StudentImage);
+    }
+  
+    console.log('Data being sent:', this.studentData);
+  
+    // إرسال البيانات باستخدام FormData
+    this._shared.updateStudent(formData).subscribe(
       (res) => {
         Swal.fire({
-                                   position: "center",
-                                   icon: "success",
-                                   title: "Student updated Successfull",
-                                   showConfirmButton: false,
-                                   timer: 1500
-                                 });
-                         console.log(res)
+          position: "center",
+          icon: "success",
+          title: "Student updated successfully",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        console.log(res);
         this.router.navigate(['/student-list']);
       },
       (err) => {
         Swal.fire({
-                                   position: "center",
-                                   icon: "error",
-                                   title: "can't update student",
-                                   showConfirmButton: false,
-                                   timer: 1500
-                                 });
-                         console.log(err)
+          position: "center",
+          icon: "error",
+          title: "Can't update student",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        console.log(err);
       }
     );
   }
@@ -131,5 +166,11 @@ export class UpdateComponent implements OnInit{
   handleFileInput(event: any): void {
     const file: File = event.target.files[0];
     this.student.StudentImg = file;
+  }
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.student.StudentImage = file;
+    }
   }
 }

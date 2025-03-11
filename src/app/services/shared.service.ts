@@ -24,11 +24,7 @@ export class SharedService {
   //studentList:any[]=[]
 
   createNewStudent(studentData: any){
-    return this.http.post("https://school-api.runasp.net/api/Student/Add",studentData, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return this.http.post("https://school-api.runasp.net/api/Student/Add",studentData);
 
   }
   createNewAdmin(admin:any){
