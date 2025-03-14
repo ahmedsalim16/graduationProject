@@ -53,7 +53,7 @@ showConfirmPassword: boolean = false;
             const owner = localStorage.getItem('owner') === 'true'; 
             
             if (roles.includes('Admin') ) {
-              this.router.navigate(['/add-school']); // توجيه إلى صفحة إضافة المدرسة
+              this.router.navigate(['/dashboard']); // توجيه إلى صفحة إضافة المدرسة
             } else if ( roles.includes('Manager')) {
               this.router.navigate(['/Dashboard']); // توجيه إلى لوحة التحكم الخاصة بالمدرسة
             } else {

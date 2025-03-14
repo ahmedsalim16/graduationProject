@@ -10,6 +10,9 @@ import { SharedService } from '../../services/shared.service';
   styleUrl: './add-owner.component.css'
 })
 export class AddOwnerComponent implements OnInit {
+  schoolNames: string[] = [];
+  pagesize:number=20;
+  pageNumber:number=1;
   adminId: string | null = null;
   adminName:string | null = localStorage.getItem('username');
 constructor(public shared:SharedService,public authService:AuthService,private router: Router){}
@@ -17,7 +20,7 @@ constructor(public shared:SharedService,public authService:AuthService,private r
 
 ngOnInit(): void {
     
-  
+  this.getSchoolNames()
   this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
   console.log('Admin ID:', this.adminId);
 
@@ -102,4 +105,32 @@ admin ={
 toggleSidebar() {
   this.isSidebarOpen = !this.isSidebarOpen;
 }
+
+getSchoolNames(): void {
+  const filters = {
+    pageNumber: this.pageNumber,
+    pageSize: this.pagesize,
+  };
+
+  this.shared.filterSchools(filters).subscribe(
+    (response: any) => {
+      console.log('API Response:', response); // طباعة البيانات لفحصها
+      
+      if (response && response.result && Array.isArray(response.result)) {
+        this.schoolNames = response.result.map((school: any) => {
+          console.log('School Data:', school); // طباعة كل عنصر لفحصه
+          return school.SchoolTenantId || 'N/A'; // تفادي undefined
+        });
+
+        console.log('School Names:', this.schoolNames);
+      } else {
+        console.error('No data found or invalid response format.');
+      }
+    },
+    (err) => {
+      console.error('Error while fetching school names:', err);
+    }
+  );
+}
+
 }

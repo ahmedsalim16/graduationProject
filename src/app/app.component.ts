@@ -29,7 +29,7 @@ export class AppComponent {
 
     if (token) {
       if (roles.includes('Admin')) {
-        this.router.navigate(['/add-school']);
+        this.router.navigate(['/dashboard']);
       } else if (roles.includes('Manager')) {
         this.router.navigate(['/Dashboard']);
       } else {

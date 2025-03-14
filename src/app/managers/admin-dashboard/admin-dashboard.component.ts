@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { SharedService } from '../../services/shared.service';
 import { Router } from '@angular/router';
+import { EChartsOption } from 'echarts';
+import * as echarts from 'echarts';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -9,18 +11,25 @@ import { Router } from '@angular/router';
   styleUrl: './admin-dashboard.component.css'
 })
 export class AdminDashboardComponent {
-
+  count:number=0;
+  schoolCountsByMonth: number[] = new Array(12).fill(0);
+  myChart: any;
+  pagesize:number=20;
+  pageNumber:number=1;
   adminId: string | null = null;
   adminName:string | null = localStorage.getItem('username');
   schoolName:string | null = localStorage.getItem('schoolTenantId');
   constructor(public shared: SharedService,public authService:AuthService,private router: Router) {}
 
   ngOnInit(): void {
-   
-   
+    this.getSchoolsByMonth()
+     this.getSchoolCount();
     this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
     console.log('Admin ID:', this.adminId);
+  }
 
+  ngAfterViewInit(): void {
+    this.initChart(); // تجهيز المخطط بعد تحميل الصفحة
   }
 
   navigateToAdminUpdate(): void {
@@ -31,72 +40,132 @@ export class AdminDashboardComponent {
     }
   }
 
-  
   logout(): void {
     this.authService.logout(); // استدعاء وظيفة تسجيل الخروج من الخدمة
   }
-  isStudentOpen = false;
-  isAdminOpen = false;
-  
-  toggleDropdown(menu: string) {
-    if (menu === 'student') {
-      this.isStudentOpen = !this.isStudentOpen;
-    } else if (menu === 'admin') {
-      this.isAdminOpen = !this.isAdminOpen;
+
+  isSidebarOpen: boolean = true;
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  getSchoolCount(): void {
+    const filters = {
+      pageNumber: this.pageNumber,
+      pageSize: this.pagesize,
+    };
+
+    this.shared.filterSchools(filters).subscribe(
+      (response: any) => {
+        if (response && response.result && Array.isArray(response.result)) {
+          this.count = response.result.length;
+          console.log('Number of Schools:', this.count);
+          this.updateChart(); // تحديث التشارت بعد تحديث العدد
+        } else {
+          console.error('No data found or invalid response format.');
+        }
+      },
+      (err) => {
+        console.error('Error while fetching school count:', err);
+      }
+    );
+  }
+
+  getSchoolsByMonth(): void {
+    const filters = {
+           pageNumber: this.pageNumber,
+           pageSize: this.pagesize,
+         };
+    this.shared.filterSchools(filters).subscribe(
+      (response: any) => {
+        if (response && response.result && Array.isArray(response.result)) {
+          // تصفير العدادات لكل شهر
+          this.schoolCountsByMonth.fill(0);
+
+          response.result.forEach((school: any) => {
+            if (school.CreatedOn) {
+              const date = new Date(school.CreatedOn);
+              const monthIndex = date.getMonth(); // 0 = يناير, 1 = فبراير, ...
+              this.schoolCountsByMonth[monthIndex]++;
+            }
+          });
+
+          console.log('Schools per month:', this.schoolCountsByMonth);
+          setTimeout(() => {
+            this.updateChart();
+          }, 500);
+        } else {
+          console.error('No data found or invalid response format.');
+        }
+      },
+      (err) => {
+        console.error('Error while fetching school count:', err);
+      }
+    );
+  }
+  initChart(): void {
+    const chartDom = document.getElementById('main');
+    if (chartDom) {
+      this.myChart = echarts.init(chartDom);
+      this.updateChart(); // تأكد من تحديث المخطط بعد التهيئة
     }
   }
-  isSidebarOpen: boolean = true; // افتراضيًا، القائمة مفتوحة
 
-toggleSidebar() {
-  this.isSidebarOpen = !this.isSidebarOpen;
-}
-
-option = {
-  title: {
-    text: 'Number of Schools',
-    subtext: 'over month'
-  },
-  tooltip: {
-    trigger: 'axis'
-  },
-  legend: {
-    data: ['Schools']
-  },
-  toolbox: {
-    show: true,
-    feature: {
-      dataView: { show: true, readOnly: false },
-      magicType: { show: true, type: ['line', 'bar'] },
-      restore: { show: true },
-      saveAsImage: { show: true }
+  updateChart(): void {
+    if (!this.myChart) {
+      console.warn('Chart not initialized yet.');
+      return;
     }
-  },
-  calculable: true,
-  xAxis: {
-    type: 'category',
-    data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-  },
-  yAxis: {
-    type: 'value'
-  },
-   series: [
-    {
-      name: 'Rainfall',
-      type: 'bar',
-      data: [
-        2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3
-      ],
-      markPoint: {
-        data: [
-          { type: 'max', name: 'Max' },
-          { type: 'min', name: 'Min' }
+    if (this.myChart) {
+      const option: EChartsOption = {
+        title: {
+          text: 'Number of Schools',
+          subtext: 'Over Month'
+        },
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {
+          data: ['Schools']
+        },
+        toolbox: {
+          show: true,
+          feature: {
+            dataView: { show: true, readOnly: false },
+            magicType: { show: true, type: ['line', 'bar'] },
+            restore: { show: true },
+            saveAsImage: { show: true }
+          }
+        },
+        calculable: true,
+        xAxis: {
+          type: 'category',
+          data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: [
+          {
+            name: 'Schools',
+            type: 'bar',
+            data: [...this.schoolCountsByMonth], 
+            markPoint: {
+              data: [
+                { type: 'max', name: 'Max' },
+                { type: 'min', name: 'Min' }
+              ]
+            },
+            markLine: {
+              data: [{ type: 'average', name: 'Avg' }]
+            }
+          }
         ]
-      },
-      markLine: {
-        data: [{ type: 'average', name: 'Avg' }]
-      }
-    },
-  ]
-};
+      };
 
+      this.myChart.setOption(option, { notMerge: true });
+    }
+  }
 }
+

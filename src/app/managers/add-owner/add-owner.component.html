@@ -75,7 +75,10 @@
           </div>
           <div class="col-3">
               <label for="inputState" class="form-label">schoolTenantId</label>
-              <input [(ngModel)]="admin.schoolTenantId" type="text" title="text" placeholder="schoolTenantId" class="form-control m-1">
+              <select  [(ngModel)]="admin.schoolTenantId" class="form-select">
+                <option disabled>Choose School</option>
+                <option *ngFor="let name of schoolNames" [value]="name">{{ name }}</option>
+              </select>
           </div>
 
 

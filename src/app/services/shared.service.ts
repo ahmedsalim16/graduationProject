@@ -5,6 +5,7 @@ import { StudentComponent } from '../student/student.component';
 import { RouterLink } from '@angular/router';
 import { BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
 import { ApiResponse } from '../api';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -202,6 +203,10 @@ export class SharedService {
   updateSchool(school: any):Observable<any> {
     return this.http.put("https://school-api.runasp.net/api/School/Update",school)
   }
+  
+
+
+
   // search(search:string){
     //   return this.http.get(this.Url+`Search?searchValue=${search}`)
   // }
