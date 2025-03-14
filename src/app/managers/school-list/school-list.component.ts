@@ -114,10 +114,11 @@ delete(id: string) {
 
   get filteredschools() {
     return this.schools.filter(school => 
-      school.name.includes(this.searchtext.toLowerCase()) ||
-      school.email.includes(this.searchtext.toLowerCase()) 
+      school.name?.toLowerCase().includes(this.searchtext.toLowerCase()) ||
+      school.email?.toLowerCase().includes(this.searchtext.toLowerCase())
     );
   }
+  
 
   logout(): void {
     this.authService.logout(); // استدعاء وظيفة تسجيل الخروج من الخدمة

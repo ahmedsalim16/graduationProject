@@ -30,12 +30,12 @@
         <!-- Admin Dropdown -->
         <div class="dash" (click)="toggleDropdown('admin')" style="cursor: pointer;">
           <i class="fa-solid fa-user-shield" style="color: #ffffff;"></i>
-          <span class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Admin</span>
+          <span class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Manager</span>
           <i class="fa-solid fa-chevron-right dropdown-arrow" [class.rotate]="isAdminOpen" *ngIf="isSidebarOpen"></i>
         </div>
         <div class="dropdown-content" [ngClass]="{'show': isAdminOpen}" *ngIf="isSidebarOpen">
-          <a routerLink="/Add-admin" class="list-group-item active" style="opacity: 1;">Add Admin</a>
-          <a routerLink="/admin-list" class="list-group-item">Admin List</a>
+          <a routerLink="/Add-admin" class="list-group-item active" style="opacity: 1;">Add Manager</a>
+          <a routerLink="/admin-list" class="list-group-item">Manager List</a>
         </div>
     
         <!-- Send Emails -->
@@ -57,7 +57,7 @@
     <div id="page-content-wrapper" class="flex-grow-1">
         <div class="header">
           <button title="toggle" id="toggle-sidebar" class="menu-btn" (click)="toggleSidebar()"><i class="fa-solid fa-bars" style="color: #ffffff;"></i></button>
-          <h2 id="head">Add Admin</h2>
+          <h2 id="head">Add Managers</h2>
           <div class="profile-container">
             <img class="profile-img" src="../../assets/profile.png" alt="Profile" 
             (click)="navigateToAdminUpdate()" 

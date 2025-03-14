@@ -53,8 +53,22 @@ showConfirmPassword: boolean = false;
             const owner = localStorage.getItem('owner') === 'true'; 
             
             if (roles.includes('Admin') ) {
+              Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Login Successful',
+                showConfirmButton: false,
+                timer: 1500
+              });
               this.router.navigate(['/dashboard']); // توجيه إلى صفحة إضافة المدرسة
             } else if ( roles.includes('Manager')) {
+              Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Login Successful',
+                showConfirmButton: false,
+                timer: 1500
+              });
               this.router.navigate(['/Dashboard']); // توجيه إلى لوحة التحكم الخاصة بالمدرسة
             } else {
               Swal.fire({
@@ -65,15 +79,9 @@ showConfirmPassword: boolean = false;
                 showConfirmButton: false,
                 timer: 1500
               });
-              this.router.navigate(['/welcome']);
+              this.router.navigate(['/unauthorized']);
             }
-            Swal.fire({
-              position: 'center',
-              icon: 'success',
-              title: 'Login Successful',
-              showConfirmButton: false,
-              timer: 1500
-            });
+           
       
       
     },

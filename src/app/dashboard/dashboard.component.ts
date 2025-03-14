@@ -15,12 +15,16 @@ export class DashboardComponent implements OnInit {
   adminId: string | null = null;
   adminName:string | null = localStorage.getItem('username');
   schoolName:string | null = localStorage.getItem('schoolTenantId');
+  pagesize:number=50;
+  pageNumber:number=1;
+  role: string | null = null;
+  parentCount:number=0;
   constructor(public shared: SharedService,public authService:AuthService,private router: Router) {}
 
   ngOnInit(): void {
     // الحصول على العدد الكلي للطلاب
     this.getTotalStudentCount();
-
+    this.getParentCount();
     // الحصول على عدد الطلاب حسب الجنس
     this.getStudentCountByGender(0); // طلاب ذكور
     this.getStudentCountByGender(1); // طالبات إناث
@@ -83,4 +87,31 @@ export class DashboardComponent implements OnInit {
 toggleSidebar() {
   this.isSidebarOpen = !this.isSidebarOpen;
 }
+
+getParentCount() {
+  const filters = {
+    role: this.role ?? undefined,
+    pageNumber: this.pageNumber,
+    pageSize: this.pagesize,
+  };
+
+  this.shared.filterAdmins(filters).subscribe(
+    (response: any) => {
+      if (response && response.result && Array.isArray(response.result)) {
+        const parents = response.result.filter(
+          (user: any) => user.role === 'Parent' && user.schoolTenantId === localStorage.getItem('schoolTenantId')
+        );
+        this.parentCount = parents.length; // عدد الآباء
+        console.log('Number of Parents:', this.parentCount);
+      } else {
+        console.error('No data found or invalid response format.');
+        this.parentCount = 0;
+      }
+    },
+    (err) => {
+      console.error('Error while fetching parents:', err);
+    }
+  );
+}
+
 }

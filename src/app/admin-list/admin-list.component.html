@@ -31,12 +31,12 @@
         <!-- Admin Dropdown -->
         <div class="dash" (click)="toggleDropdown('admin')" style="cursor: pointer;">
           <i class="fa-solid fa-user-shield" style="color: #ffffff;"></i>
-          <span class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Admin</span>
+          <span class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Manager</span>
           <i class="fa-solid fa-chevron-right dropdown-arrow" [class.rotate]="isAdminOpen" *ngIf="isSidebarOpen"></i>
         </div>
         <div class="dropdown-content" [ngClass]="{'show': isAdminOpen}" *ngIf="isSidebarOpen">
-          <a routerLink="/Add-admin" class="list-group-item " >Add Admin</a>
-          <a routerLink="/admin-list" class="list-group-item active" style="opacity: 1;">Admin List</a>
+          <a routerLink="/Add-admin" class="list-group-item " >Add Manager</a>
+          <a routerLink="/admin-list" class="list-group-item active" style="opacity: 1;">Manager List</a>
         </div>
     
         <!-- Send Emails -->
@@ -75,7 +75,7 @@
       
       
       <div class="stud">
-        <h2 id="head">Admins</h2>
+        <h2 id="head">Managers</h2>
 
   <div class="buttons">
     <!-- Sort Button -->
