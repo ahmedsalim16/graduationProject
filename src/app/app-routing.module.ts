@@ -23,6 +23,7 @@ import { SchoolListComponent } from './managers/school-list/school-list.componen
 import { UpdateSchoolComponent } from './managers/update-school/update-school.component';
 import { AddOwnerComponent } from './managers/add-owner/add-owner.component';
 import { AdminDashboardComponent } from './managers/admin-dashboard/admin-dashboard.component';
+import { ParentListComponent } from './parent-list/parent-list.component';
 
 const routes: Routes = [
 { path: '', redirectTo:'/welcome',pathMatch:'full' },
@@ -36,6 +37,7 @@ const routes: Routes = [
 { path: 'admin-list', component:AdminListComponent,canActivate: [AuthGuard]},
 { path: 'admin-update/:id', component:AdminUpdateComponent},
 { path: 'absence-list', component:AbsenceListComponent,canActivate: [AuthGuard]},
+{ path: 'parent-list', component:ParentListComponent,canActivate: [AuthGuard]},
 { path: 'update/:id',component:UpdateComponent},
 { path: 'Send-email',component:MessagesComponent,canActivate: [AuthGuard]},
 { path: 'forgot-password',component:ForgetPasswordComponent},

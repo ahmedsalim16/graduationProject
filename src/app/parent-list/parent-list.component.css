@@ -1,0 +1,420 @@
+/* .text-info{
+    font-size: 18px;
+    font-weight: bold;
+    
+}
+
+i{
+    color: #bc2028;
+    cursor: pointer;
+    
+
+}
+i:hover{
+    scale: 1.5 ;
+}
+#edit{
+    color:#59c7f3
+}
+#csv{
+    font-size: 28px;
+    color:#59c7f3;
+    cursor: pointer;
+} */
+
+*{
+    font-family:sans-serif;
+  }
+
+.header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    bottom: 40px;
+}
+#search{
+    width: 25vw;
+    border-radius: 18px;
+    text-align: center;
+}
+.form-outline label{
+    position: relative;
+    bottom: 29px;
+    left: 32px;
+    opacity: 0.6;
+
+}
+
+
+img{
+  width: 40px;
+  height: 35px;
+  position: relative;
+  left: -50px;
+  cursor: pointer;
+}
+img:hover{
+  scale: 1.2;
+}
+.fa-magnifying-glass::before{
+    position: relative;
+    bottom: -32px;
+    left: 7px
+}
+
+
+body {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+}
+
+#sidebar {
+  width: 250px;
+  
+  background-color: #00015d;
+  color: white;
+  height: 100vh;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+}
+#sidebar.hidden {
+  width: 80px;
+  transform: translateX(-20%);
+  
+}
+
+/* إخفاء النصوص عند الإغلاق */
+#sidebar.hidden .list-group-item,
+#sidebar.hidden h4,
+#sidebar.hidden h5 {
+  display: none;
+}
+
+/* التأكد من أن الأيقونات تبقى مرئية */
+#sidebar i {
+  font-size: 24px;
+  transition: font-size 0.3s ease-in-out;
+}
+.menu-btn{
+  border: none;
+    color: #fff;
+    background-color: #0a469f;
+}
+#list{
+  background-color: transparent;
+  margin-top: 12px;
+  font-size: 17px;
+  font-weight: bold;
+  padding: 41px;
+  padding-top: 0px;
+}
+#list a{
+    padding-top: 25px;
+    left: 15px;
+   
+}
+#list a:hover{
+  opacity: 1;
+}
+
+.dash i{
+  position: relative;
+  top: 8px;
+  left: -8px;
+  font-size: 25px;
+}
+.dash{
+  opacity: .5;
+  padding-top: 43px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between; /* يجعل السهم في أقصى اليمين */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  
+}
+.dropdown-content a{
+  opacity: .5;
+}
+  .dash:hover{
+    scale: 1.2;
+    opacity: 1;
+  }
+  .active{
+    scale: 1.1;
+    opacity: 1;
+  }
+  
+  
+  .logo{
+  
+      font-size: 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+  #page-content-wrapper {
+      width: 100%;
+      margin-left: 30px;
+      transition: margin-left 0.3s ease-in-out;
+    }
+  
+    .mt-5 {
+      margin-top: 8rem ;
+  }
+  #head{
+    margin-top: 30px;
+    font-weight: bold;
+  }
+
+  #add{
+    background-color: #41a4d3;
+    color: white;
+    border-radius: 19px;
+    border: none;
+    width: 173px;
+    height: 52px;
+    font-weight: bold;
+    font-size: 20px;
+
+  }
+  #add:hover{
+    background-color: #a39e9e;
+    color: #fff;
+    scale: 1.1;
+  }
+  .stud{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    
+  }
+
+  #addfilter{
+    border-radius: 10px;
+    border: none;
+    width: 173px;
+    height: 52px;
+    font-weight: bold;
+    font-size: 20px;
+    position: relative;
+    left: -20px;
+    background-color: #a39e9e;
+    color: #fff;
+
+  }
+  #addfilter:hover{
+    scale: 1.1;
+    background-color: #41a4d3;
+    color: #fff;
+  }
+
+  button{
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
+			0 10px 10px rgba(0,0,0,0.22);
+  }
+
+  button:active {
+    transform: scale(0.95);
+  }
+
+  #edit{
+    color: #191BA9;
+    cursor: pointer;
+
+  }
+  #edit:hover{
+    scale: 1.2;
+    rotate: 30deg;
+  }
+  #delete{
+    color: darkred;
+    cursor: pointer;
+  }
+  #delete:hover{
+    scale: 1.2;
+    rotate: 30deg;
+  }
+  #sort {
+    padding: 5px 10px; 
+    font-size: 14px;   
+    border-radius: 8px; 
+    position: relative;
+    left: -50px;
+    width: 173px;
+    height: 52px;
+    font-weight: bold;
+    font-size: 20px;
+  
+  }
+  #sort.btn-sort {
+    width: auto;        
+    text-align: center; 
+    display: inline-block;
+  }
+  .buttons{
+    display: flex;
+    align-items: center;
+    align-content: center;
+  }
+
+  #csv{
+    color: #191BA9;
+    font-size: 40px;
+    cursor: pointer;
+  }
+  #csv:hover{
+    scale: 1.1;
+  }
+
+
+  @keyframes bounceAnimation {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.animated-icon {
+    animation: bounceAnimation 0.6s ease-in-out infinite;
+    animation-delay: 3s;
+}
+/* السهم بجانب النص وليس تحته */
+.dropdown-arrow {
+  float: right;
+  transition: transform 0.3s;
+}
+
+/* دوران السهم عند فتح القائمة */
+.rotate {
+  transform: rotate(90deg);
+}
+
+/* تصميم القوائم المنسدلة */
+.dropdown-content {
+  display: none;
+  padding-left: 20px;
+  background-color: transparent;
+}
+
+.show {
+  display: block;
+}
+.profile-container {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-name {
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: black;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.profile-container:hover .profile-name {
+  visibility: visible;
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  #sidebar {
+    width: max-content;
+    height: auto; /* تقليل العرض */
+    transform: translateX(0); /* التأكد من أنه ظاهر */
+    z-index: 1000; 
+    overflow: visible;/* إخفاء المحتوى الزائد */
+    transition: width 0.3s ease-in-out; /* تأثير لطيف عند الفتح */
+  }
+ 
+
+  #sidebar:hover {
+    width: 180px; /* تكبيره عند التمرير */
+  }
+
+  #page-content-wrapper {
+    margin-left: 60px; /* تعويض تصغير الـ sidebar */
+  }
+
+  .sidebar-open {
+    transform: translateX(0);
+  }
+  #sidebar.hidden {
+    width: 80px;
+    transform: translateX(-20%);
+    
+  }
+ 
+.buttons{
+  display: flex;
+    align-items: center;
+    position: relative;
+    left: 315px;
+}
+
+
+  #page-content-wrapper {
+    margin-left: 60px;
+    transition: margin-left 0.3s ease-in-out;
+  }
+
+  #page-content-wrapper.full-width {
+    margin-left: 0;
+  }
+
+  .header {
+    justify-content: space-between;
+    text-align: center;
+  }
+  .fa-magnifying-glass::before{
+    position: relative;
+    bottom: -30px;
+    left: -75px;
+
+  }
+
+  .menu-btn {
+    position: relative;
+    left: -20px;
+    top: 8px;
+  }
+
+  .col-3,
+  .col-5,
+  .col-4,
+  .col-md-3 {
+    flex: 1 1 100%;
+  }
+
+  img {
+    left: 4px;
+    top: 8px;
+  }
+
+  input,
+  textarea,
+  select {
+    font-size: 12px;
+    padding: 6px;
+  }
+  @media (max-width: 425px) {
+    .fa-magnifying-glass::before{
+      position: relative;
+      bottom: -30px;
+      left: -30px;
+  
+    }
+  }
+}

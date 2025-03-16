@@ -1,9 +1,11 @@
+
 <div class="d-flex">
     <!-- Sidebar -->
     <div id="sidebar" [ngClass]="{'hidden': !isSidebarOpen}">
       <div class="logo">
         <i class="fa-solid fa-graduation-cap animated-icon" style="color: #fff; cursor: pointer" [routerLink]="['/Dashboard']"></i>
         <h4 *ngIf="isSidebarOpen">{{schoolName}}</h4>
+        
       </div>
     
     
@@ -11,7 +13,7 @@
         <!-- Dashboard -->
         <div class="dash">
           <i class="fa-solid fa-chart-line" style="color: #fff;"></i>
-          <a routerLink="/Dashboard" class="list-group-item list-group-item-action active" style="opacity: 1;" *ngIf="isSidebarOpen">Dashboard</a>
+          <a routerLink="/Dashboard" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Dashboard</a>
         </div>
     
         <!-- Student Dropdown -->
@@ -33,14 +35,15 @@
           <i class="fa-solid fa-chevron-right dropdown-arrow" [class.rotate]="isAdminOpen" *ngIf="isSidebarOpen"></i>
         </div>
         <div class="dropdown-content" [ngClass]="{'show': isAdminOpen}" *ngIf="isSidebarOpen">
-          <a routerLink="/Add-admin" class="list-group-item ">Add Manager</a>
-          <a routerLink="/admin-list" class="list-group-item">Manager List</a>
+          <a routerLink="/Add-admin" class="list-group-item " >Add Manager</a>
+          <a routerLink="/admin-list" class="list-group-item " >Manager List</a>
         </div>
-        <div class="dash">
+    
+        <!-- Send Emails -->
+        <div class="dash active" style="opacity: 1;">
           <i class="fa-solid fa-user-group" style="color: #ffffff;"></i>
           <a routerLink="/parent-list" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Parent List</a>
         </div>
-        <!-- Send Emails -->
         <div class="dash">
           <i class="fa-solid fa-paper-plane" style="color: #ffffff;"></i>
           <a routerLink="/Send-email" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Send Report</a>
@@ -56,12 +59,12 @@
   
     <!-- Main Content -->
     <div id="page-content-wrapper" class="flex-grow-1">
-      <div class="header">
+      <div class="header" >
         <button title="toggle" id="toggle-sidebar" class="menu-btn" (click)="toggleSidebar()"><i class="fa-solid fa-bars" style="color: #ffffff;"></i></button>
         <!-- search bar --> 
         <div class="form-outline mt-3 p-5">
-          <h1 id="Welcome" >Welcome {{adminName}}</h1>
-
+          <i class="fa-solid fa-magnifying-glass" style="color: #7fbde4a6;"></i>
+          <input type="search" id="search" [(ngModel)]="searchtext" class="form-control" placeholder="Search..." id="search">
           <!-- <label id="ser" class="form-label" for="search">Search...</label> -->
         </div>
         <div class="profile-container">
@@ -73,39 +76,72 @@
         </div>
       </div>
 
+      
+      
       <div class="stud">
-       <div class="user">
-        <div class="i"><i class="fa-solid fa-user-tie" style="color: #ffffff;"></i></div> 
-        <div class="user2">
-            <h5>Student</h5>
-            <h1>{{ studentCount }}</h1>
-        </div>
-       </div>
-       <div class="user" >
-        <div class="i" style="background-color: #D9D9D9;"><i class="fa-solid fa-user-group" style="color: #ffffff;"></i></div> 
-        <div class="user2">
-            <h5>Parents</h5>
-            <h1>{{parentCount}}</h1>
-        </div>
-       </div>
-       <div class="user">
-        <div class="i" style="background-color: #C1EAF2;"><i class="fa-solid fa-dollar-sign" style="color: #ffffff;"></i></div> 
-        <div class="user2">
-            <h5>Earning</h5>
-            <h1>$10,000</h1>
-        </div>
-       </div>
-       <div class="user">
-       <div class="i" style="background-color:#5CC2F2;"><i class="fa-solid fa-utensils" style="color: #ffffff;"></i></div> 
-        <div class="user2">
-            <h5>Foods</h5>
-            <h1>32K</h1>
-        </div>
-       </div>
+        <h2 id="head">Parents</h2>
       </div>
+      
+    
+      
+     
+      <div class="row mt-5" style="margin-top: 50px;">
+        <table class="table table-bordered">
+          <thead class="table-secondary">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">ID</th>
+              <th scope="col">User name</th>
+              <th scope="col">email</th>
+              <th scope="col">first name</th>
+              <th scope="col">last name</th>
+              <th scope="col">phone number</th>
+              <th scope="col">Address</th>
+              <th scope="col">gender</th>
+              <th scope="col">Role</th>
+              <th scope="col">created on</th>
+              
+              
+            </tr>
+          </thead>
+          <tbody> 
+            
+                   <tr *ngFor="let index of filteredadmins |paginate:{itemsPerPage:itemsPerPage,currentPage:pageNumber,totalItems:totalItems}; let i=index">
+                      
+                      <td>{{i+1}}</td>
+                      <td>{{index.id}}</td>
+                      <td>{{index.userName }}</td>
+                      <td>{{index.email}}</td>
+                      <td>{{index.firstName}}</td>
+                      <td>{{index.lastName}}</td>
+                      <td>{{index.phoneNumber}}</td>
+                      <td>{{index.address}}</td>
+                      <td>{{index.gender}}</td>
+                      <td>{{index.role}}</td>
+              
+                      <td>{{index.createdOn ? (index.createdOn | date: 'yyyy-MM-dd') : 'N/A'}}</td>
+                     
+                      
+                      <td ><i id="delete" class="fa-solid fa-trash-can " style="color: #d21919;" aria-hidden="true" (click)="delete(index.id)" title="delete"></i></td>
+                     
+                    
+                    </tr>
+      
+             
+            
+           
+          </tbody>
+        </table>
+           <div class="pagination">
+    
+    <pagination-controls (pageChange)="pagechanged($event)" previousLabel="prev" nextLabel="Next"></pagination-controls>
+  </div> 
 
-     <app-chart></app-chart>
-    <app-calendar style="height: 48px; display: block;"></app-calendar>
+  <div *ngIf="filteredadmins.length" class="col-md-1">
+    <i class="fa-solid fa-download"  id="csv" title="download file.csv" (click)="downloadCsvFile()"></i>
 
-</div>     
-
+  </div>
+       
+    </div> 
+  </div>
+  
