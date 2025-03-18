@@ -215,7 +215,9 @@ delete(id: string) {
         'Street',
         'BirthDate',
         'RfidTag',
-        'createdOn'
+        'createdOn',
+        'parentId',
+        'parentEmail'
         ]
     };
     const formattedStudents = this.student.map(s => ({
@@ -228,6 +230,8 @@ delete(id: string) {
       BirthDate: s.birthDate ? new Date(s.birthDate).toISOString().split('T')[0] : '', // YYYY-MM-DD
       RfidTag: s.rfidTag_Id ,
       createdOn: s.createdOn ,
+      parentId:s.parentId,
+      parentEmail:s.parentEmail,
       
     }));
   

@@ -104,23 +104,23 @@
                    <tr *ngFor="let index of filteredschools |paginate:{itemsPerPage:itemsPerPage,currentPage:pageNumber,totalItems:totalItems}; let i=index">
                       
                       <td>{{i+1}}</td>
-                      <td>{{index.schoolTenantId}}</td>
+                      <td>{{index.schooltenantid}}</td>
                       <td>{{index.name }}</td>
                       <td>{{index.description}}</td>
                       <td>{{index.address}}</td>
                       <td>{{index.country}}</td>
-                      <td>{{index.phoneNumber}}</td>
+                      <td>{{index.phonenumber}}</td>
                       <td>{{index.email}}</td>
                       <td>
-                        <img *ngIf="index.schoolLogo" [src]="getImageUrl(index.schoolLogo)" alt="School Logo" class="school-logo" loading="lazy">
+                        <img *ngIf="index.schoollogo" [src]="getImageUrl(index.schoollogo)" alt="School Logo" class="school-logo" loading="lazy">
                       </td>
                       
 
                       
                       
-                      <td>{{index.createdOn ? (index.createdOn | date: 'yyyy-MM-dd') : 'N/A'}}</td>
-                      <td><i id="edit" class="fa-solid fa-pen-to-square " [routerLink]="['/update-school',index.schoolTenantId]" title="edit"></i></td>
-                      <td><i id="delete" class="fa-solid fa-trash-can " style="color: #d21919;" aria-hidden="true" (click)="delete(index.schoolTenantId)" title="delete"></i></td>
+                      <td>{{index.createdon ? (index.createdon | date: 'yyyy-MM-dd') : 'N/A'}}</td>
+                      <td><i id="edit" class="fa-solid fa-pen-to-square " [routerLink]="['/update-school',index.schooltenantid]" title="edit"></i></td>
+                      <td><i id="delete" class="fa-solid fa-trash-can " style="color: #d21919;" aria-hidden="true" (click)="delete(index.schooltenantid)" title="delete"></i></td>
                      
                     
                     </tr>

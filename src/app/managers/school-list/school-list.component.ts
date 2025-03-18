@@ -64,7 +64,7 @@ filterschools() {
   this.shared.filterSchools(filters).subscribe(
     (response: any) => {
       if (response && response.result && Array.isArray(response.result)) {
-        this.schools = response.result; // تحديث قائمة الطلاب
+        this.schools = response.result.map((school: any) => this.normalizeKeys(school)); // تحديث قائمة الطلاب
         console.log('Filtered SChools:', this.schools);
       } else {
         console.error('No data found or invalid response format.');
@@ -75,6 +75,13 @@ filterschools() {
       console.error('Error while filtering schools:', err);
     }
   );
+}
+normalizeKeys(obj: any): any {
+  if (!obj || typeof obj !== 'object') return obj; // التحقق من أن الكائن صالح
+  return Object.keys(obj).reduce((acc: any, key: string) => {
+    acc[key.toLowerCase()] = obj[key]; // تحويل المفتاح إلى lowercase
+    return acc;
+  }, {});
 }
 
 
@@ -97,6 +104,7 @@ delete(id: string) {
           console.log('school deleted:', res);
           this.schools = this.schools.filter((school: any) => school.id !== id);
           Swal.fire('Deleted!', 'The school has been deleted.', 'success');
+          this.ngOnInit()
         },
         (err) => {
           console.error('Error while deleting admin:', err);
@@ -126,15 +134,15 @@ delete(id: string) {
 
   downloadCsvFile() {
     const formattedAdmins = this.schools.map(school => ({
-      ID: school.schoolTenantId,
+      ID: school.schooltenantid,
       Name: school.name,
       description: school.description,
       address: school.address,
       country: school.country,
-      PhoneNumber: school.phoneNumber,
+      PhoneNumber: school.phonenumber,
       email: school.email,
-      schoolLogo: school.schoolLogo,
-      CreatedOn:school.createdOn ? new Date(school.createdOn).toISOString().split('T')[0] : '', // تحويل التاريخ
+      schoolLogo: school.schoollogo,
+      CreatedOn:school.createdon ? new Date(school.createdon).toISOString().split('T')[0] : '', // تحويل التاريخ
     }));
 
 
@@ -166,16 +174,7 @@ delete(id: string) {
       const date = new Date(dateString);
       return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
     }
-    isStudentOpen = false;
-    isAdminOpen = false;
-    
-    toggleDropdown(menu: string) {
-      if (menu === 'student') {
-        this.isStudentOpen = !this.isStudentOpen;
-      } else if (menu === 'admin') {
-        this.isAdminOpen = !this.isAdminOpen;
-      }
-    }
+   
     isSidebarOpen: boolean = true; // افتراضيًا، القائمة مفتوحة
 
 toggleSidebar() {
@@ -184,7 +183,7 @@ toggleSidebar() {
 
 getImageUrl(logoPath: string): string {
   if (!logoPath) {
-    return '../../assets/default-logo.png'; // صورة افتراضية إذا لم يكن هناك لوجو
+    return '../../../assets/a4e461fe3742a7cf10a1008ffcb18744.png'; // صورة افتراضية إذا لم يكن هناك لوجو
   }
   return `https://school-api.runasp.net//${logoPath}`; // ضع هنا رابط السيرفر الصحيح
 }

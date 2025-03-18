@@ -257,6 +257,9 @@
               <th scope="col">rfidTag_Id</th>
               <th scope="col">Student Image</th>
               <th scope="col">createdOn</th>
+              <th scope="col">parentId</th>
+              <th scope="col">parentEmail</th>
+
             </tr>
           </thead>
           <tbody> 
@@ -276,6 +279,8 @@
                         <img *ngIf="index.studentImage" [src]="getImageUrl(index.studentImage)" alt="studentImage" class="school-logo" loading="lazy">
                       </td>
                       <td>{{index.createdOn ? (index.createdOn | date: 'yyyy-MM-dd') : 'N/A'}}</td>
+                      <td>{{index.parentId}}</td>
+                      <td>{{index.parentEmail }}</td>
                       <td><i id="edit" class="fa-solid fa-pen-to-square " [routerLink]="['/update',index.id]" title="edit"></i></td>
                       <td><i id="delete" class="fa-solid fa-trash-can " style="color: #d21919;" (click)="delete(index.id)" title="delete"></i></td>
                      

@@ -74,7 +74,7 @@ admin ={
         Swal.fire({
                   position: "center",
                   icon: "error",
-                  title: "error while adding an Admin",
+                  title: 'Password must be at least 6 characters long and include an uppercase letter, a lowercase letter, and a special character',
                   showConfirmButton: false,
                   timer: 1500
                 });
