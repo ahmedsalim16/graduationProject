@@ -228,7 +228,14 @@ button:active {
     border-radius: 5px;
     margin-top: 10px;
 }
-
+.school-logo{
+  width: max-content;
+  height: 60px;
+  position: relative;
+  left: 2px;
+  margin: 10px;
+  border-radius: 10px;
+}
 @media (max-width: 768px) {
   #sidebar {
     width: max-content;

@@ -191,6 +191,11 @@ export class SharedService {
   
     return this.http.get(`https://school-api.runasp.net/api/School/GetAll?${params.toString()}`);
   }
+  ManagerCount() {
+   
+  
+    return this.http.get(`https://school-api.runasp.net/api/User/GetAll?Role=3&Owner=true`);
+  }
 
   deleteSchool(id:string){
    

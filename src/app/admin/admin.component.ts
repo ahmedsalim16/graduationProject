@@ -22,6 +22,7 @@ export class AdminComponent implements OnInit {
   ngOnInit(): void {
     this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
     console.log('Admin ID:', this.adminId);
+    this.schoolLogo();
   }
 
 
@@ -111,4 +112,45 @@ export class AdminComponent implements OnInit {
 toggleSidebar() {
   this.isSidebarOpen = !this.isSidebarOpen;
 }
+pagesize:number=20;
+  pageNumber:number=1;
+  schoolLogoUrl: string = ''; // متغير لتخزين رابط الصورة
+
+  schoolLogo() {
+    const schoolTenantId = localStorage.getItem('schoolTenantId'); // جلب schoolTenantId من localStorage
+  
+    const filters = {
+      pageNumber: this.pageNumber,
+      pageSize: this.pagesize,
+    };
+  
+    this.shared.filterSchools(filters).subscribe(
+      (response: any) => {
+        if (response && response.result && Array.isArray(response.result)) {
+          // إيجاد المدرسة التي يعمل بها الإدمن
+          const school = response.result.find((school: any) => school.schoolTenantId === schoolTenantId);
+  
+          // إذا وُجدت المدرسة، تخزين رابط الصورة، وإلا تعيين صورة افتراضية
+          this.schoolLogoUrl = school.schoolLogo ;
+  
+          console.log('School Logo URL:', this.schoolLogoUrl);
+        } else {
+          console.error('No data found or invalid response format.');
+          this.schoolLogoUrl = 'assets/default-school.png'; // صورة افتراضية
+        }
+      },
+      (err) => {
+        console.error('Error while filtering schools:', err);
+        this.schoolLogoUrl = 'assets/default-school.png'; // صورة افتراضية في حالة الخطأ
+      }
+    );
+  }
+  
+getImageUrl(logoPath: string): string {
+  if (!logoPath) {
+    return '../../../assets/a4e461fe3742a7cf10a1008ffcb18744.png'; // صورة افتراضية إذا لم يكن هناك لوجو
+  }
+  return `https://school-api.runasp.net//${logoPath}`; // ضع هنا رابط السيرفر الصحيح
+}
+
 }

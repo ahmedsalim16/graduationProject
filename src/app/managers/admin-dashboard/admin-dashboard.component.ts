@@ -12,6 +12,7 @@ import * as echarts from 'echarts';
 })
 export class AdminDashboardComponent {
   count:number=0;
+  ManagerCount:number=0
   schoolCountsByMonth: number[] = new Array(12).fill(0);
   myChart: any;
   pagesize:number=20;
@@ -22,7 +23,8 @@ export class AdminDashboardComponent {
   constructor(public shared: SharedService,public authService:AuthService,private router: Router) {}
 
   ngOnInit(): void {
-    this.getSchoolsByMonth()
+    this.getSchoolsByMonth();
+    this.getManagersCount();
      this.getSchoolCount();
     this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
     console.log('Admin ID:', this.adminId);
@@ -48,6 +50,24 @@ export class AdminDashboardComponent {
 
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
+  }
+  
+  getManagersCount(): void {
+
+    this.shared.ManagerCount().subscribe(
+      (response: any) => {
+        if (response && response.result && Array.isArray(response.result)) {
+          this.ManagerCount = response.result.length;
+          console.log('Number of Managers:', this.ManagerCount);
+         
+        } else {
+          console.error('No data found or invalid response format.');
+        }
+      },
+      (err) => {
+        console.error('Error while fetching Managers count:', err);
+      }
+    );
   }
 
   getSchoolCount(): void {

@@ -123,7 +123,7 @@ delete(id: string) {
   get filteredschools() {
     return this.schools.filter(school => 
       school.name?.toLowerCase().includes(this.searchtext.toLowerCase()) ||
-      school.email?.toLowerCase().includes(this.searchtext.toLowerCase())
+      school.country?.toLowerCase().includes(this.searchtext.toLowerCase())
     );
   }
   
