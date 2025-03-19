@@ -197,6 +197,7 @@
    
     <div class="row mt-5" style="margin-top: 50px;">
       <form (ngSubmit)="updateStudent()" enctype="multipart/form-data">
+        <div class="row"> 
       <div class="col-3">
           <label for="inputState" class="form-label">ID</label>
           <input [(ngModel)]="studentData.Id" name="Id" type="text" title="ID" placeholder="ID" class="form-control m-1">
@@ -216,7 +217,9 @@
           <option [value]="'Female'">Female</option>
         
         </select>
+        </div>
       </div>
+      <div class="row">
       <div class="col-md-3">
         <label for="inputState" class="form-label">Grade</label>
         
@@ -242,7 +245,8 @@
           <input [(ngModel)]="studentData.Street" name="Street" type="text" title="Street" placeholder="Street" class="form-control m-1">
       </div>
       
-     
+      </div>
+      <div class="row">
       <div class="col-3">
           <label for="inputState" class="form-label">BirthDate</label>
           <input [(ngModel)]="studentData.BirthDate" name="BirthDate" type="text" title="BirthDate" placeholder="mm/dd/yy" class="form-control m-1">
@@ -254,7 +258,8 @@
       <div class="col-3">
         <label for="inputState" class="form-label">Student Image</label>
         <input [(ngModel)]="studentData.StudentImage" name="StudentImage"  type="file" title="img" (change)="onFileSelected($event)" class="form-control m-1">
-    </div>
+      </div>
+      </div>
       
       <button id="edit" class="form-control mb-5 bg-info text-light mt-5" type="submit">Update</button>
       </form>

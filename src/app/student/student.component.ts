@@ -227,12 +227,12 @@ toggleDropdown(menu: string) {
           console.log('School Logo URL:', this.schoolLogoUrl);
         } else {
           console.error('No data found or invalid response format.');
-          this.schoolLogoUrl = 'assets/default-school.png'; // صورة افتراضية
+          this.schoolLogoUrl = '../../../assets/a4e461fe3742a7cf10a1008ffcb18744.png';
         }
       },
       (err) => {
         console.error('Error while filtering schools:', err);
-        this.schoolLogoUrl = 'assets/default-school.png'; // صورة افتراضية في حالة الخطأ
+        this.schoolLogoUrl = '../../../assets/a4e461fe3742a7cf10a1008ffcb18744.png';
       }
     );
   }

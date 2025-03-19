@@ -1,5 +1,5 @@
 
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit ,ChangeDetectionStrategy, Input} from '@angular/core';
 import { SharedService } from '../services/shared.service';
 import { customeInterceptor } from '../custome.interceptor';
 import { Token } from '@angular/compiler';
@@ -13,12 +13,13 @@ import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-student-list',
   templateUrl: './student-list.component.html',
-  styleUrl: './student-list.component.css'
+  styleUrl: './student-list.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush, // ✅ إضافة OnPush
 })
 export class StudentListComponent implements OnInit {
 pagination: any;
   constructor(public shared:SharedService,private router:Router,public authService:AuthService,private cdr: ChangeDetectorRef){}
-  student: any[] = [];
+  @Input() student: any[] = [];
   searchtext:string='';
   pagesize:number=1000;
   totalItems:number;
@@ -283,17 +284,19 @@ delete(id: string) {
           console.log('School Logo URL:', this.schoolLogoUrl);
         } else {
           console.error('No data found or invalid response format.');
-          this.schoolLogoUrl = 'assets/default-school.png'; // صورة افتراضية
+          this.schoolLogoUrl = '../../../assets/a4e461fe3742a7cf10a1008ffcb18744.png';
         }
       },
       (err) => {
         console.error('Error while filtering schools:', err);
-        this.schoolLogoUrl = 'assets/default-school.png'; // صورة افتراضية في حالة الخطأ
+        this.schoolLogoUrl = '../../../assets/a4e461fe3742a7cf10a1008ffcb18744.png';
       }
     );
   }
   
-
+  trackById(index: number, school: any) {
+    return school.schoolTenantId;
+  }
 
   // search(searchtext: string=''){
   //   this.shared.search(searchtext).subscribe(

@@ -265,7 +265,7 @@
           </thead>
           <tbody> 
             
-                   <tr *ngFor="let index of filteredStudents |paginate:{itemsPerPage:itemsPerPage,currentPage:pageNumber,totalItems:totalItems}; let i=index">
+                   <tr *ngFor="let index of filteredStudents |paginate:{itemsPerPage:itemsPerPage,currentPage:pageNumber,totalItems:totalItems}; let i=index; trackBy: trackById">
                       
                       <td>{{i+1}}</td>
                       <td>{{index.id}}</td>

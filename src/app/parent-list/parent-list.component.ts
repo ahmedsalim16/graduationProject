@@ -4,6 +4,7 @@ import { ngxCsv } from 'ngx-csv';
 import Swal from 'sweetalert2';
 import { AuthService } from '../services/auth.service';
 import { SharedService } from '../services/shared.service';
+import { SignalRService } from '../services/signalr.service';
 
 @Component({
   selector: 'app-parent-list',
@@ -11,7 +12,7 @@ import { SharedService } from '../services/shared.service';
   styleUrl: './parent-list.component.css'
 })
 export class ParentListComponent {
-constructor(public shared:SharedService,public authService:AuthService,private router: Router){}
+constructor(public shared:SharedService,public authService:AuthService,private router: Router,private signalRService: SignalRService){}
   parents: any[] = [];
   searchtext:string='';
   pagesize:number=100;
@@ -26,7 +27,12 @@ constructor(public shared:SharedService,public authService:AuthService,private r
  adminName:string | null = localStorage.getItem('username');
  schoolName:string | null = localStorage.getItem('schoolTenantId');
   ngOnInit(): void {
-    
+    // this.signalRService.data$.subscribe(data => {
+    //   if (data) {
+    //     this.parents = data.result; // تحديث قائمة المدارس عند استلام بيانات جديدة
+    //   }
+    // });
+  
     this.filteradmins();
     this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
     console.log('Admin ID:', this.adminId);
@@ -197,12 +203,12 @@ toggleSidebar() {
           console.log('School Logo URL:', this.schoolLogoUrl);
         } else {
           console.error('No data found or invalid response format.');
-          this.schoolLogoUrl = 'assets/default-school.png'; // صورة افتراضية
+          this.schoolLogoUrl = '../../../assets/a4e461fe3742a7cf10a1008ffcb18744.png';
         }
       },
       (err) => {
         console.error('Error while filtering schools:', err);
-        this.schoolLogoUrl = 'assets/default-school.png'; // صورة افتراضية في حالة الخطأ
+        this.schoolLogoUrl = '../../../assets/a4e461fe3742a7cf10a1008ffcb18744.png';
       }
     );
   }

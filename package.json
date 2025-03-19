@@ -7,7 +7,10 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:studentsystem": "node dist/studentsystem/server/server.mjs"
+    "serve:ssr:studentsystem": "node dist/studentsystem/server/server.mjs",
+    "dev:ssr": "ng run studentsystem:serve-ssr",
+    "build:ssr": "ng run studentsystem:server:production",
+    "serve:ssr": "node dist/studentsystem/server/main.js"
   },
   "private": true,
   "dependencies": {

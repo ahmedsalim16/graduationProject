@@ -7,12 +7,8 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class SignalRService {
   private hubConnection!: signalR.HubConnection;
-  private messageSubject = new BehaviorSubject<any>(null);
-  message$ = this.messageSubject.asObservable();
-
-  get connection() {
-    return this.hubConnection;
-  }
+  private dataSubject = new BehaviorSubject<any>(null);
+  data$ = this.dataSubject.asObservable();
 
   constructor() {
     this.startConnection();
@@ -20,24 +16,23 @@ export class SignalRService {
 
   private startConnection() {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://school-api.runasp.net/api/Email') // استبدل بعنوان API الصحيح
+      .withUrl('https://school-api.runasp.net//') // ضع رابط الـ API الخاص بك
       .withAutomaticReconnect()
       .build();
 
     this.hubConnection
       .start()
-      .then(() => console.log("SignalR Connected"))
-      .catch(err => console.error("Error connecting to SignalR:", err));
+      .then(() => console.log('SignalR Connected!'))
+      .catch(err => console.error('SignalR Error:', err));
 
-    this.hubConnection.on("ReceiveMessage", (message) => {
-      this.messageSubject.next(message);
+    this.hubConnection.on('ReceiveUpdate', (data) => {
+      console.log('New Data Received:', data);
+      this.dataSubject.next(data);
     });
   }
 
-  sendEmail(emailData: any): Promise<void> {
-    if (this.hubConnection.state !== signalR.HubConnectionState.Connected) {
-      return Promise.reject("SignalR is not connected.");
-    }
-    return this.hubConnection.invoke("SendEmail", emailData);
+  sendUpdate(data: any) {
+    this.hubConnection.invoke('SendUpdate', data)
+      .catch(err => console.error('Error Sending Update:', err));
   }
 }
