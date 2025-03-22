@@ -120,7 +120,7 @@
   <!-- Sidebar -->
   <div id="sidebar" [ngClass]="{'hidden': !isSidebarOpen}">
     <div class="logo">
-      <img  [src]="getImageUrl(schoolLogoUrl)" alt="School Logo" class="school-logo animated-icon" [routerLink]="['/Dashboard']" loading="lazy">
+      <img  [src]="schoolLogoUrl" alt="School Logo" class="school-logo animated-icon" [routerLink]="['/Dashboard']" loading="lazy">
       <!-- <i class="fa-solid fa-graduation-cap animated-icon" style="color: #fff; cursor: pointer" [routerLink]="['/Dashboard']"></i> -->
       <h4 *ngIf="isSidebarOpen">{{schoolName}}</h4>
     </div>

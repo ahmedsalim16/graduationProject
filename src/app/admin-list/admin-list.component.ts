@@ -205,43 +205,79 @@ toggleSidebar() {
   this.isSidebarOpen = !this.isSidebarOpen;
 }
 
-  schoolLogoUrl: string = ''; // متغير لتخزين رابط الصورة
+getImageUrl(logoPath: string): Promise<string> {
+  return new Promise((resolve) => {
+    if (!logoPath) {
+      resolve('../../../assets/a4e461fe3742a7cf10a1008ffcb18744.png'); // صورة افتراضية
+      return;
+    }
 
-  schoolLogo() {
-    const schoolTenantId = localStorage.getItem('schoolTenantId'); // جلب schoolTenantId من localStorage
-  
-    const filters = {
-      pageNumber: this.pageNumber,
-      pageSize: this.pagesize,
+    const imageUrl = `https://school-api.runasp.net/${logoPath}`;
+    this.convertToWebP(imageUrl)
+      .then((webpUrl) => resolve(webpUrl))
+      .catch(() => resolve(imageUrl)); // في حال الفشل، يتم استخدام الصورة الأصلية
+  });
+}
+
+// ✅ تحويل الصورة إلى WebP
+convertToWebP(imageUrl: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "Anonymous"; // لتفادي مشاكل CORS
+    img.src = imageUrl;
+
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      const ctx = canvas.getContext("2d");
+      if (ctx) {
+        ctx.drawImage(img, 0, 0);
+        const webpUrl = canvas.toDataURL("image/webp", 0.8); // جودة 80%
+        resolve(webpUrl);
+      } else {
+        reject("Canvas not supported");
+      }
     };
-  
-    this.shared.filterSchools(filters).subscribe(
-      (response: any) => {
-        if (response && response.result && Array.isArray(response.result)) {
-          // إيجاد المدرسة التي يعمل بها الإدمن
-          const school = response.result.find((school: any) => school.schoolTenantId === schoolTenantId);
-  
-          // إذا وُجدت المدرسة، تخزين رابط الصورة، وإلا تعيين صورة افتراضية
-          this.schoolLogoUrl = school.schoolLogo ;
-  
-          console.log('School Logo URL:', this.schoolLogoUrl);
+
+    img.onerror = (err) => reject(err);
+  });
+}
+
+// ✅ تحميل اللوجو وتحويله إلى WebP
+schoolLogoUrl: string = '';
+
+schoolLogo() {
+  const schoolTenantId = localStorage.getItem('schoolTenantId');
+
+  const filters = {
+    pageNumber: this.pageNumber,
+    pageSize: this.pagesize,
+  };
+
+  this.shared.filterSchools(filters).subscribe(
+    (response: any) => {
+      if (response?.result && Array.isArray(response.result)) {
+        const school = response.result.find((s: any) => s.schoolTenantId === schoolTenantId);
+        if (school?.schoolLogo) {
+          // تحويل الصورة إلى WebP قبل العرض
+          this.getImageUrl(school.schoolLogo).then((webpUrl) => {
+            this.schoolLogoUrl = webpUrl;
+          });
         } else {
-          console.error('No data found or invalid response format.');
           this.schoolLogoUrl = '../../../assets/a4e461fe3742a7cf10a1008ffcb18744.png';
         }
-      },
-      (err) => {
-        console.error('Error while filtering schools:', err);
+      } else {
+        console.error('No data found or invalid response format.');
         this.schoolLogoUrl = '../../../assets/a4e461fe3742a7cf10a1008ffcb18744.png';
       }
-    );
-  }
-  
-getImageUrl(logoPath: string): string {
-  if (!logoPath) {
-    return '../../../assets/a4e461fe3742a7cf10a1008ffcb18744.png'; // صورة افتراضية إذا لم يكن هناك لوجو
-  }
-  return `https://school-api.runasp.net//${logoPath}`; // ضع هنا رابط السيرفر الصحيح
+    },
+    (err) => {
+      console.error('Error while filtering schools:', err);
+      this.schoolLogoUrl = '../../../assets/a4e461fe3742a7cf10a1008ffcb18744.png';
+    }
+  );
 }
 
 }

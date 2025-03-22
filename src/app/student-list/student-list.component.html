@@ -116,7 +116,7 @@
     <!-- Sidebar -->
     <div id="sidebar" [ngClass]="{'hidden': !isSidebarOpen}">
       <div class="logo">
-        <img  [src]="getImageUrl(schoolLogoUrl)" alt="School Logo" class="school-logo animated-icon" [routerLink]="['/Dashboard']" loading="lazy">
+        <img  [src]="schoolLogoUrl" alt="" class="school-logo animated-icon" [routerLink]="['/Dashboard']" loading="lazy">
         <!-- <i class="fa-solid fa-graduation-cap animated-icon" style="color: #fff; cursor: pointer" [routerLink]="['/Dashboard']"></i> -->
         <h4 *ngIf="isSidebarOpen">{{schoolName}}</h4>
       </div>
@@ -244,7 +244,7 @@
       
      
       <div class="row mt-5" style="margin-top: 50px;">
-        <table class="table table-bordered">
+        <table class="table table-bordered" >
           <thead class="table-secondary">
             <tr>
               <th scope="col">#</th>
@@ -256,7 +256,7 @@
               <th scope="col">street</th>
               <th scope="col">birthDate</th>
               <th scope="col">rfidTag_Id</th>
-              <th scope="col">Student Image</th>
+              <!-- <th scope="col">Student Image</th> -->
               <th scope="col">createdOn</th>
 
               <th scope="col">parentEmail</th>
@@ -265,23 +265,23 @@
           </thead>
           <tbody> 
             
-                   <tr *ngFor="let index of filteredStudents |paginate:{itemsPerPage:itemsPerPage,currentPage:pageNumber,totalItems:totalItems}; let i=index; trackBy: trackById">
+                   <tr *ngFor="let index of filteredStudents |paginate:{itemsPerPage:itemsPerPage,currentPage:pageNumber,totalItems:totalItems}; let i=index">
                       
                       <td>{{i+1}}</td>
                       <td>{{index.id}}</td>
-                      <td>{{index.fullName | titlecase}}</td>
+                      <td>{{index.fullname | titlecase}}</td>
                       <td>{{index.gender}}</td>
                       <td>{{index.grade}}</td>
                       <td>{{index.city}}</td>
                       <td>{{index.street}}</td>
-                      <td>{{index.birthDate ? (index.birthDate | date: 'yyyy-MM-dd') : 'N/A'}}</td>
-                      <td>{{index.rfidTag_Id}}</td>
-                      <td>
+                      <td>{{index.birthdate ? (index.birthdate | date: 'yyyy-MM-dd') : 'N/A'}}</td>
+                      <td>{{index.rfidtag_id}}</td>
+                      <!-- <td>
                         <img *ngIf="index.studentImage" [src]="getImageUrl(index.studentImage)" alt="studentImage" class="school-logo" loading="lazy">
-                      </td>
-                      <td>{{index.createdOn ? (index.createdOn | date: 'yyyy-MM-dd') : 'N/A'}}</td>
+                      </td> -->
+                      <td>{{index.createdon ? (index.createdon | date: 'yyyy-MM-dd') : 'N/A'}}</td>
                      
-                      <td>{{index.parentEmail }}</td>
+                      <td>{{index.parentemail }}</td>
                       <td><i id="edit" class="fa-solid fa-pen-to-square " [routerLink]="['/update',index.id]" title="edit"></i></td>
                       <td><i id="delete" class="fa-solid fa-trash-can " style="color: #d21919;" (click)="delete(index.id)" title="delete"></i></td>
                      

@@ -14,20 +14,19 @@ import { AuthService } from '../services/auth.service';
   selector: 'app-student-list',
   templateUrl: './student-list.component.html',
   styleUrl: './student-list.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush, // ✅ إضافة OnPush
 })
 export class StudentListComponent implements OnInit {
 pagination: any;
   constructor(public shared:SharedService,private router:Router,public authService:AuthService,private cdr: ChangeDetectorRef){}
-  @Input() student: any[] = [];
+  student: any[] = [];
   searchtext:string='';
-  pagesize:number=1000;
+  pagesize:number=500;
   totalItems:number;
   itemsPerPage:number=5;
   pageNumber:number=1;
   count:number=0;
   gender: number | null = null;
-grade: number | null = null;
+  grade: number | null = null;
   s='search for student';
   adminId: string | null = null;
   adminName:string | null = localStorage.getItem('username');
@@ -125,8 +124,8 @@ getStudents(){
 filterStudents() {
   localStorage.getItem('token');
   const filters = {
-    gender: this.gender ?? undefined, // إذا كانت null قم بإرسال undefined
-    grade: this.grade ?? undefined,   // إذا كانت null قم بإرسال undefined
+    gender: this.gender ?? undefined, 
+    grade: this.grade ?? undefined,   
     pageNumber: this.pageNumber,
     pageSize: this.pagesize,
   };
@@ -134,7 +133,7 @@ filterStudents() {
   this.shared.filterStudents(filters).subscribe(
     (response: any) => {
       if (response && response.result && Array.isArray(response.result)) {
-        this.student = response.result; // تحديث قائمة الطلاب
+        this.student = response.result.map((school: any) => this.normalizeKeys(school)) // تحديث قائمة الطلاب
         console.log('Filtered Students:', this.student);
       } else {
         console.error('No data found or invalid response format.');
@@ -145,6 +144,14 @@ filterStudents() {
       console.error('Error while filtering students:', err);
     }
   );
+}
+
+normalizeKeys(obj: any): any {
+  if (!obj || typeof obj !== 'object') return obj; // التحقق من أن الكائن صالح
+  return Object.keys(obj).reduce((acc: any, key: string) => {
+    acc[key.toLowerCase()] = obj[key]; // تحويل المفتاح إلى lowercase
+    return acc;
+  }, {});
 }
 
 sortByGradeAscending() {
@@ -189,8 +196,8 @@ delete(id: string) {
 
   get filteredStudents() {
     return this.student.filter(student => 
-      student.fullName.toLowerCase().includes(this.searchtext.toLowerCase()) ||
-      student.city.toLowerCase().includes(this.searchtext.toLowerCase())
+      student.fullname?.toLowerCase().includes(this.searchtext.toLowerCase()) ||
+      student.city?.toLowerCase().includes(this.searchtext.toLowerCase())
     );
   }
 
@@ -255,17 +262,89 @@ delete(id: string) {
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
-  getImageUrl(logoPath: string): string {
-    if (!logoPath) {
-      return '../../assets/default-logo.png'; // صورة افتراضية إذا لم يكن هناك لوجو
-    }
-    return `https://school-api.runasp.net//${logoPath}`; // ضع هنا رابط السيرفر الصحيح
-  }
+  // getImageUrl(logoPath: string): string {
+  //   if (!logoPath) {
+  //     return '../../../assets/a4e461fe3742a7cf10a1008ffcb18744.png'; // صورة افتراضية إذا لم يكن هناك لوجو
+  //   }
+  //   return `https://school-api.runasp.net//${logoPath}`; // ضع هنا رابط السيرفر الصحيح
+  // }
  
-  schoolLogoUrl: string = ''; // متغير لتخزين رابط الصورة
+  // schoolLogoUrl: string = ''; // متغير لتخزين رابط الصورة
 
+  // schoolLogo() {
+  //   const schoolTenantId = localStorage.getItem('schoolTenantId'); // جلب schoolTenantId من localStorage
+  
+  //   const filters = {
+  //     pageNumber: this.pageNumber,
+  //     pageSize: this.pagesize,
+  //   };
+  
+  //   this.shared.filterSchools(filters).subscribe(
+  //     (response: any) => {
+  //       if (response && response.result && Array.isArray(response.result)) {
+  //         // إيجاد المدرسة التي يعمل بها الإدمن
+  //         const school = response.result.find((school: any) => school.schoolTenantId === schoolTenantId);
+  
+  //         // إذا وُجدت المدرسة، تخزين رابط الصورة، وإلا تعيين صورة افتراضية
+  //         this.schoolLogoUrl = school.schoolLogo ;
+  
+  //         console.log('School Logo URL:', this.schoolLogoUrl);
+  //       } else {
+  //         console.error('No data found or invalid response format.');
+  //         this.schoolLogoUrl = '../../../assets/a4e461fe3742a7cf10a1008ffcb18744.png';
+  //       }
+  //     },
+  //     (err) => {
+  //       console.error('Error while filtering schools:', err);
+  //       this.schoolLogoUrl = '../../../assets/a4e461fe3742a7cf10a1008ffcb18744.png';
+  //     }
+  //   );
+  // }
+  getImageUrl(logoPath: string): Promise<string> {
+    return new Promise((resolve) => {
+      if (!logoPath) {
+        resolve('../../../assets/a4e461fe3742a7cf10a1008ffcb18744.png'); // صورة افتراضية
+        return;
+      }
+  
+      const imageUrl = `https://school-api.runasp.net/${logoPath}`;
+      this.convertToWebP(imageUrl)
+        .then((webpUrl) => resolve(webpUrl))
+        .catch(() => resolve(imageUrl)); // في حال الفشل، يتم استخدام الصورة الأصلية
+    });
+  }
+  
+  // ✅ تحويل الصورة إلى WebP
+  convertToWebP(imageUrl: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = "Anonymous"; // لتفادي مشاكل CORS
+      img.src = imageUrl;
+  
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+  
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+          ctx.drawImage(img, 0, 0);
+          const webpUrl = canvas.toDataURL("image/webp", 0.8); // جودة 80%
+          resolve(webpUrl);
+        } else {
+          reject("Canvas not supported");
+        }
+      };
+  
+      img.onerror = (err) => reject(err);
+    });
+  }
+  
+  // ✅ تحميل اللوجو وتحويله إلى WebP
+  schoolLogoUrl: string = '';
+  
   schoolLogo() {
-    const schoolTenantId = localStorage.getItem('schoolTenantId'); // جلب schoolTenantId من localStorage
+    const schoolTenantId = localStorage.getItem('schoolTenantId');
   
     const filters = {
       pageNumber: this.pageNumber,
@@ -274,14 +353,16 @@ delete(id: string) {
   
     this.shared.filterSchools(filters).subscribe(
       (response: any) => {
-        if (response && response.result && Array.isArray(response.result)) {
-          // إيجاد المدرسة التي يعمل بها الإدمن
-          const school = response.result.find((school: any) => school.schoolTenantId === schoolTenantId);
-  
-          // إذا وُجدت المدرسة، تخزين رابط الصورة، وإلا تعيين صورة افتراضية
-          this.schoolLogoUrl = school.schoolLogo ;
-  
-          console.log('School Logo URL:', this.schoolLogoUrl);
+        if (response?.result && Array.isArray(response.result)) {
+          const school = response.result.find((s: any) => s.schoolTenantId === schoolTenantId);
+          if (school?.schoolLogo) {
+            // تحويل الصورة إلى WebP قبل العرض
+            this.getImageUrl(school.schoolLogo).then((webpUrl) => {
+              this.schoolLogoUrl = webpUrl;
+            });
+          } else {
+            this.schoolLogoUrl = '../../../assets/a4e461fe3742a7cf10a1008ffcb18744.png';
+          }
         } else {
           console.error('No data found or invalid response format.');
           this.schoolLogoUrl = '../../../assets/a4e461fe3742a7cf10a1008ffcb18744.png';
@@ -294,8 +375,9 @@ delete(id: string) {
     );
   }
   
-  trackById(index: number, school: any) {
-    return school.schoolTenantId;
+  
+  trackByStudent(index: number, student: any): number {
+    return student.id;
   }
 
   // search(searchtext: string=''){
