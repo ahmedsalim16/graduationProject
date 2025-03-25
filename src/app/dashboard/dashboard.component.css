@@ -59,6 +59,11 @@ body {
   transform: translateX(-20%);
   
 }
+#sidebar.hidden .logo img{
+  height: 37px;
+  position: relative;
+  left: 7px;
+}
 
 /* إخفاء النصوص عند الإغلاق */
 #sidebar.hidden .list-group-item,
@@ -279,7 +284,6 @@ body {
     overflow: visible;/* إخفاء المحتوى الزائد */
     transition: width 0.3s ease-in-out; /* تأثير لطيف عند الفتح */
   }
- 
 
   #sidebar:hover {
     width: 180px; /* تكبيره عند التمرير */

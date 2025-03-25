@@ -18,8 +18,12 @@
   }
   #sidebar.hidden {
     width: 80px;
-    transform: translateX(-20%);
-    
+    transform: translateX(-20%);   
+}
+#sidebar.hidden .logo img{
+  height: 37px;
+  position: relative;
+  left: 7px;
 }
 
 /* إخفاء النصوص عند الإغلاق */

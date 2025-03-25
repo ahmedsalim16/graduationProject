@@ -400,9 +400,29 @@ input {
 @media (max-width: 480px) {
     .container {
         width: 96vw;
-        height: 92vh;
-		display: contents;
+        height: max-content;
+        display: block;
     }
+	#right-img{
+		width: 260px;
+	}
+	#left-img{
+		width: 260px;
+        position: relative;
+        top: -155px;
+        left: 40px;
+	}
+	.logo2{
+		bottom: 61vh;
+        right: 189px;
+	}
+	.container.right-panel-active .overlay-left {
+		display: flex;
+        align-items: end;
+	}
+	.overlay-panel{
+		flex-direction: row;
+	}
 	body{
 		flex-direction: row;
 	}
@@ -419,6 +439,8 @@ input {
     button {
         padding: 8px 20px;
         font-size: 10px;
+		position: relative;
+        top: 50px;
     }
 	.input-box{
 		position: relative;
