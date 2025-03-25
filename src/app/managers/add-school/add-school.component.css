@@ -44,7 +44,7 @@
     margin-top: 12px;
     font-size: 17px;
     font-weight: bold;
-    padding:22px;
+    padding:41px;
     padding-top: 0px;
   }
   #list a{
@@ -93,8 +93,8 @@
     }
     
     #page-content-wrapper {
-      flex-grow: 1;  /* يجعل العنصر يتمدد */
-      padding: 20px; /* إضافة تباعد داخلي */
+      width: 100%;
+      margin-left: 30px;
       transition: margin-left 0.3s ease-in-out;
     }
     

@@ -230,16 +230,16 @@ delete(id: string) {
     };
     const formattedStudents = this.student.map(s => ({
       ID: s.id,
-      FullName: s.fullName,
+      FullName: s.fullname,
       Gender: s.gender,
       Grade: s.grade,
       City: s.city,
       Street: s.street,
-      BirthDate: s.birthDate ? new Date(s.birthDate).toISOString().split('T')[0] : '', // YYYY-MM-DD
-      RfidTag: s.rfidTag_Id ,
-      createdOn: s.createdOn ,
-      parentId:s.parentId,
-      parentEmail:s.parentEmail,
+      BirthDate: s.birthdate ? new Date(s.birthdate).toISOString().split('T')[0] : '', // YYYY-MM-DD
+      RfidTag: s.rfidtag_id ,
+      createdOn: s.createdon ,
+      parentId:s.parentid,
+      parentEmail:s.parentemail,
       
     }));
   

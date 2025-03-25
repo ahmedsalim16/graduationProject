@@ -235,7 +235,7 @@ img:hover{
 @media (max-width: 768px) {
   #sidebar {
     width: max-content;
-    height: 145vh; /* تقليل العرض */
+    height: auto; /* تقليل العرض */
     transform: translateX(0); /* التأكد من أنه ظاهر */
     z-index: 1000; 
     overflow: visible;/* إخفاء المحتوى الزائد */
