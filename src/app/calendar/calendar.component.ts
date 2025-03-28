@@ -30,11 +30,22 @@ export class CalendarComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    // تحميل الأحداث المحفوظة عند بدء التشغيل
-    this.savedEvents = JSON.parse(localStorage.getItem('events') || '[]');
+    this.loadEvents(); // تحميل الأحداث عند بدء التشغيل
+  }
+
+  // 🔹 تحميل الأحداث الخاصة بالمدرسة المسجّل بها
+  loadEvents(): void {
+    const schoolTenantId = localStorage.getItem('schoolTenantId');
+    if (!schoolTenantId) return;
+
+    const allEvents = JSON.parse(localStorage.getItem('events') || '[]');
+    
+    // تصفية الأحداث بحيث يتم عرض فقط الأحداث الخاصة بالمدرسة الحالية
+    this.savedEvents = allEvents.filter((event:any) => event.schoolTenantId === schoolTenantId);
     this.calendarOptions.events = [...this.savedEvents];
   }
 
+  // 🔹 إضافة حدث جديد مربوط بـ schoolTenantId
   onDateClick(info: any) {
     Swal.fire({
       title: 'Add a New Event',
@@ -44,7 +55,7 @@ export class CalendarComponent implements OnInit {
       showCancelButton: true,
       confirmButtonText: 'Save',
       cancelButtonText: 'Cancel',
-      allowOutsideClick: false, // Prevent closing by clicking outside the modal
+      allowOutsideClick: false, 
       inputValidator: (value) => {
         if (!value) {
           return 'You need to enter an event title!';
@@ -54,51 +65,57 @@ export class CalendarComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         const eventTitle = result.value;
-  
-        // Use the clicked date (info.dateStr)
+        const schoolTenantId = localStorage.getItem('schoolTenantId');
+
+        if (!schoolTenantId) {
+          Swal.fire('Error', 'No schoolTenantId found!', 'error');
+          return;
+        }
+
         const newEvent = { 
           title: eventTitle, 
-          start: info.startStr, // Event start date
+          start: info.startStr,
           color: '#5CC2F2', 
-          textColor: '#fff' 
+          textColor: '#fff',
+          schoolTenantId: schoolTenantId // ربط الحدث بالمدرسة
         };
-  
-        // Add the event to the list
-        this.savedEvents.push(newEvent);
-  
-        // Save events to localStorage
-        localStorage.setItem('events', JSON.stringify(this.savedEvents));
-  
-        // Update events in the calendar
-        this.calendarOptions.events = [...this.savedEvents];
-  
-        // Manually reload the calendar
-        const calendarApi = info.view.calendar;
-        calendarApi.refetchEvents();
-  
-        // Show a success message
+
+        // تحميل جميع الأحداث
+        const allEvents = JSON.parse(localStorage.getItem('events') || '[]');
+        allEvents.push(newEvent);
+
+        // تخزين جميع الأحداث المحدّثة في localStorage
+        localStorage.setItem('events', JSON.stringify(allEvents));
+
+        // تحديث القائمة المحلية وعرضها
+        this.loadEvents();
+
+        // إشعار المستخدم بنجاح الإضافة
         Swal.fire('Success!', 'The event has been added.', 'success');
       }
     });
   }
-  // دالة حذف الحدث
+
+  // 🔹 دالة حذف الحدث
   deleteEvent(event: EventApi) {
-    // البحث عن الحدث في القائمة وحذفه
-    this.savedEvents = this.savedEvents.filter(
-      (e) => e.title !== event.title || e.start !== event.startStr
+    const schoolTenantId = localStorage.getItem('schoolTenantId');
+    if (!schoolTenantId) return;
+
+    // تحميل جميع الأحداث
+    let allEvents = JSON.parse(localStorage.getItem('events') || '[]');
+
+    // تصفية الأحداث بحيث نحذف فقط الحدث المطلوب والذي ينتمي لنفس المدرسة
+    allEvents = allEvents.filter((e:any) => 
+      !(e.title === event.title && e.start === event.startStr && e.schoolTenantId === schoolTenantId)
     );
 
     // حفظ القائمة المحدثة في localStorage
-    localStorage.setItem('events', JSON.stringify(this.savedEvents));
+    localStorage.setItem('events', JSON.stringify(allEvents));
 
-    // تحديث الأحداث في التقويم
-    this.calendarOptions.events = [...this.savedEvents];
-
-    // إعادة تحميل التقويم يدويًا
-    event.remove(); // إزالة الحدث من التقويم
+    // تحديث القائمة المحلية وعرضها
+    this.loadEvents();
+    
+    // إزالة الحدث من التقويم
+    event.remove();
   }
-
-  // scrollToNext() {
-  //   document.getElementById('next-section')?.scrollIntoView({ behavior: 'smooth' });
-  // }
 }

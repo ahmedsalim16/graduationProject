@@ -32,7 +32,15 @@ export class AuthService {
   }
   // تسجيل الخروج
   logout(): void {
-    localStorage.clear()
+    const savedEvents = localStorage.getItem('events');
+
+    // مسح كل البيانات من التخزين المحلي
+    localStorage.clear();
+  
+    // إعادة حفظ الأحداث إذا كانت موجودة
+    if (savedEvents) {
+      localStorage.setItem('events', savedEvents);
+    }
     this.userLoggedIn.next(false); // إزالة التوكن من التخزين المحلي
     this.router.navigate(['/welcome']); // الانتقال إلى صفحة تسجيل الدخول
   }

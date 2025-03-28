@@ -364,7 +364,7 @@
 
 
 
-<div class="container" id="container">
+<!-- <div class="container" id="container">
 	<div class="form-container sign-up-container">
 		<div class="form">
 			<h1>login to your Account</h1>
@@ -390,6 +390,34 @@
       <i class="fa-solid fa-graduation-cap" style="color: #fff;"></i>
       <h4>SMART</h4>
       <h5>TRACK</h5>
+    </div>
+  </div>
+</div> -->
+
+
+
+<div class="calendar-container">
+  <div class="calendar-header">
+    <button (click)="previousMonth()">&lt;</button>
+    <h2>{{ currentMonthName }} {{ currentYear }}</h2>
+    <button (click)="nextMonth()">&gt;</button>
+  </div>
+  <div class="calendar-weekdays">
+    <div *ngFor="let day of weekdays">{{ day }}</div>
+  </div>
+  <div class="calendar-days">
+    <div 
+      *ngFor="let day of calendarDays" 
+      (click)="selectDate(day)"
+      [ngClass]="{
+        'day': true,
+        'current-month': day.isCurrentMonth,
+        'other-month': !day.isCurrentMonth,
+        'today': day.isToday,
+        'selected': day.isSelected
+      }"
+    >
+      {{ day.day }}
     </div>
   </div>
 </div>
