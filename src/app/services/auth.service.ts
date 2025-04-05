@@ -67,15 +67,17 @@ export class AuthService {
   }
 
   setAdminId(Id: string): void {
+    console.log("Setting Admin ID:", Id); // ✅ تحقق مما يتم تخزينه
     this.userId = Id;
-    localStorage.setItem('userId', Id); // تخزين ID في localStorage
+    localStorage.setItem('userId', Id);
   }
 
   // الحصول على الـ ID
   getAdminId(): string | null {
-    if (!this.userId) {
-      this.userId = localStorage.getItem('userId'); // استرجاع من localStorage
-    }
+    
+      this.userId = localStorage.getItem('userId');
+    
+    console.log("Retrieved Admin ID from localStorage:", this.userId); // ✅ تحقق مما يتم استرجاعه
     return this.userId;
   }
 
