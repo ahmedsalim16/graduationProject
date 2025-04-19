@@ -60,6 +60,8 @@ import { AddOwnerComponent } from './managers/add-owner/add-owner.component';
 import { authInterceptor } from './services/auth.interceptor';
 import { AdminDashboardComponent } from './managers/admin-dashboard/admin-dashboard.component';
 import { ParentListComponent } from './parent-list/parent-list.component';
+import { AddDeveloperComponent } from './managers/add-developer/add-developer.component';
+import { DevelopersComponent } from './managers/developers/developers.component';
 
  //import { Ng2SearchPipeModule } from 'ng2-search-filter';
 //  export function createTranslateLoader(http:HttpClient){
@@ -123,6 +125,8 @@ import { ParentListComponent } from './parent-list/parent-list.component';
     AddOwnerComponent,
     AdminDashboardComponent,
     ParentListComponent,
+    AddDeveloperComponent,
+    DevelopersComponent,
     
     
     

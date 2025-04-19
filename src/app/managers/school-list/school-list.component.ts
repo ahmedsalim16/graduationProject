@@ -187,5 +187,15 @@ getImageUrl(logoPath: string): string {
   }
   return `https://school-api.runasp.net//${logoPath}`; // ضع هنا رابط السيرفر الصحيح
 }
+isSchoolOpen = false;
+isAdminOpen = false;
+
+toggleDropdown(menu: string) {
+  if (menu === 'school') {
+    this.isSchoolOpen = !this.isSchoolOpen;
+  } else if (menu === 'admin') {
+    this.isAdminOpen = !this.isAdminOpen;
+  }
+}
 
 }

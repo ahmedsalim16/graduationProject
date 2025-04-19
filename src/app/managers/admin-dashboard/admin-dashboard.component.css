@@ -82,7 +82,7 @@ body {
   margin-top: 12px;
   font-size: 17px;
   font-weight: bold;
-  padding: 41px;
+  padding: 27px;
   padding-top: 0px;
 }
 #list a{
@@ -102,7 +102,7 @@ body {
 }
 .dash{
   opacity: .5;
-  padding-top: 43px;
+  padding-top: 65px;
   display: flex;
   align-items: baseline;
   justify-content: space-between; /* يجعل السهم في أقصى اليمين */

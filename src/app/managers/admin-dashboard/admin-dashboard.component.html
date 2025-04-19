@@ -15,20 +15,29 @@
           <a routerLink="/dashboard" class="list-group-item list-group-item-action active" *ngIf="isSidebarOpen">Dashboard</a>
         </div>
     
-        <div class="dash" style="cursor: pointer;">
-            <i class="fa-solid fa-school" style="color: #ffffff;"></i>
-            <a routerLink="/add-school"class="list-group-item list-group-item-action"  *ngIf="isSidebarOpen">Add School</a>
-          </div>
-      
-          <div class="dash" style="cursor: pointer;">
-            <i class="fa-solid fa-school-circle-check" style="color: #ffffff;"></i>
-            <a routerLink="/school-list" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Schools</a>
-          </div>
-  
-          <div class="dash" style="cursor: pointer;">
-            <i class="fa-solid fa-user-tie" style="color: #ffffff;"></i>
-            <a routerLink="/add-owner" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Add Managers</a>
-          </div>
+         <!-- school -->
+         <div class="dash" (click)="toggleDropdown('school')" style="cursor: pointer;">
+          <i class="fa-solid fa-school" style="color: #ffffff;"></i>
+          <span class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Schools</span>
+          <i class="fa-solid fa-chevron-right dropdown-arrow" [class.rotate]="isSchoolOpen" *ngIf="isSidebarOpen"></i>
+        </div>
+      <div class="dropdown-content" [ngClass]="{'show': isSchoolOpen}" *ngIf="isSidebarOpen">
+        
+          <a routerLink="/add-school"class="list-group-item "  *ngIf="isSidebarOpen">Add School</a>
+          <a routerLink="/school-list" class="list-group-item " *ngIf="isSidebarOpen">Schools</a>
+          <a routerLink="/add-owner" class="list-group-item " *ngIf="isSidebarOpen">Add Managers</a>
+        </div>
+    
+         <!-- Admin Dropdown -->
+      <div class="dash" (click)="toggleDropdown('admin')" style="cursor: pointer;">
+          <i class="fa-solid fa-user-shield" style="color: #ffffff;"></i>
+          <span class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Developers</span>
+          <i class="fa-solid fa-chevron-right dropdown-arrow" [class.rotate]="isAdminOpen" *ngIf="isSidebarOpen"></i>
+        </div>
+        <div class="dropdown-content" [ngClass]="{'show': isAdminOpen}" *ngIf="isSidebarOpen">
+          <a routerLink="/add-developer" class="list-group-item " >Add Developer</a>
+          <a routerLink="/developers" class="list-group-item ">Developers</a>
+        </div>
       
           <!-- Logout -->
           <div class="dash" style="cursor: pointer;">

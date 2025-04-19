@@ -31,10 +31,10 @@ export class ResetPasswordComponent {
       this.resetData.token = params['token'];
       this.resetData.email = params['email'];
 
-      if (!this.resetData.token || !this.resetData.email) {
-        Swal.fire('Error', 'Invalid reset link!', 'error');
-        this.router.navigate(['/welcome']);
-      }
+      // if (!this.resetData.token || !this.resetData.email) {
+      //   Swal.fire('Error', 'Invalid reset link!', 'error');
+      //   this.router.navigate(['/welcome']);
+      // }
     });
   }
 

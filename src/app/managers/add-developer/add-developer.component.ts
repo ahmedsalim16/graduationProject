@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../services/auth.service';
 import { SharedService } from '../../services/shared.service';
 
 @Component({
-  selector: 'app-add-owner',
-  templateUrl: './add-owner.component.html',
-  styleUrl: './add-owner.component.css'
+  selector: 'app-add-developer',
+  templateUrl: './add-developer.component.html',
+  styleUrl: './add-developer.component.css'
 })
-export class AddOwnerComponent implements OnInit {
+export class AddDeveloperComponent {
   schoolNames: string[] = [];
   pagesize:number=20;
   pageNumber:number=1;
@@ -20,7 +20,7 @@ constructor(public shared:SharedService,public authService:AuthService,private r
 
 ngOnInit(): void {
     
-  this.getSchoolNames()
+  
   this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
   console.log('Admin ID:', this.adminId);
 
@@ -38,9 +38,8 @@ admin ={
      email:'',
      password:'',
      confirmPassword:'',
-     role:3,
-     schoolTenantId:'',
-     owner:true,
+     role:0, 
+     owner:false,
  
    }
    
@@ -55,15 +54,14 @@ admin ={
           email:'',
           password:'',
           confirmPassword:'',
-          role:3,
-          schoolTenantId:'',
-          owner:true,
+          role:0,
+          owner:false,
        
          }
          Swal.fire({
                    position: "center",
                    icon: "success",
-                   title: "admin added Successfull",
+                   title: "developer added Successfull",
                    showConfirmButton: false,
                    timer: 1500
                  });
@@ -90,47 +88,23 @@ admin ={
       this.authService.logout(); // استدعاء وظيفة تسجيل الخروج من الخدمة
  
     }
-    isSchoolOpen = false;
-    isAdminOpen = false;
     
-    toggleDropdown(menu: string) {
-      if (menu === 'school') {
-        this.isSchoolOpen = !this.isSchoolOpen;
-      } else if (menu === 'admin') {
-        this.isAdminOpen = !this.isAdminOpen;
-      }
-    }
+    
     isSidebarOpen: boolean = true; // افتراضيًا، القائمة مفتوحة
 
 toggleSidebar() {
   this.isSidebarOpen = !this.isSidebarOpen;
 }
 
-getSchoolNames(): void {
-  const filters = {
-    pageNumber: this.pageNumber,
-    pageSize: this.pagesize,
-  };
+isSchoolOpen = false;
+isAdminOpen = false;
 
-  this.shared.filterSchools(filters).subscribe(
-    (response: any) => {
-      console.log('API Response:', response); // طباعة البيانات لفحصها
-      
-      if (response && response.result && Array.isArray(response.result)) {
-        this.schoolNames = response.result.map((school: any) => {
-          console.log('School Data:', school); // طباعة كل عنصر لفحصه
-          return school.SchoolTenantId || 'N/A'; // تفادي undefined
-        });
-
-        console.log('School Names:', this.schoolNames);
-      } else {
-        console.error('No data found or invalid response format.');
-      }
-    },
-    (err) => {
-      console.error('Error while fetching school names:', err);
-    }
-  );
+toggleDropdown(menu: string) {
+  if (menu === 'school') {
+    this.isSchoolOpen = !this.isSchoolOpen;
+  } else if (menu === 'admin') {
+    this.isAdminOpen = !this.isAdminOpen;
+  }
 }
 
 }

@@ -110,4 +110,14 @@ addSchool() {
   logout(): void {
     this.authService.logout(); // استدعاء وظيفة تسجيل الخروج من الخدمة
   }
+  isSchoolOpen = false;
+isAdminOpen = false;
+
+toggleDropdown(menu: string) {
+  if (menu === 'school') {
+    this.isSchoolOpen = !this.isSchoolOpen;
+  } else if (menu === 'admin') {
+    this.isAdminOpen = !this.isAdminOpen;
+  }
+}
 }

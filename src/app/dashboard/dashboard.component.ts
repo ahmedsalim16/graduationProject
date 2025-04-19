@@ -19,18 +19,41 @@ export class DashboardComponent implements OnInit {
   pageNumber:number=1;
   role: string | null = null;
   parentCount:number=0;
+  foods:number=0;
   constructor(public shared: SharedService,public authService:AuthService,private router: Router) {}
 
   ngOnInit(): void {
     // الحصول على العدد الكلي للطلاب
     this.getTotalStudentCount();
     this.getParentCount();
+    this.getFoods();
     // الحصول على عدد الطلاب حسب الجنس
     this.getStudentCountByGender(0); // طلاب ذكور
     this.getStudentCountByGender(1); // طالبات إناث
     this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
     console.log('Admin ID:', this.adminId);
     this.schoolLogo();
+  }
+
+  getFoods() {
+    
+    this.shared.getstock().subscribe(
+      (response: any) => {
+        if (response && response.result && Array.isArray(response.result)) {
+          const stock = response.result.filter(
+            (user: any) =>  user.schoolTenantId === localStorage.getItem('schoolTenantId')
+          );
+          this.foods = stock.length; // عدد الآباء
+          console.log('Number of foods:', this.foods);
+        } else {
+          console.error('No data found or invalid response format.');
+          this.foods = 0;
+        }
+      },
+      (err) => {
+        console.error('Error while fetching parents:', err);
+      }
+    );
   }
 
   navigateToAdminUpdate(): void {

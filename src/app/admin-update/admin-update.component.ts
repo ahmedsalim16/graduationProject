@@ -81,7 +81,7 @@ admin:any = {};
           timer: 1500
         });
         if(this.roles.includes('Admin')){
-          this.router.navigate(['/add-school']);
+          this.router.navigate(['/developers']);
         }
         else if(this.roles.includes('Manager')){
 

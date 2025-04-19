@@ -187,5 +187,15 @@ export class AdminDashboardComponent {
       this.myChart.setOption(option, { notMerge: true });
     }
   }
+  isSchoolOpen = false;
+isAdminOpen = false;
+
+toggleDropdown(menu: string) {
+  if (menu === 'school') {
+    this.isSchoolOpen = !this.isSchoolOpen;
+  } else if (menu === 'admin') {
+    this.isAdminOpen = !this.isAdminOpen;
+  }
+}
 }
 

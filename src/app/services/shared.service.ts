@@ -209,7 +209,9 @@ export class SharedService {
     return this.http.put("https://school-api.runasp.net/api/School/Update",school)
   }
   
-
+getstock(){
+return this.http.get("https://school-api.runasp.net/api/Canteen/Product/GetAll")
+}
 
 
   // search(search:string){

@@ -24,7 +24,7 @@
       <div class="dropdown-content" [ngClass]="{'show': isSchoolOpen}" *ngIf="isSidebarOpen">
         
           <a routerLink="/add-school"class="list-group-item "  *ngIf="isSidebarOpen">Add School</a>
-          <a routerLink="/school-list" class="list-group-item active"style="opacity: 1;" *ngIf="isSidebarOpen">Schools</a>
+          <a routerLink="/school-list" class="list-group-item " *ngIf="isSidebarOpen">Schools</a>
           <a routerLink="/add-owner" class="list-group-item " *ngIf="isSidebarOpen">Add Managers</a>
         </div>
     
@@ -36,7 +36,7 @@
         </div>
         <div class="dropdown-content" [ngClass]="{'show': isAdminOpen}" *ngIf="isSidebarOpen">
           <a routerLink="/add-developer" class="list-group-item " >Add Developer</a>
-          <a routerLink="/developers" class="list-group-item ">Developers</a>
+          <a routerLink="/developers" class="list-group-item active"style="opacity: 1;">Developers</a>
         </div>
       
           <!-- Logout -->
@@ -69,7 +69,7 @@
       
       
       <div class="stud">
-        <h2 id="head">Schools</h2>
+        <h2 id="head">Developers</h2>
 
   <div class="buttons">
     <!-- Sort Button -->
@@ -81,7 +81,7 @@
       
 
       <div class="filter-container">
-      <button id="add" type="button" ><a routerLink="/add-school" style="text-decoration: none;color: #fff;">+Add Schools</a></button>
+      <button id="add" type="button" ><a routerLink="/add-developer" style="text-decoration: none;color: #fff;">+Add Developer</a></button>
       </div>
 
       </div>
@@ -96,41 +96,40 @@
         <table class="table table-bordered">
           <thead class="table-secondary">
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">ID</th>
-              <th scope="col">name</th>
-              <th scope="col">description</th>
-              <th scope="col">address</th>
-              <th scope="col">country</th>
-              <th scope="col">phone number</th>
-              <th scope="col">email</th>
-              <th scope="col">schoolLogo</th>
-              <th scope="col">created on</th>
+                <th scope="col">#</th>
+                <th scope="col">ID</th>
+                <th scope="col">User name</th>
+                <th scope="col">email</th>
+                <th scope="col">first name</th>
+                <th scope="col">last name</th>
+                <th scope="col">phone number</th>
+                <th scope="col">Address</th>
+                <th scope="col">gender</th>
+                <th scope="col">Role</th>
+                <th scope="col">created on</th>
+                <th scope="col">Is Owner</th>
             </tr>
           </thead>
           <tbody> 
             
-                   <tr *ngFor="let index of filteredschools |paginate:{itemsPerPage:itemsPerPage,currentPage:pageNumber,totalItems:totalItems}; let i=index">
+                   <tr *ngFor="let index of filteredadmins |paginate:{itemsPerPage:itemsPerPage,currentPage:pageNumber,totalItems:totalItems}; let i=index">
                       
-                      <td>{{i+1}}</td>
-                      <td>{{index.schooltenantid}}</td>
-                      <td>{{index.name }}</td>
-                      <td>{{index.description}}</td>
-                      <td>{{index.address}}</td>
-                      <td>{{index.country}}</td>
-                      <td>{{index.phonenumber}}</td>
-                      <td>{{index.email}}</td>
-                      <td>
-                        <img  [src]="getImageUrl(index.schoollogo)" alt="School Logo" class="school-logo" loading="lazy">
-                      </td>
-                      
-
-                      
-                      
-                      <td>{{index.createdon ? (index.createdon | date: 'yyyy-MM-dd') : 'N/A'}}</td>
-                      <td><i id="edit" class="fa-solid fa-pen-to-square " [routerLink]="['/update-school',index.schooltenantid]" title="edit"></i></td>
-                      <td><i id="delete" class="fa-solid fa-trash-can " style="color: #d21919;" aria-hidden="true" (click)="delete(index.schooltenantid)" title="delete"></i></td>
-                     
+                    <td>{{i+1}}</td>
+                    <td>{{index.id}}</td>
+                    <td>{{index.userName }}</td>
+                    <td>{{index.email}}</td>
+                    <td>{{index.firstName}}</td>
+                    <td>{{index.lastName}}</td>
+                    <td>{{index.phoneNumber}}</td>
+                    <td>{{index.address}}</td>
+                    <td>{{index.gender}}</td>
+                    <td>{{index.role}}</td>
+            
+                    <td>{{index.createdOn ? (index.createdOn | date: 'yyyy-MM-dd') : 'N/A'}}</td>
+                    <td>{{index.owner}}</td>
+                    <td *ngIf="(index.role==='Admin')&&(index.id===MId)"><i id="edit" class="fa-solid fa-pen-to-square " [routerLink]="['/admin-update',index.id]" title="edit"></i></td>
+                    <td *ngIf="(index.role==='Admin')&&(IsOwner()===true)"><i id="delete" class="fa-solid fa-trash-can " style="color: #d21919;" aria-hidden="true" (click)="delete(index.id)" title="delete"></i></td>
+                   
                     
                     </tr>
       
@@ -144,7 +143,7 @@
     <pagination-controls (pageChange)="pagechanged($event)" previousLabel="prev" nextLabel="Next"></pagination-controls>
   </div> 
 
-  <div *ngIf="filteredschools.length" class="col-md-1">
+  <div *ngIf="filteredadmins.length" class="col-md-1">
     <i class="fa-solid fa-download"  id="csv" title="download file.csv" (click)="downloadCsvFile()"></i>
 
   </div>
