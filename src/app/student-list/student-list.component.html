@@ -244,8 +244,9 @@
       
      
       <div class="row mt-5" style="margin-top: 50px;">
-        <table class="table table-bordered" >
-          <thead class="table-secondary">
+        <div class="table-responsive">
+          <table class="table table-bordered w-50">
+           <thead class="table-secondary">
             <tr>
               <th scope="col">#</th>
               <th scope="col">ID</th>
@@ -293,6 +294,7 @@
            
           </tbody>
         </table>
+      </div>
            <div class="pagination">
     
     <pagination-controls (pageChange)="pagechanged($event)" previousLabel="prev" nextLabel="Next"></pagination-controls>

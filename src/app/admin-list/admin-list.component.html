@@ -120,7 +120,8 @@
       
      
       <div class="row mt-5" style="margin-top: 50px;">
-        <table class="table table-bordered">
+        <div class="table-responsive">
+          <table class="table table-bordered w-50">
           <thead class="table-secondary">
             <tr>
               <th scope="col">#</th>
@@ -166,6 +167,7 @@
            
           </tbody>
         </table>
+      </div>
            <div class="pagination">
     
     <pagination-controls (pageChange)="pagechanged($event)" previousLabel="prev" nextLabel="Next"></pagination-controls>

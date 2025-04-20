@@ -126,8 +126,8 @@ body {
 
 .dash i{
   position: relative;
-  top: 8px;
-  left: -8px;
+  top: 3px;
+  left: -4px;
   font-size: 25px;
 }
 .dash{
@@ -330,7 +330,7 @@ body {
 @media (max-width: 768px) {
   #sidebar {
     width: max-content;
-    height: auto; /* تقليل العرض */
+    height: 200vh; /* تقليل العرض */
     transform: translateX(0); /* التأكد من أنه ظاهر */
     z-index: 1000; 
     overflow: visible;/* إخفاء المحتوى الزائد */

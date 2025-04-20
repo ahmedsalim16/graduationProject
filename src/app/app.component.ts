@@ -1,9 +1,9 @@
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
+import { Router ,NavigationEnd} from '@angular/router';
 import { AuthService } from './services/auth.service';
-
+import { filter, take } from 'rxjs/operators';
 
   
 
@@ -19,7 +19,25 @@ export class AppComponent {
   
 
   ngOnInit() {
-    this.redirectUser();
+    const skipRedirectRoutes = [
+      '/reset-password',
+      '/forgot-password',
+      '/login',
+      '/unauthorized'
+    ];
+
+    // نستنى أول عملية تنقّل ناجحة
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+      take(1)
+    ).subscribe((event: any) => {
+      const currentUrl = event.urlAfterRedirects;
+
+      // لو الرابط مش واحد من الاستثناءات، نعمل التوجيه
+      if (!skipRedirectRoutes.some(route => currentUrl.startsWith(route))) {
+        this.redirectUser();
+      }
+    });
   }
 
   redirectUser() {

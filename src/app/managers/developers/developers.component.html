@@ -93,7 +93,8 @@
       
      
       <div class="row mt-5" style="margin-top: 50px;">
-        <table class="table table-bordered">
+        <div class="table-responsive">
+          <table class="table table-bordered w-50">
           <thead class="table-secondary">
             <tr>
                 <th scope="col">#</th>
@@ -128,7 +129,7 @@
                     <td>{{index.createdOn ? (index.createdOn | date: 'yyyy-MM-dd') : 'N/A'}}</td>
                     <td>{{index.owner}}</td>
                     <td *ngIf="(index.role==='Admin')&&(index.id===MId)"><i id="edit" class="fa-solid fa-pen-to-square " [routerLink]="['/admin-update',index.id]" title="edit"></i></td>
-                    <td *ngIf="(index.role==='Admin')&&(IsOwner()===true)"><i id="delete" class="fa-solid fa-trash-can " style="color: #d21919;" aria-hidden="true" (click)="delete(index.id)" title="delete"></i></td>
+                    <td *ngIf="(index.role==='Admin')&&(IsOwner()==true)"><i id="delete" class="fa-solid fa-trash-can " style="color: #d21919;" aria-hidden="true" (click)="delete(index.id)" title="delete"></i></td>
                    
                     
                     </tr>
@@ -138,6 +139,7 @@
            
           </tbody>
         </table>
+      </div>
            <div class="pagination">
     
     <pagination-controls (pageChange)="pagechanged($event)" previousLabel="prev" nextLabel="Next"></pagination-controls>
