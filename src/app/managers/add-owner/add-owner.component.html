@@ -21,20 +21,14 @@
         </div>
       <div class="dropdown-content" [ngClass]="{'show': isSchoolOpen}" *ngIf="isSidebarOpen">
         
-          <a routerLink="/add-school"class="list-group-item "  *ngIf="isSidebarOpen">Add School</a>
-          <a routerLink="/school-list" class="list-group-item " *ngIf="isSidebarOpen">Schools</a>
-          <a routerLink="/add-owner" class="list-group-item active"style="opacity: 1;" *ngIf="isSidebarOpen">Add Managers</a>
+          
+          <a routerLink="/school-list" class="list-group-item active"style="opacity: 1;" *ngIf="isSidebarOpen">Schools</a>
+          <a routerLink="/add-owner" class="list-group-item " *ngIf="isSidebarOpen">Add Managers</a>
         </div>
     
-         <!-- Admin Dropdown -->
-      <div class="dash" (click)="toggleDropdown('admin')" style="cursor: pointer;">
+        <div class="dash">
           <i class="fa-solid fa-user-shield" style="color: #ffffff;"></i>
-          <span class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Developers</span>
-          <i class="fa-solid fa-chevron-right dropdown-arrow" [class.rotate]="isAdminOpen" *ngIf="isSidebarOpen"></i>
-        </div>
-        <div class="dropdown-content" [ngClass]="{'show': isAdminOpen}" *ngIf="isSidebarOpen">
-          <a routerLink="/add-developer" class="list-group-item " >Add Developer</a>
-          <a routerLink="/developers" class="list-group-item ">Developers</a>
+          <a routerLink="/developers" class="list-group-item active"style="opacity: 1;" *ngIf="isSidebarOpen">Developers</a>
         </div>
       
           <!-- Logout -->

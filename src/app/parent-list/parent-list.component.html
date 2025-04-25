@@ -24,20 +24,15 @@
           <i class="fa-solid fa-chevron-right dropdown-arrow" [class.rotate]="isStudentOpen" *ngIf="isSidebarOpen"></i>
         </div>
         <div class="dropdown-content" [ngClass]="{'show': isStudentOpen}" *ngIf="isSidebarOpen">
-          <a routerLink="/student" class="list-group-item">Add Student</a>
+          
           <a routerLink="/student-list" class="list-group-item">Student List</a>
           <a routerLink="/absence-list" class="list-group-item">Absence List</a>
         </div>
     
         <!-- Admin Dropdown -->
-        <div class="dash" (click)="toggleDropdown('admin')" style="cursor: pointer;">
+        <div class="dash">
           <i class="fa-solid fa-user-shield" style="color: #ffffff;"></i>
-          <span class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Manager</span>
-          <i class="fa-solid fa-chevron-right dropdown-arrow" [class.rotate]="isAdminOpen" *ngIf="isSidebarOpen"></i>
-        </div>
-        <div class="dropdown-content" [ngClass]="{'show': isAdminOpen}" *ngIf="isSidebarOpen">
-          <a routerLink="/Add-admin" class="list-group-item " >Add Manager</a>
-          <a routerLink="/admin-list" class="list-group-item " >Manager List</a>
+          <a routerLink="/admin-list" class="list-group-item active" *ngIf="isSidebarOpen" style="opacity: 1;">Manager List</a>
         </div>
     
         <!-- Send Emails -->
@@ -81,6 +76,16 @@
       
       <div class="stud">
         <h2 id="head">Parents</h2>
+        <div class="dropdown items-per-page-dropdown">
+          <button class="btn dropdown-toggle" id="itemsPerPage" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ itemsPerPage }} itemsPerPage
+          </button>
+          <ul class="dropdown-menu">
+            <li *ngFor="let option of itemsPerPageOptions">
+              <a class="dropdown-item" (click)="onItemsPerPageChange(option)">{{ option }}</a>
+            </li>
+          </ul>
+        </div>
       </div>
       
     
@@ -88,7 +93,7 @@
      
       <div class="row mt-5" style="margin-top: 50px;">
         <div class="table-responsive">
-          <table class="table table-bordered w-50">
+          <table class="table table-bordered">
           <thead class="table-secondary">
             <tr>
               <th scope="col">#</th>

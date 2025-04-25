@@ -20,9 +20,12 @@ pagination: any;
   constructor(public shared:SharedService,private router:Router,public authService:AuthService,private cdr: ChangeDetectorRef){}
   student: any[] = [];
   searchtext:string='';
-  pagesize:number=500;
+  pagesize:number=100;
   totalItems:number;
-  itemsPerPage:number=5;
+  // تعديل قيمة المتغير الحالي
+  itemsPerPage:number=5; // تغيير القيمة الافتراضية من 1 إلى 10
+  // إضافة خيارات لعدد العناصر في الصفحة
+  itemsPerPageOptions: number[] = [5, 10, 20, 30,40, 50];
   pageNumber:number=1;
   count:number=0;
   gender: number | null = null;
@@ -57,7 +60,11 @@ pagination: any;
       console.error('Admin ID not found!');
     }
   }
-
+  onItemsPerPageChange(newValue: number): void {
+    this.itemsPerPage = newValue;
+    this.pageNumber = 1; // إعادة تعيين إلى الصفحة الأولى
+    this.filterStudents(); // إعادة تحميل البيانات
+  }
  
 getStudents(){
   localStorage.getItem('token');

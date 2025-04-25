@@ -115,7 +115,7 @@ body {
   margin-top: 12px;
   font-size: 17px;
   font-weight: bold;
-  padding: 27px;
+  padding: 32px;
   padding-top: 0px;
 }
 #list a{
@@ -138,7 +138,6 @@ body {
   padding-top: 65px;
   display: flex;
   align-items: baseline;
-  justify-content: space-between; /* يجعل السهم في أقصى اليمين */
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   
 }
@@ -161,6 +160,7 @@ body {
       display: flex;
       flex-direction: column;
       align-items: center;
+      margin-top: 10px;
     }
     
   #page-content-wrapper {
@@ -336,7 +336,31 @@ body {
   visibility: visible;
   opacity: 1;
 }
+/* أضف هذا الكود في ملف CSS الخاص بالمكون */
+.items-per-page-dropdown button {
+  background-color: rgba(127, 189, 228, 0.65);
+  color: white;
+  border: none;
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: bold;
+  height: 52px;
+  font-family: serif;
+  margin-right: 75px;
+}
 
+.items-per-page-dropdown button:hover {
+  background-color: rgba(127, 189, 228, 0.85);
+}
+
+.items-per-page-dropdown .dropdown-item {
+  cursor: pointer;
+}
+
+.items-per-page-dropdown .dropdown-item:hover {
+  background-color: rgba(127, 189, 228, 0.2);
+}
 
 @media (max-width: 768px) {
   #sidebar {

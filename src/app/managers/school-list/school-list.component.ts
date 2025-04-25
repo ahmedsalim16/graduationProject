@@ -15,9 +15,12 @@ pagination: any;
   constructor(public shared:SharedService,public authService:AuthService,private router: Router,private cdr: ChangeDetectorRef){}
   schools: any[] = [];
   searchtext:string='';
-  pagesize:number=20;
+  pagesize:number=100;
   totalItems:number;
-  itemsPerPage:number=1;
+  // تعديل قيمة المتغير الحالي
+  itemsPerPage:number=1; // تغيير القيمة الافتراضية من 1 إلى 10
+  // إضافة خيارات لعدد العناصر في الصفحة
+  itemsPerPageOptions: number[] = [1, 5, 10, 15, 20];
   pageNumber:number=1;
   count:number=0;
  
@@ -51,7 +54,11 @@ pagination: any;
       console.error('Admin ID not found!');
     }
   }
-
+  onItemsPerPageChange(newValue: number): void {
+    this.itemsPerPage = newValue;
+    this.pageNumber = 1; // إعادة تعيين إلى الصفحة الأولى
+    this.filterschools(); // إعادة تحميل البيانات
+  }
  
 
 filterschools() {

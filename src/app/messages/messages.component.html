@@ -22,20 +22,15 @@
           <i class="fa-solid fa-chevron-right dropdown-arrow" [class.rotate]="isStudentOpen" *ngIf="isSidebarOpen"></i>
         </div>
         <div class="dropdown-content" [ngClass]="{'show': isStudentOpen}" *ngIf="isSidebarOpen">
-          <a routerLink="/student" class="list-group-item">Add Student</a>
+          
           <a routerLink="/student-list" class="list-group-item">Student List</a>
           <a routerLink="/absence-list" class="list-group-item">Absence List</a>
         </div>
     
         <!-- Admin Dropdown -->
-        <div class="dash" (click)="toggleDropdown('admin')" style="cursor: pointer;">
+        <div class="dash">
           <i class="fa-solid fa-user-shield" style="color: #ffffff;"></i>
-          <span class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Manager</span>
-          <i class="fa-solid fa-chevron-right dropdown-arrow" [class.rotate]="isAdminOpen" *ngIf="isSidebarOpen"></i>
-        </div>
-        <div class="dropdown-content" [ngClass]="{'show': isAdminOpen}" *ngIf="isSidebarOpen">
-          <a routerLink="/Add-admin" class="list-group-item" >Add Manager</a>
-          <a routerLink="/admin-list" class="list-group-item">Manager List</a>
+          <a routerLink="/admin-list" class="list-group-item active" *ngIf="isSidebarOpen" style="opacity: 1;">Manager List</a>
         </div>
         <div class="dash">
           <i class="fa-solid fa-user-group" style="color: #ffffff;"></i>

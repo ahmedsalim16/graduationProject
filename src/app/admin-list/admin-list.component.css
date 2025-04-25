@@ -341,6 +341,32 @@ body {
   margin: 10px;
   border-radius: 10px;
 }
+/* أضف هذا الكود في ملف CSS الخاص بالمكون */
+.items-per-page-dropdown button {
+  background-color: rgba(127, 189, 228, 0.65);
+  color: white;
+  border: none;
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: bold;
+  height: 52px;
+  font-family: serif;
+  margin-right: 75px;
+
+}
+
+.items-per-page-dropdown button:hover {
+  background-color: rgba(127, 189, 228, 0.85);
+}
+
+.items-per-page-dropdown .dropdown-item {
+  cursor: pointer;
+}
+
+.items-per-page-dropdown .dropdown-item:hover {
+  background-color: rgba(127, 189, 228, 0.2);
+}
 @media (max-width: 768px) {
   #sidebar {
      width: max-content;
