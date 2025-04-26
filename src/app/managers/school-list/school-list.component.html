@@ -1,160 +1,174 @@
-
 <div class="d-flex">
-    <!-- Sidebar -->
-    <div id="sidebar" [ngClass]="{'hidden': !isSidebarOpen}">
-        <div class="logo">
-          <i class="fa-solid fa-graduation-cap animated-icon" style="color: #fff; cursor: pointer" [routerLink]="['/dashboard']"></i>
-          <h4 *ngIf="isSidebarOpen">SMART</h4>
-          <h5 *ngIf="isSidebarOpen">TRACK</h5>
-        </div>
+  <!-- Sidebar -->
+  <div id="sidebar" [ngClass]="{'hidden': !isSidebarOpen}">
+    <div class="logo">
+      <i class="fa-solid fa-graduation-cap animated-icon" style="color: #fff; cursor: pointer" [routerLink]="['/dashboard']"></i>
+      <h4 *ngIf="isSidebarOpen">SMART</h4>
+      <h5 *ngIf="isSidebarOpen">TRACK</h5>
+    </div>
+  
+    <div id="list">
+      <div class="dash">
+        <i class="fa-solid fa-chart-line" style="color: #fff;"></i>
+        <a routerLink="/dashboard" class="list-group-item list-group-item-action active" *ngIf="isSidebarOpen">Dashboard</a>
+      </div>
       
-      
-        <div id="list">
-          <div class="dash">
-            <i class="fa-solid fa-chart-line" style="color: #fff;"></i>
-            <a routerLink="/dashboard" class="list-group-item list-group-item-action active" *ngIf="isSidebarOpen">Dashboard</a>
-          </div>
-          
-          <!-- school -->
-        <div class="dash" (click)="toggleDropdown('school')" style="cursor: pointer;">
-          <i class="fa-solid fa-school" style="color: #ffffff;"></i>
-          <span class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Schools</span>
-          <i class="fa-solid fa-chevron-right dropdown-arrow" [class.rotate]="isSchoolOpen" *ngIf="isSidebarOpen"></i>
-        </div>
+      <!-- School Dropdown -->
+      <div class="dash" (click)="toggleDropdown('school')" style="cursor: pointer;">
+        <i class="fa-solid fa-school" style="color: #ffffff;"></i>
+        <span class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Schools</span>
+        <i class="fa-solid fa-chevron-right dropdown-arrow" [class.rotate]="isSchoolOpen" *ngIf="isSidebarOpen"></i>
+      </div>
       <div class="dropdown-content" [ngClass]="{'show': isSchoolOpen}" *ngIf="isSidebarOpen">
-        
-          
-          <a routerLink="/school-list" class="list-group-item active"style="opacity: 1;" *ngIf="isSidebarOpen">Schools</a>
-          <a routerLink="/add-owner" class="list-group-item " *ngIf="isSidebarOpen">Add Managers</a>
-        </div>
-    
-        <div class="dash">
-          <i class="fa-solid fa-user-shield" style="color: #ffffff;"></i>
-          <a routerLink="/developers" class="list-group-item active"style="opacity: 1;" *ngIf="isSidebarOpen">Developers</a>
-        </div>
-      
-          <!-- Logout -->
-          <div class="dash" style="cursor: pointer;">
-            <i class="fa-solid fa-right-from-bracket" style="color: #d21919;"></i>
-            <a (click)="logout()" id="Logout" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Logout</a>
-          </div>
-        </div>
+        <a routerLink="/school-list" class="list-group-item active" style="opacity: 1;">Schools</a>
+        <a routerLink="/add-owner" class="list-group-item">Add Managers</a>
       </div>
   
-    <!-- Main Content -->
-    <div id="page-content-wrapper" class="flex-grow-1">
-      <div class="header" >
-        <button title="toggle" id="toggle-sidebar" class="menu-btn" (click)="toggleSidebar()"><i class="fa-solid fa-bars" style="color: #ffffff;"></i></button>
-        <!-- search bar --> 
-        <div class="form-outline mt-3 p-5">
-          <i class="fa-solid fa-magnifying-glass" style="color: #7fbde4a6;"></i>
-          <input type="search" id="search" [(ngModel)]="searchtext" class="form-control" placeholder="Search..." id="search">
-          <!-- <label id="ser" class="form-label" for="search">Search...</label> -->
-        </div>
-        <div class="profile-container">
-          <img class="profile-img" src="../../assets/profile.png" alt="Profile" 
+      <div class="dash">
+        <i class="fa-solid fa-user-shield" style="color: #ffffff;"></i>
+        <a routerLink="/developers" class="list-group-item active" style="opacity: 1;" *ngIf="isSidebarOpen">Developers</a>
+      </div>
+    
+      <!-- Logout -->
+      <div class="dash" style="cursor: pointer;">
+        <i class="fa-solid fa-right-from-bracket" style="color: #d21919;"></i>
+        <a (click)="logout()" id="Logout" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Logout</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div id="page-content-wrapper" class="flex-grow-1">
+    <div class="header">
+      <button title="toggle" id="toggle-sidebar" class="menu-btn" (click)="toggleSidebar()">
+        <i class="fa-solid fa-bars" style="color: #ffffff;"></i>
+      </button>
+      <div class="profile-container">
+        <img class="profile-img" src="../../assets/profile.png" alt="Profile" 
           (click)="navigateToAdminUpdate()" 
           [routerLink]="['/admin-update',adminId]" />
-          <span class="profile-name">{{adminName}}</span>
-  
-        </div>
+        <span class="profile-name">{{adminName}}</span>
       </div>
-
-      
-      
-      <div class="stud">
-        <h2 id="head">Schools</h2>
-       
-
-  <div class="buttons">
-    <!-- Sort Button -->
-    
-
-
-      
-    <div class="dropdown items-per-page-dropdown">
-      <button class="btn dropdown-toggle" id="itemsPerPage" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-        {{ itemsPerPage }} itemsPerPage
-      </button>
-      <ul class="dropdown-menu">
-        <li *ngFor="let option of itemsPerPageOptions">
-          <a class="dropdown-item" (click)="onItemsPerPageChange(option)">{{ option }}</a>
-        </li>
-      </ul>
     </div>
-      
 
-      <div class="filter-container">
-      <button id="add" type="button" ><a routerLink="/add-school" style="text-decoration: none;color: #fff;">+Add Schools</a></button>
-      </div>
-
-      </div>
-       
-        
-      </div>
+    <div class="stud">
+      <h2 id="head">Schools</h2>
       
-    
-      
-     
-      <div class="row mt-5" style="margin-top: 50px;">
-        <div class="table-responsive">
-          <table class="table table-bordered">
-          <thead class="table-secondary">
+      <div class="card">
+        <!-- PrimeNG Table -->
+        <p-table 
+          #dt 
+          [value]="schools" 
+          [rows]="itemsPerPage" 
+          [paginator]="true" 
+          [rowsPerPageOptions]="itemsPerPageOptions"
+          [globalFilterFields]="['name', 'country', 'phonenumber', 'email']"
+          [loading]="loading"
+          dataKey="schooltenantid"
+          styleClass="p-datatable-gridlines p-datatable-sm"
+          [tableStyle]="{ 'min-width': '75rem' }">
+          
+          <ng-template pTemplate="caption">
+            <div class="flex justify-content-between">
+              <div>
+                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear()" style="color: #00015d;"></button>
+              </div>
+              <div class="p-inputgroup">
+                <span class="p-inputgroup-addon">
+                  <i class="pi pi-search"></i>
+                </span>
+                <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" placeholder="Search keyword" />
+              </div>
+              <div>
+                <button pButton label="Add School" icon="pi pi-plus" routerLink="/add-school"></button>
+                <button pButton label="Download CSV" icon="pi pi-download" (click)="downloadCsvFile()" class="p-button-secondary ml-2"></button>
+              </div>
+            </div>
+          </ng-template>
+          
+          <ng-template pTemplate="header">
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">ID</th>
-              <th scope="col">name</th>
-              <th scope="col">description</th>
-              <th scope="col">address</th>
-              <th scope="col">country</th>
-              <th scope="col">phone number</th>
-              <th scope="col">email</th>
-              <th scope="col">schoolLogo</th>
-              <th scope="col">created on</th>
+              <th>#</th>
+              <th pSortableColumn="schooltenantid">ID <p-sortIcon field="schooltenantid"></p-sortIcon></th>
+              <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+              <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon></th>
+              <th pSortableColumn="address">Address <p-sortIcon field="address"></p-sortIcon></th>
+              <th pSortableColumn="country">Country <p-sortIcon field="country"></p-sortIcon></th>
+              <th pSortableColumn="phonenumber">Phone <p-sortIcon field="phonenumber"></p-sortIcon></th>
+              <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
+              <th>Logo</th>
+              <th pSortableColumn="createdon">Created On <p-sortIcon field="createdon"></p-sortIcon></th>
+              <th>Actions</th>
             </tr>
-          </thead>
-          <tbody> 
-            
-                   <tr *ngFor="let index of filteredschools |paginate:{itemsPerPage:itemsPerPage,currentPage:pageNumber,totalItems:totalItems}; let i=index">
-                      
-                      <td>{{i+1}}</td>
-                      <td>{{index.schooltenantid}}</td>
-                      <td>{{index.name }}</td>
-                      <td>{{index.description}}</td>
-                      <td>{{index.address}}</td>
-                      <td>{{index.country}}</td>
-                      <td>{{index.phonenumber}}</td>
-                      <td>{{index.email}}</td>
-                      <td>
-                        <img  [src]="getImageUrl(index.schoollogo)" alt="School Logo" class="school-logo" loading="lazy">
-                      </td>
-                      
-
-                      
-                      
-                      <td>{{index.createdon ? (index.createdon | date: 'yyyy-MM-dd') : 'N/A'}}</td>
-                      <td><i id="edit" class="fa-solid fa-pen-to-square " [routerLink]="['/update-school',index.schooltenantid]" title="edit"></i></td>
-                      <td><i id="delete" class="fa-solid fa-trash-can " style="color: #d21919;" aria-hidden="true" (click)="delete(index.schooltenantid)" title="delete"></i></td>
-                     
-                    
-                    </tr>
-      
-             
-            
-           
-          </tbody>
-        </table>
+            <tr>
+              <th></th>
+              <th>
+                <input pInputText type="text" (input)="onFilterChange($event, 'schooltenantid', 'contains')" placeholder="Search ID" class="w-full" />
+              </th>
+              <th>
+                <input pInputText type="text" (input)="onFilterChange($event, 'name', 'contains')" placeholder="Search name" class="w-full" />
+              </th>
+              <th>
+                <input pInputText type="text" (input)="onFilterChange($event, 'description', 'contains')" placeholder="Search description" class="w-full" />
+              </th>
+              <th>
+                <input pInputText type="text" (input)="onFilterChange($event, 'address', 'contains')" placeholder="Search address" class="w-full" />
+              </th>
+              <th>
+                <input pInputText type="text" (input)="onFilterChange($event, 'country', 'contains')" placeholder="Search country" class="w-full" />
+              </th>
+              <th>
+                <input pInputText type="text" (input)="onFilterChange($event, 'phonenumber', 'contains')" placeholder="Search phone" class="w-full" />
+              </th>
+              <th>
+                <input pInputText type="text" (input)="onFilterChange($event, 'email', 'contains')" placeholder="Search email" class="w-full" />
+              </th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </ng-template>
+          
+          <ng-template pTemplate="body" let-school let-i="rowIndex">
+            <tr>
+              <td>{{i + 1}}</td>
+              <td>{{school.schooltenantid}}</td>
+              <td>{{school.name}}</td>
+              <td>{{school.description}}</td>
+              <td>{{school.address}}</td>
+              <td>{{school.country}}</td>
+              <td>{{school.phonenumber}}</td>
+              <td>{{school.email}}</td>
+              <td>
+                <img [src]="getImageUrl(school.schoollogo)" alt="School Logo" class="school-logo" loading="lazy">
+              </td>
+              <td>{{school.createdon ? (school.createdon | date: 'yyyy-MM-dd') : 'N/A'}}</td>
+              <td>
+                <div class="flex gap-2">
+                  <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-success p-button-sm" 
+                    [routerLink]="['/update-school', school.schooltenantid]"
+                    title="Edit"></button>
+                  <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-sm"
+                    (click)="delete(school.schooltenantid)"
+                    title="Delete"></button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="11" class="text-center">No schools found.</td>
+            </tr>
+          </ng-template>
+          
+          <ng-template pTemplate="summary">
+            <div class="flex justify-content-between">
+              Total Records: {{schools ? schools.length : 0}}
+            </div>
+          </ng-template>
+        </p-table>
       </div>
-           <div class="pagination">
-    
-    <pagination-controls (pageChange)="pagechanged($event)" previousLabel="prev" nextLabel="Next"></pagination-controls>
-  </div> 
-
-  <div *ngIf="filteredschools.length" class="col-md-1">
-    <i class="fa-solid fa-download"  id="csv" title="download file.csv" (click)="downloadCsvFile()"></i>
-
+    </div>
   </div>
-       
-    </div> 
-  </div>
-  
+</div>

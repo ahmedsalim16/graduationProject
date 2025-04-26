@@ -1,155 +1,182 @@
-
 <div class="d-flex">
-    <!-- Sidebar -->
-    <div id="sidebar" [ngClass]="{'hidden': !isSidebarOpen}">
-      <div class="logo">
-        <img  [src]="schoolLogoUrl" alt="School Logo" class="school-logo animated-icon" [routerLink]="['/Dashboard']" loading="lazy">
-        <!-- <i class="fa-solid fa-graduation-cap animated-icon" style="color: #fff; cursor: pointer" [routerLink]="['/Dashboard']"></i> -->
-        <h4 *ngIf="isSidebarOpen">{{schoolName}}</h4>
-        
-      </div>
-    
-    
-      <div id="list">
-        <!-- Dashboard -->
-        <div class="dash">
-          <i class="fa-solid fa-chart-line" style="color: #fff;"></i>
-          <a routerLink="/Dashboard" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Dashboard</a>
-        </div>
-    
-        <!-- Student Dropdown -->
-        <div class="dash" (click)="toggleDropdown('student')" style="cursor: pointer;">
-          <i class="fa-solid fa-user" style="color: #ffffff;"></i>
-          <span class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Student</span>
-          <i class="fa-solid fa-chevron-right dropdown-arrow" [class.rotate]="isStudentOpen" *ngIf="isSidebarOpen"></i>
-        </div>
-        <div class="dropdown-content" [ngClass]="{'show': isStudentOpen}" *ngIf="isSidebarOpen">
-          
-          <a routerLink="/student-list" class="list-group-item">Student List</a>
-          <a routerLink="/absence-list" class="list-group-item">Absence List</a>
-        </div>
-    
-        <!-- Admin Dropdown -->
-        <div class="dash">
-          <i class="fa-solid fa-user-shield" style="color: #ffffff;"></i>
-          <a routerLink="/admin-list" class="list-group-item active" *ngIf="isSidebarOpen" style="opacity: 1;">Manager List</a>
-        </div>
-    
-        <!-- Send Emails -->
-        <div class="dash active" style="opacity: 1;">
-          <i class="fa-solid fa-user-group" style="color: #ffffff;"></i>
-          <a routerLink="/parent-list" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Parent List</a>
-        </div>
-        <div class="dash">
-          <i class="fa-solid fa-paper-plane" style="color: #ffffff;"></i>
-          <a routerLink="/Send-email" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Send Report</a>
-        </div>
-    
-        <!-- Logout -->
-        <div class="dash" style="cursor: pointer;">
-          <i class="fa-solid fa-right-from-bracket" style="color: #d21919;"></i>
-          <a (click)="logout()" id="Logout" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Logout</a>
-        </div>
-      </div>
+  <!-- Sidebar -->
+  <div id="sidebar" [ngClass]="{'hidden': !isSidebarOpen}">
+    <div class="logo">
+      <img [src]="schoolLogoUrl" alt="School Logo" class="school-logo animated-icon" [routerLink]="['/Dashboard']" loading="lazy">
+      <h4 *ngIf="isSidebarOpen">{{schoolName}}</h4>
     </div>
   
-    <!-- Main Content -->
-    <div id="page-content-wrapper" class="flex-grow-1">
-      <div class="header" >
-        <button title="toggle" id="toggle-sidebar" class="menu-btn" (click)="toggleSidebar()"><i class="fa-solid fa-bars" style="color: #ffffff;"></i></button>
-        <!-- search bar --> 
-        <div class="form-outline mt-3 p-5">
-          <i class="fa-solid fa-magnifying-glass" style="color: #7fbde4a6;"></i>
-          <input type="search" id="search" [(ngModel)]="searchtext" class="form-control" placeholder="Search..." id="search">
-          <!-- <label id="ser" class="form-label" for="search">Search...</label> -->
-        </div>
-        <div class="profile-container">
-          <img class="profile-img" src="../../assets/profile.png" alt="Profile" 
-          (click)="navigateToAdminUpdate()" 
-          [routerLink]="['/admin-update',adminId]" />
-          <span class="profile-name">{{adminName}}</span>
+    <div id="list">
+      <!-- Dashboard -->
+      <div class="dash">
+        <i class="fa-solid fa-chart-line" style="color: #fff;"></i>
+        <a routerLink="/Dashboard" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Dashboard</a>
+      </div>
   
-        </div>
+      <!-- Student Dropdown -->
+      <div class="dash" (click)="toggleDropdown('student')" style="cursor: pointer;">
+        <i class="fa-solid fa-user" style="color: #ffffff;"></i>
+        <span class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Student</span>
+        <i class="fa-solid fa-chevron-right dropdown-arrow" [class.rotate]="isStudentOpen" *ngIf="isSidebarOpen"></i>
       </div>
+      <div class="dropdown-content" [ngClass]="{'show': isStudentOpen}" *ngIf="isSidebarOpen">
+        <a routerLink="/student-list" class="list-group-item">Student List</a>
+        <a routerLink="/absence-list" class="list-group-item">Absence List</a>
+      </div>
+  
+      <!-- Admin Dropdown -->
+      <div class="dash">
+        <i class="fa-solid fa-user-shield" style="color: #ffffff;"></i>
+        <a routerLink="/admin-list" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Manager List</a>
+      </div>
+  
+      <!-- Parent List -->
+      <div class="dash active" style="opacity: 1;">
+        <i class="fa-solid fa-user-group" style="color: #ffffff;"></i>
+        <a routerLink="/parent-list" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Parent List</a>
+      </div>
+  
+      <!-- Send Emails -->
+      <div class="dash">
+        <i class="fa-solid fa-paper-plane" style="color: #ffffff;"></i>
+        <a routerLink="/Send-email" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Send Report</a>
+      </div>
+  
+      <!-- Logout -->
+      <div class="dash" style="cursor: pointer;">
+        <i class="fa-solid fa-right-from-bracket" style="color: #d21919;"></i>
+        <a (click)="logout()" id="Logout" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Logout</a>
+      </div>
+    </div>
+  </div>
 
-      
-      
-      <div class="stud">
-        <h2 id="head">Parents</h2>
-        <div class="dropdown items-per-page-dropdown">
-          <button class="btn dropdown-toggle" id="itemsPerPage" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {{ itemsPerPage }} itemsPerPage
-          </button>
-          <ul class="dropdown-menu">
-            <li *ngFor="let option of itemsPerPageOptions">
-              <a class="dropdown-item" (click)="onItemsPerPageChange(option)">{{ option }}</a>
-            </li>
-          </ul>
-        </div>
+  <!-- Main Content -->
+  <div id="page-content-wrapper" class="flex-grow-1">
+    <div class="header">
+      <button title="toggle" id="toggle-sidebar" class="menu-btn" (click)="toggleSidebar()">
+        <i class="fa-solid fa-bars" style="color: #ffffff;"></i>
+      </button>
+      <!-- Profile section -->
+      <div class="profile-container">
+        <img class="profile-img" src="../../assets/profile.png" alt="Profile" 
+        (click)="navigateToAdminUpdate()" 
+        [routerLink]="['/admin-update',adminId]" />
+        <span class="profile-name">{{adminName}}</span>
       </div>
+    </div>
+
+    <div class="stud">
+      <h2 id="head">Parents</h2>
       
-    
-      
-     
-      <div class="row mt-5" style="margin-top: 50px;">
-        <div class="table-responsive">
-          <table class="table table-bordered">
-          <thead class="table-secondary">
+      <div class="card">
+        <!-- PrimeNG Table -->
+        <p-table 
+          #dt 
+          [value]="parents" 
+          [rows]="itemsPerPage" 
+          [paginator]="true" 
+          [rowsPerPageOptions]="itemsPerPageOptions"
+          [globalFilterFields]="['userName', 'email', 'firstName', 'lastName', 'phoneNumber', 'gender']"
+          [loading]="loading"
+          dataKey="id"
+          styleClass="p-datatable-gridlines p-datatable-sm"
+          [tableStyle]="{ 'min-width': '75rem' }">
+          
+          <ng-template pTemplate="caption">
+            <div class="flex justify-content-between">
+              <div>
+                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear()" style="color: #00015d;"></button>
+              </div>
+              <div class="p-inputgroup">
+                <span class="p-inputgroup-addon">
+                  <i class="pi pi-search"></i>
+                </span>
+                <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" placeholder="Search keyword" />
+              </div>
+              <div>
+                <button pButton label="Download CSV" icon="pi pi-download" (click)="downloadCsvFile()" class="p-button-secondary ml-2"> </button>
+              </div>
+            </div>
+          </ng-template>
+          
+          <ng-template pTemplate="header">
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">ID</th>
-              <th scope="col">User name</th>
-              <th scope="col">email</th>
-              <th scope="col">first name</th>
-              <th scope="col">last name</th>
-              <th scope="col">phone number</th>
-              <th scope="col">Address</th>
-              <th scope="col">gender</th>
-              <th scope="col">Role</th>
-              <th scope="col">created on</th>
-              
-              
+              <th>#</th>
+              <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+              <th pSortableColumn="userName">Username <p-sortIcon field="userName"></p-sortIcon></th>
+              <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
+              <th pSortableColumn="firstName">First Name <p-sortIcon field="firstName"></p-sortIcon></th>
+              <th pSortableColumn="lastName">Last Name <p-sortIcon field="lastName"></p-sortIcon></th>
+              <th pSortableColumn="phoneNumber">Phone <p-sortIcon field="phoneNumber"></p-sortIcon></th>
+              <th pSortableColumn="gender">Gender <p-sortIcon field="gender"></p-sortIcon></th>
+              <th pSortableColumn="createdOn">Created On <p-sortIcon field="createdOn"></p-sortIcon></th>
+              <th>Actions</th>
             </tr>
-          </thead>
-          <tbody> 
-            
-                   <tr *ngFor="let index of filteredadmins |paginate:{itemsPerPage:itemsPerPage,currentPage:pageNumber,totalItems:totalItems}; let i=index">
-                      
-                      <td>{{i+1}}</td>
-                      <td>{{index.id}}</td>
-                      <td>{{index.userName }}</td>
-                      <td>{{index.email}}</td>
-                      <td>{{index.firstName}}</td>
-                      <td>{{index.lastName}}</td>
-                      <td>{{index.phoneNumber}}</td>
-                      <td>{{index.address}}</td>
-                      <td>{{index.gender}}</td>
-                      <td>{{index.role}}</td>
-              
-                      <td>{{index.createdOn ? (index.createdOn | date: 'yyyy-MM-dd') : 'N/A'}}</td>
-                     
-                      
-                      <td ><i id="delete" class="fa-solid fa-trash-can " style="color: #d21919;" aria-hidden="true" (click)="delete(index.id)" title="delete"></i></td>
-                     
-                    
-                    </tr>
-      
-             
-            
-           
-          </tbody>
-        </table>
+            <tr>
+              <th></th>
+              <th>
+                <input pInputText type="text" (input)="onFilterChange($event, 'id', 'contains')" placeholder="Search ID" class="w-full" />
+              </th>
+              <th>
+                <input pInputText type="text" (input)="onFilterChange($event, 'userName', 'contains')" placeholder="Search username" class="w-full" />
+              </th>
+              <th>
+                <input pInputText type="text" (input)="onFilterChange($event, 'email', 'contains')" placeholder="Search email" class="w-full" />
+              </th>
+              <th>
+                <input pInputText type="text" (input)="onFilterChange($event, 'firstName', 'contains')" placeholder="Search first name" class="w-full" />
+              </th>
+              <th>
+                <input pInputText type="text" (input)="onFilterChange($event, 'lastName', 'contains')" placeholder="Search last name" class="w-full" />
+              </th>
+              <th>
+                <input pInputText type="text" (input)="onFilterChange($event, 'phoneNumber', 'contains')" placeholder="Search phone" class="w-full" />
+              </th>
+              <th>
+                <input pInputText type="text" (input)="onFilterChange($event, 'gender', 'contains')" placeholder="Search gender" class="w-full" />
+              </th>
+              <th></th>
+              <th></th>
+            </tr>
+          </ng-template>
+          
+          <ng-template pTemplate="body" let-parent let-i="rowIndex">
+            <tr>
+              <td>{{i + 1}}</td>
+              <td>{{parent.id}}</td>
+              <td>{{parent.userName}}</td>
+              <td>{{parent.email}}</td>
+              <td>{{parent.firstName}}</td>
+              <td>{{parent.lastName}}</td>
+              <td>{{parent.phoneNumber}}</td>
+              <td>
+                <p-tag [value]="getGenderText(parent.gender)" 
+                       [severity]="getGenderSeverity(parent.gender)"></p-tag>
+              </td>
+              <td>{{parent.createdOn ? (parent.createdOn | date: 'yyyy-MM-dd') : 'N/A'}}</td>
+              <td>
+                <div class="flex gap-2">
+                  <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-sm"
+                    (click)="delete(parent.id)"
+                    title="Delete"></button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="10" class="text-center">No parents found.</td>
+            </tr>
+          </ng-template>
+          
+          <ng-template pTemplate="summary">
+            <div class="flex justify-content-between">
+              Total Records: {{parents ? parents.length : 0}}
+            </div>
+          </ng-template>
+        </p-table>
       </div>
-           <div class="pagination">
-    
-    <pagination-controls (pageChange)="pagechanged($event)" previousLabel="prev" nextLabel="Next"></pagination-controls>
-  </div> 
-
-  <div *ngIf="filteredadmins.length" class="col-md-1">
-    <i class="fa-solid fa-download"  id="csv" title="download file.csv" (click)="downloadCsvFile()"></i>
-
+    </div>
   </div>
-       
-    </div> 
-  </div>
-  
+</div>

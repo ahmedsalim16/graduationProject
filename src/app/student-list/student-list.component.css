@@ -22,6 +22,9 @@ i:hover{
     cursor: pointer;
 } */
 
+@import 'primeicons/primeicons.css';
+@import 'primeng/resources/themes/lara-light-indigo/theme.css';
+@import 'primeng/resources/primeng.min.css';
 *{
     font-family:sans-serif;
   }
@@ -30,8 +33,8 @@ i:hover{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: relative;
-    bottom: 40px;
+    /* position: relative;
+    bottom: 40px; */
 }
 #search{
     width: 25vw;
@@ -75,8 +78,8 @@ body {
   
   background-color: #00015d;
   color: white;
-  height: 100vh;
-  overflow: hidden;
+  height: 106vh;
+  /* overflow: hidden; */
   transition: transform 0.3s ease-in-out;
 }
 #sidebar.hidden {
@@ -89,6 +92,7 @@ body {
   position: relative;
   left: 7px;
 }
+
 /* إخفاء النصوص عند الإغلاق */
 #sidebar.hidden .list-group-item,
 #sidebar.hidden h4,
@@ -158,27 +162,15 @@ body {
       flex-direction: column;
       align-items: center;
     }
-    .school-logo {
-      width: 50px;
-      height: 50px;
-      object-fit: cover;
-      border-radius: 5px;
-      position:static;
-    }
     
   #page-content-wrapper {
       width: 100%;
       margin-left: 30px;
       transition: margin-left 0.3s ease-in-out;
     }
-    .sidebar-hidden #page-content-wrapper {
-      margin-left: 0 !important;
-    }
   
     .mt-5 {
       margin-top: 8rem ;
-      position: relative;
-    bottom: 80px;
   }
   #head{
     margin-top: 30px;
@@ -202,12 +194,10 @@ body {
     scale: 1.1;
   }
   .stud{
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    position: relative;
-    top: -55px;
-    
+        display: flex;
+        align-items: baseline;
+        width: 85vw;
+        flex-wrap: wrap;
   }
 
   #addfilter{
@@ -232,6 +222,11 @@ body {
   button{
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
 			0 10px 10px rgba(0,0,0,0.22);
+      
+      border-radius: 10px;
+      margin-bottom: 7px;
+      margin-left: 6px;
+      margin-top: 6px;
   }
 
   button:active {
@@ -287,6 +282,7 @@ body {
     scale: 1.1;
   }
 
+
   @keyframes bounceAnimation {
     0%, 100% {
         transform: translateY(0);
@@ -321,10 +317,10 @@ body {
 .show {
   display: block;
 }
-
 .profile-container {
   position: relative;
   display: inline-block;
+  left: -120px;
 }
 
 .profile-name {
@@ -354,8 +350,12 @@ body {
   margin: 10px;
   border-radius: 10px;
 }
+
+.p-inputgroup {
+  width:fit-content;
+}
 /* أضف هذا الكود في ملف CSS الخاص بالمكون */
-.items-per-page-dropdown button {
+/* .items-per-page-dropdown button {
   background-color: rgba(127, 189, 228, 0.65);
   color: white;
   border: none;
@@ -380,67 +380,105 @@ body {
 .items-per-page-dropdown .dropdown-item:hover {
   background-color: rgba(127, 189, 228, 0.2);
 }
-@media (max-width: 768px) {
+:host ::ng-deep .p-datatable .p-datatable-header {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 6px 6px 0 0;
+}
 
- .buttons{
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+  background: #f8f9fa;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  color: #495057;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+  padding: 0.75rem 1rem;
+  border: 1px solid #e9ecef;
+}
+
+:host ::ng-deep .p-datatable .p-paginator {
+  padding: 1rem;
+}
+
+:host ::ng-deep .p-dropdown {
+  width: 100%;
+}
+
+:host ::ng-deep .p-inputtext {
+  padding: 0.5rem;
+} */
+@media (max-width: 768px) {
+  #sidebar {
+     width: max-content;
+    height: 200vh; /* تقليل العرض */
+    transform: translateX(0); /* التأكد من أنه ظاهر */
+    z-index: 1000; 
+    overflow: visible;/* إخفاء المحتوى الزائد */
+    transition: width 0.3s ease-in-out; /* تأثير لطيف عند الفتح */
+  }
+  #sort{
+    width: 78px;
+    height: 47px;
+      font-weight: bold;
+      font-size: 14px;
+  }
+  #addfilter{
+    width: 90px;
+      height: 44px;
+      font-weight: bold;
+      font-size: 11px;
+      position: relative;
+      left: -20px;
+  }
+  #add{
+    border-radius: 12px;
+      border: none;
+      width: 110px;
+      height: 44px;
+      font-weight: bold;
+      font-size: 14px;
+  }
+  #sidebar {
+    width: max-content;
+    height: 200vh; /* تقليل العرض */
+    transform: translateX(0); /* التأكد من أنه ظاهر */
+    z-index: 1000; 
+    overflow: visible;/* إخفاء المحتوى الزائد */
+    transition: width 0.3s ease-in-out; /* تأثير لطيف عند الفتح */
+  }
+  .profile-container{
+    left: 54vw;
+  }
+  .form-outline{
+    position: relative;
+      left: 25vw;
+  }
+  #sidebar:hover {
+    width: 180px; /* تكبيره عند التمرير */
+  }
+
+  #page-content-wrapper {
+    margin-left: 60px; /* تعويض تصغير الـ sidebar */
+  }
+
+  .sidebar-open {
+    transform: translateX(0);
+  }
+  #sidebar.hidden {
+    width: 80px;
+    transform: translateX(-20%);
+    
+  }
+ 
+.buttons{
   display: flex;
     align-items: center;
     position: relative;
-    left: 70px;
-}
-#sort{
-  width: 78px;
-  height: 47px;
-    font-weight: bold;
-    font-size: 14px;
-}
-#addfilter{
-  width: 90px;
-    height: 44px;
-    font-weight: bold;
-    font-size: 11px;
-    position: relative;
-    left: -20px;
-}
-#add{
-  border-radius: 12px;
-    border: none;
-    width: 110px;
-    height: 44px;
-    font-weight: bold;
-    font-size: 14px;
-}
-#sidebar {
-  width: max-content;
-  height: 200vh; /* تقليل العرض */
-  transform: translateX(0); /* التأكد من أنه ظاهر */
-  z-index: 1000; 
-  overflow: visible;/* إخفاء المحتوى الزائد */
-  transition: width 0.3s ease-in-out; /* تأثير لطيف عند الفتح */
-}
-.profile-container{
-  left: 54vw;
-}
-.form-outline{
-  position: relative;
-    left: 25vw;
-}
-#sidebar:hover {
-  width: 180px; /* تكبيره عند التمرير */
+    left: 160px;
 }
 
-#page-content-wrapper {
-  margin-left: 60px; /* تعويض تصغير الـ sidebar */
-}
-
-.sidebar-open {
-  transform: translateX(0);
-}
-#sidebar.hidden {
-  width: 80px;
-  transform: translateX(-20%);
-  
-}
 
   #page-content-wrapper {
     margin-left: 60px;

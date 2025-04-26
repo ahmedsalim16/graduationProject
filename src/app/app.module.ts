@@ -62,6 +62,25 @@ import { AdminDashboardComponent } from './managers/admin-dashboard/admin-dashbo
 import { ParentListComponent } from './parent-list/parent-list.component';
 import { AddDeveloperComponent } from './managers/add-developer/add-developer.component';
 import { DevelopersComponent } from './managers/developers/developers.component';
+// import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
+import { TagModule } from 'primeng/tag';
+// import { IconFieldModule } from 'primeng/iconfield';
+
+import { MultiSelectModule } from 'primeng/multiselect';
+import { MessagesComponent } from './messages/messages.component';
+import { ApplicationConfig } from '@angular/core';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+// import { providePrimeNG } from 'primeng/config';
+// import Aura from '@primeng/themes/aura';
+import { TableModule } from 'primeng/table';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+
+// أو ربما في
+
 
  //import { Ng2SearchPipeModule } from 'ng2-search-filter';
 //  export function createTranslateLoader(http:HttpClient){
@@ -101,7 +120,7 @@ import { DevelopersComponent } from './managers/developers/developers.component'
   declarations: [
     AppComponent,
     StudentComponent,
-    StudentListComponent,
+  
     NotfoundComponent,
     HeaderComponent,
     UpdateComponent,
@@ -113,25 +132,30 @@ import { DevelopersComponent } from './managers/developers/developers.component'
     ChartComponent,
     CalendarComponent,
     AdminComponent,
-    AdminListComponent,
+   
     AdminUpdateComponent,
     AbsenceListComponent,
     ForgetPasswordComponent,
     ResetPasswordComponent,
     UnauthorizedComponent,
     AddSchoolComponent,
-    SchoolListComponent,
+   
     UpdateSchoolComponent,
     AddOwnerComponent,
     AdminDashboardComponent,
-    ParentListComponent,
+    
     AddDeveloperComponent,
-    DevelopersComponent,
     
     
     
   ],
   imports: [
+    DevelopersComponent,
+    SchoolListComponent,
+    ParentListComponent,
+    StudentListComponent,
+    AdminListComponent,
+    MessagesComponent,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
@@ -161,6 +185,14 @@ import { DevelopersComponent } from './managers/developers/developers.component'
     MatInputModule,
     FullCalendarModule,
     HttpClientModule,
+    TableModule,
+    InputGroupModule,
+    InputGroupAddonModule,
+    ButtonModule,
+    InputTextModule,
+    DropdownModule,
+    TagModule,
+    MultiSelectModule,
     // TranslateModule.forRoot({
     //   loader: {
     //     provide: TranslateLoader,
@@ -185,7 +217,8 @@ import { DevelopersComponent } from './managers/developers/developers.component'
     PaginationModule
   ],
   providers: [
-    provideClientHydration(),
+    
+    
     provideFirebaseApp(() => initializeApp({"projectId":"studentsystem-f07f6","appId":"1:582608084285:web:9b8b7b3ed861e29ae07954","storageBucket":"studentsystem-f07f6.appspot.com","apiKey":"AIzaSyBRfoTSPD5GrnM8OA7wwul3tVKUdX1iskk","authDomain":"studentsystem-f07f6.firebaseapp.com","messagingSenderId":"582608084285","measurementId":"G-YB1BMM5Z18"})),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
@@ -194,6 +227,8 @@ import { DevelopersComponent } from './managers/developers/developers.component'
    { provide:HTTP_INTERCEPTORS,useClass:customeInterceptor,multi:true},
    { provide: HTTP_INTERCEPTORS, useClass: authInterceptor, multi: true },
    SignalRService,
+  
+      
   //  {
   //   provide: APP_INITIALIZER,
   //   useFactory: checkAuth,

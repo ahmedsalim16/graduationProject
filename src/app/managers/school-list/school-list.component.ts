@@ -1,208 +1,191 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { ngxCsv } from 'ngx-csv';
-import Swal from 'sweetalert2';
-import { AuthService } from '../../services/auth.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SharedService } from '../../services/shared.service';
+import { AuthService } from '../../services/auth.service';
+import { Router, RouterModule } from '@angular/router';
+import { ngxCsv } from 'ngx-csv';
+import { Table } from 'primeng/table';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { InputTextModule } from 'primeng/inputtext';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { DropdownModule } from 'primeng/dropdown';
+import { HttpClientModule } from '@angular/common/http';
+import { ButtonModule } from 'primeng/button';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-school-list',
   templateUrl: './school-list.component.html',
-  styleUrl: './school-list.component.css'
+  styleUrls: ['./school-list.component.css'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    TableModule,
+    TagModule,
+    InputTextModule,
+    MultiSelectModule,
+    DropdownModule,
+    HttpClientModule,
+    ButtonModule,RouterModule
+  ]
 })
-export class SchoolListComponent {
-pagination: any;
-  constructor(public shared:SharedService,public authService:AuthService,private router: Router,private cdr: ChangeDetectorRef){}
+export class SchoolListComponent implements OnInit {
+  @ViewChild('dt') table!: Table;
+  
+  constructor(
+    public shared: SharedService,
+    public authService: AuthService,
+    private router: Router
+  ) {}
+
   schools: any[] = [];
-  searchtext:string='';
-  pagesize:number=100;
-  totalItems:number;
-  // تعديل قيمة المتغير الحالي
-  itemsPerPage:number=1; // تغيير القيمة الافتراضية من 1 إلى 10
-  // إضافة خيارات لعدد العناصر في الصفحة
-  itemsPerPageOptions: number[] = [1, 5, 10, 15, 20];
-  pageNumber:number=1;
-  count:number=0;
- 
-  s='search for schools';
+  searchtext: string = '';
+  pagesize: number = 100;
+  totalItems: number = 0;
+  itemsPerPage: number = 10;
+  itemsPerPageOptions: number[] = [1, 5, 10, 20];
+  pageNumber: number = 1;
+  loading: boolean = true;
   adminId: string | null = null;
-  adminName:string | null = localStorage.getItem('username');
- public qrValue:string;
+  adminName: string | null = localStorage.getItem('username');
+  isSidebarOpen: boolean = true;
+  isSchoolOpen: boolean = false;
+  isAdminOpen: boolean = false;
 
   ngOnInit(): void {
-    // this.updateItemsPerPage(); // تحديد عدد العناصر بناءً على حجم الشاشة عند التحميل
-    // window.addEventListener('resize', this.updateItemsPerPage.bind(this));
-    this.filterschools();
-    this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
-    console.log('Admin ID:', this.adminId);
-
+    this.filterSchools();
+    this.adminId = this.authService.getAdminId();
   }
-  
-  // updateItemsPerPage(): void {
-  //   if (window.innerWidth < 768) {
-  //     this.itemsPerPage = 1; // موبايل
-  //   } else {
-  //     this.itemsPerPage = 2; // سطح المكتب
-  //   }
-  //   this.cdr.detectChanges(); // تحديث الواجهة لضمان تطبيق التغيير فورًا
-  // }
+
+  filterSchools() {
+    this.loading = true;
+    const filters = {
+      pageNumber: this.pageNumber,
+      pageSize: this.pagesize,
+    };
+
+    this.shared.filterSchools(filters).subscribe(
+      (response: any) => {
+        if (response && response.result) {
+          this.schools = response.result.map((school: any) => this.normalizeKeys(school));
+          this.loading = false;
+        } else {
+          this.schools = [];
+          this.loading = false;
+        }
+      },
+      (err) => {
+        console.error('Error while filtering schools:', err);
+        this.loading = false;
+      }
+    );
+  }
+
+  normalizeKeys(obj: any): any {
+    if (!obj || typeof obj !== 'object') return obj;
+    return Object.keys(obj).reduce((acc: any, key: string) => {
+      acc[key.toLowerCase()] = obj[key];
+      return acc;
+    }, {});
+  }
 
   navigateToAdminUpdate(): void {
     if (this.adminId) {
       this.router.navigate(['/admin-update', this.adminId]);
-    } else {
-      console.error('Admin ID not found!');
     }
   }
-  onItemsPerPageChange(newValue: number): void {
-    this.itemsPerPage = newValue;
-    this.pageNumber = 1; // إعادة تعيين إلى الصفحة الأولى
-    this.filterschools(); // إعادة تحميل البيانات
+
+  applyFilterGlobal($event: any, stringVal: string) {
+    this.table.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
   }
- 
 
-filterschools() {
-  localStorage.getItem('token');
-  const filters = {
-    pageNumber: this.pageNumber,
-    pageSize: this.pagesize,
-  };
-
-  this.shared.filterSchools(filters).subscribe(
-    (response: any) => {
-      if (response && response.result && Array.isArray(response.result)) {
-        this.schools = response.result.map((school: any) => this.normalizeKeys(school)); // تحديث قائمة الطلاب
-        console.log('Filtered SChools:', this.schools);
-      } else {
-        console.error('No data found or invalid response format.');
-        this.schools = [];
+  onFilterChange(event: any, field: string, matchMode: string): void {
+    if (this.table) {
+      const target = event.target as HTMLInputElement;
+      this.table.filter(target.value, field, matchMode);
+    }
+  }
+  clear() {
+    if (this.table) {
+      this.table.clear();
+    }
+  }
+  delete(id: string) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this school!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.shared.deleteSchool(id).subscribe(
+          (res) => {
+            this.schools = this.schools.filter((school: any) => school.schooltenantid !== id);
+            Swal.fire('Deleted!', 'The school has been deleted.', 'success');
+          },
+          (err) => {
+            Swal.fire('Error!', 'There was an error deleting the school.', 'error');
+          }
+        );
       }
-    },
-    (err) => {
-      console.error('Error while filtering schools:', err);
-    }
-  );
-}
-normalizeKeys(obj: any): any {
-  if (!obj || typeof obj !== 'object') return obj; // التحقق من أن الكائن صالح
-  return Object.keys(obj).reduce((acc: any, key: string) => {
-    acc[key.toLowerCase()] = obj[key]; // تحويل المفتاح إلى lowercase
-    return acc;
-  }, {});
-}
-
-
-
-
-delete(id: string) {
-  Swal.fire({
-    title: 'Are you sure?',
-    text: 'You will not be able to recover this admin!',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: 'Yes, delete it!',
-    cancelButtonText: 'No, keep it',
-  }).then((result) => {
-    if (result.isConfirmed) {
-      this.shared.deleteSchool(id).subscribe(
-        (res) => {
-          console.log('school deleted:', res);
-          this.schools = this.schools.filter((school: any) => school.id !== id);
-          Swal.fire('Deleted!', 'The school has been deleted.', 'success');
-          this.ngOnInit()
-        },
-        (err) => {
-          console.error('Error while deleting admin:', err);
-          Swal.fire('Error!', 'There was an error deleting the school.', 'error');
-        }
-      );
-    }
-  });
-}
-
-  pagechanged(event:any){
-    this.pageNumber=event;
-    // this.getadminss();
-  }
-
-  get filteredschools() {
-    return this.schools.filter(school => 
-      school.name?.toLowerCase().includes(this.searchtext.toLowerCase()) ||
-      school.country?.toLowerCase().includes(this.searchtext.toLowerCase())
-    );
-  }
-  
-
-  logout(): void {
-    this.authService.logout(); // استدعاء وظيفة تسجيل الخروج من الخدمة
+    });
   }
 
   downloadCsvFile() {
-    const formattedAdmins = this.schools.map(school => ({
+    const formattedSchools = this.schools.map(school => ({
       ID: school.schooltenantid,
       Name: school.name,
-      description: school.description,
-      address: school.address,
-      country: school.country,
+      Description: school.description,
+      Address: school.address,
+      Country: school.country,
       PhoneNumber: school.phonenumber,
-      email: school.email,
-      schoolLogo: school.schoollogo,
-      CreatedOn:school.createdon ? new Date(school.createdon).toISOString().split('T')[0] : '', // تحويل التاريخ
+      Email: school.email,
+      CreatedOn: school.createdon ? new Date(school.createdon).toISOString().split('T')[0] : '',
     }));
 
+    const options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalseparator: '.',
+      showLabels: true,
+      showTitle: false,
+      useBom: true,
+      headers: [
+        'ID', 'Name', 'Description', 'Address', 
+        'Country', 'PhoneNumber', 'Email', 'CreatedOn'
+      ],
+    };
 
-      var options = {
-        fieldSeparator: ',',
-        quoteStrings: '"',
-        decimalseparator: '.',
-        showLabels: true,
-        showTitle: false,
-        title: 'Admins Data',
-        useBom: true,
-        headers: [
-          'ID',
-          'name',
-          'description',
-          'address',
-          'country',
-          'phoneNumber',
-          'email',
-          'schoolLogo',
-          'CreatedOn',
-          
-        ],
-      };
-  
-      new ngxCsv(formattedAdmins, 'schools-data', options);
-    }
-    formatDateTime(dateString: string): string {
-      const date = new Date(dateString);
-      return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-    }
-   
-    isSidebarOpen: boolean = true; // افتراضيًا، القائمة مفتوحة
-
-toggleSidebar() {
-  this.isSidebarOpen = !this.isSidebarOpen;
-}
-
-getImageUrl(logoPath: string): string {
-  if (!logoPath) {
-    return '../../../assets/a4e461fe3742a7cf10a1008ffcb18744.png'; // صورة افتراضية إذا لم يكن هناك لوجو
+    new ngxCsv(formattedSchools, 'schools-data', options);
   }
-  return `https://school-api.runasp.net//${logoPath}`; // ضع هنا رابط السيرفر الصحيح
-}
-isSchoolOpen = false;
-isAdminOpen = false;
 
-toggleDropdown(menu: string) {
-  if (menu === 'school') {
-    this.isSchoolOpen = !this.isSchoolOpen;
-  } else if (menu === 'admin') {
-    this.isAdminOpen = !this.isAdminOpen;
+  getImageUrl(logoPath: string): string {
+    if (!logoPath) {
+      return '../../../assets/a4e461fe3742a7cf10a1008ffcb18744.png';
+    }
+    return `https://school-api.runasp.net/${logoPath}`;
   }
-}
 
+  toggleDropdown(menu: string) {
+    if (menu === 'school') {
+      this.isSchoolOpen = !this.isSchoolOpen;
+    } else if (menu === 'admin') {
+      this.isAdminOpen = !this.isAdminOpen;
+    }
+  }
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  logout(): void {
+    this.authService.logout();
+  }
 }

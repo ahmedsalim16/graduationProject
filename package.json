@@ -51,6 +51,8 @@
     "ngx-echarts": "^18.0.0",
     "ngx-pagination": "^6.0.3",
     "ngx-papaparse": "^8.0.0",
+    "primeicons": "^7.0.0",
+    "primeng": "^17.18.15",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.15.10",
     "tslib": "^2.3.0",

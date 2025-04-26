@@ -21,7 +21,9 @@ i:hover{
     color:#59c7f3;
     cursor: pointer;
 } */
-
+@import 'primeicons/primeicons.css';
+@import 'primeng/resources/themes/lara-light-indigo/theme.css';
+@import 'primeng/resources/primeng.min.css';
 *{
     font-family:sans-serif;
   }
@@ -30,8 +32,8 @@ i:hover{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: relative;
-    bottom: 40px;
+    /* position: relative;
+    bottom: 40px; */
 }
 #search{
     width: 25vw;
@@ -83,8 +85,8 @@ body {
   
   background-color: #00015d;
   color: white;
-  height: 100vh;
-  overflow: hidden;
+  height: 106vh;
+  /* overflow: hidden; */
   transition: transform 0.3s ease-in-out;
 }
 #sidebar.hidden {
@@ -196,9 +198,9 @@ body {
   .stud{
     display: flex;
     align-items: baseline;
-    justify-content: space-between;
-    
-  }
+    width: 85vw;
+    flex-wrap: wrap;
+}
 
   #addfilter{
     border-radius: 10px;
@@ -222,6 +224,11 @@ body {
   button{
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
 			0 10px 10px rgba(0,0,0,0.22);
+      
+      border-radius: 10px;
+      margin-bottom: 7px;
+      margin-left: 6px;
+      margin-top: 6px;
   }
 
   button:active {
@@ -336,8 +343,11 @@ body {
   visibility: visible;
   opacity: 1;
 }
+.p-inputgroup {
+  width:fit-content;
+}
 /* أضف هذا الكود في ملف CSS الخاص بالمكون */
-.items-per-page-dropdown button {
+/* .items-per-page-dropdown button {
   background-color: rgba(127, 189, 228, 0.65);
   color: white;
   border: none;
@@ -360,7 +370,7 @@ body {
 
 .items-per-page-dropdown .dropdown-item:hover {
   background-color: rgba(127, 189, 228, 0.2);
-}
+} */
 
 @media (max-width: 768px) {
   #sidebar {

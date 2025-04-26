@@ -76,13 +76,36 @@
               <label for="inputState" class="form-label">confirm password</label>
               <input [(ngModel)]="admin.confirmPassword" type="text" title="text" placeholder="confirmPassword" class="form-control m-1">
           </div>
-          <div class="col-3">
-              <label for="inputState" class="form-label">schoolTenantId</label>
-              <select  [(ngModel)]="admin.schoolTenantId" class="form-select">
-                <option disabled>Choose School</option>
-                <option *ngFor="let name of schoolNames" [value]="name">{{ name }}</option>
-              </select>
+          <div class="row mb-3">
+            <div class="col-md-12">
+              <label for="schoolTenantId" class="form-label">School</label>
+              <p-dropdown 
+                [options]="schoolOptions"
+                [(ngModel)]="admin.schoolTenantId"
+                optionLabel="name"
+                optionValue="id"
+                [filter]="true"
+                filterBy="name"
+                [showClear]="true"
+                placeholder="Select a School"
+                name="schoolTenantId"
+                styleClass="w-full">
+                <ng-template pTemplate="selectedItem" let-selectedOption>
+                  <div class="flex align-items-center gap-2">
+                    <i class="pi pi-building" style="font-size: 1rem"></i>
+                    <div>{{ selectedOption.name }}</div>
+                  </div>
+                </ng-template>
+                <ng-template let-school pTemplate="item">
+                  <div class="flex align-items-center gap-2">
+                    <i class="pi pi-building" style="font-size: 1rem"></i>
+                    <div>{{ school.name }} ({{ school.id }})</div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
           </div>
+
 
 
 

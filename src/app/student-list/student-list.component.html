@@ -1,314 +1,190 @@
-
-<!-- <app-header></app-header>
-
-<div class="row ml-3">
-  <div class="col-md-4 mt-2">
-    <label for="qr">QR Text</label>
-    <textarea class="form-control" type="text" id="qr" [(ngModel)]="qrValue"></textarea>
-  </div>
-
-</div>
-<div class="col-md-2">
-  <qrcode [qrdata]="qrValue" [width]="20" colorDark="#59c7f3" colorLight="#fff"></qrcode>
-</div>
-<div class="row ">
-  <div class="col-md-1 offset-md-8">
-    <i class="fa-solid fa-download" id="csv" title="download file.csv" (click)="downloadCsvFile()"></i>
-
-  </div>
-</div> -->
-
-
-
-<!-- search bar -->
-<!-- <div class="form-outline mt-3 p-5">
-  <label for="search" class="text-info"  >{{s|titlecase}}</label>
-  <input type="search" [(ngModel)]="searchtext" class="form-control" id="search"placeholder="student name" >
-</div> -->
-
-
-
-
-
-
-
-<!-- <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">ID</th>
-        <th scope="col">First name</th>
-        <th scope="col">Last name</th>
-        <th scope="col">Full name</th>
-        <th scope="col">Email</th>
-        <th scope="col">address</th>
-        <th scope="col">City</th>
-        <th scope="col">grade</th>
-        <th scope="col">Gender</th>
-        <th scope="col">age</th>
-      </tr>
-    </thead>
-    <tbody> -->
-      <!-- |paginate:{itemsPerPage:5,currentPage:pageNumber} -->
-            <!-- <tr *ngFor="let index of student|filter:searchtext |paginate:{itemsPerPage:itemsPerPage,currentPage:pageNumber,totalItems:totalItems}; let i=index">
-                
-                <td>{{i+1}}</td>
-                <td>{{index.id}}</td>
-                <td>{{index.firstName}}</td>
-                <td>{{index.lastName}}</td>
-                <td>{{index.firstName}} {{index.lastName}}</td>
-                <td>{{index.email}}</td>
-                <td>{{index.address}}</td>
-                <td>{{index.city}}</td>
-                <td>{{index.grade}}</td>
-                <td>{{index.gender}}</td>
-                <td>{{index.age}}</td>
-                <td><i id="edit" class="fa-solid fa-pen-to-square" [routerLink]="['/update',index.id]" title="edit"></i></td>
-                <td><i class="fa-solid fa-trash" aria-hidden="true" (click)="delete(index.id)" title="delete"></i></td>
-               
-              
-              </tr>
-
-       
-      
-     
-    </tbody>
-  </table> -->
-
-  <!-- <div class="d-flex justify-content-center" >
-    <pagination- (pageChanged)="pageNumber=$event"></pagination->
-  </div> -->
-
-  <!-- <div class="pagination">
-    
-    <pagination-controls (pageChange)="pagechanged($event)" previousLabel="prev" nextLabel="Next"></pagination-controls>
-  </div> -->
-
-
-  
-<!-- 
-  <div class="col-2">
-    <div class="dataTables_length"><label>Show
-        <select [(ngModel)]="pagesize" (change)="shared.getAllStudents(PageNumber,pagesize)">
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="20">20</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
-        </select> entries</label>
-    </div>
-  </div>
-  <div class="col-md-10" style="float:right;text-align: right">
-    <div class="paginations">
-      <div>
-        <div class="btn-group" id="radioBtn">
-          <a class="btn btn-primary btn-sm notActive" (click)="onPrevious()"> Previous </a>
-          <a class="btn btn-primary btn-sm active">{{PageNumber}}</a>
-          <a class="btn btn-primary btn-sm notActive" (click)="onNext()">Next </a>
-        </div>
-      </div>
-    </div>
-  </div> -->
-
-
-
-  <div class="d-flex">
-    <!-- Sidebar -->
-    <div id="sidebar" [ngClass]="{'hidden': !isSidebarOpen}">
-      <div class="logo">
-        <img  [src]="schoolLogoUrl" alt="" class="school-logo animated-icon" [routerLink]="['/Dashboard']" loading="lazy">
-        <!-- <i class="fa-solid fa-graduation-cap animated-icon" style="color: #fff; cursor: pointer" [routerLink]="['/Dashboard']"></i> -->
-        <h4 *ngIf="isSidebarOpen">{{schoolName}}</h4>
-      </div>
-    
-    
-      <div id="list">
-        <!-- Dashboard -->
-        <div class="dash">
-          <i class="fa-solid fa-chart-line" style="color: #fff;"></i>
-          <a routerLink="/Dashboard" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Dashboard</a>
-        </div>
-    
-        <!-- Student Dropdown -->
-        <div class="dash" (click)="toggleDropdown('student')" style="cursor: pointer;">
-          <i class="fa-solid fa-user" style="color: #ffffff;"></i>
-          <span class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Student</span>
-          <i class="fa-solid fa-chevron-right dropdown-arrow" [class.rotate]="isStudentOpen" *ngIf="isSidebarOpen"></i>
-        </div>
-        <div class="dropdown-content" [ngClass]="{'show': isStudentOpen}" *ngIf="isSidebarOpen">
-          
-          <a routerLink="/student-list" class="list-group-item active" style="opacity: 1;">Student List</a>
-          <a routerLink="/absence-list" class="list-group-item">Absence List</a>
-        </div>
-    
-        <!-- Admin Dropdown -->
-        <div class="dash">
-          <i class="fa-solid fa-user-shield" style="color: #ffffff;"></i>
-          <a routerLink="/admin-list" class="list-group-item active" *ngIf="isSidebarOpen" style="opacity: 1;">Manager List</a>
-        </div>
-        <div class="dash">
-          <i class="fa-solid fa-user-group" style="color: #ffffff;"></i>
-          <a routerLink="/parent-list" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Parent List</a>
-        </div>
-        <!-- Send Emails -->
-        <div class="dash">
-          <i class="fa-solid fa-paper-plane" style="color: #ffffff;"></i>
-          <a routerLink="/Send-email" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Send Report</a>
-        </div>
-    
-        <!-- Logout -->
-        <div class="dash" style="cursor: pointer;">
-          <i class="fa-solid fa-right-from-bracket" style="color: #d21919;"></i>
-          <a (click)="logout()" id="Logout" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Logout</a>
-        </div>
-      </div>
+<div class="d-flex">
+  <!-- Sidebar -->
+  <div id="sidebar" [ngClass]="{'hidden': !isSidebarOpen}">
+    <div class="logo">
+      <img [src]="schoolLogoUrl" alt="School Logo" class="school-logo animated-icon" [routerLink]="['/Dashboard']" loading="lazy">
+      <h4 *ngIf="isSidebarOpen">{{schoolName}}</h4>
     </div>
   
-    <!-- Main Content -->
-    <div id="page-content-wrapper" class="flex-grow-1">
-      <div class="header">
-        <button title="toggle" id="toggle-sidebar" class="menu-btn" (click)="toggleSidebar()"><i class="fa-solid fa-bars" style="color: #ffffff;"></i></button>
-        <!-- search bar --> 
-        <div class="form-outline mt-3 p-5">
-          <i class="fa-solid fa-magnifying-glass" style="color: #7fbde4a6;"></i>
-          <input type="search" id="search" [(ngModel)]="searchtext" class="form-control" placeholder="Search..." id="search">
-          <!-- <label id="ser" class="form-label" for="search">Search...</label> -->
-        </div>
-        <div class="profile-container">
-          <img class="profile-img" src="../../assets/profile.png" alt="Profile" 
-          (click)="navigateToAdminUpdate()" 
-          [routerLink]="['/admin-update',adminId]" />
-          <span class="profile-name">{{adminName}}</span>
-  
-        </div>
+    <div id="list">
+      <!-- Dashboard -->
+      <div class="dash">
+        <i class="fa-solid fa-chart-line" style="color: #fff;"></i>
+        <a routerLink="/Dashboard" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Dashboard</a>
       </div>
+  
+      <!-- Student Dropdown -->
+      <div class="dash" (click)="toggleDropdown('student')" style="cursor: pointer;">
+        <i class="fa-solid fa-user" style="color: #ffffff;"></i>
+        <span class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Student</span>
+        <i class="fa-solid fa-chevron-right dropdown-arrow" [class.rotate]="isStudentOpen" *ngIf="isSidebarOpen"></i>
+      </div>
+      <div class="dropdown-content" [ngClass]="{'show': isStudentOpen}" *ngIf="isSidebarOpen">
+        <a routerLink="/student-list" class="list-group-item active">Student List</a>
+        <a routerLink="/absence-list" class="list-group-item">Absence List</a>
+      </div>
+  
+      <!-- Admin Dropdown -->
+      <div class="dash">
+        <i class="fa-solid fa-user-shield" style="color: #ffffff;"></i>
+        <a routerLink="/admin-list" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Manager List</a>
+      </div>
+      <div class="dash">
+        <i class="fa-solid fa-user-group" style="color: #ffffff;"></i>
+        <a routerLink="/parent-list" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Parent List</a>
+      </div>
+      <!-- Send Emails -->
+      <div class="dash">
+        <i class="fa-solid fa-paper-plane" style="color: #ffffff;"></i>
+        <a routerLink="/Send-email" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Send Report</a>
+      </div>
+  
+      <!-- Logout -->
+      <div class="dash" style="cursor: pointer;">
+        <i class="fa-solid fa-right-from-bracket" style="color: #d21919;"></i>
+        <a (click)="logout()" id="Logout" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Logout</a>
+      </div>
+    </div>
+  </div>
 
-      
-      
-      <div class="stud">
-        
-        <h2 id="head">Students</h2>
-        
-  <div class="buttons">
-    <div class="dropdown items-per-page-dropdown">
-      <button class="btn dropdown-toggle" id="itemsPerPage" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-        {{ itemsPerPage }} itemsPerPage
+  <!-- Main Content -->
+  <div id="page-content-wrapper" class="flex-grow-1">
+    <div class="header">
+      <button title="toggle" id="toggle-sidebar" class="menu-btn" (click)="toggleSidebar()">
+        <i class="fa-solid fa-bars" style="color: #ffffff;"></i>
       </button>
-      <ul class="dropdown-menu">
-        <li *ngFor="let option of itemsPerPageOptions">
-          <a class="dropdown-item" (click)="onItemsPerPageChange(option)">{{ option }}</a>
-        </li>
-      </ul>
+      <!-- Profile section -->
+      <div class="profile-container">
+        <img class="profile-img" src="../../assets/profile.png" alt="Profile" 
+        (click)="navigateToAdminUpdate()" 
+        [routerLink]="['/admin-update',adminId]" />
+        <span class="profile-name">{{adminName}}</span>
+      </div>
     </div>
-    <!-- Sort Button -->
-    <button id='sort' class="btn btn-sm btn-outline-primary mt-2 ms-2" (click)="sortByGradeAscending()">
-      Sort by Grade
-    </button>
 
-
-      <div class="dropdown">
-        <button class="btn dropdown-toggle" id="addfilter" type="button" data-bs-auto-close="outside" data-bs-toggle="dropdown" aria-expanded="false">
-          + Add Filter
-        </button>
-        <ul class="dropdown-menu">
-          <!-- Filter by Grade -->
-          <li class="dropend">
-            <a class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown">Grade</a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" (click)="grade = null; filterStudents()">All Grades</a></li>
-              <li *ngFor="let g of [1, 2, 3, 4, 5, 6, 7, 8]">
-                <a class="dropdown-item" (click)="grade = g; filterStudents()">{{ g }}</a>
-              </li>
-            </ul>
-          </li>
+    <div class="stud">
+      <h2 id="head">Students</h2>
       
-          <!-- Filter by Gender -->
-          <li class="dropend">
-            <a class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown">Gender</a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" (click)="gender = null; filterStudents()">All Genders</a></li>
-              <li><a class="dropdown-item" (click)="gender = 0; filterStudents()">Male</a></li>
-              <li><a class="dropdown-item" (click)="gender = 1; filterStudents()">Female</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-      
-      
-
-      <div class="filter-container">
-      <button id="add" type="button" ><a routerLink="/student" style="text-decoration: none;color: #fff;">+Add Student</a></button>
-      </div>
-
-      </div>
-       
-        
-      </div>
-      
-    
-      
-     
-      <div class="row mt-5" style="margin-top: 50px;">
-        <div class="table-responsive">
-          <table class="table table-bordered ">
-           <thead class="table-secondary">
+      <div class="card">
+        <!-- PrimeNG Table -->
+        <p-table 
+          #dt 
+          [value]="students" 
+          [rows]="itemsPerPage" 
+          [paginator]="true" 
+          [rowsPerPageOptions]="itemsPerPageOptions"
+          [globalFilterFields]="['fullname', 'city', 'street', 'parentemail']"
+          [loading]="loading"
+          dataKey="id"
+          styleClass="p-datatable-gridlines p-datatable-sm"
+          [tableStyle]="{ 'min-width': '75rem' }">
+          
+          <ng-template pTemplate="caption">
+            <div class="flex justify-content-between">
+              <div>
+                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear()" style="color: #00015d;"></button>
+              </div>
+              <div class="p-inputgroup">
+                <span class="p-inputgroup-addon">
+                  <i class="pi pi-search"></i>
+                </span>
+                <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" placeholder="Search keyword" />
+              </div>
+              <div>
+                <button pButton label="Add Student" icon="pi pi-plus" routerLink="/student"> </button>
+                <button pButton label="Download CSV" icon="pi pi-download" (click)="downloadCsvFile()" class="p-button-secondary ml-2"> </button>
+              </div>
+            </div>
+          </ng-template>
+          
+          <ng-template pTemplate="header">
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">ID</th>
-              <th scope="col">Full name</th>
-              <th scope="col">gender</th>
-              <th scope="col">grade</th>
-              <th scope="col">city</th>
-              <th scope="col">street</th>
-              <th scope="col">birthDate</th>
-              <th scope="col">rfidTag_Id</th>
-              <!-- <th scope="col">Student Image</th> -->
-              <th scope="col">createdOn</th>
-
-              <th scope="col">parentEmail</th>
-
+              <th>#</th>
+              <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+              <th pSortableColumn="fullname">Full Name <p-sortIcon field="fullname"></p-sortIcon></th>
+              <th pSortableColumn="gender">Gender <p-sortIcon field="gender"></p-sortIcon></th>
+              <th pSortableColumn="grade">Grade <p-sortIcon field="grade"></p-sortIcon></th>
+              <th pSortableColumn="city">City <p-sortIcon field="city"></p-sortIcon></th>
+              <th pSortableColumn="street">Street <p-sortIcon field="street"></p-sortIcon></th>
+              <th pSortableColumn="birthdate">Birth Date <p-sortIcon field="birthdate"></p-sortIcon></th>
+              <th pSortableColumn="rfidtag_id">RFID Tag ID <p-sortIcon field="rfidtag_id"></p-sortIcon></th>
+              <th pSortableColumn="createdon">Created on <p-sortIcon field="createdon"></p-sortIcon></th>
+              <th pSortableColumn="parentemail">Parent Email <p-sortIcon field="parentemail"></p-sortIcon></th>
+              <th>Actions</th>
             </tr>
-          </thead>
-          <tbody> 
-            
-                   <tr *ngFor="let index of filteredStudents |paginate:{itemsPerPage:itemsPerPage,currentPage:pageNumber,totalItems:totalItems}; let i=index">
-                      
-                      <td>{{i+1}}</td>
-                      <td>{{index.id}}</td>
-                      <td>{{index.fullname | titlecase}}</td>
-                      <td>{{index.gender}}</td>
-                      <td>{{index.grade}}</td>
-                      <td>{{index.city}}</td>
-                      <td>{{index.street}}</td>
-                      <td>{{index.birthdate ? (index.birthdate | date: 'yyyy-MM-dd') : 'N/A'}}</td>
-                      <td>{{index.rfidtag_id}}</td>
-                      <!-- <td>
-                        <img *ngIf="index.studentImage" [src]="getImageUrl(index.studentImage)" alt="studentImage" class="school-logo" loading="lazy">
-                      </td> -->
-                      <td>{{index.createdon ? (index.createdon | date: 'yyyy-MM-dd') : 'N/A'}}</td>
-                     
-                      <td>{{index.parentemail }}</td>
-                      <td><i id="edit" class="fa-solid fa-pen-to-square " [routerLink]="['/update',index.id]" title="edit"></i></td>
-                      <td><i id="delete" class="fa-solid fa-trash-can " style="color: #d21919;" (click)="delete(index.id)" title="delete"></i></td>
-                     
-                    
-                    </tr>
-      
-             
-            
-           
-          </tbody>
-        </table>
+            <tr>
+              <th></th>
+              <th>
+                <input pInputText type="text" (input)="onFilterChange($event, 'id', 'contains')" placeholder="Search ID" class="w-full" />
+              </th>
+              <th>
+                <input pInputText type="text" (input)="onFilterChange($event, 'fullname', 'contains')" placeholder="Search name" class="w-full" />
+              </th>
+              <th>
+                <p-dropdown [options]="genderOptions" (onChange)="onGenderChange($event)" [showClear]="true" placeholder="Select Gender"></p-dropdown>
+              </th>
+              <th>
+                <p-dropdown [options]="gradeOptions" (onChange)="onGradeChange($event)" [showClear]="true" placeholder="Select Grade"></p-dropdown>
+              </th>
+              <th>
+                <input pInputText type="text" (input)="onFilterChange($event, 'city', 'contains')" placeholder="Search city" class="w-full" />
+              </th>
+              <th>
+                <input pInputText type="text" (input)="onFilterChange($event, 'street', 'contains')" placeholder="Search street" class="w-full" />
+              </th>
+              <th></th>
+              <th>
+                <input pInputText type="text" (input)="onFilterChange($event, 'rfidtag_id', 'contains')" placeholder="Search RFID" class="w-full" />
+              </th>
+              <th></th>
+              <th>
+                <input pInputText type="text" (input)="onFilterChange($event, 'parentemail', 'contains')" placeholder="Search email" class="w-full" />
+              </th>
+              <th></th>
+            </tr>
+          </ng-template>
+          
+          <ng-template pTemplate="body" let-student let-i="rowIndex">
+            <tr>
+              <td>{{i + 1}}</td>
+              <td>{{student.id}}</td>
+              <td>{{student.fullname | titlecase}}</td>
+              <td>
+                <p-tag [value]="getGenderText(student.gender)" [severity]="getGenderSeverity(student.gender)"></p-tag>
+              </td>
+              <td>{{student.grade}}</td>
+              <td>{{student.city}}</td>
+              <td>{{student.street}}</td>
+              <td>{{student.birthdate ? (student.birthdate | date: 'yyyy-MM-dd') : 'N/A'}}</td>
+              <td>{{student.rfidtag_id}}</td>
+              <td>{{student.createdon ? (student.createdon | date: 'yyyy-MM-dd') : 'N/A'}}</td>
+              <td>{{student.parentemail}}</td>
+              <td>
+                <div class="flex gap-2">
+                  <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-success p-button-sm" 
+                    [routerLink]="['/update', student.id]"
+                    title="Edit"></button>
+                  <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-sm"
+                    (click)="delete(student.id)"
+                    title="Delete"></button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="12" class="text-center">No students found.</td>
+            </tr>
+          </ng-template>
+          
+          <ng-template pTemplate="summary">
+            <div class="flex justify-content-between">
+              Total Records: {{students ? students.length : 0}}
+            </div>
+          </ng-template>
+        </p-table>
       </div>
-           <div class="pagination">
-    
-    <pagination-controls (pageChange)="pagechanged($event)" previousLabel="prev" nextLabel="Next"></pagination-controls>
-  </div> 
-  <div *ngIf="filteredStudents.length" class="col-md-1">
-    <i class="fa-solid fa-download"  id="csv" title="download file.csv" (click)="downloadCsvFile()"></i>
-
+    </div>
   </div>
-       
-    </div> 
-  </div>
-  
+</div>

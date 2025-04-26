@@ -1,58 +1,124 @@
-
-import { ChangeDetectorRef, Component, OnInit ,ChangeDetectionStrategy, Input} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SharedService } from '../services/shared.service';
-import { customeInterceptor } from '../custome.interceptor';
-import { Token } from '@angular/compiler';
-import { HttpRequest, HttpHandler } from '@angular/common/http';
-import { ngxCsv } from 'ngx-csv/ngx-csv';
-import { number } from 'echarts';
-import { Router } from '@angular/router';
-import Swal from 'sweetalert2';
+import { Router, RouterModule } from '@angular/router';
+import { ngxCsv } from 'ngx-csv';
+import { Table } from 'primeng/table';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { InputTextModule } from 'primeng/inputtext';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { DropdownModule } from 'primeng/dropdown';
+import { HttpClientModule } from '@angular/common/http';
+import { ButtonModule } from 'primeng/button';
 import { AuthService } from '../services/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-student-list',
   templateUrl: './student-list.component.html',
-  styleUrl: './student-list.component.css',
+  styleUrls: ['./student-list.component.css'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    TableModule,
+    TagModule,
+    InputTextModule,
+    MultiSelectModule,
+    DropdownModule,
+    HttpClientModule,
+    RouterModule,
+    ButtonModule
+  ]
 })
 export class StudentListComponent implements OnInit {
-pagination: any;
-  constructor(public shared:SharedService,private router:Router,public authService:AuthService,private cdr: ChangeDetectorRef){}
-  student: any[] = [];
-  searchtext:string='';
-  pagesize:number=100;
-  totalItems:number;
-  // تعديل قيمة المتغير الحالي
-  itemsPerPage:number=5; // تغيير القيمة الافتراضية من 1 إلى 10
-  // إضافة خيارات لعدد العناصر في الصفحة
-  itemsPerPageOptions: number[] = [5, 10, 20, 30,40, 50];
-  pageNumber:number=1;
-  count:number=0;
+  @ViewChild('dt') table!: Table;
+  
+  constructor(
+    public shared: SharedService,
+    private router: Router,
+    public authService: AuthService
+  ) {}
+  
+  students: any[] = [];
+  searchtext: string = '';
+  pagesize: number = 100;
+  totalItems: number = 0;
+  itemsPerPage: number = 10;
+  itemsPerPageOptions: number[] = [5, 10, 20, 50];
+  pageNumber: number = 1;
   gender: number | null = null;
   grade: number | null = null;
-  s='search for student';
+  loading: boolean = true;
   adminId: string | null = null;
-  adminName:string | null = localStorage.getItem('username');
-  schoolName:string | null = localStorage.getItem('schoolTenantId');
- public qrValue:string;
-
+  adminName: string | null = localStorage.getItem('username');
+  schoolName: string | null = localStorage.getItem('schoolTenantId');
+  schoolLogoUrl: string = '';
+  
+  genderOptions: any[] = [
+    { label: 'All Genders', value: null },
+    { label: 'Male', value: 0 },
+    { label: 'Female', value: 1 }
+  ];
+  
+  gradeOptions: any[] = [
+    { label: 'All Grades', value: null },
+    { label: 'Grade 1', value: 1 },
+    { label: 'Grade 2', value: 2 },
+    { label: 'Grade 3', value: 3 },
+    { label: 'Grade 4', value: 4 },
+    { label: 'Grade 5', value: 5 },
+    { label: 'Grade 6', value: 6 },
+    { label: 'Grade 7', value: 7 },
+    { label: 'Grade 8', value: 8 }
+  ];
+  
   ngOnInit(): void {
-    // this.updateItemsPerPage(); // تحديد عدد العناصر بناءً على حجم الشاشة عند التحميل
-    // window.addEventListener('resize', this.updateItemsPerPage.bind(this));
-    this.filterStudents();
-    this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
-    console.log('Admin ID:', this.adminId);
+    this.loadStudents();
+    this.adminId = this.authService.getAdminId();
     this.schoolLogo();
   }
-  // updateItemsPerPage(): void {
-  //   if (window.innerWidth < 768) {
-  //     this.itemsPerPage = 5; // موبايل
-  //   } else {
-  //     this.itemsPerPage = 10; // سطح المكتب
-  //   }
-  //   this.cdr.detectChanges(); // تحديث الواجهة لضمان تطبيق التغيير فورًا
-  // }
-
+  
+  loadStudents() {
+    localStorage.getItem('token');
+    this.loading = true;
+    
+    const filters = {
+      gender: this.gender ?? undefined,
+      grade: this.grade ?? undefined,
+      pageNumber: this.pageNumber,
+      pageSize: this.pagesize,
+    };
+    
+    this.shared.filterStudents(filters).subscribe(
+      (response: any) => {
+        if (response && response.result && Array.isArray(response.result)) {
+          this.students = response.result.map((student: any) => this.normalizeKeys(student));
+          console.log('Filtered Students:', this.students);
+          this.loading = false;
+        } else {
+          console.error('No data found or invalid response format.');
+          this.students = [];
+          this.loading = false;
+        }
+      },
+      (err) => {
+        console.error('Error while filtering students:', err);
+        this.loading = false;
+      }
+    );
+  }
+  
+  normalizeKeys(obj: any): any {
+    if (!obj || typeof obj !== 'object') return obj; // التحقق من أن الكائن صالح
+    return Object.keys(obj).reduce((acc: any, key: string) => {
+      acc[key.toLowerCase()] = obj[key]; // تحويل المفتاح إلى lowercase
+      return acc;
+    }, {});
+  }
+  
   navigateToAdminUpdate(): void {
     if (this.adminId) {
       this.router.navigate(['/admin-update', this.adminId]);
@@ -60,200 +126,105 @@ pagination: any;
       console.error('Admin ID not found!');
     }
   }
-  onItemsPerPageChange(newValue: number): void {
-    this.itemsPerPage = newValue;
-    this.pageNumber = 1; // إعادة تعيين إلى الصفحة الأولى
-    this.filterStudents(); // إعادة تحميل البيانات
+  
+  applyFilterGlobal($event: any, stringVal: string) {
+    this.table.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
   }
- 
-getStudents(){
-  localStorage.getItem('token');
-  this.shared.getAllStudentspagination(this.pageNumber,this.pagesize).subscribe(
-    response=>{
-      console.log(response)
-      if (response && response.result && Array.isArray(response.result)) {
-        this.student = response.result; // إذا كانت البيانات موجودة، خزّنها
-      } else {
-        console.error('Error: Invalid response format or no data found.');
-        this.student = []; // تفريغ المصفوفة إذا لم توجد بيانات
+  
+  onFilterChange(event: any, field: string, matchMode: string): void {
+    if (this.table) {
+      const target = event.target as HTMLInputElement;
+      this.table.filter(target.value, field, matchMode);
+    }
+  }
+  
+  onGenderChange(event: any) {
+    this.gender = event.value;
+    this.loadStudents();
+  }
+  
+  onGradeChange(event: any) {
+    this.grade = event.value;
+    this.loadStudents();
+  }
+  
+  clear() {
+    if (this.table) {
+      this.table.clear();
+      this.gender = null;
+      this.grade = null;
+      this.loadStudents();
+    }
+  }
+  
+  delete(id: string) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this student!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.shared.deleteStudent(id).subscribe(
+          (res) => {
+            console.log('Student deleted:', res);
+            this.students = this.students.filter((student: any) => student.id !== id);
+            Swal.fire('Deleted!', 'The student has been deleted.', 'success');
+          },
+          (err) => {
+            console.error('Error while deleting student:', err);
+            Swal.fire('Error!', 'There was an error deleting the student.', 'error');
+          }
+        );
       }
-
-    },
-    err=>{
-      console.log(err);
-      
-    }
-  )
-}
-
-
-
-// filterByGenderM(){
-//   this.shared.getAllStudentsgender(this.gender=0,this.pageNumber,this.pagesize).subscribe(
-//     response=>{
-//       console.log(response)
-//       if (response && response.result && Array.isArray(response.result)) {
-//         this.student = response.result; // إذا كانت البيانات موجودة، خزّنها
-//       } else {
-//         console.error('Error: Invalid response format or no data found.');
-//         this.student = []; // تفريغ المصفوفة إذا لم توجد بيانات
-//       }
-      
-
-//     },
-//     err=>{
-//       console.log(err);
-      
-//     }
-//   )
-  
-// }
-// filterByGenderF(){
-//   this.shared.getAllStudentsgender(this.gender=1,this.pageNumber,this.pagesize).subscribe(
-//     response=>{
-//       console.log(response)
-//       if (response && response.result && Array.isArray(response.result)) {
-//         this.student = response.result; // إذا كانت البيانات موجودة، خزّنها
-//       } else {
-//         console.error('Error: Invalid response format or no data found.');
-//         this.student = []; // تفريغ المصفوفة إذا لم توجد بيانات
-//       }
-      
-
-//     },
-//     err=>{
-//       console.log(err);
-      
-//     }
-//   )
-  
-// }
-filterStudents() {
-  localStorage.getItem('token');
-  const filters = {
-    gender: this.gender ?? undefined, 
-    grade: this.grade ?? undefined,   
-    pageNumber: this.pageNumber,
-    pageSize: this.pagesize,
-  };
-
-  this.shared.filterStudents(filters).subscribe(
-    (response: any) => {
-      if (response && response.result && Array.isArray(response.result)) {
-        this.student = response.result.map((school: any) => this.normalizeKeys(school)) // تحديث قائمة الطلاب
-        console.log('Filtered Students:', this.student);
-      } else {
-        console.error('No data found or invalid response format.');
-        this.student = [];
-      }
-    },
-    (err) => {
-      console.error('Error while filtering students:', err);
-    }
-  );
-}
-
-normalizeKeys(obj: any): any {
-  if (!obj || typeof obj !== 'object') return obj; // التحقق من أن الكائن صالح
-  return Object.keys(obj).reduce((acc: any, key: string) => {
-    acc[key.toLowerCase()] = obj[key]; // تحويل المفتاح إلى lowercase
-    return acc;
-  }, {});
-}
-
-sortByGradeAscending() {
-  if (this.student && Array.isArray(this.student)) {
-    this.student.sort((a: any, b: any) => a.grade - b.grade);
-    console.log('Sorted Students by Grade Ascending:', this.student);
-  }
-}
-
-
-delete(id: string) {
-  Swal.fire({
-    title: 'Are you sure?',
-    text: 'You will not be able to recover this student!',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: 'Yes, delete it!',
-    cancelButtonText: 'No, keep it',
-  }).then((result) => {
-    if (result.isConfirmed) {
-      this.shared.deleteStudent(id).subscribe(
-        (res) => {
-          console.log('Student deleted:', res);
-          this.student = this.student.filter((student: any) => student.id !== id);
-          Swal.fire('Deleted!', 'The student has been deleted.', 'success');
-        },
-        (err) => {
-          console.error('Error while deleting student:', err);
-          Swal.fire('Error!', 'There was an error deleting the student.', 'error');
-        }
-      );
-    }
-  });
-}
-
-  pagechanged(event:any){
-    this.pageNumber=event;
-    // this.getStudents();
-  }
-
-  get filteredStudents() {
-    return this.student.filter(student => 
-      student.fullname?.toLowerCase().includes(this.searchtext.toLowerCase()) ||
-      student.city?.toLowerCase().includes(this.searchtext.toLowerCase())
-    );
-  }
-
-  logout(): void {
-    this.authService.logout(); // استدعاء وظيفة تسجيل الخروج من الخدمة
-    this.authService.clearAdminId();
+    });
   }
   
-  downloadCsvFile(){
-    var options = { 
+  downloadCsvFile() {
+    const formattedStudents = this.students.map(s => ({
+      ID: s.id,
+      FullName: s.fullname,
+      Gender: s.gender === 0 ? 'Male' : 'Female',
+      Grade: s.grade,
+      City: s.city,
+      Street: s.street,
+      BirthDate: s.birthdate ? new Date(s.birthdate).toISOString().split('T')[0] : '',
+      RfidTag: s.rfidtag_id,
+      CreatedOn: s.createdon ? new Date(s.createdon).toISOString().split('T')[0] : '',
+      ParentId: s.parentid,
+      ParentEmail: s.parentemail,
+    }));
+    
+    var options = {
       fieldSeparator: ',',
       quoteStrings: '"',
       decimalseparator: '.',
-      showLabels: true, 
+      showLabels: true,
       showTitle: false,
-      title: 'Students data',
+      title: 'Students Data',
       useBom: true,
-      headers: ['ID',
-        'FullName',
+      headers: [
+        'ID',
+        'Full Name',
         'Gender',
         'Grade',
         'City',
         'Street',
-        'BirthDate',
-        'RfidTag',
-        'createdOn',
-        'parentId',
-        'parentEmail'
-        ]
+        'Birth Date',
+        'RFID Tag ID',
+        'Created On',
+        'Parent ID',
+        'Parent Email'
+      ],
     };
-    const formattedStudents = this.student.map(s => ({
-      ID: s.id,
-      FullName: s.fullname,
-      Gender: s.gender,
-      Grade: s.grade,
-      City: s.city,
-      Street: s.street,
-      BirthDate: s.birthdate ? new Date(s.birthdate).toISOString().split('T')[0] : '', // YYYY-MM-DD
-      RfidTag: s.rfidtag_id ,
-      createdOn: s.createdon ,
-      parentId:s.parentid,
-      parentEmail:s.parentemail,
-      
-    }));
-  
-   
+    
     new ngxCsv(formattedStudents, 'student-list', options);
   }
-
+  
   isStudentOpen = false;
   isAdminOpen = false;
   
@@ -264,106 +235,70 @@ delete(id: string) {
       this.isAdminOpen = !this.isAdminOpen;
     }
   }
-  isSidebarOpen: boolean = true; // افتراضيًا، القائمة مفتوحة
-
+  
+  isSidebarOpen: boolean = true;
+  
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
-  // getImageUrl(logoPath: string): string {
-  //   if (!logoPath) {
-  //     return '../../../assets/a4e461fe3742a7cf10a1008ffcb18744.png'; // صورة افتراضية إذا لم يكن هناك لوجو
-  //   }
-  //   return `https://school-api.runasp.net//${logoPath}`; // ضع هنا رابط السيرفر الصحيح
-  // }
- 
-  // schoolLogoUrl: string = ''; // متغير لتخزين رابط الصورة
-
-  // schoolLogo() {
-  //   const schoolTenantId = localStorage.getItem('schoolTenantId'); // جلب schoolTenantId من localStorage
   
-  //   const filters = {
-  //     pageNumber: this.pageNumber,
-  //     pageSize: this.pagesize,
-  //   };
+  logout(): void {
+    this.authService.logout();
+    this.authService.clearAdminId();
+  }
   
-  //   this.shared.filterSchools(filters).subscribe(
-  //     (response: any) => {
-  //       if (response && response.result && Array.isArray(response.result)) {
-  //         // إيجاد المدرسة التي يعمل بها الإدمن
-  //         const school = response.result.find((school: any) => school.schoolTenantId === schoolTenantId);
-  
-  //         // إذا وُجدت المدرسة، تخزين رابط الصورة، وإلا تعيين صورة افتراضية
-  //         this.schoolLogoUrl = school.schoolLogo ;
-  
-  //         console.log('School Logo URL:', this.schoolLogoUrl);
-  //       } else {
-  //         console.error('No data found or invalid response format.');
-  //         this.schoolLogoUrl = '../../../assets/a4e461fe3742a7cf10a1008ffcb18744.png';
-  //       }
-  //     },
-  //     (err) => {
-  //       console.error('Error while filtering schools:', err);
-  //       this.schoolLogoUrl = '../../../assets/a4e461fe3742a7cf10a1008ffcb18744.png';
-  //     }
-  //   );
-  // }
   getImageUrl(logoPath: string): Promise<string> {
     return new Promise((resolve) => {
       if (!logoPath) {
-        resolve('../../../assets/a4e461fe3742a7cf10a1008ffcb18744.png'); // صورة افتراضية
+        resolve('../../../assets/a4e461fe3742a7cf10a1008ffcb18744.png');
         return;
       }
-  
+      
       const imageUrl = `https://school-api.runasp.net/${logoPath}`;
       this.convertToWebP(imageUrl)
         .then((webpUrl) => resolve(webpUrl))
-        .catch(() => resolve(imageUrl)); // في حال الفشل، يتم استخدام الصورة الأصلية
+        .catch(() => resolve(imageUrl));
     });
   }
   
-  // ✅ تحويل الصورة إلى WebP
   convertToWebP(imageUrl: string): Promise<string> {
     return new Promise((resolve, reject) => {
       const img = new Image();
-      img.crossOrigin = "Anonymous"; // لتفادي مشاكل CORS
+      img.crossOrigin = "Anonymous";
       img.src = imageUrl;
-  
+      
       img.onload = () => {
         const canvas = document.createElement("canvas");
         canvas.width = img.width;
         canvas.height = img.height;
-  
+        
         const ctx = canvas.getContext("2d");
         if (ctx) {
           ctx.drawImage(img, 0, 0);
-          const webpUrl = canvas.toDataURL("image/webp", 0.8); // جودة 80%
+          const webpUrl = canvas.toDataURL("image/webp", 0.8);
           resolve(webpUrl);
         } else {
           reject("Canvas not supported");
         }
       };
-  
+      
       img.onerror = (err) => reject(err);
     });
   }
   
-  // ✅ تحميل اللوجو وتحويله إلى WebP
-  schoolLogoUrl: string = '';
-  
   schoolLogo() {
     const schoolTenantId = localStorage.getItem('schoolTenantId');
-  
+    
     const filters = {
       pageNumber: this.pageNumber,
       pageSize: this.pagesize,
     };
-  
+    
     this.shared.filterSchools(filters).subscribe(
       (response: any) => {
         if (response?.result && Array.isArray(response.result)) {
           const school = response.result.find((s: any) => s.schoolTenantId === schoolTenantId);
           if (school?.schoolLogo) {
-            // تحويل الصورة إلى WebP قبل العرض
             this.getImageUrl(school.schoolLogo).then((webpUrl) => {
               this.schoolLogoUrl = webpUrl;
             });
@@ -382,31 +317,21 @@ delete(id: string) {
     );
   }
   
-  
-  trackByStudent(index: number, student: any): number {
-    return student.id;
+  getGenderText(genderValue: any): string {
+    if (typeof genderValue === 'string') {
+      return genderValue.trim().toLowerCase() === 'male' || genderValue.trim() === '0' 
+        ? 'Male' 
+        : 'Female';
+    }
+    return genderValue === 0 ? 'Male' : 'Female';
   }
-
-  // search(searchtext: string=''){
-  //   this.shared.search(searchtext).subscribe(
-  //     res=>{
-  //       this.student=res;
-
-  //     },
-  //     err=>{
-  //       console.log(err);
-  //     }
-  //   )
-      
-  // }
-
-  // onPrevious(){
-  //   this.PageNumber --;
-  //   this.shared.getAllStudents(this.PageNumber,this.pagesize);
-  // }
-  // onNext() {
-  //   this.PageNumber ++;
-  //   this.shared.getAllStudents(this.PageNumber,this.pagesize);
-  // }
-
+  
+  getGenderSeverity(genderValue: any): any {
+    if (typeof genderValue === 'string') {
+      return genderValue.trim().toLowerCase() === 'male' || genderValue.trim() === '0' 
+        ? 'info' 
+        : 'warning';
+    }
+    return genderValue === 0 ? 'info' : 'warning';
+  }
 }

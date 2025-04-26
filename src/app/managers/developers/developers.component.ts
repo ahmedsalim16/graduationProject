@@ -1,133 +1,134 @@
-import { Component } from '@angular/core';
-import { ngxCsv } from 'ngx-csv';
-import Swal from 'sweetalert2';
-import { AuthService } from '../../services/auth.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SharedService } from '../../services/shared.service';
-import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { Router, RouterModule } from '@angular/router';
+import { ngxCsv } from 'ngx-csv';
+import { Table } from 'primeng/table';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { InputTextModule } from 'primeng/inputtext';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { DropdownModule } from 'primeng/dropdown';
+import { HttpClientModule } from '@angular/common/http';
+import { ButtonModule } from 'primeng/button';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-developers',
   templateUrl: './developers.component.html',
-  styleUrl: './developers.component.css'
+  styleUrls: ['./developers.component.css'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    TableModule,
+    TagModule,
+    InputTextModule,
+    MultiSelectModule,
+    DropdownModule,
+    HttpClientModule,
+    ButtonModule,RouterModule
+  ]
 })
-export class DevelopersComponent {
-constructor(public shared:SharedService,public authService:AuthService,private router: Router){}
+export class DevelopersComponent implements OnInit {
+  @ViewChild('dt') table!: Table;
+  
+  constructor(
+    public shared: SharedService,
+    public authService: AuthService,
+    private router: Router
+  ) {}
+
   admins: any[] = [];
-  searchtext:string='';
-  pagesize:number=100;
-  totalItems:number;
-  // تعديل قيمة المتغير الحالي
-  itemsPerPage:number=1; // تغيير القيمة الافتراضية من 1 إلى 10
-  // إضافة خيارات لعدد العناصر في الصفحة
-  itemsPerPageOptions: number[] = [1, 5, 10, 15, 20];
-  pageNumber:number=1;
-  count:number=0;
-  role: string | null = null; // لتخزين نوع الجنس المختار
-grade: number | null = null;
-  s='search for admins';
+  searchtext: string = '';
+  pagesize: number = 100;
+  totalItems: number = 0;
+  itemsPerPage: number = 10;
+  itemsPerPageOptions: number[] = [5, 10, 25, 50];
+  pageNumber: number = 1;
+  loading: boolean = true;
   adminId: string | null = null;
- public qrValue:string;
- isOwner:string | null = null;
- MId:string | null = localStorage.getItem('userId');
- adminName:string | null = localStorage.getItem('username');
- schoolName:string | null = localStorage.getItem('schoolTenantId');
+  isOwner: string | null = null;
+  MId: string | null = localStorage.getItem('userId');
+  adminName: string | null = localStorage.getItem('username');
+  isSidebarOpen: boolean = true;
+  isSchoolOpen: boolean = false;
+  isAdminOpen: boolean = false;
+
   ngOnInit(): void {
-    this.filteradmins();
-    this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
-    console.log('Admin ID:', this.adminId);
-
+    this.filterAdmins();
+    this.adminId = this.authService.getAdminId();
   }
-  navigateToAdminUpdate(): void {
-    if (this.adminId) {
-      this.router.navigate(['/admin-update', this.adminId]);
-    } else {
-      console.error('Admin ID not found!');
-    }
-  }
-  onItemsPerPageChange(newValue: number): void {
-    this.itemsPerPage = newValue;
-    this.pageNumber = 1; // إعادة تعيين إلى الصفحة الأولى
-    this.filteradmins(); // إعادة تحميل البيانات
-  }
-  IsOwner():boolean{
-    this.isOwner=localStorage.getItem('owner')
-    if(this.isOwner=='true'){
-      return true
-    }
-    else{
-      return false
-    }
-  }
- 
 
-filteradmins() {
-  localStorage.getItem('token');
-  const filters = {
-    role: this.role ?? undefined, // إذا كانت null قم بإرسال undefined   // إذا كانت null قم بإرسال undefined
-    pageNumber: this.pageNumber,
-    pageSize: this.pagesize,
-  };
+  filterAdmins() {
+    this.loading = true;
+    const filters = {
+      role: 'Admin',
+      pageNumber: this.pageNumber,
+      pageSize: this.pagesize,
+    };
 
-  this.shared.filterAdmins(filters).subscribe(
-    (response: any) => {
-      if (response && response.result && Array.isArray(response.result)) {
-        this.admins = response.result.filter((user: any) => user.role === 'Admin'&& user.schoolTenantId===localStorage.getItem('schoolTenantId')); // تحديث قائمة الطلاب
-        console.log('Filtered admins:', this.admins);
-      } else {
-        console.error('No data found or invalid response format.');
-        this.admins = [];
-      }
-    },
-    (err) => {
-      console.error('Error while filtering admins:', err);
-    }
-  );
-}
-
-
-
-
-delete(id: string) {
-  Swal.fire({
-    title: 'Are you sure?',
-    text: 'You will not be able to recover this admin!',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: 'Yes, delete it!',
-    cancelButtonText: 'No, keep it',
-  }).then((result) => {
-    if (result.isConfirmed) {
-      this.shared.deleteadmins(id).subscribe(
-        (res) => {
-          console.log('admin deleted:', res);
-          this.admins = this.admins.filter((student: any) => student.id !== id);
-          Swal.fire('Deleted!', 'The admin has been deleted.', 'success');
-        },
-        (err) => {
-          console.error('Error while deleting admin:', err);
-          Swal.fire('Error!', 'There was an error deleting the admin.', 'error');
+    this.shared.filterAdmins(filters).subscribe(
+      (response: any) => {
+        if (response && response.result) {
+          this.admins = response.result.filter((user: any) => 
+            user.schoolTenantId === localStorage.getItem('schoolTenantId')
+          );
+          this.loading = false;
+        } else {
+          this.admins = [];
+          this.loading = false;
         }
-      );
-    }
-  });
-}
-
-  pagechanged(event:any){
-    this.pageNumber=event;
-    // this.getadminss();
-  }
-
-  get filteredadmins() {
-    return this.admins.filter(admins => 
-      admins.userName.includes(this.searchtext.toLowerCase()) ||
-      admins.email.includes(this.searchtext.toLowerCase()) 
+      },
+      (err) => {
+        console.error('Error while filtering admins:', err);
+        this.loading = false;
+      }
     );
   }
 
-  logout(): void {
-    this.authService.logout(); // استدعاء وظيفة تسجيل الخروج من الخدمة
+  navigateToAdminUpdate(): void {
+    if (this.adminId) {
+      this.router.navigate(['/admin-update', this.adminId]);
+    }
+  }
+
+  applyFilterGlobal($event: any, stringVal: string) {
+    this.table.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
+  }
+
+  onFilterChange(event: any, field: string, matchMode: string): void {
+    if (this.table) {
+      const target = event.target as HTMLInputElement;
+      this.table.filter(target.value, field, matchMode);
+    }
+  }
+
+  delete(id: string) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this admin!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.shared.deleteadmins(id).subscribe(
+          (res) => {
+            this.admins = this.admins.filter((admin: any) => admin.id !== id);
+            Swal.fire('Deleted!', 'The admin has been deleted.', 'success');
+          },
+          (err) => {
+            Swal.fire('Error!', 'There was an error deleting the admin.', 'error');
+          }
+        );
+      }
+    });
   }
 
   downloadCsvFile() {
@@ -138,55 +139,73 @@ delete(id: string) {
       FirstName: admin.firstName,
       LastName: admin.lastName,
       PhoneNumber: admin.phoneNumber,
-      Gender: admin.gender,
+      Gender: this.getGenderText(admin.gender),
       Role: admin.role,
-      CreatedOn:admin.createdOn ? new Date(admin.createdOn).toISOString().split('T')[0] : '', 
+      CreatedOn: admin.createdOn ? new Date(admin.createdOn).toISOString().split('T')[0] : '',
       IsOwner: admin.owner,
     }));
 
+    const options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalseparator: '.',
+      showLabels: true,
+      showTitle: false,
+      useBom: true,
+      headers: [
+        'ID', 'UserName', 'Email', 'FirstName', 'LastName',
+        'PhoneNumber', 'Gender', 'Role', 'CreatedOn', 'IsOwner'
+      ],
+    };
 
-      var options = {
-        fieldSeparator: ',',
-        quoteStrings: '"',
-        decimalseparator: '.',
-        showLabels: true,
-        showTitle: false,
-        title: 'Admins Data',
-        useBom: true,
-        headers: [
-          'ID',
-          'UserName',
-          'Email',
-          'FirstName',
-          'LastName',
-          'PhoneNumber',
-          'Gender',
-          'Role',
-          'CreatedOn',
-          'IsOwner',
-          
-        ],
-      };
-  
-      new ngxCsv(formattedAdmins, 'admins-data', options);
-    }
-    formatDateTime(dateString: string): string {
-      const date = new Date(dateString);
-      return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-    }
-    isSchoolOpen = false;
-    isAdminOpen = false;
-    
-    toggleDropdown(menu: string) {
-      if (menu === 'school') {
-        this.isSchoolOpen = !this.isSchoolOpen;
-      } else if (menu === 'admin') {
-        this.isAdminOpen = !this.isAdminOpen;
-      }
-    }
-    isSidebarOpen: boolean = true; // افتراضيًا، القائمة مفتوحة
+    new ngxCsv(formattedAdmins, 'developers-data', options);
+  }
 
-toggleSidebar() {
-  this.isSidebarOpen = !this.isSidebarOpen;
-}
+  getGenderText(genderValue: any): string {
+    if (typeof genderValue === 'string') {
+      return genderValue.trim().toLowerCase() === 'male' || genderValue.trim() === '0' 
+        ? 'Male' 
+        : 'Female';
+    }
+    return genderValue === 0 ? 'Male' : 'Female';
+  }
+
+  getGenderSeverity(genderValue: any): any {
+    if (typeof genderValue === 'string') {
+      return genderValue.trim().toLowerCase() === 'male' || genderValue.trim() === '0' 
+        ? 'info' 
+        : 'warning';
+    }
+    return genderValue === 0 ? 'info' : 'warning';
+  }
+
+  getRoleSeverity(role: string): any {
+    return role === 'Admin' ? 'danger' : 'info';
+  }
+  clear() {
+    if (this.table) {
+      this.table.clear();
+    }
+  }
+
+  IsOwner(): boolean {
+    this.isOwner = localStorage.getItem('owner');
+    return this.isOwner === 'true';
+  }
+
+  toggleDropdown(menu: string) {
+    if (menu === 'school') {
+      this.isSchoolOpen = !this.isSchoolOpen;
+    } else if (menu === 'admin') {
+      this.isAdminOpen = !this.isAdminOpen;
+    }
+  }
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  logout(): void {
+    this.authService.logout();
+  }
 }
