@@ -14,7 +14,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { ButtonModule } from 'primeng/button';
 import { AuthService } from '../services/auth.service';
 import Swal from 'sweetalert2';
-
+import { Sidebar,SidebarModule } from 'primeng/sidebar';
+import { RippleModule } from 'primeng/ripple';
+import { StyleClassModule } from 'primeng/styleclass';
 @Component({
   selector: 'app-student-list',
   templateUrl: './student-list.component.html',
@@ -30,12 +32,15 @@ import Swal from 'sweetalert2';
     DropdownModule,
     HttpClientModule,
     RouterModule,
-    ButtonModule
+    ButtonModule,
+    SidebarModule
   ]
 })
 export class StudentListComponent implements OnInit {
   @ViewChild('dt') table!: Table;
-  
+   @ViewChild('sidebarRef') sidebarRef!: Sidebar;
+          
+    sidebarVisible: boolean = false;
   constructor(
     public shared: SharedService,
     private router: Router,
@@ -79,6 +84,16 @@ export class StudentListComponent implements OnInit {
     this.loadStudents();
     this.adminId = this.authService.getAdminId();
     this.schoolLogo();
+    if (window.innerWidth < 768) {
+      this.sidebarVisible = false;
+    }
+    
+    // إضافة مستمع لتغيير حجم النافذة
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < 768) {
+        this.sidebarVisible = false;
+      }
+    });
   }
   
   loadStudents() {
@@ -239,7 +254,7 @@ export class StudentListComponent implements OnInit {
   isSidebarOpen: boolean = true;
   
   toggleSidebar() {
-    this.isSidebarOpen = !this.isSidebarOpen;
+    this.sidebarVisible = !this.sidebarVisible;
   }
   
   logout(): void {

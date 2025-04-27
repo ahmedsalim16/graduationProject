@@ -1,15 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../services/auth.service';
 import { SharedService } from '../../services/shared.service';
-
+import { Sidebar } from 'primeng/sidebar';
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
+import { StyleClassModule } from 'primeng/styleclass';
 @Component({
   selector: 'app-add-owner',
   templateUrl: './add-owner.component.html',
   styleUrls: ['./add-owner.component.css']
 })
 export class AddOwnerComponent implements OnInit {
+   @ViewChild('sidebarRef') sidebarRef!: Sidebar;
+        
+      sidebarVisible: boolean = false;
   schoolOptions: any[] = []; // تغيير من schoolNames إلى schoolOptions
   pagesize: number = 20;
   pageNumber: number = 1;
@@ -140,6 +146,6 @@ toggleDropdown(menu: string) {
 isSidebarOpen: boolean = true; // افتراضيًا، القائمة مفتوحة
 
 toggleSidebar() {
-this.isSidebarOpen = !this.isSidebarOpen;
+this.sidebarVisible = !this.sidebarVisible;
 }
 }

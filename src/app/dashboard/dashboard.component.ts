@@ -1,14 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SharedService } from '../services/shared.service';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
-
+import { Sidebar } from 'primeng/sidebar';
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
+import { StyleClassModule } from 'primeng/styleclass';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent implements OnInit {
+     @ViewChild('sidebarRef') sidebarRef!: Sidebar;
+      
+    sidebarVisible: boolean = false;
   studentCount: number = 0; // العدد الكلي للطلاب
   maleStudentCount: number = 0; // عدد الطلاب الذكور
   femaleStudentCount: number = 0; // عدد الطالبات الإناث
@@ -33,8 +39,17 @@ export class DashboardComponent implements OnInit {
     this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
     console.log('Admin ID:', this.adminId);
     this.schoolLogo();
+    if (window.innerWidth < 768) {
+      this.sidebarVisible = false;
+    }
+    
+    // إضافة مستمع لتغيير حجم النافذة
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < 768) {
+        this.sidebarVisible = false;
+      }
+    });
   }
-
   getFoods() {
     
     this.shared.getstock().subscribe(
@@ -108,7 +123,7 @@ export class DashboardComponent implements OnInit {
   isSidebarOpen: boolean = true; // افتراضيًا، القائمة مفتوحة
 
 toggleSidebar() {
-  this.isSidebarOpen = !this.isSidebarOpen;
+  this.sidebarVisible = !this.sidebarVisible;
 }
 
 getParentCount() {

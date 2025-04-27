@@ -14,7 +14,9 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { DropdownModule } from 'primeng/dropdown';
 import { HttpClientModule } from '@angular/common/http';
 import { ButtonModule } from 'primeng/button';
-
+import { Sidebar,SidebarModule } from 'primeng/sidebar';
+import { RippleModule } from 'primeng/ripple';
+import { StyleClassModule } from 'primeng/styleclass';
 @Component({
   selector: 'app-parent-list',
   templateUrl: './parent-list.component.html',
@@ -29,12 +31,14 @@ import { ButtonModule } from 'primeng/button';
     MultiSelectModule,
     DropdownModule,
     HttpClientModule,
-    ButtonModule,RouterModule
+    ButtonModule,RouterModule,SidebarModule
   ]
 })
 export class ParentListComponent implements OnInit {
   @ViewChild('dt') table!: Table;
-  
+  @ViewChild('sidebarRef') sidebarRef!: Sidebar;
+        
+  sidebarVisible: boolean = false;
   constructor(
     public shared: SharedService,
     public authService: AuthService,
@@ -61,6 +65,16 @@ export class ParentListComponent implements OnInit {
     this.schoolLogo();
     this.filterParents();
     this.adminId = this.authService.getAdminId();
+    if (window.innerWidth < 768) {
+      this.sidebarVisible = false;
+    }
+    
+    // إضافة مستمع لتغيير حجم النافذة
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < 768) {
+        this.sidebarVisible = false;
+      }
+    });
   }
 
   filterParents() {
@@ -192,7 +206,7 @@ export class ParentListComponent implements OnInit {
   }
 
   toggleSidebar() {
-    this.isSidebarOpen = !this.isSidebarOpen;
+    this.sidebarVisible = !this.sidebarVisible;
   }
 
   logout(): void {

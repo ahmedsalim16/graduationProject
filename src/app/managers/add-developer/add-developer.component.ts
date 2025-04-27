@@ -1,15 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../services/auth.service';
 import { SharedService } from '../../services/shared.service';
-
+import { Sidebar } from 'primeng/sidebar';
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
+import { StyleClassModule } from 'primeng/styleclass';
 @Component({
   selector: 'app-add-developer',
   templateUrl: './add-developer.component.html',
   styleUrl: './add-developer.component.css'
 })
 export class AddDeveloperComponent {
+   @ViewChild('sidebarRef') sidebarRef!: Sidebar;
+        
+      sidebarVisible: boolean = false;
   schoolNames: string[] = [];
   pagesize:number=20;
   pageNumber:number=1;
@@ -93,7 +99,7 @@ admin ={
     isSidebarOpen: boolean = true; // افتراضيًا، القائمة مفتوحة
 
 toggleSidebar() {
-  this.isSidebarOpen = !this.isSidebarOpen;
+  this.sidebarVisible = !this.sidebarVisible;
 }
 
 isSchoolOpen = false;

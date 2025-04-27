@@ -17,7 +17,9 @@ import { DropdownModule } from 'primeng/dropdown';
 import { HttpClientModule } from '@angular/common/http';
 import { PrimeIcons } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
-
+import { Sidebar, SidebarModule } from 'primeng/sidebar';
+import { RippleModule } from 'primeng/ripple';
+import { StyleClassModule } from 'primeng/styleclass';
 
 @Component({
   selector: 'app-admin-list',
@@ -32,12 +34,14 @@ import { ButtonModule } from 'primeng/button';
     InputTextModule,
     MultiSelectModule,
     DropdownModule,
-    HttpClientModule,RouterModule,ButtonModule
+    HttpClientModule,RouterModule,ButtonModule,SidebarModule
   ]
 })
 export class AdminListComponent implements OnInit {
+  @ViewChild('sidebarRef') sidebarRef!: Sidebar;
   @ViewChild('dt') table!: Table;
   
+  sidebarVisible: boolean = false;
   pagination: any;
   constructor(public shared: SharedService, public authService: AuthService, private router: Router) {}
   
@@ -71,8 +75,17 @@ export class AdminListComponent implements OnInit {
     this.filteradmins();
     this.adminId = this.authService.getAdminId();
     console.log('Admin ID:', this.adminId);
+    if (window.innerWidth < 768) {
+      this.sidebarVisible = false;
+    }
+    
+    // إضافة مستمع لتغيير حجم النافذة
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < 768) {
+        this.sidebarVisible = false;
+      }
+    });
   }
-  
   navigateToAdminUpdate(): void {
     if (this.adminId) {
       this.router.navigate(['/admin-update', this.adminId]);
@@ -235,7 +248,7 @@ export class AdminListComponent implements OnInit {
   isSidebarOpen: boolean = true;
   
   toggleSidebar() {
-    this.isSidebarOpen = !this.isSidebarOpen;
+    this.sidebarVisible = !this.sidebarVisible;
   }
   
   getImageUrl(logoPath: string): Promise<string> {

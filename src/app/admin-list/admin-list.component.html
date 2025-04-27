@@ -1,69 +1,112 @@
 <div class="d-flex">
-  <!-- Sidebar -->
-  <div id="sidebar" [ngClass]="{'hidden': !isSidebarOpen}">
-    <div class="logo">
-      <img [src]="schoolLogoUrl" alt="School Logo" class="school-logo animated-icon" [routerLink]="['/Dashboard']" loading="lazy">
-      <h4 *ngIf="isSidebarOpen">{{schoolName}}</h4>
-    </div>
-  
-    <div id="list">
-      <!-- Dashboard -->
-      <div class="dash">
-        <i class="fa-solid fa-chart-line" style="color: #fff;"></i>
-        <a routerLink="/Dashboard" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Dashboard</a>
-      </div>
-  
-      <!-- Student Dropdown -->
-      <div class="dash" (click)="toggleDropdown('student')" style="cursor: pointer;">
-        <i class="fa-solid fa-user" style="color: #ffffff;"></i>
-        <span class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Student</span>
-        <i class="fa-solid fa-chevron-right dropdown-arrow" [class.rotate]="isStudentOpen" *ngIf="isSidebarOpen"></i>
-      </div>
-      <div class="dropdown-content" [ngClass]="{'show': isStudentOpen}" *ngIf="isSidebarOpen">
-        <a routerLink="/student-list" class="list-group-item">Student List</a>
-        <a routerLink="/absence-list" class="list-group-item">Absence List</a>
-      </div>
-  
-      <!-- Admin Dropdown -->
-      <div class="dash">
-        <i class="fa-solid fa-user-shield" style="color: #ffffff;"></i>
-        <a routerLink="/admin-list" class="list-group-item list-group-item-action active" *ngIf="isSidebarOpen" style="opacity: 1;">Manager List</a>
-      </div>
-      <div class="dash">
-        <i class="fa-solid fa-user-group" style="color: #ffffff;"></i>
-        <a routerLink="/parent-list" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Parent List</a>
-      </div>
-      <!-- Send Emails -->
-      <div class="dash">
-        <i class="fa-solid fa-paper-plane" style="color: #ffffff;"></i>
-        <a routerLink="/Send-email" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Send Report</a>
-      </div>
-  
-      <!-- Logout -->
-      <div class="dash" style="cursor: pointer;">
-        <i class="fa-solid fa-right-from-bracket" style="color: #d21919;"></i>
-        <a (click)="logout()" id="Logout" class="list-group-item list-group-item-action" *ngIf="isSidebarOpen">Logout</a>
-      </div>
-    </div>
+  <div class="sidebar-container">
+    <p-sidebar [(visible)]="sidebarVisible" [showCloseIcon]="true" [baseZIndex]="1000" styleClass="custom-sidebar" [modal]="false" position="left">
+      <ng-template pTemplate="content">
+        <div class="flex flex-column h-full">
+          <!-- Logo and School Name -->
+          <div class="logo-container p-3">
+            <div class="flex align-items-center">
+              <img [src]="schoolLogoUrl" alt="School Logo" class="school-logo mr-2">
+              <span class="logo-text">{{schoolName}}</span>
+            </div>
+          </div>
+          
+          <!-- Navigation Menu -->
+          <div class="menu-container overflow-y-auto">
+            <div class="menu-section">
+              <div class="menu-header">
+                <span>القائمة</span>
+                <i class="pi pi-chevron-down"></i>
+              </div>
+              
+              <!-- Dashboard -->
+              <div class="menu-item">
+                <a routerLink="/Dashboard" routerLinkActive="active-link">
+                  <i class="pi pi-home"></i>
+                  <span>Dashboard</span>
+                </a>
+              </div>
+              
+              <!-- Student -->
+              <div class="menu-item">
+                <a (click)="toggleDropdown('student')" class="has-submenu">
+                  <i class="pi pi-user"></i>
+                  <span>Student</span>
+                  <i class="pi pi-chevron-down submenu-icon" [ngClass]="{'rotate-180': isStudentOpen}"></i>
+                </a>
+                
+                <div class="submenu" [ngClass]="{'submenu-open': isStudentOpen}">
+                  <a routerLink="/student-list" routerLinkActive="active-link">Student List</a>
+                  <a routerLink="/absence-list" routerLinkActive="active-link">Absence List</a>
+                </div>
+              </div>
+              
+              <!-- Manager List -->
+              <div class="menu-item">
+                <a routerLink="/admin-list" routerLinkActive="active-link">
+                  <i class="pi pi-user-edit"></i>
+                  <span>Manager List</span>
+                </a>
+              </div>
+              
+              <!-- Parent List -->
+              <div class="menu-item">
+                <a routerLink="/parent-list" routerLinkActive="active-link">
+                  <i class="pi pi-users"></i>
+                  <span>Parent List</span>
+                </a>
+              </div>
+              
+              <!-- Send Report -->
+              <div class="menu-item">
+                <a routerLink="/Send-email" routerLinkActive="active-link">
+                  <i class="pi pi-send"></i>
+                  <span>Send Report</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Logout Section -->
+          <div class="logout-container">
+            <div class="menu-item logout">
+              <a (click)="logout()">
+                <i class="pi pi-sign-out"></i>
+                <span>Logout</span>
+              </a>
+            </div>
+          </div>
+          <div class="mt-auto">
+            <hr class="mb-3 mx-3 border-top-1 border-none surface-border" />
+            <a pRipple class="m-3 flex align-items-center cursor-pointer p-3 gap-2 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple" style="text-decoration: none;color:#666">
+              <img class="profile-img" src="../../assets/profile.png" alt="Profile">
+                <span class="font-bold">{{adminName}}</span>
+            </a>
+        </div>
+        </div>
+      </ng-template>
+    </p-sidebar>
+    
+    <!-- Toggle Sidebar Button - Only shown when sidebar is hidden -->
+    <button *ngIf="!sidebarVisible" 
+            pButton class="p-button-rounded p-button-text sidebar-toggle" 
+            icon="pi pi-bars" 
+            (click)="toggleSidebar()"></button>
   </div>
 
-  <!-- Main Content -->
   <div id="page-content-wrapper" class="flex-grow-1">
     <div class="header">
-      <button title="toggle" id="toggle-sidebar" class="menu-btn" (click)="toggleSidebar()">
-        <i class="fa-solid fa-bars" style="color: #ffffff;"></i>
-      </button>
-      <!-- Profile section moved to the right -->
+      
+      <h2 id="head">Managers</h2>
       <div class="profile-container">
         <img class="profile-img" src="../../assets/profile.png" alt="Profile" 
         (click)="navigateToAdminUpdate()" 
         [routerLink]="['/admin-update',adminId]" />
         <span class="profile-name">{{adminName}}</span>
+
       </div>
     </div>
-
     <div class="stud">
-      <h2 id="head">Managers</h2>
       
       <div class="card">
         <!-- PrimeNG Table -->
@@ -194,4 +237,3 @@
       </div>
     </div>
   </div>
-</div>

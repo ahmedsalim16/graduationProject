@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { SharedService } from '../services/shared.service';
 import { text } from 'stream/consumers';
 import { Loginmodel } from '../loginmodel';
@@ -9,13 +9,19 @@ import { number } from 'echarts';
 import { AuthService } from '../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-
+import { Sidebar } from 'primeng/sidebar';
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
+import { StyleClassModule } from 'primeng/styleclass';
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
   styleUrl: './student.component.css'
 })
 export class StudentComponent implements OnInit{
+   @ViewChild('sidebarRef') sidebarRef!: Sidebar;
+          
+    sidebarVisible: boolean = false;
   public login:Loginmodel
   adminId: string | null = null;
   admin:any={};
@@ -29,6 +35,16 @@ export class StudentComponent implements OnInit{
     this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
     console.log('Admin ID:', this.adminId);
     this.schoolLogo();
+    if (window.innerWidth < 768) {
+      this.sidebarVisible = false;
+    }
+    
+    // إضافة مستمع لتغيير حجم النافذة
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < 768) {
+        this.sidebarVisible = false;
+      }
+    });
   }
   navigateToAdminUpdate(): void {
     if (this.adminId) {
@@ -152,7 +168,7 @@ toggleDropdown(menu: string) {
   isSidebarOpen: boolean = true; // افتراضيًا، القائمة مفتوحة
 
   toggleSidebar() {
-    this.isSidebarOpen = !this.isSidebarOpen;
+    this.sidebarVisible = !this.sidebarVisible;
   }
 
 

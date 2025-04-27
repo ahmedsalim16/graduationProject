@@ -1,17 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SharedService } from '../services/shared.service';
 import { NgForm } from '@angular/forms';
 import { Loginmodel } from '../loginmodel';
 import Swal from 'sweetalert2';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
-
+import { Sidebar } from 'primeng/sidebar';
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
+import { StyleClassModule } from 'primeng/styleclass';
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
 export class AdminComponent implements OnInit {
+   @ViewChild('sidebarRef') sidebarRef!: Sidebar;
+    
+  sidebarVisible: boolean = false;
   public login:Loginmodel
   adminId: string | null = null;
   adminName:string | null = localStorage.getItem('username');
@@ -23,8 +29,17 @@ export class AdminComponent implements OnInit {
     this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
     console.log('Admin ID:', this.adminId);
     this.schoolLogo();
+    if (window.innerWidth < 768) {
+      this.sidebarVisible = false;
+    }
+    
+    // إضافة مستمع لتغيير حجم النافذة
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < 768) {
+        this.sidebarVisible = false;
+      }
+    });
   }
-
 
   navigateToAdminUpdate(): void {
     if (this.adminId) {
@@ -110,7 +125,7 @@ export class AdminComponent implements OnInit {
     isSidebarOpen: boolean = true; // افتراضيًا، القائمة مفتوحة
 
 toggleSidebar() {
-  this.isSidebarOpen = !this.isSidebarOpen;
+  this.sidebarVisible = !this.sidebarVisible;
 }
 pagesize:number=20;
   pageNumber:number=1;

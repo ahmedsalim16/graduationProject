@@ -1,3 +1,6 @@
+@import "primeicons/primeicons.css";
+@import 'primeng/resources/themes/lara-light-indigo/theme.css';
+@import 'primeng/resources/primeng.min.css';
 *{
     font-family:sans-serif;
   }
@@ -110,6 +113,9 @@
   #head{
     margin-top: 30px;
     font-weight: bold;
+    position:relative;
+    left: 40px;
+
   }
   
   .col-3{
@@ -213,7 +219,173 @@
     visibility: visible;
     opacity: 1;
   }
-  
+  /* تحسينات عامة */
+
+
+
+.active-menu-item {
+  background-color: var(--primary-color-light);
+  color: var(--primary-color);
+}
+
+:host ::ng-deep .custom-sidebar {
+  width: 260px;
+  background-color: #ffffff;
+  color: #333;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+:host ::ng-deep .p-sidebar-close {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  top: 15px;
+  right: 15px;
+}
+
+.sidebar-container {
+  height: 100%;
+}
+
+.logo-container {
+  padding: 1.5rem 1rem;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.school-logo {
+  width: 80px;
+  height: 50px;
+  border-radius: 10px;
+  object-fit: contain;
+}
+
+.logo-text {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #4285f4;
+  margin-left: 0.5rem;
+}
+
+.menu-container {
+  flex-grow: 1;
+  padding: 1rem 0;
+}
+
+.menu-section {
+  margin-bottom: 1rem;
+}
+
+.menu-header {
+  padding: 0.5rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #666;
+}
+
+.menu-item {
+  position: relative;
+}
+
+.menu-item a {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  color: #333;
+  text-decoration: none;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.menu-item a:hover {
+  background-color: #f9f9f9;
+  color: #4285f4;
+}
+
+.menu-item a.active-link {
+  color: #4285f4;
+  background-color: #f0f7ff;
+  font-weight: 500;
+}
+
+.menu-item i {
+  margin-right: 0.75rem;
+  font-size: 1.1rem;
+  color: #666;
+  width: 1.5rem;
+  text-align: center;
+}
+
+.menu-item a:hover i,
+.menu-item a.active-link i {
+  color: #4285f4;
+}
+
+.has-submenu {
+  position: relative;
+}
+
+.submenu-icon {
+  margin-left: auto !important;
+  margin-right: 0 !important;
+  transition: transform 0.3s;
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+.submenu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+  background-color: #f9f9f9;
+}
+
+.submenu-open {
+  max-height: 200px;
+}
+
+.submenu a {
+  padding-left: 3.75rem;
+  font-size: 0.95rem;
+}
+
+.logout-container {
+  margin-top: auto;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 0.5rem;
+}
+
+.logout a {
+  color: #f44336 !important;
+}
+
+.logout a i {
+  color: #f44336;
+}
+
+.sidebar-toggle {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 999;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: #ffffff;
+  color: #4285f4;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+.sidebar-toggle:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
   
   @media (max-width: 768px) {
     #sidebar {

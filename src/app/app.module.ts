@@ -78,7 +78,9 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { TableModule } from 'primeng/table';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-
+import { Sidebar, SidebarModule } from 'primeng/sidebar';
+import { RippleModule } from 'primeng/ripple';
+import { StyleClassModule } from 'primeng/styleclass';
 // أو ربما في
 
 
@@ -192,6 +194,9 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
     InputTextModule,
     DropdownModule,
     TagModule,
+    SidebarModule,
+    RippleModule,
+    StyleClassModule,
     MultiSelectModule,
     // TranslateModule.forRoot({
     //   loader: {

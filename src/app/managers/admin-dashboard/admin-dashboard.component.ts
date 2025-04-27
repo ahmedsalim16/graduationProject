@@ -1,16 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { SharedService } from '../../services/shared.service';
 import { Router } from '@angular/router';
 import { EChartsOption } from 'echarts';
 import * as echarts from 'echarts';
-
+import { Sidebar } from 'primeng/sidebar';
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
+import { StyleClassModule } from 'primeng/styleclass';
 @Component({
   selector: 'app-admin-dashboard',
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.css'
 })
 export class AdminDashboardComponent {
+   @ViewChild('sidebarRef') sidebarRef!: Sidebar;
+        
+      sidebarVisible: boolean = false;
   count:number=0;
   ManagerCount:number=0
   schoolCountsByMonth: number[] = new Array(12).fill(0);
@@ -49,7 +55,7 @@ export class AdminDashboardComponent {
   isSidebarOpen: boolean = true;
 
   toggleSidebar() {
-    this.isSidebarOpen = !this.isSidebarOpen;
+    this.sidebarVisible = !this.sidebarVisible;
   }
   
   getManagersCount(): void {

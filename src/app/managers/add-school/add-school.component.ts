@@ -1,16 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { SharedService } from '../../services/shared.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
-
+import { Sidebar } from 'primeng/sidebar';
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
+import { StyleClassModule } from 'primeng/styleclass';
 @Component({
   selector: 'app-add-school',
   templateUrl: './add-school.component.html',
   styleUrl: './add-school.component.css'
 })
 export class AddSchoolComponent implements OnInit {
+   @ViewChild('sidebarRef') sidebarRef!: Sidebar;
+        
+      sidebarVisible: boolean = false;
   adminId: string | null = null;
 school:any;
 adminName:string | null = localStorage.getItem('username');
@@ -105,7 +111,7 @@ addSchool() {
   isSidebarOpen: boolean = true; // افتراضيًا، القائمة مفتوحة
 
   toggleSidebar() {
-    this.isSidebarOpen = !this.isSidebarOpen;
+    this.sidebarVisible = !this.sidebarVisible;
   }
   logout(): void {
     this.authService.logout(); // استدعاء وظيفة تسجيل الخروج من الخدمة

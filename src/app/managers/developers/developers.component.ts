@@ -14,7 +14,9 @@ import { DropdownModule } from 'primeng/dropdown';
 import { HttpClientModule } from '@angular/common/http';
 import { ButtonModule } from 'primeng/button';
 import Swal from 'sweetalert2';
-
+import { Sidebar, SidebarModule } from 'primeng/sidebar';
+import { RippleModule } from 'primeng/ripple';
+import { StyleClassModule } from 'primeng/styleclass';
 @Component({
   selector: 'app-developers',
   templateUrl: './developers.component.html',
@@ -29,11 +31,14 @@ import Swal from 'sweetalert2';
     MultiSelectModule,
     DropdownModule,
     HttpClientModule,
-    ButtonModule,RouterModule
+    ButtonModule,RouterModule,SidebarModule
   ]
 })
 export class DevelopersComponent implements OnInit {
   @ViewChild('dt') table!: Table;
+   @ViewChild('sidebarRef') sidebarRef!: Sidebar;
+        
+      sidebarVisible: boolean = false;
   
   constructor(
     public shared: SharedService,
@@ -202,7 +207,7 @@ export class DevelopersComponent implements OnInit {
   }
 
   toggleSidebar() {
-    this.isSidebarOpen = !this.isSidebarOpen;
+    this.sidebarVisible = !this.sidebarVisible;
   }
 
   logout(): void {

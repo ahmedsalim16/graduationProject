@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { SharedService } from '../services/shared.service';
 import Swal from 'sweetalert2';
 import { AuthService } from '../services/auth.service';
 import { ngxCsv } from 'ngx-csv';
 import { Router } from '@angular/router';
-
+import { Sidebar } from 'primeng/sidebar';
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
+import { StyleClassModule } from 'primeng/styleclass';
 
 @Component({
   selector: 'app-absence-list',
@@ -12,6 +15,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./absence-list.component.css'],
 })
 export class AbsenceListComponent {
+  @ViewChild('sidebarRef') sidebarRef!: Sidebar;
+  
+  sidebarVisible: boolean = false;
   pagination: any;
   student: any[] = [];
   searchtext: string = '';
@@ -42,8 +48,23 @@ export class AbsenceListComponent {
     this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
     console.log('Admin ID:', this.adminId);
     this.schoolLogo();
+    if (window.innerWidth < 768) {
+      this.sidebarVisible = false;
+    }
+    
+    // إضافة مستمع لتغيير حجم النافذة
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < 768) {
+        this.sidebarVisible = false;
+      }
+    });
   }
-  
+
+  toggleSidebar(): void {
+    this.sidebarVisible = !this.sidebarVisible;
+  }
+
+ 
 
   navigateToAdminUpdate(): void {
     if (this.adminId) {
@@ -151,9 +172,7 @@ export class AbsenceListComponent {
   }
   isSidebarOpen: boolean = true; // افتراضيًا، القائمة مفتوحة
 
-toggleSidebar() {
-  this.isSidebarOpen = !this.isSidebarOpen;
-}
+
 
 getImageUrl(logoPath: string): Promise<string> {
   return new Promise((resolve) => {

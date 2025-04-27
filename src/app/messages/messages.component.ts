@@ -1,4 +1,4 @@
-import { Component, Inject, NgModule, OnInit } from '@angular/core';
+import { Component, Inject, NgModule, OnInit, ViewChild } from '@angular/core';
 import { SignalRService } from '../services/signalr.service';
 import { AuthService } from '../services/auth.service';
 import { Router, RouterModule } from '@angular/router';
@@ -6,18 +6,23 @@ import { SharedService } from '../services/shared.service';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
-
+import { Sidebar, SidebarModule } from 'primeng/sidebar';
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
+import { StyleClassModule } from 'primeng/styleclass';
 
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.component.html',
   styleUrl: './messages.component.css',
   standalone:true,
-  imports:[FormsModule,RouterModule,CommonModule],
+  imports:[FormsModule,RouterModule,CommonModule,SidebarModule],
 })
 
 export class MessagesComponent implements OnInit{
-  
+      @ViewChild('sidebarRef') sidebarRef!: Sidebar;
+        
+      sidebarVisible: boolean = false;
   emailData = {
     toEmail: '',
     subject: '',
@@ -33,6 +38,16 @@ export class MessagesComponent implements OnInit{
     this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
     console.log('Admin ID:', this.adminId);
     this.schoolLogo();
+    if (window.innerWidth < 768) {
+      this.sidebarVisible = false;
+    }
+    
+    // إضافة مستمع لتغيير حجم النافذة
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < 768) {
+        this.sidebarVisible = false;
+      }
+    });
   }
   
     sendEmail() {
@@ -98,7 +113,7 @@ export class MessagesComponent implements OnInit{
     isSidebarOpen: boolean = true; // افتراضيًا، القائمة مفتوحة
 
 toggleSidebar() {
-  this.isSidebarOpen = !this.isSidebarOpen;
+  this.sidebarVisible = !this.sidebarVisible;
 }
 
   pagesize:number=20;
