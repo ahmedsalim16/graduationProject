@@ -25,6 +25,10 @@ admin:any = {};
     }
 
   }
+  goBack(): void {
+    // Logic to navigate back, e.g., using Angular Router
+    window.history.back();
+  }
   getadminById(id: string): void {
     this._shared.getAdminById(id).subscribe(
       (data) => {

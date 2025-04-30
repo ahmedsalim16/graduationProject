@@ -91,69 +91,326 @@
     
   
   
-  
-    <!-- Main Content -->
-    <div id="page-content-wrapper" class="flex-grow-1">
-      <div class="header">
-        <h2 id="head">Add School</h2>
-        <div class="profile-container">
-          <img class="profile-img" src="../../assets/profile.png" alt="Profile" 
-          (click)="navigateToAdminUpdate()" 
-          [routerLink]="['/admin-update',adminId]" />
-          <span class="profile-name">{{adminName}}</span>
-  
+  <!-- main-content -->
+    <div id="page-content-wrapper" class="flex-grow-1" style="padding: 20px; background-color: #f0f2f5; font-family: 'Segoe UI', Roboto, sans-serif;">
+  <!-- Header with gradient and modern shadow -->
+  <div class="header d-flex justify-content-between align-items-center" 
+       style="background: linear-gradient(to right, #4b6cb7, #182848); 
+              padding: 18px 25px; 
+              border-radius: 12px; 
+              box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+              margin-bottom: 25px;">
+    <h2 id="head" style="margin: 0; 
+                        font-size: 24px; 
+                        color: white; 
+                        font-weight: 500;
+                        letter-spacing: 0.5px;
+                        text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
+      Add School
+    </h2>
+    <div style="position: relative;">
+      <img src="../../assets/profile.png" 
+           alt="Profile" 
+           (click)="navigateToAdminUpdate()"
+           [routerLink]="['/admin-update',adminId]"
+           style="width: 45px; 
+                  height: 45px; 
+                  border-radius: 50%; 
+                  border: 3px solid rgba(255,255,255,0.7);
+                  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                  transition: all 0.3s ease;
+                  cursor: pointer;">
+      <span style="position: absolute; 
+                   bottom: -2px; 
+                   right: -2px; 
+                   width: 12px; 
+                   height: 12px; 
+                   background-color: #4CD964; 
+                   border-radius: 50%; 
+                   border: 2px solid white;"></span>
+   
+    </div>
+  </div>
+
+  <!-- Form Container -->
+  <div style="background-color: white; 
+              padding: 30px; 
+              border-radius: 12px; 
+              box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+              transition: all 0.3s ease;">
+    
+    <!-- Form Header -->
+    <div style="margin-bottom: 25px; border-bottom: 1px solid #eef0f5; padding-bottom: 15px;">
+      <h3 style="color: #333; font-size: 18px; font-weight: 600; margin: 0;">School Information</h3>
+      <p style="color: #6c757d; font-size: 14px; margin: 5px 0 0 0;">Enter new school details</p>
+    </div>
+    
+    <!-- School Form -->
+    <form (ngSubmit)="addSchool()" enctype="multipart/form-data">
+      <!-- First Row -->
+      <div class="row mb-4">
+        <div class="col-md-4">
+          <label class="form-label" 
+                 style="font-weight: 500; 
+                        color: #495057; 
+                        font-size: 14px;
+                        margin-bottom: 8px;
+                        display: block;">
+            <i class="pi pi-building" style="margin-right: 5px; color: #4b6cb7;"></i> School Name
+          </label>
+          <input type="text" 
+                 [(ngModel)]="schoolData.Name" 
+                 name="Name" 
+                 placeholder="School Name" 
+                 class="form-control" 
+                 style="padding: 12px 15px; 
+                        border-radius: 8px; 
+                        border: 1px solid #dce1e9;
+                        font-size: 14px;
+                        box-shadow: none;
+                        transition: all 0.3s ease;"
+                 required>
+        </div>
+        
+        <div class="col-md-4">
+          <label class="form-label" 
+                 style="font-weight: 500; 
+                        color: #495057; 
+                        font-size: 14px;
+                        margin-bottom: 8px;
+                        display: block;">
+            <i class="pi pi-info-circle" style="margin-right: 5px; color: #4b6cb7;"></i> Description
+          </label>
+          <input type="text" 
+                 [(ngModel)]="schoolData.Description" 
+                 name="Description" 
+                 placeholder="Description" 
+                 class="form-control" 
+                 style="padding: 12px 15px; 
+                        border-radius: 8px; 
+                        border: 1px solid #dce1e9;
+                        font-size: 14px;
+                        box-shadow: none;
+                        transition: all 0.3s ease;"
+                 required>
+        </div>
+        
+        <div class="col-md-4">
+          <label class="form-label" 
+                 style="font-weight: 500; 
+                        color: #495057; 
+                        font-size: 14px;
+                        margin-bottom: 8px;
+                        display: block;">
+            <i class="pi pi-map-marker" style="margin-right: 5px; color: #4b6cb7;"></i> Address
+          </label>
+          <input type="text" 
+                 [(ngModel)]="schoolData.Address" 
+                 name="Address" 
+                 placeholder="Address" 
+                 class="form-control" 
+                 style="padding: 12px 15px; 
+                        border-radius: 8px; 
+                        border: 1px solid #dce1e9;
+                        font-size: 14px;
+                        box-shadow: none;
+                        transition: all 0.3s ease;"
+                 required>
         </div>
       </div>
       
+      <!-- Second Row -->
+      <div class="row mb-4">
+        <div class="col-md-5">
+          <label class="form-label" 
+                 style="font-weight: 500; 
+                        color: #495057; 
+                        font-size: 14px;
+                        margin-bottom: 8px;
+                        display: block;">
+            <i class="pi pi-globe" style="margin-right: 5px; color: #4b6cb7;"></i> Country
+          </label>
+          <input type="text" 
+                 [(ngModel)]="schoolData.Country" 
+                 name="Country" 
+                 placeholder="Country" 
+                 class="form-control" 
+                 style="padding: 12px 15px; 
+                        border-radius: 8px; 
+                        border: 1px solid #dce1e9;
+                        font-size: 14px;
+                        box-shadow: none;
+                        transition: all 0.3s ease;"
+                 required>
+        </div>
+        
+        <div class="col-md-5">
+          <label class="form-label" 
+                 style="font-weight: 500; 
+                        color: #495057; 
+                        font-size: 14px;
+                        margin-bottom: 8px;
+                        display: block;">
+            <i class="pi pi-phone" style="margin-right: 5px; color: #4b6cb7;"></i> Phone Number
+          </label>
+          <input type="text" 
+                 [(ngModel)]="schoolData.PhoneNumber" 
+                 name="PhoneNumber" 
+                 placeholder="Phone Number" 
+                 class="form-control" 
+                 style="padding: 12px 15px; 
+                        border-radius: 8px; 
+                        border: 1px solid #dce1e9;
+                        font-size: 14px;
+                        box-shadow: none;
+                        transition: all 0.3s ease;"
+                 required>
+        </div>
+      </div>
+      
+      <!-- Third Row -->
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <label class="form-label" 
+                 style="font-weight: 500; 
+                        color: #495057; 
+                        font-size: 14px;
+                        margin-bottom: 8px;
+                        display: block;">
+            <i class="pi pi-envelope" style="margin-right: 5px; color: #4b6cb7;"></i> Email
+          </label>
+          <input type="email" 
+                 [(ngModel)]="schoolData.Email" 
+                 name="Email" 
+                 placeholder="Email" 
+                 class="form-control" 
+                 style="padding: 12px 15px; 
+                        border-radius: 8px; 
+                        border: 1px solid #dce1e9;
+                        font-size: 14px;
+                        box-shadow: none;
+                        transition: all 0.3s ease;"
+                 required>
+        </div>
+        
+        <div class="col-md-6">
+          <label class="form-label" 
+                 style="font-weight: 500; 
+                        color: #495057; 
+                        font-size: 14px;
+                        margin-bottom: 8px;
+                        display: block;">
+            <i class="pi pi-image" style="margin-right: 5px; color: #4b6cb7;"></i> School Logo
+          </label>
+          <div class="file-upload-container">
+            <input type="file" 
+                   (change)="onFileSelected($event)" 
+                   name="SchoolLogo" 
+                   id="SchoolLogo"
+                   class="file-input"
+                   accept="image/*">
+            <label for="SchoolLogo" class="file-label">
+              <i class="pi pi-upload" style="margin-right: 8px;"></i>
+              <span>{{selectedFile?selectedFile.name : 'Choose file...'}}</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Save Button -->
+      <div class="d-flex mt-4" style="border-top: 1px solid #eef0f5; padding-top: 20px;justify-content: space-between;flex-direction: row-reverse;">
+        <button type="submit" 
+                class="btn text-light" 
+                style="background: linear-gradient(to right, #4b6cb7, #182848); 
+                       border: none; 
+                       padding: 12px 40px; 
+                       border-radius: 8px;
+                       font-weight: 500;
+                       display: flex;
+                       align-items: center;
+                       box-shadow: 0 4px 10px rgba(75, 108, 183, 0.3);
+                       transition: all 0.3s ease;">
+          <i class="pi pi-save" style="margin-right: 8px;"></i> Save
+        </button>
+        <button class="btn" 
+        type="button" 
+        (click)="goBack()"
+        style="background-color: transparent; 
+               border: 1px solid #dce1e9; 
+               color: #6c757d;
+               padding: 12px 30px; 
+               border-radius: 8px;
+               font-weight: 500;
+               margin-left: 10px;
+               transition: all 0.3s ease;">
+  Cancel
+</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<style>
+  /* File Upload Styles */
+  .file-upload-container {
+    position: relative;
+  }
   
-      <hr>
-     
-      <div class="row mt-5" style="margin-top: 50px;">
-        <form (ngSubmit)="addSchool()" enctype="multipart/form-data">
-
-          <div class="row">
-            <div class="col-md-3">
-                <label class="form-label">School Name</label>
-                <input type="text" [(ngModel)]="schoolData.Name" name="Name" placeholder="Name" class="form-control m-1" required>
-            </div>
-            <div class="col-md-3">
-                <label class="form-label">Description</label>
-                <input type="text" [(ngModel)]="schoolData.Description" name="Description" placeholder="Description" class="form-control m-1" required>
-            </div>
-            <div class="col-md-3">
-                <label class="form-label">Address</label>
-                <input type="text" [(ngModel)]="schoolData.Address" name="Address" placeholder="Address" class="form-control m-1" required>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-5">
-                <label class="form-label">Country</label>
-                <input [(ngModel)]="schoolData.Country" name="Country" type="text" placeholder="Country" class="form-control m-1" required>
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">Phone Number</label>
-                <input [(ngModel)]="schoolData.PhoneNumber" name="PhoneNumber" type="text" placeholder="PhoneNumber" class="form-control m-1" required>
-            </div>
-        </div>
-
-        <div class="row d-flex gap-3">
-            <div class="col-md-6">
-                <label class="form-label">Email</label>
-                <input [(ngModel)]="schoolData.Email" name="Email" type="text" placeholder="Email" class="form-control m-1" required>
-            </div>
-            <div class="col-md-6">
-                <label class="form-label">School Logo</label>
-                <input [(ngModel)]="schoolData.SchoolLogo" name="SchoolLogo" (change)="onFileSelected($event)" type="file" class="form-control m-1">
-            </div>
-        </div>
-
-        <!-- زر الحفظ في المنتصف -->
-        <div class="col-12 d-flex justify-content-center">
-            <button style="background-color: #00015d; width: 80px;" class="btn btn-primary text-light mt-3" type="submit">Save</button>
-        </div>
-        </form>
-    </div> 
+  .file-input {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+  
+  .file-label {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid #dce1e9;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #f8f9fa;
+  }
+  
+  .file-label:hover {
+    border-color: #4b6cb7;
+  }
+  
+  /* Focus styles for inputs */
+  input.form-control:focus, .file-input:focus + .file-label {
+    border-color: #4b6cb7;
+    box-shadow: 0 0 0 3px rgba(75, 108, 183, 0.25);
+    outline: none;
+  }
+  
+  /* Button hover effect */
+  button:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .col-md-4, .col-md-5, .col-md-6 {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+    
+    .header {
+      flex-direction: column;
+      align-items: flex-start !important;
+    }
+    
+    .header > div {
+      margin-top: 10px;
+    }
+  }
+</style>
   </div>
   
   

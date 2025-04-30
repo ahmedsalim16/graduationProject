@@ -54,7 +54,10 @@ export class StudentComponent implements OnInit{
     }
   }
  
-
+  goBack(): void {
+    // Logic to navigate back, e.g., using Angular Router
+    window.history.back();
+  }
   student ={
          FullName: '',
           Gender: 0,

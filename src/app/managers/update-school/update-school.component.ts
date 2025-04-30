@@ -11,7 +11,7 @@ import { SharedService } from '../../services/shared.service';
 })
 export class UpdateSchoolComponent implements OnInit {
 school:any = {};
-  
+selectedFile: File | null = null;
   constructor(private act: ActivatedRoute,private _shared:SharedService,private router:Router,public authService:AuthService) { 
 
   }
@@ -25,7 +25,13 @@ school:any = {};
     }
 
   }
-
+  goBack(): void {
+    // Logic to navigate back, e.g., using Angular Router
+    window.history.back();
+  }
+  getLogoUrl(logoPath: string): string {
+  return `https://school-api.runasp.net/${logoPath}`;
+}
   schoolData: any = {
     SchoolTenantId: '',
     Description: '',

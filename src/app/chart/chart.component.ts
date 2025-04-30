@@ -59,7 +59,7 @@ export class ChartComponent implements OnInit {
       }
     );
   }
-
+  isChartLoading: boolean = true;
   updateChart(): void {
     console.log('Updating chart...'); // نقطة تصحيح
     console.log('Male Count:', this.maleStudentCount);
@@ -163,5 +163,6 @@ export class ChartComponent implements OnInit {
       this.myChart = echarts.init(chartDom);
     }
     this.myChart.setOption(this.option);
+    this.isChartLoading = false; 
   }
 }

@@ -11,4 +11,86 @@ html[dir="rtl"] {
     direction: ltr;
     text-align: left;
   }
-  
+  /* Add this to your global styles.css */
+
+/* Basic RTL support */
+html[dir="rtl"] .pi-chevron-right:before {
+  content: "\e900"; /* PrimeNG chevron left icon code */
+}
+
+html[dir="rtl"] .submenu-icon {
+  transform: rotate(180deg);
+}
+
+html[dir="rtl"] .submenu-icon.rotate-180 {
+  transform: rotate(0);
+}
+
+/* RTL text alignment */
+.rtl-text {
+  text-align: right;
+}
+
+/* Flip PrimeNG components when in RTL mode */
+html[dir="rtl"] .p-dropdown .p-dropdown-trigger {
+  order: -1;
+}
+
+html[dir="rtl"] .p-inputgroup .p-inputgroup-addon:first-child,
+html[dir="rtl"] .p-inputgroup .p-inputgroup-addon:last-child,
+html[dir="rtl"] .p-inputgroup > .p-float-label:first-child input,
+html[dir="rtl"] .p-inputgroup > .p-float-label:last-child input {
+  border-radius: 0;
+}
+
+html[dir="rtl"] .p-inputgroup .p-inputgroup-addon:first-child,
+html[dir="rtl"] .p-inputgroup button:first-child,
+html[dir="rtl"] .p-inputgroup input:first-child,
+html[dir="rtl"] .p-inputgroup > .p-float-label:first-child input {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+html[dir="rtl"] .p-inputgroup .p-inputgroup-addon:last-child,
+html[dir="rtl"] .p-inputgroup button:last-child,
+html[dir="rtl"] .p-inputgroup input:last-child,
+html[dir="rtl"] .p-inputgroup > .p-float-label:last-child input {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* Fix margin/padding for RTL */
+html[dir="rtl"] .mr-2 {
+  margin-right: 0 !important;
+  margin-left: 0.5rem !important;
+}
+
+html[dir="rtl"] .ml-2 {
+  margin-left: 0 !important;
+  margin-right: 0.5rem !important;
+}
+
+/* RTL specific styles for sidebar */
+html[dir="rtl"] .sidebar-container {
+  left: auto;
+  right: 0;
+}
+
+html[dir="rtl"] .custom-sidebar {
+  left: auto !important;
+  right: 0 !important;
+}
+
+html[dir="rtl"] .sidebar-toggle {
+  left: auto;
+  right: 10px;
+}
+
+html[dir="rtl"] .menu-item a i:first-child {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}

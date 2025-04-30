@@ -20,6 +20,7 @@ export class AddSchoolComponent implements OnInit {
   adminId: string | null = null;
 school:any;
 adminName:string | null = localStorage.getItem('username');
+selectedFile: File | null = null;
 constructor(public shared:SharedService,public authService:AuthService,private router: Router,private http: HttpClient){}
 
 ngOnInit(): void {
@@ -35,6 +36,10 @@ navigateToAdminUpdate(): void {
   } else {
     console.error('Admin ID not found!');
   }
+}
+goBack(): void {
+  // Logic to navigate back, e.g., using Angular Router
+  window.history.back();
 }
 schoolData = {
   Name: '',

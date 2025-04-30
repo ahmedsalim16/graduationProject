@@ -1,95 +1,98 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { TranslateService } from '@ngx-translate/core';
-import { Router ,NavigationEnd} from '@angular/router';
+import { Component } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from './services/auth.service';
-import { filter, take } from 'rxjs/operators';
-
-  
+import { filter } from 'rxjs/operators';
+// import { LanguageService } from './services/language.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   title = 'studentsystem';
-  constructor(private router: Router, private authService: AuthService) {}
-
   
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    // private languageService: LanguageService
+  ) {}
 
   ngOnInit() {
+    // المسارات التي لا تحتاج إلى إعادة توجيه
     const skipRedirectRoutes = [
       '/reset-password',
       '/forgot-password',
       '/login',
-      '/unauthorized'
+      '/unauthorized',
+      '/welcome'
     ];
 
-    // نستنى أول عملية تنقّل ناجحة
+    // مراقبة تغييرات المسار
     this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
-      take(1)
+      filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
       const currentUrl = event.urlAfterRedirects;
-
-      // لو الرابط مش واحد من الاستثناءات، نعمل التوجيه
-      if (!skipRedirectRoutes.some(route => currentUrl.startsWith(route))) {
+      
+      // التحقق مما إذا كان المسار الحالي هو المسار الجذر
+      if (currentUrl === '/') {
         this.redirectUser();
+      } else if (!skipRedirectRoutes.some(route => currentUrl.startsWith(route))) {
+        // للمسارات الأخرى، تحقق من المصادقة فقط إذا لم تكن في قائمة التخطي
+        this.checkAuthentication(currentUrl);
       }
     });
   }
 
+  // إعادة توجيه المستخدمين بناءً على الأدوار
   redirectUser() {
-    const token = localStorage.getItem('token');
-    const roles = JSON.parse(localStorage.getItem('roles') || '[]');
-   
-
-    if (token) {
-      if (roles.includes('Admin')) {
-        this.router.navigate(['/dashboard']);
-      } else if (roles.includes('Manager')) {
-        this.router.navigate(['/Dashboard']);
-      } else {
-        this.router.navigate(['/welcome']); // إذا لم يكن له صلاحية، إعادة توجيهه للصفحة الرئيسية
+    try {
+      const token = localStorage.getItem('token');
+      let roles = [];
+      
+      try {
+        const rolesStr = localStorage.getItem('roles');
+        roles = rolesStr ? JSON.parse(rolesStr) : [];
+      } catch (e) {
+        console.error('Error parsing roles:', e);
+        roles = [];
       }
-    } else {
-      this.router.navigate(['/welcome']); // إذا لم يكن مسجلاً، إرساله لصفحة تسجيل الدخول
+      
+      if (token) {
+        if (roles.includes('Admin')) {
+          this.router.navigate(['/dashboard']);
+        } else if (roles.includes('Manager')) {
+          this.router.navigate(['/Dashboard']);
+        } else {
+          this.router.navigate(['/welcome']);
+        }
+      } else {
+        this.router.navigate(['/welcome']);
+      }
+    } catch (error) {
+      console.error('Error in redirectUser:', error);
+      this.router.navigate(['/welcome']);
     }
   }
 
+  // التحقق مما إذا كان المستخدم مصادقًا للمسارات المحمية
+  checkAuthentication(currentUrl: string) {
+    try {
+      const token = localStorage.getItem('token');
+      const protectedRoutes = ['/dashboard', '/Dashboard', '/admin', '/student'];
+      
+      // إذا كان يتم الوصول إلى مسار محمي بدون رمز، فقم بإعادة التوجيه إلى تسجيل الدخول
+      if (!token && protectedRoutes.some(route => currentUrl.startsWith(route))) {
+        this.router.navigate(['/login']);
+      }
+    } catch (error) {
+      console.error('Error in checkAuthentication:', error);
+      this.router.navigate(['/login']);
+    }
+  }
 
-
-
-
-
-
-
-
-
-
-  //private translate:TranslateService
-  // constructor(private translate: TranslateService, @Inject(PLATFORM_ID) private platformId: any) {
-  //   if (isPlatformBrowser(this.platformId)) { // ✅ يعمل فقط في المتصفح
-  //     const browserLang = navigator?.language?.split('-')[0] || 'en';
-  //     this.translate.setDefaultLang('en');
-  //     this.translate.use(browserLang.match(/en|ar/) ? browserLang : 'en');
-  //   } else {
-  //     this.translate.setDefaultLang('en'); // 🖥️ يعمل على السيرفر بدون مشاكل
-  //   }
-  // }
-  
-  
-  //   switchLanguage(language: string) {
-  //     this.translate.use(language);
-  //     document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
-  //   }
-    
-  
-
-  // SwitchLanguage(lang:'ar'|'en'){
-  //   this.translate.use(lang);
-
+  // طريقة تبديل اللغة
+  // switchLanguage(language: string) {
+  //   this.languageService.changeLanguage(language);
   // }
 }
-

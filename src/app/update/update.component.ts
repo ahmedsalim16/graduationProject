@@ -45,6 +45,10 @@ export class UpdateComponent implements OnInit{
     console.log('Current student object:', this.student);
 
   }
+  goBack(): void {
+    // Logic to navigate back, e.g., using Angular Router
+    window.history.back();
+  }
   getStudentById(id: string): void {
     this._shared.getStudentById(id).subscribe(
       (data) => {

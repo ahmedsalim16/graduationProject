@@ -1,3 +1,6 @@
+@import 'primeicons/primeicons.css';
+@import 'primeng/resources/themes/lara-light-indigo/theme.css';
+@import 'primeng/resources/primeng.min.css';
 *{
     font-family:sans-serif;
   }
@@ -96,12 +99,12 @@
       justify-content: space-between;
      
   }
-  img{
+  /* img{
     width: 40px;
     height: 35px;
     position: relative;
     left: -50px;
-  }
+  } */
   
   button{
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 

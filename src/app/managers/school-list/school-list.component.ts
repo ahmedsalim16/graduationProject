@@ -64,7 +64,10 @@ export class SchoolListComponent implements OnInit {
     this.filterSchools();
     this.adminId = this.authService.getAdminId();
   }
-
+  goBack(): void {
+    // Logic to navigate back, e.g., using Angular Router
+    window.history.back();
+  }
   filterSchools() {
     this.loading = true;
     const filters = {

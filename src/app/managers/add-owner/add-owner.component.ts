@@ -33,7 +33,10 @@ export class AddOwnerComponent implements OnInit {
     this.adminId = this.authService.getAdminId();
     console.log('Admin ID:', this.adminId);
   }
-
+  goBack(): void {
+    // Logic to navigate back, e.g., using Angular Router
+    window.history.back();
+  }
   admin = {
     userName: '',
     email: '',

@@ -1,0 +1,7 @@
+<div class="language-switcher">
+  <p-selectButton 
+    [options]="languages" 
+    [(ngModel)]="selectedLanguage" 
+    (onChange)="switchLanguage($event.value)">
+  </p-selectButton>
+</div>

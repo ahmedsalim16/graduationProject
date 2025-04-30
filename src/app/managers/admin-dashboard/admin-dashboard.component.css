@@ -12,6 +12,28 @@
     position: relative;
     bottom: 60px;
 }
+.chart-loader-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.chart-loader {
+  text-align: center;
+}
+
+.chart-loader p {
+  margin-top: 10px;
+  color: #4b6cb7;
+  font-weight: 500;
+}
 #search{
     width: 25vw;
     border-radius: 18px;
@@ -146,8 +168,12 @@ body {
     margin-top: 30px;
     font-weight: bold;
     position:relative;
-    left: 40px;
+    left: 45%;
 
+  }
+  #Welcome{
+    position:relative;
+    left: 170%;
   }
   .stud{
     display: flex;

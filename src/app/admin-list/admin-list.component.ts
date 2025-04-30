@@ -54,10 +54,16 @@ export class AdminListComponent implements OnInit {
   pageNumber: number = 1;
   count: number = 0;
   role: string | null = null;
+  gender: number | null = null;
   roleOptions: any[] = [
     { label: 'All Roles', value: null },
     { label: 'Cashier', value: 'Cashier' },
     { label: 'Manager', value: 'manager' }
+  ];
+  genderOptions: any[] = [
+    { label: 'All Genders', value: null },
+    { label: 'Male', value: 0 },
+    { label: 'Female', value: 1 }
   ];
   
   loading: boolean = true;
@@ -180,9 +186,11 @@ export class AdminListComponent implements OnInit {
     });
   }
   
+   
   clear() {
     if (this.table) {
       this.table.clear();
+      this.filteradmins();
     }
   }
   
@@ -320,7 +328,26 @@ export class AdminListComponent implements OnInit {
       }
     );
   }
-  
+  getGenderSeverity(genderValue: any): any {
+    if (typeof genderValue === 'string') {
+      return genderValue.trim().toLowerCase() === 'male' || genderValue.trim() === '0' 
+        ? 'info' 
+        : 'warning';
+    }
+    return genderValue === 0 ? 'info' : 'warning';
+  }
+  getGenderText(genderValue: any): string {
+    if (typeof genderValue === 'string') {
+      return genderValue.trim().toLowerCase() === 'male' || genderValue.trim() === '0' 
+        ? 'Male' 
+        : 'Female';
+    }
+    return genderValue === 0 ? 'Male' : 'Female';
+  }
+  onGenderChange(event: any) {
+    this.gender = event.value;
+    this.filteradmins();
+  }
   getSeverity(role: string) {
     switch (role) {
       case 'Cashier':

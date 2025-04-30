@@ -1,4 +1,4 @@
-import { Component, Inject, NgModule, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, NgModule, OnInit, ViewChild,ElementRef } from '@angular/core';
 import { SignalRService } from '../services/signalr.service';
 import { AuthService } from '../services/auth.service';
 import { Router, RouterModule } from '@angular/router';
@@ -10,17 +10,30 @@ import { Sidebar, SidebarModule } from 'primeng/sidebar';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { StyleClassModule } from 'primeng/styleclass';
+// import { Editor, EditorModule } from 'primeng/editor';
+import { Subscription } from 'rxjs';
+// import Quill from 'quill';
+// import { LanguageSwitcherComponent } from '../language-switcher/language-switcher.component';
+// import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.component.html',
-  styleUrl: './messages.component.css',
+  styleUrls: [
+    './messages.component.css',
+    '../../../node_modules/quill/dist/quill.snow.css',
+    '../../../node_modules/quill/dist/quill.core.css'
+  ],
   standalone:true,
-  imports:[FormsModule,RouterModule,CommonModule,SidebarModule],
+  imports:[FormsModule,RouterModule,CommonModule,SidebarModule,],
+  template: `<div #editorContainer></div>`
 })
 
 export class MessagesComponent implements OnInit{
       @ViewChild('sidebarRef') sidebarRef!: Sidebar;
+      // @ViewChild('editor') editor!: Editor;
+      // @ViewChild('editorContainer', { static: true }) editorContainer!: ElementRef;
+  // private quill!: Quill;
         
       sidebarVisible: boolean = false;
   emailData = {
@@ -32,61 +45,116 @@ export class MessagesComponent implements OnInit{
     adminId: string | null = null;
   adminName:string | null = localStorage.getItem('username');
   schoolName:string | null = localStorage.getItem('schoolTenantId');
+  private subscriptions: Subscription = new Subscription();
+//   ngAfterViewInit() {
+//     this.quill = new Quill(this.editorContainer.nativeElement, {
+//       theme: 'snow',
+//       modules: {
+//          toolbar: [
+//       ['bold', 'italic', 'underline', 'strike'],
+//       ['blockquote', 'code-block'],
+//       [{ 'header': 1 }, { 'header': 2 }],
+//       [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+//       [{ 'script': 'sub'}, { 'script': 'super' }],
+//       [{ 'indent': '-1'}, { 'indent': '+1' }],
+//       [{ 'direction': 'rtl' }],
+//       [{ 'size': ['small', false, 'large', 'huge'] }],
+//       [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+//       [{ 'color': [] }, { 'background': [] }],
+//       [{ 'font': [] }],
+//       [{ 'align': [] }],
+//       ['clean'],
+//       ['link', 'image', 'video']
+//     ]
+  
+// }
+// });
+// }
+
+
 
     constructor(public authService:AuthService,private router: Router,private shared:SharedService) {}
-  ngOnInit(): void {
-    this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
-    console.log('Admin ID:', this.adminId);
-    this.schoolLogo();
-    if (window.innerWidth < 768) {
-      this.sidebarVisible = false;
-    }
-    
-    // إضافة مستمع لتغيير حجم النافذة
-    window.addEventListener('resize', () => {
-      if (window.innerWidth < 768) {
-        this.sidebarVisible = false;
-      }
-    });
-  }
-  
-    sendEmail() {
-      if (!this.emailData.toEmail || !this.emailData.subject || !this.emailData.body) {
-        Swal.fire({
-          position: 'center',
-          icon: 'error',
-          title: 'Please Fill all fields',
-          showConfirmButton: false,
-          timer: 1500,
-        });
+    ngOnInit(): void {
+      if (!this.authService.isLoggedIn()) {
+        this.router.navigate(['/login']);
         return;
       }
   
-      this.shared.sendEmail(this.emailData).subscribe({
+      this.adminId = this.authService.getAdminId();
+      console.log('Admin ID:', this.adminId);
+      this.schoolLogo();
+  
+      if (window.innerWidth < 768) {
+        this.sidebarVisible = false;
+      }
+      
+      window.addEventListener('resize', this.handleResize);
+    }
+  
+    ngOnDestroy(): void {
+      window.removeEventListener('resize', this.handleResize);
+      this.subscriptions.unsubscribe();
+    }
+  
+    private handleResize = () => {
+      if (window.innerWidth < 768) {
+        this.sidebarVisible = false;
+      }
+    }
+  
+    sendEmail() {
+      if (!this.validateEmailForm()) {
+        return;
+      }
+  
+      const emailSub = this.shared.sendEmail(this.emailData).subscribe({
         next: (response) => {
-          Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'Message Sent successfully',
-                    showConfirmButton: false,
-                    timer: 1500,
-                  });
-                  console.log(response);
-                  this.emailData = { toEmail: '', subject: '', body: '' };
+          this.showSuccessAlert('Message Sent successfully');
+          this.emailData = { toEmail: '', subject: '', body: '' };
         },
         error: (error) => {
-           Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    title: error.error?.message || 'An error occurred',
-                    showConfirmButton: false,
-                    timer: 1500,
-                  });
-                  console.error(error.error);
+          this.showErrorAlert(error.error?.message || 'An error occurred');
         }
       });
+  
+      this.subscriptions.add(emailSub);
     }
-    
+  
+    private validateEmailForm(): boolean {
+      if (!this.emailData.toEmail || !this.emailData.subject || !this.emailData.body) {
+        this.showErrorAlert('Please Fill all fields');
+        return false;
+      }
+      
+      // تحقق من صحة البريد الإلكتروني
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(this.emailData.toEmail)) {
+        this.showErrorAlert('Please enter a valid email address');
+        return false;
+      }
+      
+      return true;
+    }
+  
+    private showSuccessAlert(message: string): void {
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: message,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  
+    private showErrorAlert(message: string): void {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: message,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
 
 
     navigateToAdminUpdate(): void {

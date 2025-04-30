@@ -176,7 +176,7 @@ body {
     margin-top: 30px;
     font-weight: bold;
     position:relative;
-    left: 40px;
+    left: 45%;
 
   }
 
@@ -201,6 +201,8 @@ body {
         align-items: baseline;
         width: 85vw;
         flex-wrap: wrap;
+        position: relative;
+        left: 7%;
   }
 
   #addfilter{

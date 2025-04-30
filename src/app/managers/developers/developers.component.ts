@@ -66,7 +66,10 @@ export class DevelopersComponent implements OnInit {
     this.filterAdmins();
     this.adminId = this.authService.getAdminId();
   }
-
+  goBack(): void {
+    // Logic to navigate back, e.g., using Angular Router
+    window.history.back();
+  }
   filterAdmins() {
     this.loading = true;
     const filters = {

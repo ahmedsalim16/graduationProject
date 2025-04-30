@@ -47,7 +47,10 @@ export class AdminDashboardComponent {
       console.error('Admin ID not found!');
     }
   }
-
+  goBack(): void {
+    // Logic to navigate back, e.g., using Angular Router
+    window.history.back();
+  }
   logout(): void {
     this.authService.logout(); // استدعاء وظيفة تسجيل الخروج من الخدمة
   }
@@ -130,11 +133,24 @@ export class AdminDashboardComponent {
       }
     );
   }
+  isChartLoading: boolean = true;
   initChart(): void {
+    this.isChartLoading = true; // عرض الـ loader
+    
     const chartDom = document.getElementById('main');
     if (chartDom) {
       this.myChart = echarts.init(chartDom);
-      this.updateChart(); // تأكد من تحديث المخطط بعد التهيئة
+      
+      // عرض حالة التحميل مؤقتاً
+      this.myChart.showLoading('default', {
+        text: 'Loading data...',
+        color: '#4b6cb7',
+        textColor: '#333',
+        maskColor: 'rgba(255, 255, 255, 0.8)',
+        zlevel: 0
+      });
+      
+      this.updateChart();
     }
   }
 
@@ -143,7 +159,9 @@ export class AdminDashboardComponent {
       console.warn('Chart not initialized yet.');
       return;
     }
-    if (this.myChart) {
+  
+    // تأخير محاكاة لجلب البيانات (استبدل هذا بطلب API الفعلي)
+    setTimeout(() => {
       const option: EChartsOption = {
         title: {
           text: 'Number of Schools',
@@ -189,9 +207,11 @@ export class AdminDashboardComponent {
           }
         ]
       };
-
+  
       this.myChart.setOption(option, { notMerge: true });
-    }
+      this.myChart.hideLoading(); // إخفاء الـ loader بعد جلب البيانات
+      this.isChartLoading = false; // تحديث حالة التحميل
+    }, 1000); // تأخير محاكاة لجلب البيانات (استبدل هذا بطلب API الفعلي)
   }
   isSchoolOpen = false;
 isAdminOpen = false;

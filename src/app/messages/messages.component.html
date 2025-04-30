@@ -15,7 +15,7 @@
           <div class="menu-container overflow-y-auto">
             <div class="menu-section">
               <div class="menu-header">
-                <span>القائمة</span>
+                <span>menu</span>
                 <i class="pi pi-chevron-down"></i>
               </div>
               
@@ -23,21 +23,21 @@
               <div class="menu-item">
                 <a routerLink="/Dashboard" routerLinkActive="active-link">
                   <i class="pi pi-home"></i>
-                  <span>Dashboard</span>
+                  <span>dashboard</span>
                 </a>
               </div>
               
-              <!-- Student -->
+              <!-- Students -->
               <div class="menu-item">
                 <a (click)="toggleDropdown('student')" class="has-submenu">
                   <i class="pi pi-user"></i>
-                  <span>Student</span>
+                  <span>student</span>
                   <i class="pi pi-chevron-down submenu-icon" [ngClass]="{'rotate-180': isStudentOpen}"></i>
                 </a>
                 
                 <div class="submenu" [ngClass]="{'submenu-open': isStudentOpen}">
-                  <a routerLink="/student-list" routerLinkActive="active-link">Student List</a>
-                  <a routerLink="/absence-list" routerLinkActive="active-link">Absence List</a>
+                  <a routerLink="/student-list" routerLinkActive="active-link">studentList</a>
+                  <a routerLink="/absence-list" routerLinkActive="active-link">absenceList</a>
                 </div>
               </div>
               
@@ -45,7 +45,7 @@
               <div class="menu-item">
                 <a routerLink="/admin-list" routerLinkActive="active-link">
                   <i class="pi pi-user-edit"></i>
-                  <span>Manager List</span>
+                  <span>managerList</span>
                 </a>
               </div>
               
@@ -53,7 +53,7 @@
               <div class="menu-item">
                 <a routerLink="/parent-list" routerLinkActive="active-link">
                   <i class="pi pi-users"></i>
-                  <span>Parent List</span>
+                  <span>parentList</span>
                 </a>
               </div>
               
@@ -61,7 +61,7 @@
               <div class="menu-item">
                 <a routerLink="/Send-email" routerLinkActive="active-link">
                   <i class="pi pi-send"></i>
-                  <span>Send Report</span>
+                  <span>sendReport</span>
                 </a>
               </div>
             </div>
@@ -72,7 +72,7 @@
             <div class="menu-item logout">
               <a (click)="logout()">
                 <i class="pi pi-sign-out"></i>
-                <span>Logout</span>
+                <span>logout</span>
               </a>
             </div>
           </div>
@@ -98,40 +98,178 @@
   </div>
     <!-- Main Content -->
     <div id="page-content-wrapper" class="flex-grow-1">
-        <div class="header">
+      <!-- Header مع تدرج لوني وظل -->
+      <div class="header d-flex justify-content-between align-items-center" 
+           style="background: linear-gradient(to right, #4b6cb7, #182848); 
+                  padding: 18px 25px; 
+                  border-radius: 12px; 
+                  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+                  margin: 20px 20px 25px 20px;">
+        <div class="d-flex align-items-center">
           
-          <h2 id="head">Send Email</h2>
-          <div class="profile-container">
-            <img class="profile-img" src="../../assets/profile.png" alt="Profile" 
-            (click)="navigateToAdminUpdate()" 
-            [routerLink]="['/admin-update',adminId]" />
-            <span class="profile-name">{{adminName}}</span>
-    
-          </div>
+          <h2 id="head" style="margin: 0; 
+                              font-size: 24px; 
+                              color: white; 
+                              font-weight: 500;
+                              letter-spacing: 0.5px;">
+            Send Report
+          </h2>
         </div>
         
-    
-        <hr>
-       
-        <div class="row mt-5" style="margin-top: 50px;">
-      
-          <form (submit)="sendEmail(); $event.preventDefault()">
-            <label for="toEmail">Send To</label>
-            <input type="email" id="toEmail" [(ngModel)]="emailData.toEmail" name="toEmail" class="form-control m-1" required />
-        
-            <label for="subject">Subject</label>
-            <input type="text" id="subject" [(ngModel)]="emailData.subject" name="subject" class="form-control m-1" required />
-        
-            <label for="body">Body</label>
-            <textarea id="body" [(ngModel)]="emailData.body" name="body" required class="form-control m-1"></textarea>
-        
-
-          <div class="col-2" id="save">
-            <button style="background-color: #00015d;align-items: center;width: max-content;" class="form-control mb-5  text-light mt-5" type="submit">Send</button>
-         </div>
+        <div style="position: relative; display: flex; align-items: center;">
          
-          </form>
+          <img src="../../assets/profile.png" 
+               alt="Profile" 
+               (click)="navigateToAdminUpdate()"
+               [routerLink]="['/admin-update',adminId]"
+               style="width: 45px; 
+                      height: 45px; 
+                      border-radius: 50%; 
+                      border: 3px solid rgba(255,255,255,0.7);
+                      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                      cursor: pointer;">
+          <span style="position: absolute; 
+                      bottom: -2px; 
+                      right: -2px; 
+                      width: 12px; 
+                      height: 12px; 
+                      background-color: #4CD964; 
+                      border-radius: 50%; 
+                      border: 2px solid white;"></span>
         </div>
+      </div>
+  
+      <!-- Form Container -->
+      <div class="form-container" 
+           style="background-color: white; 
+                  margin: 0 20px;
+                  padding: 30px; 
+                  border-radius: 12px; 
+                  box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
         
+        <form (ngSubmit)="sendEmail()" class="email-form">
+          <!-- حقل الإرسال إلى -->
+          <div class="form-group mb-4">
+            <label for="toEmail" class="form-label">
+              <i class="pi pi-envelope mr-2" style="color: #4b6cb7;"></i>
+              Send to
+            </label>
+            <input type="email" 
+                   id="toEmail" 
+                   [(ngModel)]="emailData.toEmail" 
+                   name="toEmail" 
+                   class="form-control" 
+                   placeholder="Enter recipient email"
+                   style="padding: 12px 15px;
+                          border-radius: 8px;
+                          border: 1px solid #dce1e9;
+                          font-size: 14px;"
+                   required>
+          </div>
+          
+          <!-- حقل الموضوع -->
+          <div class="form-group mb-4">
+            <label for="subject" class="form-label">
+              <i class="pi pi-tag mr-2" style="color: #4b6cb7;"></i>
+              Subject
+            </label>
+            <input type="text" 
+                   id="subject" 
+                   [(ngModel)]="emailData.subject" 
+                   name="subject" 
+                   class="form-control" 
+                   placeholder="Enter email subject"
+                   style="padding: 12px 15px;
+                          border-radius: 8px;
+                          border: 1px solid #dce1e9;
+                          font-size: 14px;"
+                   required>
+          </div>
+          
+          <!-- حقل محتوى الرسالة -->
+          <div class="form-group mb-4">
+            <label for="body" class="form-label">
+              <i class="pi pi-file-edit mr-2" style="color: #4b6cb7;"></i>
+              Message
+            </label>
+            <textarea id="body" 
+                     [(ngModel)]="emailData.body" 
+                     name="body" 
+                     class="form-control" 
+                     rows="8"
+                     placeholder="Write your message here..."
+                     style="padding: 15px;
+                            border-radius: 8px;
+                            border: 1px solid #dce1e9;
+                            font-size: 14px;"
+                     required></textarea>
+          </div>
+          
+          <!-- زر الإرسال -->
+          <div class="d-flex justify-content-end mt-4">
+            <button pButton 
+                    type="submit" 
+                    label="Send" 
+                    icon="pi pi-send" 
+                    class="p-button-primary"
+                    style="padding: 12px 30px;
+                           border-radius: 8px;
+                           color:#fff;
+                           background: linear-gradient(to right, #4b6cb7, #182848);
+                           border: none;
+                           font-weight: 500;"> Send
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
-</div>
+  </div>
+
+  
+  <!-- إضافة CSS إضافي -->
+  <style>
+    /* تنسيقات عامة */
+    .form-label {
+      font-weight: 500; 
+      color: #495057; 
+      font-size: 14px;
+      margin-bottom: 8px;
+      display: block;
+    }
+    
+    .form-control {
+      transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+      border-color: #4b6cb7 !important;
+      box-shadow: 0 0 0 3px rgba(75, 108, 183, 0.2) !important;
+      outline: none;
+    }
+    
+    /* تأثيرات hover للأزرار */
+    .p-button-primary:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(75, 108, 183, 0.3) !important;
+    }
+    
+    /* تنسيقات للهواتف */
+    @media (max-width: 768px) {
+      .header {
+        padding: 15px !important;
+        margin: 15px 15px 20px 15px !important;
+      }
+      
+      .form-container {
+        padding: 20px !important;
+        margin: 0 15px !important;
+      }
+      
+      h2#head {
+        font-size: 20px !important;
+      }
+    }
+  </style>
+  
+

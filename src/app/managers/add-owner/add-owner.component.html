@@ -86,81 +86,279 @@
     
   
     <!-- Main Content -->
-    <div id="page-content-wrapper" class="flex-grow-1">
-        <div class="header">
-          
-          <h2 id="head">Add Managers</h2>
-          <div class="profile-container">
-            <img class="profile-img" src="../../assets/profile.png" alt="Profile" 
-            (click)="navigateToAdminUpdate()" 
-            [routerLink]="['/admin-update',adminId]" />
-            <span class="profile-name">{{adminName}}</span>
+    <div id="page-content-wrapper" class="flex-grow-1" style="padding: 20px; background-color: #f0f2f5; font-family: 'Segoe UI', Roboto, sans-serif;">
+      <!-- Header with gradient and modern shadow -->
+      <div class="header d-flex justify-content-between align-items-center" 
+           style="background: linear-gradient(to right, #4b6cb7, #182848); 
+                  padding: 18px 25px; 
+                  border-radius: 12px; 
+                  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+                  margin-bottom: 25px;">
+        <h2 id="head" style="margin: 0; 
+                            font-size: 24px; 
+                            color: white; 
+                            font-weight: 500;
+                            letter-spacing: 0.5px;
+                            text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
+          Add Managers
+        </h2>
+        <div style="position: relative;">
+          <img src="../../assets/profile.png" 
+               alt="Profile" 
+               (click)="navigateToAdminUpdate()"
+               [routerLink]="['/admin-update',adminId]"
+               style="width: 45px; 
+                      height: 45px; 
+                      border-radius: 50%; 
+                      border: 3px solid rgba(255,255,255,0.7);
+                      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                      transition: all 0.3s ease;
+                      cursor: pointer;">
+          <span style="position: absolute; 
+                       bottom: -2px; 
+                       right: -2px; 
+                       width: 12px; 
+                       height: 12px; 
+                       background-color: #4CD964; 
+                       border-radius: 50%; 
+                       border: 2px solid white;"></span>
+          <span style="position: absolute;
+                       right: -90px;
+                       color: white;
+                       font-size: 14px;
+                       font-weight: 500;">{{adminName}}</span>
+        </div>
+      </div>
     
-          </div>
+      <!-- Form Container -->
+      <div style="background-color: white; 
+                  padding: 30px; 
+                  border-radius: 12px; 
+                  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+                  transition: all 0.3s ease;">
+        
+        <!-- Form Header -->
+        <div style="margin-bottom: 25px; border-bottom: 1px solid #eef0f5; padding-bottom: 15px;">
+          <h3 style="color: #333; font-size: 18px; font-weight: 600; margin: 0;">Manager Information</h3>
+          <p style="color: #6c757d; font-size: 14px; margin: 5px 0 0 0;">Create new manager account</p>
         </div>
         
-    
-        <hr>
-       
-        <div class="row mt-5" style="margin-top: 50px;">
-      
-          <div class="col-3">
-              <label for="inputState" class="form-label">UserName</label>
-              <input [(ngModel)]="admin.userName" type="text" title="text" placeholder="userName" class="form-control m-1">
+        <!-- First Row - Login Details -->
+        <div class="row mb-4">
+          <div class="col-md-3">
+            <label for="userName" class="form-label" 
+                   style="font-weight: 500; 
+                          color: #495057; 
+                          font-size: 14px;
+                          margin-bottom: 8px;
+                          display: block;">
+              <i class="pi pi-user" style="margin-right: 5px; color: #4b6cb7;"></i> Username
+            </label>
+            <input [(ngModel)]="admin.userName" 
+                   name="userName" 
+                   type="text" 
+                   title="text" 
+                   placeholder="Enter username" 
+                   class="form-control" 
+                   style="padding: 12px 15px; 
+                          border-radius: 8px; 
+                          border: 1px solid #dce1e9;
+                          font-size: 14px;
+                          box-shadow: none;
+                          transition: all 0.3s ease;
+                          margin-bottom: 5px;">
           </div>
-          <div class="col-3">
-              <label for="inputState" class="form-label">email</label>
-              <input [(ngModel)]="admin.email" type="email" title="text" placeholder="email" class="form-control m-1">
+          <div class="col-md-3">
+            <label for="email" class="form-label" 
+                   style="font-weight: 500; 
+                          color: #495057; 
+                          font-size: 14px;
+                          margin-bottom: 8px;
+                          display: block;">
+              <i class="pi pi-envelope" style="margin-right: 5px; color: #4b6cb7;"></i> Email
+            </label>
+            <input [(ngModel)]="admin.email" 
+                   name="email" 
+                   type="email" 
+                   title="text" 
+                   placeholder="Enter email address" 
+                   class="form-control" 
+                   style="padding: 12px 15px; 
+                          border-radius: 8px; 
+                          border: 1px solid #dce1e9;
+                          font-size: 14px;
+                          box-shadow: none;
+                          transition: all 0.3s ease;
+                          margin-bottom: 5px;">
           </div>
-          
-          <div class="col-3">
-              <label for="inputState" class="form-label">password</label>
-              <input [(ngModel)]="admin.password" type="text" title="text" placeholder="password" class="form-control m-1">
-          </div>
-          <div class="col-3">
-              <label for="inputState" class="form-label">confirm password</label>
-              <input [(ngModel)]="admin.confirmPassword" type="text" title="text" placeholder="confirmPassword" class="form-control m-1">
-          </div>
-          <div class="row mb-3">
-            <div class="col-md-12">
-              <label for="schoolTenantId" class="form-label">School</label>
-              <p-dropdown 
-                [options]="schoolOptions"
-                [(ngModel)]="admin.schoolTenantId"
-                optionLabel="name"
-                optionValue="id"
-                [filter]="true"
-                filterBy="name"
-                [showClear]="true"
-                placeholder="Select a School"
-                name="schoolTenantId"
-                styleClass="w-full">
-                <ng-template pTemplate="selectedItem" let-selectedOption>
-                  <div class="flex align-items-center gap-2">
-                    <i class="pi pi-building" style="font-size: 1rem"></i>
-                    <div>{{ selectedOption.name }}</div>
-                  </div>
-                </ng-template>
-                <ng-template let-school pTemplate="item">
-                  <div class="flex align-items-center gap-2">
-                    <i class="pi pi-building" style="font-size: 1rem"></i>
-                    <div>{{ school.name }} ({{ school.id }})</div>
-                  </div>
-                </ng-template>
-              </p-dropdown>
+          <div class="col-md-3">
+            <label for="password" class="form-label" 
+                   style="font-weight: 500; 
+                          color: #495057; 
+                          font-size: 14px;
+                          margin-bottom: 8px;
+                          display: block;">
+              <i class="pi pi-lock" style="margin-right: 5px; color: #4b6cb7;"></i> Password
+            </label>
+            <div style="position: relative;">
+              <input [(ngModel)]="admin.password" 
+                     name="password" 
+                     type="password" 
+                     title="text" 
+                     placeholder="Enter password" 
+                     class="form-control" 
+                     style="padding: 12px 15px; 
+                            border-radius: 8px; 
+                            border: 1px solid #dce1e9;
+                            font-size: 14px;
+                            box-shadow: none;
+                            transition: all 0.3s ease;
+                            margin-bottom: 5px;">
             </div>
           </div>
-
-
-
-
-
-          <div class="col-2" id="save">
-            <button style="background-color: #00015d;align-items: center;" class="form-control mb-5  text-light mt-5" type="button" (click)="addAdmin()">Save</button>
-         </div>
-         
-         
+          <div class="col-md-3">
+            <label for="confirmPassword" class="form-label" 
+                   style="font-weight: 500; 
+                          color: #495057; 
+                          font-size: 14px;
+                          margin-bottom: 8px;
+                          display: block;">
+              <i class="pi pi-lock" style="margin-right: 5px; color: #4b6cb7;"></i> Confirm Password
+            </label>
+            <div style="position: relative;">
+              <input [(ngModel)]="admin.confirmPassword" 
+                     name="confirmPassword" 
+                     type="password" 
+                     title="text" 
+                     placeholder="Confirm password" 
+                     class="form-control" 
+                     style="padding: 12px 15px; 
+                            border-radius: 8px; 
+                            border: 1px solid #dce1e9;
+                            font-size: 14px;
+                            box-shadow: none;
+                            transition: all 0.3s ease;
+                            margin-bottom: 5px;">
+            </div>
+          </div>
         </div>
         
+        <!-- School Dropdown -->
+        <div class="row mb-4">
+          <div class="col-md-12">
+            <label for="schoolTenantId" class="form-label" 
+                   style="font-weight: 500; 
+                          color: #495057; 
+                          font-size: 14px;
+                          margin-bottom: 8px;
+                          display: block;">
+              <i class="pi pi-building" style="margin-right: 5px; color: #4b6cb7;"></i> School
+            </label>
+            <p-dropdown [options]="schoolOptions"
+                       [(ngModel)]="admin.schoolTenantId"
+                       optionLabel="name"
+                       optionValue="id"
+                       [filter]="true"
+                       filterBy="name"
+                       [showClear]="true"
+                       placeholder="Select a School"
+                       name="schoolTenantId"
+                       styleClass="w-full"
+                       [style]="{'padding':'12px 15px','border-radius':'8px','border':'1px solid #dce1e9'}">
+              <ng-template pTemplate="selectedItem" let-selectedOption>
+                <div class="flex align-items-center gap-2">
+                  <i class="pi pi-building" style="font-size: 1rem"></i>
+                  <div>{{ selectedOption.name }}</div>
+                </div>
+              </ng-template>
+              <ng-template let-school pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                  <i class="pi pi-building" style="font-size: 1rem"></i>
+                  <div>{{ school.name }} ({{ school.id }})</div>
+                </div>
+              </ng-template>
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <!-- Button Group -->
+        <div class="d-flex mt-4" style="border-top: 1px solid #eef0f5; padding-top: 20px;justify-content: space-between;flex-direction: row-reverse;">
+          <button type="button" 
+                  (click)="addAdmin()"
+                  class="btn text-light" 
+                  style="background: linear-gradient(to right,#4b6cb7, #182848); 
+                         border: none; 
+                         padding: 12px 30px; 
+                         border-radius: 8px;
+                         font-weight: 500;
+                         display: flex;
+                         align-items: center;
+                         box-shadow: 0 4px 10px rgba(75, 108, 183, 0.3);
+                         transition: all 0.3s ease;">
+            <i class="pi pi-save" style="margin-right: 8px;"></i> Save
+          </button>
+          <button class="btn" 
+                  type="button" 
+                  (click)="goBack()"
+                  style="background-color: transparent; 
+                         border: 1px solid #dce1e9; 
+                         color: #6c757d;
+                         padding: 12px 30px; 
+                         border-radius: 8px;
+                         font-weight: 500;
+                         margin-left: 10px;
+                         transition: all 0.3s ease;">
+            Cancel
+          </button>
+        </div>
+      </div>
+      
+      <style>
+        /* Hover effects */
+        button:hover {
+          transform: translateY(-2px);
+        }
+        
+        /* Focus styles for inputs */
+        input.form-control:focus, .p-dropdown:not(.p-disabled).p-focus {
+          border-color: #4b6cb7 !important;
+          box-shadow: 0 0 0 3px rgba(75, 108, 183, 0.25) !important;
+          outline: none;
+        }
+        
+        /* Placeholder styling */
+        input::placeholder {
+          color: #adb5bd;
+          opacity: 0.7;
+        }
+        
+        /* Dropdown styling */
+        .p-dropdown {
+          width: 100%;
+          border: 1px solid #dce1e9;
+          transition: all 0.3s ease;
+        }
+        
+        .p-dropdown:hover {
+          border-color: #4b6cb7;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+          .col-md-3, .col-md-12 {
+            width: 100%;
+            margin-bottom: 15px;
+          }
+          
+          .header {
+            flex-direction: column;
+            align-items: flex-start !important;
+          }
+          
+          .header > div {
+            margin-top: 10px;
+          }
+        }
+      </style>
     </div>
 </div>

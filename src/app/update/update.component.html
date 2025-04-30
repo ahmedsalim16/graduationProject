@@ -1,273 +1,382 @@
-<!-- <div class="row mt-5">
- 
-    <div class="col-md-6">
-      <label for="inputEmail4" class="form-label">Firstname</label>
-      <input [(ngModel)]="student.Fname" type="text" class="form-control" placeholder="First name" aria-label="First name">
-    </div>
-    <div class="col-md-6">
-      <label for="inputEmail4" class="form-label">Lastname</label>
-      <input [(ngModel)]="student.Lname" type="text" class="form-control" placeholder="Last name" aria-label="Last name">
-    </div>
-    <div class="col-md-6">
-      <label for="inputEmail4" class="form-label">Email</label>
-      <input [(ngModel)]="student.email" type="email" class="form-control" id="inputEmail4">
-    </div>
-    <div class="col-md-6">
-      <label for="inputPassword4" class="form-label">Age</label>
-      <input [(ngModel)]="student.age" type="number" class="form-control" id="age" title="age">
-    </div>
-    <div class="col-12">
-      <label for="inputAddress" class="form-label">Address</label>
-      <input [(ngModel)]="student.address" type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-    </div>
-    <div class="col-md-6">
-      <label for="inputCity" class="form-label">City</label>
-      <input [(ngModel)]="student.city" type="text" class="form-control" id="inputCity" title="city">
-    </div>
-    <div class="col-md-4">
-      <label for="inputState" class="form-label">Grade</label>
-      <select [(ngModel)]="student.grade" id="inputState" class="form-select">
-        <option selected>Choose Grade</option>
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-        <option>6</option>
-      </select>
-    </div>
-    <div class="col-md-4">
-      <label for="inputState2" class="form-label">Gender</label>
-      <select [(ngModel)]="student.gender" id="inputState2" class="form-select">
-        <option selected>gender</option>
-        <option>male</option>
-        <option>female</option>
-      </select>
-    </div>
-    <div class="col-12">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="gridCheck">
-        <label class="form-check-label" for="gridCheck">
-          Check me out
-        </label>
-      </div>
-    </div>
-    <div class="col-12">
-      <button  type="submit" class="btn btn-primary"(click)="addStudent()" >Sign in</button>
-    </div>
-  
-</div> -->
-
-<!-- <div class="row mt-5">
- 
-    <!-- <div class="col-md-6">
-      <label for="inputEmail4" class="form-label">Firstname</label>
-      <input [(ngModel)]="student.Fname" type="text" class="form-control" placeholder="First name" aria-label="First name">
-    </div>
-    <div class="col-md-6">
-      <label for="inputEmail4" class="form-label">Lastname</label>
-      <input [(ngModel)]="student.Lname" type="text" class="form-control" placeholder="Last name" aria-label="Last name">
-    </div>
-    <div class="col-md-6">
-      <label for="inputEmail4" class="form-label">Email</label>
-      <input [(ngModel)]="student.email" type="email" class="form-control" id="inputEmail4">
-    </div>
-    <div class="col-md-6">
-      <label for="age" class="form-label">Age</label>
-      <input [(ngModel)]="student.age" type="number" class="form-control" id="age" title="age">
-    </div>
-    <div class="col-12">
-      <label for="inputAddress" class="form-label">Address</label>
-      <input [(ngModel)]="student.address" type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-    </div>
-    <div class="col-md-6">
-      <label for="inputCity" class="form-label">City</label>
-      <input [(ngModel)]="student.city" type="text" class="form-control" id="inputCity" title="city">
-    </div>
-    <div class="col-md-4">
-      <label for="inputState" class="form-label">Grade</label>
-      <select [(ngModel)]="student.grade" id="inputState" class="form-select">
-        
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-        <option>6</option>
-      </select>
-    </div>
-    <div class="col-md-4">
-      <label for="inputState2" class="form-label">Gender</label>
-      <select [(ngModel)]="student.gender" id="inputState2" class="form-select">
-        <option selected>gender</option>
-        <option>male</option>
-        <option>female</option>
-      </select>
-    </div>
-    <div class="col-12">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="gridCheck">
-        <label class="form-check-label" for="gridCheck">
-          Check me out
-        </label>
-      </div>
-    </div>
-    <div class="col-12">
-      <button  type="submit" class="btn btn-primary"(click)="addStudent()" >Sign in</button>
-    </div>
-  
-</div>  -->
-
-<!-- <app-header></app-header>
-<div class="row mt-5">
-  
-    <div class="col-6">
-        <label for="inputState" class="form-label">Firstname</label>
-        <input [(ngModel)]="student.firstName" type="text" title="text" placeholder="Fname" class="form-control m-1">
-    </div>
-    
-    <div class="col-6">
-        <label for="inputState" class="form-label">Lastname</label>
-        <input [(ngModel)]="student.lastName" type="text" title="text" placeholder="Lname" class="form-control m-1">
-    </div>
-    <div class="col-6">
-        <label for="inputState" class="form-label">Email</label>
-        <input [(ngModel)]="student.email" type="email" title="power" placeholder="email" class="form-control m-1">
-    </div>
-    <div class="col-6">
-        <label for="inputState" class="form-label">Address</label>
-        <input [(ngModel)]="student.address" type="text" title="image" placeholder="address" class="form-control m-1">
-    </div>
-    <div class="col-3">
-        <label for="inputState" class="form-label">City</label>
-        <input [(ngModel)]="student.city" type="text" title="image" placeholder="city" class="form-control m-1">
-    </div>
-    <div class="col-md-3">
-        <label for="inputState" class="form-label">Grade</label>
-        <select [(ngModel)]="student.grade" id="inputState" class="form-select">
-          <option disabled>Choose Grade</option>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-          <option>6</option>
-        </select>
-      </div>
-    <div class="col-md-3">
-        <label for="inputState" class="form-label">gender</label>
-        <select [(ngModel)]="student.gender" id="gender" class="form-select" title="gender"  >
-         
-          <option>Male</option>
-          <option>Female</option>
-        
-        </select>
-      </div>
-    <div class="col-3">
-        <label for="inputState" class="form-label">Age</label>
-        <input [(ngModel)]="student.age" type="number" title="image" placeholder="age" class="form-control m-1">
-    </div>
-    <div class="col-3" >
-       <button  class="form-control mb-5 bg-info text-light mt-5" type="button" (click)="addStudent()">Create</button>
-    </div>
-   
-</div> -->
-
-
 <div class="d-flex">
-  <!-- Sidebar -->
-  <div id="sidebar"  style="width: 250px;">
-    <div class="logo">
-      <img  [src]="schoolLogoUrl" alt="School Logo" class="school-logo animated-icon" [routerLink]="['/Dashboard']" loading="lazy">
-      <!-- <i class="fa-solid fa-graduation-cap" style="color: #fff;"></i> -->
-      
-    </div>
-    
-  </div>
-
   <!-- Main Content -->
-  <div id="page-content-wrapper" class="flex-grow-1">
-    <div class="header">
-      <h2 id="head">Update Students</h2>
-      <img src="../../assets/profile.png" alt="">
+  <div id="page-content-wrapper" class="flex-grow-1" style="padding: 20px; background-color: #f0f2f5; font-family: 'Segoe UI', Roboto, sans-serif;">
+    <!-- Header with gradient and modern shadow -->
+    <div class="header d-flex justify-content-between align-items-center" 
+         style="background: linear-gradient(to right, #00b09b, #96c93d); 
+                padding: 18px 25px; 
+                border-radius: 12px; 
+                box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+                margin-bottom: 25px;">
+      <button 
+        pButton 
+        class="p-button-rounded p-button-text sidebar-toggle" 
+        icon="pi pi-arrow-left"
+        (click)="goBack()" 
+        style="background-color: rgba(255,255,255,0.2); 
+               border: none;
+               color: white;
+               width: 42px; 
+               height: 42px; 
+               border-radius: 50%; 
+               display: flex; 
+               align-items: center; 
+               justify-content: center;
+               transition: all 0.3s ease;">
+      </button>
+      <h2 id="head" style="margin: 0; 
+                          font-size: 24px; 
+                          color: white; 
+                          font-weight: 500;
+                          letter-spacing: 0.5px;
+                          text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
+        Update Students
+      </h2>
+      <div style="position: relative;">
+        <img src="../../assets/profile.png" 
+             alt="Profile" 
+             style="width: 45px; 
+                    height: 45px; 
+                    border-radius: 50%; 
+                    border: 3px solid rgba(255,255,255,0.7);
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    transition: all 0.3s ease;">
+        <span style="position: absolute; 
+                     bottom: -2px; 
+                     right: -2px; 
+                     width: 12px; 
+                     height: 12px; 
+                     background-color: #4CD964; 
+                     border-radius: 50%; 
+                     border: 2px solid white;"></span>
+      </div>
     </div>
-    
 
-    <hr>
-   
-    <div class="row mt-5" style="margin-top: 50px;">
-      <form (ngSubmit)="updateStudent()" enctype="multipart/form-data">
-        <div class="row"> 
-      <div class="col-3">
-          <label for="inputState" class="form-label">ID</label>
-          <input [(ngModel)]="studentData.Id" name="Id" type="text" title="ID" placeholder="ID" class="form-control m-1">
-      </div>
-      <div class="col-3">
-          <label for="inputState" class="form-label">FullName</label>
-          <input [(ngModel)]="studentData.FullName" name="FullName" type="text" title="text" placeholder="FullName" class="form-control m-1">
+    <!-- Form Container -->
+    <form (ngSubmit)="updateStudent()" 
+          enctype="multipart/form-data" 
+          style="background-color: white; 
+                 padding: 30px; 
+                 border-radius: 12px; 
+                 box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+                 transition: all 0.3s ease;">
+      
+      <!-- Form Header -->
+      <div style="margin-bottom: 25px; border-bottom: 1px solid #eef0f5; padding-bottom: 15px;">
+        <h3 style="color: #333; font-size: 18px; font-weight: 600; margin: 0;">Student Information</h3>
+        <p style="color: #6c757d; font-size: 14px; margin: 5px 0 0 0;">Update the information for student record</p>
       </div>
       
-      
-      <div class="col-md-3">
-        <label for="inputState" class="form-label">Gender</label>
-        <select [(ngModel)]="studentData.Gender" name="Gender" id="gender" class="form-select" title="gender"  >
-         
-          
-          <option [value]="'Male'">Male</option>
-          <option [value]="'Female'">Female</option>
-        
-        </select>
+      <!-- First Row -->
+      <div class="row mb-4">
+        <div class="col-3">
+          <label for="studentId" class="form-label" 
+                 style="font-weight: 500; 
+                        color: #495057; 
+                        font-size: 14px;
+                        margin-bottom: 8px;
+                        display: block;">
+            <i class="pi pi-id-card" style="margin-right: 5px; color: #00b09b;"></i> ID
+          </label>
+          <input [(ngModel)]="studentData.Id" 
+                 name="Id" 
+                 type="text" 
+                 title="ID" 
+                 placeholder="Enter Student ID" 
+                 class="form-control" 
+                 style="padding: 12px 15px; 
+                        border-radius: 8px; 
+                        border: 1px solid #dce1e9;
+                        font-size: 14px;
+                        box-shadow: none;
+                        transition: all 0.3s ease;
+                        margin-bottom: 5px;">
+        </div>
+        <div class="col-3">
+          <label for="fullName" class="form-label" 
+                 style="font-weight: 500; 
+                        color: #495057; 
+                        font-size: 14px;
+                        margin-bottom: 8px;
+                        display: block;">
+            <i class="pi pi-user" style="margin-right: 5px; color: #00b09b;"></i> Full Name
+          </label>
+          <input [(ngModel)]="studentData.FullName" 
+                 name="FullName" 
+                 type="text" 
+                 title="text" 
+                 placeholder="Enter Full Name" 
+                 class="form-control" 
+                 style="padding: 12px 15px; 
+                        border-radius: 8px; 
+                        border: 1px solid #dce1e9;
+                        font-size: 14px;
+                        box-shadow: none;
+                        transition: all 0.3s ease;
+                        margin-bottom: 5px;">
+        </div>
+        <div class="col-md-3">
+          <label for="gender" class="form-label" 
+                 style="font-weight: 500; 
+                        color: #495057; 
+                        font-size: 14px;
+                        margin-bottom: 8px;
+                        display: block;">
+            <i class="pi pi-users" style="margin-right: 5px; color: #00b09b;"></i> Gender
+          </label>
+          <select [(ngModel)]="studentData.Gender" 
+                  name="Gender" 
+                  id="gender" 
+                  class="form-select" 
+                  title="gender" 
+                  style="padding: 12px 15px; 
+                         border-radius: 8px; 
+                         border: 1px solid #dce1e9;
+                         font-size: 14px;
+                         box-shadow: none;
+                         transition: all 0.3s ease;
+                         margin-bottom: 5px;
+                         background-image: url('data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 fill=%22%23345%22%3E%3Cpath d=%22M10.3 3.3L6 7.6 1.7 3.3c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l5 5c.2.2.4.3.7.3.3 0 .5-.1.7-.3l5-5c.4-.4.4-1 0-1.4s-1-.4-1.4 0z%22/%3E%3C/svg%3E');
+                         background-position: right 15px center;
+                         background-repeat: no-repeat;
+                         appearance: none;">
+            <option [value]="'Male'">Male</option>
+            <option [value]="'Female'">Female</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label for="grade" class="form-label" 
+                 style="font-weight: 500; 
+                        color: #495057; 
+                        font-size: 14px;
+                        margin-bottom: 8px;
+                        display: block;">
+            <i class="pi pi-chart-bar" style="margin-right: 5px; color: #00b09b;"></i> Grade
+          </label>
+          <select [(ngModel)]="studentData.Grade" 
+                  name="Grade" 
+                  id="inputState" 
+                  class="form-select" 
+                  style="padding: 12px 15px; 
+                         border-radius: 8px; 
+                         border: 1px solid #dce1e9;
+                         font-size: 14px;
+                         box-shadow: none;
+                         transition: all 0.3s ease;
+                         margin-bottom: 5px;
+                         background-image: url('data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 fill=%22%23345%22%3E%3Cpath d=%22M10.3 3.3L6 7.6 1.7 3.3c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l5 5c.2.2.4.3.7.3.3 0 .5-.1.7-.3l5-5c.4-.4.4-1 0-1.4s-1-.4-1.4 0z%22/%3E%3C/svg%3E');
+                         background-position: right 15px center;
+                         background-repeat: no-repeat;
+                         appearance: none;">
+            <option disabled>Choose Grade</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+            <option>7</option>
+            <option>8</option>
+          </select>
         </div>
       </div>
-      <div class="row">
-      <div class="col-md-3">
-        <label for="inputState" class="form-label">Grade</label>
-        
-        <select [(ngModel)]="studentData.Grade" name="Grade" id="inputState" class="form-select">
-          <option disabled>Choose Grade</option>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-          <option>6</option>
-          <option>7</option>
-          <option>8</option>
-        </select>
-      </div>
-     
-      <div class="col-5">
-          <label for="inputState" class="form-label">City</label>
-          <input [(ngModel)]="studentData.City" name="City" type="text" title="city" placeholder="City" class="form-control m-1">
-      </div>
-      <div class="col-4">
-          <label for="inputState" class="form-label">Street</label>
-          <input [(ngModel)]="studentData.Street" name="Street" type="text" title="Street" placeholder="Street" class="form-control m-1">
+      
+      <!-- Second Row -->
+      <div class="row mb-4">
+        <div class="col-5">
+          <label for="city" class="form-label" 
+                 style="font-weight: 500; 
+                        color: #495057; 
+                        font-size: 14px;
+                        margin-bottom: 8px;
+                        display: block;">
+            <i class="pi pi-map" style="margin-right: 5px; color: #00b09b;"></i> City
+          </label>
+          <input [(ngModel)]="studentData.City" 
+                 name="City" 
+                 type="text" 
+                 title="city" 
+                 placeholder="Enter City" 
+                 class="form-control" 
+                 style="padding: 12px 15px; 
+                        border-radius: 8px; 
+                        border: 1px solid #dce1e9;
+                        font-size: 14px;
+                        box-shadow: none;
+                        transition: all 0.3s ease;
+                        margin-bottom: 5px;">
+        </div>
+        <div class="col-4">
+          <label for="street" class="form-label" 
+                 style="font-weight: 500; 
+                        color: #495057; 
+                        font-size: 14px;
+                        margin-bottom: 8px;
+                        display: block;">
+            <i class="pi pi-map-marker" style="margin-right: 5px; color: #00b09b;"></i> Street
+          </label>
+          <input [(ngModel)]="studentData.Street" 
+                 name="Street" 
+                 type="text" 
+                 title="Street" 
+                 placeholder="Enter Street" 
+                 class="form-control" 
+                 style="padding: 12px 15px; 
+                        border-radius: 8px; 
+                        border: 1px solid #dce1e9;
+                        font-size: 14px;
+                        box-shadow: none;
+                        transition: all 0.3s ease;
+                        margin-bottom: 5px;">
+        </div>
+        <div class="col-3">
+          <label for="birthdate" class="form-label" 
+                 style="font-weight: 500; 
+                        color: #495057; 
+                        font-size: 14px;
+                        margin-bottom: 8px;
+                        display: block;">
+            <i class="pi pi-calendar" style="margin-right: 5px; color: #00b09b;"></i> Birth Date
+          </label>
+          <input [(ngModel)]="studentData.BirthDate" 
+                 name="BirthDate" 
+                 type="text" 
+                 title="BirthDate" 
+                 placeholder="mm/dd/yy" 
+                 class="form-control" 
+                 style="padding: 12px 15px; 
+                        border-radius: 8px; 
+                        border: 1px solid #dce1e9;
+                        font-size: 14px;
+                        box-shadow: none;
+                        transition: all 0.3s ease;
+                        margin-bottom: 5px;">
+        </div>
       </div>
       
-      </div>
-      <div class="row">
-      <div class="col-3">
-          <label for="inputState" class="form-label">BirthDate</label>
-          <input [(ngModel)]="studentData.BirthDate" name="BirthDate" type="text" title="BirthDate" placeholder="mm/dd/yy" class="form-control m-1">
-      </div>
-      <div class="col-3">
-          <label for="inputState" class="form-label">rfidTag_Id</label>
-          <input [(ngModel)]="studentData.RfidTag_Id" name="RfidTag_Id" type="text"   title="rfidTag_Id" placeholder="rfidTag_Id" class="form-control m-1">
-      </div>
-      <div class="col-3">
-        <label for="inputState" class="form-label">Student Image</label>
-        <input [(ngModel)]="studentData.StudentImage" name="StudentImage"  type="file" title="img" (change)="onFileSelected($event)" class="form-control m-1">
-      </div>
+      <!-- Third Row -->
+      <div class="row mb-4">
+        <div class="col-3">
+          <label for="rfid" class="form-label" 
+                 style="font-weight: 500; 
+                        color: #495057; 
+                        font-size: 14px;
+                        margin-bottom: 8px;
+                        display: block;">
+            <i class="pi pi-id-card" style="margin-right: 5px; color: #00b09b;"></i> RFID Tag ID
+          </label>
+          <input [(ngModel)]="studentData.RfidTag_Id" 
+                 name="RfidTag_Id" 
+                 type="text" 
+                 title="rfidTag_Id" 
+                 placeholder="Enter RFID Tag ID" 
+                 class="form-control" 
+                 style="padding: 12px 15px; 
+                        border-radius: 8px; 
+                        border: 1px solid #dce1e9;
+                        font-size: 14px;
+                        box-shadow: none;
+                        transition: all 0.3s ease;
+                        margin-bottom: 5px;">
+        </div>
+        <div class="col-4">
+          <label for="studentImage" class="form-label" 
+                 style="font-weight: 500; 
+                        color: #495057; 
+                        font-size: 14px;
+                        margin-bottom: 8px;
+                        display: block;">
+            <i class="pi pi-image" style="margin-right: 5px; color: #00b09b;"></i> Student Image
+          </label>
+          <div style="position: relative;">
+            <input [(ngModel)]="studentData.StudentImage" 
+                   name="StudentImage" 
+                   type="file" 
+                   title="img" 
+                   (change)="onFileSelected($event)" 
+                   class="form-control" 
+                   style="padding: 12px 15px; 
+                          border-radius: 8px; 
+                          border: 1px solid #dce1e9;
+                          font-size: 14px;
+                          box-shadow: none;
+                          transition: all 0.3s ease;
+                          padding-right: 40px;
+                          margin-bottom: 5px;">
+            <i class="pi pi-upload" 
+               style="position: absolute; 
+                      right: 15px; 
+                      top: 50%; 
+                      transform: translateY(-50%); 
+                      color: #00b09b;"></i>
+          </div>
+        </div>
       </div>
       
-      <button id="edit" class="form-control mb-5 bg-info text-light mt-5" type="submit">Update</button>
-      </form>
-  </div> 
-</div>
-
-
+      <!-- Button Group -->
+      <div class="d-flex mt-4" style="border-top: 1px solid #eef0f5; padding-top: 20px;">
+        <button id="edit" 
+                class="btn text-light" 
+                type="submit" 
+                style="background: linear-gradient(to right, #00b09b, #96c93d); 
+                       border: none; 
+                       padding: 12px 30px; 
+                       border-radius: 8px;
+                       font-weight: 500;
+                       display: flex;
+                       align-items: center;
+                       box-shadow: 0 4px 10px rgba(0, 176, 155, 0.3);
+                       transition: all 0.3s ease;">
+          <i class="pi pi-save" style="margin-right: 8px;"></i> Update
+        </button>
+        <button class="btn" 
+                type="button" 
+                style="background-color: transparent; 
+                       border: 1px solid #dce1e9; 
+                       color: #6c757d;
+                       padding: 12px 30px; 
+                       border-radius: 8px;
+                       font-weight: 500;
+                       margin-left: 10px;
+                       transition: all 0.3s ease;">
+          Cancel
+        </button>
+      </div>
+    </form>
     
-    
-   
+    <style>
+      /* Hover effects */
+      button:hover {
+        transform: translateY(-2px);
+      }
+      
+      /* Focus styles for inputs */
+      input.form-control:focus, select.form-select:focus {
+        border-color: #00b09b;
+        box-shadow: 0 0 0 3px rgba(0, 176, 155, 0.25);
+        outline: none;
+      }
+      
+      /* Placeholder styling */
+      input::placeholder {
+        color: #adb5bd;
+        opacity: 0.7;
+      }
+      
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .col-3, .col-4, .col-5 {
+          width: 50%;
+          margin-bottom: 15px;
+        }
+      }
+      
+      @media (max-width: 576px) {
+        .col-3, .col-4, .col-5 {
+          width: 100%;
+          margin-bottom: 15px;
+        }
+      }
+    </style>
+  </div>
 </div>

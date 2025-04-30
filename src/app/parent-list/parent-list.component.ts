@@ -195,6 +195,7 @@ export class ParentListComponent implements OnInit {
   clear() {
     if (this.table) {
       this.table.clear();
+      this.filterParents();
     }
   }
   toggleDropdown(menu: string) {
