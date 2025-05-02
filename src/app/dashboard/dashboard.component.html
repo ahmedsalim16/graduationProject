@@ -16,7 +16,7 @@
             <div class="menu-section">
               <div class="menu-header">
                 <span>القائمة</span>
-                <i class="pi pi-chevron-down"></i>
+                
               </div>
               
               <!-- Dashboard -->
@@ -82,6 +82,7 @@
               <img class="profile-img" src="../../assets/profile.png" alt="Profile">
                 <span class="font-bold">{{adminName}}</span>
             </a>
+            <app-theme-toggle class="d-block text-end my-2"></app-theme-toggle>
         </div>
         </div>
       </ng-template>
@@ -96,6 +97,7 @@
   
     <!-- Main Content -->
     <div id="page-content-wrapper" class="flex-grow-1">
+      <app-theme-toggle class="d-block text-end my-2"></app-theme-toggle>
       <div class="header d-flex justify-content-between align-items-center" 
       style="background: linear-gradient(to right, #4b6cb7, #182848); 
              padding: 18px 25px; 

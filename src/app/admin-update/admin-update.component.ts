@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from '../services/shared.service';
 import Swal from 'sweetalert2';
 import { AuthService } from '../services/auth.service';
+import { ThemeService } from '../services/theme.service'; // استيراد خدمة الثيم
+import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component'; 
 
 @Component({
   selector: 'app-admin-update',
@@ -28,6 +30,16 @@ admin:any = {};
   goBack(): void {
     // Logic to navigate back, e.g., using Angular Router
     window.history.back();
+  }
+  Cancel():void{
+    this.admin = {
+      userName: '',
+      email: '',
+      firstName: '',
+      lastName: '',
+      phoneNumber: '',
+      address: '',
+    }
   }
   getadminById(id: string): void {
     this._shared.getAdminById(id).subscribe(

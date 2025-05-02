@@ -72,6 +72,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 // import { LanguageSwitcherComponent } from './language-switcher/language-switcher.component';
 // import { LanguageService } from './services/language.service';
 import { PrimeNGConfig } from 'primeng/api';
+import { ThemeToggleComponent } from './theme-toggle/theme-toggle.component';
 
 // دالة لتحميل ملفات الترجمة
 // export function HttpLoaderFactory(http: HttpClient) {
@@ -112,6 +113,7 @@ import { PrimeNGConfig } from 'primeng/api';
     AddOwnerComponent,
     AdminDashboardComponent,
     AddDeveloperComponent,
+    
   ],
   imports: [
     DevelopersComponent,
@@ -150,6 +152,7 @@ import { PrimeNGConfig } from 'primeng/api';
     StyleClassModule,
     MultiSelectModule,
     SelectButtonModule,
+    ThemeToggleComponent,
     // TranslateModule.forRoot({
     //   loader: {
     //     provide: TranslateLoader,

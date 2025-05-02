@@ -13,6 +13,8 @@ import { Sidebar } from 'primeng/sidebar';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { StyleClassModule } from 'primeng/styleclass';
+import { ThemeService } from '../services/theme.service'; // استيراد خدمة الثيم
+import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component'; 
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
@@ -28,7 +30,7 @@ export class StudentComponent implements OnInit{
   selectedFile: File | null = null;
   adminName:string | null = localStorage.getItem('username');
   schoolName:string | null = localStorage.getItem('schoolTenantId');
-  constructor(public shared:SharedService,public authService:AuthService,private router: Router,private http: HttpClient,private act: ActivatedRoute,private renderer: Renderer2, private el: ElementRef){
+  constructor(public shared:SharedService,public authService:AuthService,private router: Router,private http: HttpClient,public themeService: ThemeService){
    this.login=new Loginmodel();
   }
   ngOnInit(){
@@ -55,8 +57,17 @@ export class StudentComponent implements OnInit{
   }
  
   goBack(): void {
-    // Logic to navigate back, e.g., using Angular Router
-    window.history.back();
+    // Clear all input fields
+    this.student = {
+      FullName: '',
+      Gender: 0,
+      Grade: 0,
+      City: '',
+      Street: '',
+      BirthDate: '',
+      RfidTag_Id: '',
+      StudentImage: null,
+    };
   }
   student ={
          FullName: '',
@@ -125,9 +136,30 @@ export class StudentComponent implements OnInit{
     );
   }
   
-  logout(): void {
-    this.authService.logout(); // استدعاء وظيفة تسجيل الخروج من الخدمة
-  }
+ logout(): void {
+     // عرض نافذة تأكيد باستخدام Swal
+     Swal.fire({
+       title: 'Logout',
+       text: 'are you sure you want to logout?',
+       icon: 'question',
+       showCancelButton: true,
+       confirmButtonColor: '#3085d6',
+       cancelButtonColor: '#d33',
+       confirmButtonText: 'Yes',
+       cancelButtonText: 'No'
+     }).then((result) => {
+       if (result.isConfirmed) {
+         // إذا ضغط المستخدم على "نعم"، قم بتسجيل الخروج
+         this.authService.logout();
+         // يمكنك إضافة رسالة نجاح إذا أردت
+         Swal.fire(
+           'Logout successfully',
+           'success'
+         );
+       }
+       // إذا ضغط على "لا"، فلن يحدث شيء ويتم إغلاق النافذة تلقائياً
+     });
+   }
   
   // onFileChange(event: any): void {
   //   const file = event.target.files[0]; // الحصول على الملف الذي اختاره المستخدم

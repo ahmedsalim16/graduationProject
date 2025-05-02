@@ -19,9 +19,8 @@ export class ChartComponent implements OnInit {
   constructor(public shared: SharedService) {}
 
   ngOnInit(): void {
-    this.getTotalStudentCount();
-    this.getStudentCountByGender(0); // جلب عدد الذكور
-    this.getStudentCountByGender(1); // جلب عدد الإناث
+    this.initChart();
+  this.loadInitialData();
   }
   getTotalStudentCount(): void {
     this.shared.getStudentCountByGender().subscribe(
@@ -59,6 +58,28 @@ export class ChartComponent implements OnInit {
       }
     );
   }
+  loadInitialData(): void {
+    this.isChartLoading = true;
+    this.getTotalStudentCount();
+    this.getStudentCountByGender(0);
+    this.getStudentCountByGender(1);
+  }
+  initChart(): void {
+    const chartDom = document.getElementById('main');
+    if (chartDom) {
+      this.myChart = echarts.init(chartDom);
+      
+      // إضافة حدث global listener للتأكد من عمل الأزرار
+      this.myChart.on('restore', () => {
+        console.log('Restore event triggered'); // هذا يجب أن يظهر عند النقر
+        this.refreshChartData();
+      });
+      
+      this.updateChart();
+    } else {
+      console.error('Chart container not found!');
+    }
+  }
   isChartLoading: boolean = true;
   updateChart(): void {
     console.log('Updating chart...'); // نقطة تصحيح
@@ -85,7 +106,13 @@ export class ChartComponent implements OnInit {
         feature: {
           dataView: { show: true, readOnly: false },
           magicType: { show: true, type: ['line', 'bar'] },
-          restore: { show: true },
+          restore: { 
+            show: true,
+            onclick: () => {
+              console.log('Restore button clicked');
+              this.refreshChartData(); // استدعاء دالة refreshChartData عند النقر على Restore
+            } // إضافة دالة عند النقر على Restore
+          },
           saveAsImage: { show: true },
         },
       },
@@ -159,10 +186,72 @@ export class ChartComponent implements OnInit {
 
     // رسم الـ Chart أو تحديثه
     if (!this.myChart) {
-      const chartDom = document.getElementById('main')!;
-      this.myChart = echarts.init(chartDom);
+      const chartDom = document.getElementById('main');
+      if (chartDom) {
+        this.myChart = echarts.init(chartDom);
+      }
     }
-    this.myChart.setOption(this.option);
-    this.isChartLoading = false; 
+  
+    if (this.myChart) {
+      this.myChart.setOption(this.option);
+      this.isChartLoading = false;
+    } 
+  }
+  refreshChartData(): void {
+    console.log('بدء تحديث البيانات...');
+    this.isChartLoading = true;
+  
+    // إظهار حالة التحميل
+    if (this.myChart) {
+      this.myChart.showLoading();
+    }
+  
+    // إعادة تعيين البيانات
+    this.studentCount = 0;
+    this.maleStudentCount = 0;
+    this.femaleStudentCount = 0;
+  
+    // تسلسل طلبات API مع ضمان إخفاء الـ Loader
+    this.shared.getStudentCountByGender().subscribe({
+      next: (totalRes) => {
+        this.studentCount = totalRes.result || 0;
+        
+        this.shared.getStudentCountByGender(0).subscribe({
+          next: (maleRes) => {
+            this.maleStudentCount = maleRes.result || 0;
+            
+            this.shared.getStudentCountByGender(1).subscribe({
+              next: (femaleRes) => {
+                this.femaleStudentCount = femaleRes.result || 0;
+                this.finalizeChartUpdate();
+              },
+              error: (err) => this.handleChartError(err)
+            });
+          },
+          error: (err) => this.handleChartError(err)
+        });
+      },
+      error: (err) => this.handleChartError(err)
+    });
+  }
+  
+  finalizeChartUpdate(): void {
+    console.log('تم استلام جميع البيانات');
+    this.updateChart();
+    this.hideLoader();
+  }
+  
+  handleChartError(error: any): void {
+    console.error('حدث خطأ في جلب البيانات:', error);
+    this.updateChart();
+    this.hideLoader();
+  }
+  
+  hideLoader(): void {
+    this.isChartLoading = false;
+    if (this.myChart) {
+      this.myChart.hideLoading();
+    }
+    console.log('تم إخفاء الـ Loader');
   }
 }

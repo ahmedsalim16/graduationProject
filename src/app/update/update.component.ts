@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from '../services/shared.service';
 import Swal from 'sweetalert2';
-
+import { ThemeService } from '../services/theme.service'; // استيراد خدمة الثيم
+import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component'; 
 @Component({
   selector: 'app-update',
   templateUrl: './update.component.html',
@@ -48,6 +49,19 @@ export class UpdateComponent implements OnInit{
   goBack(): void {
     // Logic to navigate back, e.g., using Angular Router
     window.history.back();
+  }
+  Cancel():void{
+    this.studentData={
+      Id:'',
+      FullName: '',
+      Gender: 0,
+      Grade: 0,
+      City: '',
+      Street: '',
+      BirthDate: '',
+      RfidTag_Id:'',
+      StudentImage:null,
+    }
   }
   getStudentById(id: string): void {
     this._shared.getStudentById(id).subscribe(

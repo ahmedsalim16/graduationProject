@@ -7,6 +7,8 @@ import { Sidebar } from 'primeng/sidebar';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { StyleClassModule } from 'primeng/styleclass';
+import { ThemeService } from '../../services/theme.service'; // استيراد خدمة الثيم
+import { ThemeToggleComponent } from '../../theme-toggle/theme-toggle.component'; 
 @Component({
   selector: 'app-add-owner',
   templateUrl: './add-owner.component.html',
@@ -34,8 +36,15 @@ export class AddOwnerComponent implements OnInit {
     console.log('Admin ID:', this.adminId);
   }
   goBack(): void {
-    // Logic to navigate back, e.g., using Angular Router
-    window.history.back();
+   this.admin = {
+    userName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    role: 3,
+    schoolTenantId: null, // تغيير إلى null ليتوافق مع PrimeNG Dropdown
+    owner: true,
+  }
   }
   admin = {
     userName: '',
@@ -133,9 +142,29 @@ navigateToAdminUpdate(): void {
 }
 
 logout(): void {
-  this.authService.logout(); // استدعاء وظيفة تسجيل الخروج من الخدمة
-
-}
+    // عرض نافذة تأكيد باستخدام Swal
+    Swal.fire({
+      title: 'Logout',
+      text: 'are you sure you want to logout?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // إذا ضغط المستخدم على "نعم"، قم بتسجيل الخروج
+        this.authService.logout();
+        // يمكنك إضافة رسالة نجاح إذا أردت
+        Swal.fire(
+          'Logout successfully',
+          'success'
+        );
+      }
+      // إذا ضغط على "لا"، فلن يحدث شيء ويتم إغلاق النافذة تلقائياً
+    });
+  }
 isSchoolOpen = false;
 isAdminOpen = false;
 

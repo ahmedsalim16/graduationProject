@@ -83,11 +83,11 @@ export class AppComponent {
       
       // إذا كان يتم الوصول إلى مسار محمي بدون رمز، فقم بإعادة التوجيه إلى تسجيل الدخول
       if (!token && protectedRoutes.some(route => currentUrl.startsWith(route))) {
-        this.router.navigate(['/login']);
+        this.router.navigate(['/welcome']);
       }
     } catch (error) {
       console.error('Error in checkAuthentication:', error);
-      this.router.navigate(['/login']);
+      this.router.navigate(['/welcome']);
     }
   }
 

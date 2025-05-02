@@ -3,7 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../services/auth.service';
 import { SharedService } from '../../services/shared.service';
-
+import { ThemeService } from '../../services/theme.service'; // استيراد خدمة الثيم
+import { ThemeToggleComponent } from '../../theme-toggle/theme-toggle.component'; 
 @Component({
   selector: 'app-update-school',
   templateUrl: './update-school.component.html',

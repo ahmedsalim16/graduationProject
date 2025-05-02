@@ -17,6 +17,8 @@ import { ButtonModule } from 'primeng/button';
 import { Sidebar,SidebarModule } from 'primeng/sidebar';
 import { RippleModule } from 'primeng/ripple';
 import { StyleClassModule } from 'primeng/styleclass';
+import { ThemeService } from '../services/theme.service'; // استيراد خدمة الثيم
+import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component'; 
 @Component({
   selector: 'app-parent-list',
   templateUrl: './parent-list.component.html',
@@ -31,7 +33,7 @@ import { StyleClassModule } from 'primeng/styleclass';
     MultiSelectModule,
     DropdownModule,
     HttpClientModule,
-    ButtonModule,RouterModule,SidebarModule
+    ButtonModule,RouterModule,SidebarModule,ThemeToggleComponent
   ]
 })
 export class ParentListComponent implements OnInit {
@@ -210,9 +212,30 @@ export class ParentListComponent implements OnInit {
     this.sidebarVisible = !this.sidebarVisible;
   }
 
-  logout(): void {
-    this.authService.logout();
-  }
+ logout(): void {
+     // عرض نافذة تأكيد باستخدام Swal
+     Swal.fire({
+       title: 'Logout',
+       text: 'are you sure you want to logout?',
+       icon: 'question',
+       showCancelButton: true,
+       confirmButtonColor: '#3085d6',
+       cancelButtonColor: '#d33',
+       confirmButtonText: 'Yes',
+       cancelButtonText: 'No'
+     }).then((result) => {
+       if (result.isConfirmed) {
+         // إذا ضغط المستخدم على "نعم"، قم بتسجيل الخروج
+         this.authService.logout();
+         // يمكنك إضافة رسالة نجاح إذا أردت
+         Swal.fire(
+           'Logout successfully',
+           'success'
+         );
+       }
+       // إذا ضغط على "لا"، فلن يحدث شيء ويتم إغلاق النافذة تلقائياً
+     });
+   }
 
   // باقي دوال معالجة الصور كما هي...
   getImageUrl(logoPath: string): Promise<string> {

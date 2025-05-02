@@ -2,6 +2,7 @@
   <!-- Main Content -->
   <div id="page-content-wrapper" class="flex-grow-1" style="padding: 20px; background-color: #f0f2f5; font-family: 'Segoe UI', Roboto, sans-serif;">
     <!-- Header with gradient and modern shadow -->
+    <app-theme-toggle class="d-block text-end my-2"></app-theme-toggle>
     <div class="header d-flex justify-content-between align-items-center" 
          style="background: linear-gradient(to right, #00b09b, #96c93d); 
                 padding: 18px 25px; 
@@ -338,7 +339,8 @@
                        border-radius: 8px;
                        font-weight: 500;
                        margin-left: 10px;
-                       transition: all 0.3s ease;">
+                       transition: all 0.3s ease;"
+                       (click)="Cancel()">
           Cancel
         </button>
       </div>

@@ -8,6 +8,11 @@ import { Sidebar } from 'primeng/sidebar';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { StyleClassModule } from 'primeng/styleclass';
+import { timeout, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+import Swal from 'sweetalert2';
+import { ThemeService } from '../../services/theme.service'; // استيراد خدمة الثيم
+import { ThemeToggleComponent } from '../../theme-toggle/theme-toggle.component'; 
 @Component({
   selector: 'app-admin-dashboard',
   templateUrl: './admin-dashboard.component.html',
@@ -52,7 +57,28 @@ export class AdminDashboardComponent {
     window.history.back();
   }
   logout(): void {
-    this.authService.logout(); // استدعاء وظيفة تسجيل الخروج من الخدمة
+    // عرض نافذة تأكيد باستخدام Swal
+    Swal.fire({
+      title: 'Logout',
+      text: 'are you sure you want to logout?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // إذا ضغط المستخدم على "نعم"، قم بتسجيل الخروج
+        this.authService.logout();
+        // يمكنك إضافة رسالة نجاح إذا أردت
+        Swal.fire(
+          'Logout successfully',
+          'success'
+        );
+      }
+      // إذا ضغط على "لا"، فلن يحدث شيء ويتم إغلاق النافذة تلقائياً
+    });
   }
 
   isSidebarOpen: boolean = true;
@@ -61,69 +87,68 @@ export class AdminDashboardComponent {
     this.sidebarVisible = !this.sidebarVisible;
   }
   
-  getManagersCount(): void {
+  // getManagersCount(): void {
 
-    this.shared.ManagerCount().subscribe(
+  //   this.shared.ManagerCount().subscribe(
+  //     (response: any) => {
+  //       if (response && response.result && Array.isArray(response.result)) {
+  //         this.ManagerCount = response.result.length;
+  //         console.log('Number of Managers:', this.ManagerCount);
+         
+  //       } else {
+  //         console.error('No data found or invalid response format.');
+  //       }
+  //     },
+  //     (err) => {
+  //       console.error('Error while fetching Managers count:', err);
+  //     }
+  //   );
+  // }
+
+  getSchoolsByMonth(): void {
+    const filters = {
+      pageNumber: this.pageNumber,
+      pageSize: this.pagesize,
+    };
+    
+    this.shared.filterSchools(filters).subscribe(
       (response: any) => {
         if (response && response.result && Array.isArray(response.result)) {
-          this.ManagerCount = response.result.length;
-          console.log('Number of Managers:', this.ManagerCount);
-         
+          this.schoolCountsByMonth.fill(0);
+  
+          response.result.forEach((school: any) => {
+            if (school.CreatedOn) {
+              const date = new Date(school.CreatedOn);
+              const monthIndex = date.getMonth();
+              this.schoolCountsByMonth[monthIndex]++;
+            }
+          });
+  
+          console.log('Schools per month:', this.schoolCountsByMonth);
+          this.updateChart(); // تحديث الـ Chart بعد جلب البيانات
         } else {
           console.error('No data found or invalid response format.');
+          this.isChartLoading = false;
         }
       },
       (err) => {
-        console.error('Error while fetching Managers count:', err);
+        console.error('Error while fetching school count:', err);
+        this.isChartLoading = false;
       }
     );
   }
-
+  
   getSchoolCount(): void {
     const filters = {
       pageNumber: this.pageNumber,
       pageSize: this.pagesize,
     };
-
+  
     this.shared.filterSchools(filters).subscribe(
       (response: any) => {
         if (response && response.result && Array.isArray(response.result)) {
           this.count = response.result.length;
           console.log('Number of Schools:', this.count);
-          this.updateChart(); // تحديث التشارت بعد تحديث العدد
-        } else {
-          console.error('No data found or invalid response format.');
-        }
-      },
-      (err) => {
-        console.error('Error while fetching school count:', err);
-      }
-    );
-  }
-
-  getSchoolsByMonth(): void {
-    const filters = {
-           pageNumber: this.pageNumber,
-           pageSize: this.pagesize,
-         };
-    this.shared.filterSchools(filters).subscribe(
-      (response: any) => {
-        if (response && response.result && Array.isArray(response.result)) {
-          // تصفير العدادات لكل شهر
-          this.schoolCountsByMonth.fill(0);
-
-          response.result.forEach((school: any) => {
-            if (school.CreatedOn) {
-              const date = new Date(school.CreatedOn);
-              const monthIndex = date.getMonth(); // 0 = يناير, 1 = فبراير, ...
-              this.schoolCountsByMonth[monthIndex]++;
-            }
-          });
-
-          console.log('Schools per month:', this.schoolCountsByMonth);
-          setTimeout(() => {
-            this.updateChart();
-          }, 500);
         } else {
           console.error('No data found or invalid response format.');
         }
@@ -134,85 +159,244 @@ export class AdminDashboardComponent {
     );
   }
   isChartLoading: boolean = true;
-  initChart(): void {
-    this.isChartLoading = true; // عرض الـ loader
+  // في ملف admin-dashboard.component.ts
+
+initChart(): void {
+  this.isChartLoading = true;
+  
+  const chartDom = document.getElementById('main');
+  if (chartDom) {
+    this.myChart = echarts.init(chartDom);
     
+    // إضافة مستمع للحدث restore
+    this.myChart.on('restore', () => {
+      console.log('Restore event triggered - Schools');
+      this.refreshChartData();
+    });
+    
+    // إظهار loader أولاً
+    this.myChart.showLoading({
+      text: 'Loading schools data...',
+      color: '#4b6cb7',
+      textColor: '#333',
+      maskColor: 'rgba(255, 255, 255, 0.8)',
+      zlevel: 0
+    });
+    
+    // تحميل البيانات الأولية
+    this.loadInitialData();
+  } else {
+    console.error('Chart container not found!');
+    this.isChartLoading = false;
+  }
+}
+
+loadInitialData(): void {
+  // إعادة تعيين البيانات
+  this.resetData();
+  
+  // بدء سلسلة طلبات API
+  this.getSchoolsData();
+}
+
+getSchoolsData(): void {
+  const filters = {
+    pageNumber: this.pageNumber,
+    pageSize: this.pagesize,
+  };
+  
+  // يتم إظهار loader
+  if (this.myChart) {
+    this.myChart.showLoading();
+  }
+  
+  // تنفيذ طلب API لجلب بيانات المدارس
+  this.shared.filterSchools(filters)
+    .pipe(
+      timeout(30000), // 30 ثانية كحد أقصى
+      catchError(err => {
+        console.error('School data fetch timed out or failed:', err);
+        return of({ result: [] });
+      })
+    )
+    .subscribe(
+      (response: any) => {
+        if (response && response.result && Array.isArray(response.result)) {
+          // معالجة بيانات المدارس
+          this.processSchoolsData(response.result);
+          this.count = response.result.length;
+          
+          // استكمال باقي الطلبات
+          this.getManagersCount();
+        } else {
+          console.error('No schools found or invalid response format.');
+          this.handleChartError('Invalid school data');
+        }
+      },
+      (err) => {
+        console.error('Error while fetching school data:', err);
+        this.handleChartError(err);
+      }
+    );
+}
+
+getManagersCount(): void {
+  this.shared.ManagerCount()
+    .pipe(
+      timeout(20000), // 20 ثانية كحد أقصى
+      catchError(err => {
+        console.error('Manager count fetch timed out or failed:', err);
+        return of({ result: [] });
+      })
+    )
+    .subscribe(
+      (response: any) => {
+        if (response && response.result && Array.isArray(response.result)) {
+          this.ManagerCount = response.result.length;
+          console.log('Number of Managers:', this.ManagerCount);
+          
+          // بعد الانتهاء من جميع الطلبات، قم بتحديث الرسم البياني
+          this.finalizeChartUpdate();
+        } else {
+          console.error('No manager data found or invalid response format.');
+          this.finalizeChartUpdate(); // تحديث حتى مع وجود خطأ
+        }
+      },
+      (err) => {
+        console.error('Error while fetching Managers count:', err);
+        this.finalizeChartUpdate(); // تحديث حتى مع وجود خطأ
+      }
+    );
+}
+
+refreshChartData(): void {
+  console.log('بدء تحديث بيانات المدارس...');
+  this.isChartLoading = true;
+
+  // إظهار حالة التحميل
+  if (this.myChart) {
+    this.myChart.showLoading({
+      text: 'Refreshing data...',
+      color: '#4b6cb7',
+      textColor: '#333',
+      maskColor: 'rgba(255, 255, 255, 0.8)',
+      zlevel: 0
+    });
+  }
+
+  // إعادة تعيين البيانات
+  this.resetData();
+
+  // بدء سلسلة طلبات البيانات
+  this.getSchoolsData();
+}
+
+resetData(): void {
+  this.schoolCountsByMonth.fill(0);
+  this.ManagerCount = 0;
+  this.count = 0;
+}
+
+private processSchoolsData(schools: any[]): void {
+  this.schoolCountsByMonth.fill(0); // إعادة تعيين العدادات
+  schools.forEach((school: any) => {
+    if (school.CreatedOn) {
+      const date = new Date(school.CreatedOn);
+      const monthIndex = date.getMonth();
+      this.schoolCountsByMonth[monthIndex]++;
+    }
+  });
+  console.log('School counts by month:', this.schoolCountsByMonth);
+}
+
+finalizeChartUpdate(): void {
+  console.log('تم استلام جميع بيانات المدارس');
+  this.updateChart();
+  this.hideLoader();
+}
+
+handleChartError(error: any): void {
+  console.error('حدث خطأ في جلب بيانات المدارس:', error);
+  this.updateChart(); // تحديث الرسم البياني حتى مع وجود خطأ
+  this.hideLoader();
+}
+
+hideLoader(): void {
+  setTimeout(() => {
+    this.isChartLoading = false;
+    if (this.myChart) {
+      this.myChart.hideLoading();
+    }
+    console.log('تم إخفاء Loader المدارس');
+  }, 100);
+}
+
+updateChart(): void {
+  if (!this.myChart) {
     const chartDom = document.getElementById('main');
     if (chartDom) {
       this.myChart = echarts.init(chartDom);
-      
-      // عرض حالة التحميل مؤقتاً
-      this.myChart.showLoading('default', {
-        text: 'Loading data...',
-        color: '#4b6cb7',
-        textColor: '#333',
-        maskColor: 'rgba(255, 255, 255, 0.8)',
-        zlevel: 0
-      });
-      
-      this.updateChart();
+    } else {
+      console.error('عنصر الرسم البياني غير موجود');
+      return;
     }
   }
 
-  updateChart(): void {
-    if (!this.myChart) {
-      console.warn('Chart not initialized yet.');
-      return;
-    }
-  
-    // تأخير محاكاة لجلب البيانات (استبدل هذا بطلب API الفعلي)
-    setTimeout(() => {
-      const option: EChartsOption = {
-        title: {
-          text: 'Number of Schools',
-          subtext: 'Over Month'
-        },
-        tooltip: {
-          trigger: 'axis'
-        },
-        legend: {
-          data: ['Schools']
-        },
-        toolbox: {
+  const option: EChartsOption = {
+    title: {
+      text: 'Number of Schools',
+      subtext: 'Over Month'
+    },
+    tooltip: {
+      trigger: 'axis'
+    },
+    legend: {
+      data: ['Schools']
+    },
+    toolbox: {
+      show: true,
+      feature: {
+        dataView: { show: true, readOnly: false },
+        magicType: { show: true, type: ['line', 'bar'] },
+        restore: { 
           show: true,
-          feature: {
-            dataView: { show: true, readOnly: false },
-            magicType: { show: true, type: ['line', 'bar'] },
-            restore: { show: true },
-            saveAsImage: { show: true }
-          }
         },
-        calculable: true,
-        xAxis: {
-          type: 'category',
-          data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        saveAsImage: { show: true }
+      }
+    },
+    calculable: true,
+    xAxis: {
+      type: 'category',
+      data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    },
+    yAxis: {
+      type: 'value'
+    },
+    series: [
+      {
+        name: 'Schools',
+        type: 'bar',
+        data: [...this.schoolCountsByMonth], 
+        markPoint: {
+          data: [
+            { type: 'max', name: 'Max' },
+            { type: 'min', name: 'Min' }
+          ]
         },
-        yAxis: {
-          type: 'value'
-        },
-        series: [
-          {
-            name: 'Schools',
-            type: 'bar',
-            data: [...this.schoolCountsByMonth], 
-            markPoint: {
-              data: [
-                { type: 'max', name: 'Max' },
-                { type: 'min', name: 'Min' }
-              ]
-            },
-            markLine: {
-              data: [{ type: 'average', name: 'Avg' }]
-            }
-          }
-        ]
-      };
-  
-      this.myChart.setOption(option, { notMerge: true });
-      this.myChart.hideLoading(); // إخفاء الـ loader بعد جلب البيانات
-      this.isChartLoading = false; // تحديث حالة التحميل
-    }, 1000); // تأخير محاكاة لجلب البيانات (استبدل هذا بطلب API الفعلي)
+        markLine: {
+          data: [{ type: 'average', name: 'Avg' }]
+        }
+      }
+    ]
+  };
+
+  try {
+    this.myChart.setOption(option, { notMerge: true });
+    console.log('تم تحديث رسم المدارس بنجاح');
+  } catch (error) {
+    console.error('خطأ في تحديث الرسم البياني:', error);
   }
+}
   isSchoolOpen = false;
 isAdminOpen = false;
 

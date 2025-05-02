@@ -1,4 +1,241 @@
-/* You can add global styles to this file, and also import other style files */
-@import 'primeicons/primeicons.css';
-@import 'primeng/resources/themes/lara-light-indigo/theme.css';
-@import 'primeng/resources/primeng.min.css';
+
+/* styles.css - Enhanced with sidebar and table theming */
+
+/* Base styles */
+:root {
+  --transition-duration: 0.3s;
+  
+  /* Sidebar specific variables */
+  --sidebar-bg: #f8f9fa;
+  --sidebar-text: #212529;
+  --sidebar-hover: rgba(0, 0, 0, 0.05);
+  --sidebar-active: rgba(0, 0, 0, 0.1);
+  --sidebar-border: #e9ecef;
+  --sidebar-icon: #4b6cb7;
+  
+  /* Table specific variables */
+  --table-header-bg: #f8f9fa;
+  --table-header-text: #212529;
+  --table-row-bg: #ffffff;
+  --table-row-alt-bg: #f8f9fa;
+  --table-row-hover: rgba(0, 0, 0, 0.03);
+  --table-border: #e9ecef;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  transition: background-color var(--transition-duration), color var(--transition-duration);
+}
+
+/* Custom variables for light theme */
+body.light-theme {
+  --app-background: var(--surface-a);
+  --app-text: var(--text-color);
+  --app-border: var(--surface-border);
+  --app-card-bg: var(--surface-card);
+  
+  /* Inverted sidebar for light theme (dark sidebar) */
+  --sidebar-bg: #1e1e1e;
+  --sidebar-text: #f8f9fa;
+  --sidebar-hover: rgba(255, 255, 255, 0.1);
+  --sidebar-active: rgba(255, 255, 255, 0.15);
+  --sidebar-border: #333333;
+  --sidebar-icon: #4b6cb7;
+  
+  /* Light theme table */
+  --table-header-bg: #f8f9fa;
+  --table-header-text: #212529;
+  --table-row-bg: #ffffff;
+  --table-row-alt-bg: #f8f9fa;
+  --table-row-hover: rgba(0, 0, 0, 0.03);
+  --table-border: #e9ecef;
+  .theme-toggle-btn {
+    color: #1e1e1e;
+}
+}
+
+/* Custom variables for dark theme */
+body.dark-theme {
+  --app-background: var(--surface-a);
+  --app-text: var(--text-color);
+  --app-border: var(--surface-border);
+  --app-card-bg: var(--surface-card);
+  
+  /* Inverted sidebar for dark theme (light sidebar) */
+  --sidebar-bg: #ffffff;
+  --sidebar-text: #212529;
+  --sidebar-hover: rgba(0, 0, 0, 0.05);
+  --sidebar-active: rgba(0, 0, 0, 0.1);
+  --sidebar-border: #e9ecef;
+  --sidebar-icon: #4b6cb7;
+  
+  /* Dark theme table */
+  --table-header-bg: #1e1e1e;
+  --table-header-text: #f8f9fa;
+--table-row-alt-bg: #2d2d2d;
+  --table-row-hover: rgba(255, 255, 255, 0.05);
+  --table-border: #333333;
+.stud {
+    background-color: rgba(255, 255, 255, 0.1);
+    color:#ffffff;
+    transition: background-color var(--transition-duration);
+}
+.theme-toggle-btn {
+    color: #fff;
+}
+#page-content-wrapper{
+    background-color: #1e1e1e;
+}
+}
+
+/* Apply theme variables */
+body {
+  background-color: var(--app-background);
+  color: var(--app-text);
+}
+
+/* Animation for theme transition */
+.theme-transition {
+  transition: all var(--transition-duration) ease;
+}
+
+/* Sidebar Styling */
+.custom-sidebar {
+  background-color: var(--sidebar-bg) !important;
+  color: var(--sidebar-text) !important;
+  transition: background-color var(--transition-duration), color var(--transition-duration);
+}
+
+.custom-sidebar .logo-container {
+  background-color: var(--sidebar-bg) !important;
+  border-bottom: 1px solid var(--sidebar-border) !important;
+  transition: background-color var(--transition-duration), border-color var(--transition-duration);
+}
+
+.custom-sidebar .logo-text {
+  color: var(--sidebar-text) !important;
+  transition: color var(--transition-duration);
+}
+
+.custom-sidebar .menu-header span {
+  color: var(--sidebar-text) !important;
+  transition: color var(--transition-duration);
+}
+
+.custom-sidebar .menu-item a {
+  color: var(--sidebar-text) !important;
+  transition: background-color var(--transition-duration), color var(--transition-duration);
+}
+
+.custom-sidebar .menu-item a:hover {
+  background-color: var(--sidebar-hover) !important;
+}
+
+.custom-sidebar .menu-item a.active-link {
+  background-color: var(--sidebar-active) !important;
+  border-left: 3px solid var(--sidebar-icon) !important;
+}
+
+.custom-sidebar .menu-item a i {
+  color: var(--sidebar-icon) !important;
+}
+
+.custom-sidebar .submenu {
+  background-color: var(--sidebar-bg) !important;
+  border-left: 2px solid var(--sidebar-border) !important;
+  transition: background-color var(--transition-duration);
+}
+
+.custom-sidebar .submenu a {
+  color: var(--sidebar-text) !important;
+}
+
+.custom-sidebar .submenu a:hover {
+  background-color: var(--sidebar-hover) !important;
+}
+
+.custom-sidebar .logout-container {
+  border-top: 1px solid var(--sidebar-border) !important;
+  transition: border-color var(--transition-duration);
+}
+
+.custom-sidebar hr {
+  border-color: var(--sidebar-border) !important;
+  transition: border-color var(--transition-duration);
+}
+
+/* PrimeNG Table Styling */
+.p-datatable {
+  transition: all var(--transition-duration);
+}
+
+.p-datatable .p-datatable-header {
+  background-color: var(--table-header-bg) !important;
+  color: var(--table-header-text) !important;
+  border-color: var(--table-border) !important;
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+  background-color: var(--table-header-bg) !important;
+  color: var(--table-header-text) !important;
+  border-color: var(--table-border) !important;
+}
+
+.p-datatable .p-datatable-tbody > tr {
+  background-color: var(--table-row-bg) !important;
+  color: var(--app-text) !important;
+  border-color: var(--table-border) !important;
+  transition: background-color var(--transition-duration), color var(--transition-duration);
+}
+
+.p-datatable .p-datatable-tbody > tr:nth-child(even) {
+  background-color: var(--table-row-alt-bg) !important;
+}
+
+.p-datatable .p-datatable-tbody > tr:hover {
+  background-color: var(--table-row-hover) !important;
+}
+
+.p-datatable .p-paginator {
+  background-color: var(--table-row-bg) !important;
+  color: var(--app-text) !important;
+  border-color: var(--table-border) !important;
+}
+
+/* Profile image and status indicator - consistent across themes */
+.profile-img {
+  border: 2px solid var(--sidebar-border);
+  border-radius: 50%;
+  transition: border-color var(--transition-duration);
+}
+
+/* Make sure button icons follow the correct color scheme */
+/* .custom-sidebar .p-button.p-button-text {
+  color: var(--sidebar-text) !important;
+} */
+
+/* Theme toggle button specific styling */
+.theme-toggle-btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  transition: transform 0.3s;
+}
+
+.theme-toggle-btn:hover {
+  transform: rotate(15deg);
+}
+
+/* PrimeNG custom components */
+.p-sidebar-content {
+  background-color: var(--sidebar-bg) !important;
+}
+
+.p-sidebar-header {
+  background-color: var(--sidebar-bg) !important;
+}
+
+/* Additional fixes for specific elements */
+.p-inputtext, .p-dropdown, .p-multiselect {
+  transition: background-color var(--transition-duration), border-color var(--transition-duration), color var(--transition-duration);
+}

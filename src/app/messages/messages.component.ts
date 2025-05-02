@@ -12,6 +12,8 @@ import { RippleModule } from 'primeng/ripple';
 import { StyleClassModule } from 'primeng/styleclass';
 // import { Editor, EditorModule } from 'primeng/editor';
 import { Subscription } from 'rxjs';
+import { ThemeService } from '../services/theme.service'; // استيراد خدمة الثيم
+import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component'; 
 // import Quill from 'quill';
 // import { LanguageSwitcherComponent } from '../language-switcher/language-switcher.component';
 // import { TranslateModule } from '@ngx-translate/core';
@@ -25,7 +27,7 @@ import { Subscription } from 'rxjs';
     '../../../node_modules/quill/dist/quill.core.css'
   ],
   standalone:true,
-  imports:[FormsModule,RouterModule,CommonModule,SidebarModule,],
+  imports:[FormsModule,RouterModule,CommonModule,SidebarModule,ThemeToggleComponent],
   template: `<div #editorContainer></div>`
 })
 
@@ -166,8 +168,29 @@ export class MessagesComponent implements OnInit{
     }
   
     logout(): void {
-      this.authService.logout(); // استدعاء وظيفة تسجيل الخروج من الخدمة
-    }
+        // عرض نافذة تأكيد باستخدام Swal
+        Swal.fire({
+          title: 'Logout',
+          text: 'are you sure you want to logout?',
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes',
+          cancelButtonText: 'No'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // إذا ضغط المستخدم على "نعم"، قم بتسجيل الخروج
+            this.authService.logout();
+            // يمكنك إضافة رسالة نجاح إذا أردت
+            Swal.fire(
+              'Logout successfully',
+              'success'
+            );
+          }
+          // إذا ضغط على "لا"، فلن يحدث شيء ويتم إغلاق النافذة تلقائياً
+        });
+      }
     isStudentOpen = false;
     isAdminOpen = false;
     
