@@ -459,7 +459,9 @@ img:hover{
     overflow: visible;/* إخفاء المحتوى الزائد */
     transition: width 0.3s ease-in-out; /* تأثير لطيف عند الفتح */
   }
- 
+  #head{
+    left:0%
+  }
 
   #sidebar:hover {
     width: 180px; /* تكبيره عند التمرير */
@@ -490,6 +492,7 @@ img:hover{
   .header {
     justify-content: space-between;
     text-align: center;
+
   }
 
   .menu-btn {

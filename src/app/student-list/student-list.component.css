@@ -165,7 +165,7 @@ body {
     
   #page-content-wrapper {
       width: 100%;
-      margin-left: 30px;
+      margin: 30px;
       transition: margin-left 0.3s ease-in-out;
     }
   
@@ -535,6 +535,9 @@ body {
     overflow: visible;/* إخفاء المحتوى الزائد */
     transition: width 0.3s ease-in-out; /* تأثير لطيف عند الفتح */
   }
+  #head{
+    left:0%
+  }
   #sort{
     width: 78px;
     height: 47px;
@@ -609,6 +612,7 @@ body {
   .header {
     justify-content: space-between;
     text-align: center;
+
   }
   .fa-magnifying-glass::before{
     position: relative;

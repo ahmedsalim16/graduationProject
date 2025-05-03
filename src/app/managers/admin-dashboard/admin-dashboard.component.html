@@ -41,7 +41,7 @@
               
               <div class="submenu" [ngClass]="{'submenu-open': isSchoolOpen}">
                 <a routerLink="/school-list" routerLinkActive="active-link">Schools</a>
-                <a routerLink="/add-owner" routerLinkActive="active-link">Add Managers</a>
+                <a routerLink="/Managers" routerLinkActive="active-link">Managers</a>
               </div>
             </div>
             
@@ -144,17 +144,17 @@
        <div class="user">
         <div class="i" style="background-color: #C1EAF2;"><i class="fa-solid fa-dollar-sign" style="color: #ffffff;"></i></div> 
         <div class="user2">
-            <h5>Earning</h5>
-            <h1>$10,000</h1>
+            <h5>Developers</h5>
+            <h1>{{developers}}</h1>
         </div>
        </div>
-       <div class="user">
+       <!-- <div class="user">
        <div class="i" style="background-color:#5CC2F2;"><i class="fa-solid fa-utensils" style="color: #ffffff;"></i></div> 
         <div class="user2">
             <h5>Foods</h5>
             <h1>32K</h1>
         </div>
-       </div>
+       </div> -->
       </div>
 
       <div class="container">
@@ -172,3 +172,36 @@
 
 </div>     
 
+<style>
+  .chart-loader {
+position: relative;
+height: 400px; /* يجب أن يتطابق مع ارتفاع الرسم البياني */
+display: flex;
+justify-content: center;
+align-items: center;
+background-color: rgba(255, 255, 255, 0.8);
+}
+
+.loader-content {
+text-align: center;
+}
+
+.spinner {
+border: 5px solid #f3f3f3;
+border-top: 5px solid #3498db;
+border-radius: 50%;
+width: 50px;
+height: 50px;
+animation: spin 1s linear infinite;
+margin: 0 auto 15px;
+}
+
+@keyframes spin {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
+
+.hidden {
+display: none;
+}
+</style>

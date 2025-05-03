@@ -102,6 +102,7 @@ body {
   #page-content-wrapper {
     width: 100%;
       margin-left: 30px;
+      background-color: #f0f2f5;
       transition: margin-left 0.3s ease-in-out;
   }
   
@@ -423,7 +424,9 @@ button:active {
     transition: width 0.3s ease-in-out; /* تأثير لطيف عند الفتح */
   }
 
-
+  #head{
+    left:0%
+  }
   #sidebar:hover {
     width: 180px; /* تكبيره عند التمرير */
   }
@@ -453,6 +456,7 @@ button:active {
   .header {
     justify-content: space-between;
     text-align: center;
+
   }
 
   .menu-btn {

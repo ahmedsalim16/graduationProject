@@ -1,0 +1,265 @@
+<div class="d-flex">
+    <!-- Sidebar -->
+   <div class="sidebar-container">
+     <p-sidebar [(visible)]="sidebarVisible" [showCloseIcon]="true" [baseZIndex]="1000" styleClass="custom-sidebar" [modal]="false" position="left">
+       <ng-template pTemplate="content">
+         <div class="flex flex-column h-full">
+           <!-- Logo and School Name -->
+           <div class="logo-container p-3">
+             <div class="flex align-items-center" style="display: flex;flex-direction: column;">
+               <i class="fa-solid fa-graduation-cap animated-icon mr-2" style="color: #666; cursor: pointer;font-size: xx-large;"  [routerLink]="['/dashboard']"></i>
+               <div class="flex flex-column">
+                 <span class="logo-text font-bold">SMART</span>
+                 <span class="logo-text">TRACK</span>
+               </div>
+             </div>
+           </div>
+           
+           <!-- Navigation Menu -->
+           <div class="menu-container overflow-y-auto">
+             <div class="menu-section">
+               <div class="menu-header">
+                 <span>القائمة</span>
+                 
+               </div>
+               
+                <!-- Dashboard -->
+                <div class="menu-item">
+                 <a routerLink="/dashboard" routerLinkActive="active-link">
+                   <i class="pi pi-home"></i>
+                   <span>Dashboard</span>
+                 </a>
+               </div>
+               
+               <!-- Schools -->
+               <div class="menu-item">
+                 <a (click)="toggleDropdown('school')" class="has-submenu">
+                   <i class="pi pi-building-columns"></i>
+                   <span>Schools</span>
+                   <i class="pi pi-chevron-down submenu-icon" [ngClass]="{'rotate-180': isSchoolOpen}"></i>
+                 </a>
+                 
+                 <div class="submenu" [ngClass]="{'submenu-open': isSchoolOpen}">
+                   <a routerLink="/school-list" routerLinkActive="active-link">Schools</a>
+                   <a routerLink="/Managers" routerLinkActive="active-link">Managers</a>
+                 </div>
+               </div>
+               
+    
+               
+               <!-- Developers -->
+               <div class="menu-item">
+                 <a routerLink="/developers" routerLinkActive="active-link">
+                   <i class="pi pi-user-edit"></i>
+                   <span>Developers</span>
+                 </a>
+               </div>
+             
+               
+              
+             </div>
+           </div>
+           
+           <!-- Profile & Logout Section -->
+           <div class="mt-auto">
+             <hr class="mb-3 mx-3 border-top-1 border-none surface-border" />
+             <a pRipple class="m-3 flex align-items-center cursor-pointer p-3 gap-2 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple" style="text-decoration: none;color:#666">
+               <img class="profile-img" src="../../assets/man.png" alt="Profile">
+               <span class="font-bold">{{adminName}}</span>
+             </a>
+             <div class="menu-item logout m-3">
+               <a (click)="logout()">
+                 <i class="fa-solid fa-right-from-bracket" style="color: #d21919;"></i>
+                 <span>Logout</span>
+               </a>
+               <app-theme-toggle class="d-block text-end my-2"></app-theme-toggle>
+             </div>
+           </div>
+         </div>
+       </ng-template>
+     </p-sidebar>
+     
+     <!-- Toggle Sidebar Button - Only shown when sidebar is hidden -->
+     <button *ngIf="!sidebarVisible" 
+             pButton class="p-button-rounded p-button-text sidebar-toggle" 
+             icon="pi pi-bars" 
+             (click)="toggleSidebar()"></button>
+   </div>
+   
+     <!-- Main Content -->
+     <div id="page-content-wrapper" class="flex-grow-1">
+       <app-theme-toggle class="d-block text-end my-2"></app-theme-toggle>
+       <div class="header d-flex justify-content-between align-items-center" 
+       style="background: linear-gradient(to right, #4b6cb7, #182848); 
+              padding: 18px 25px; 
+              border-radius: 12px; 
+              box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+              margin-bottom: 25px;">
+    <h2 id="head" style="margin: 0; 
+                        font-size: 24px; 
+                        color: white; 
+                        font-weight: 500;
+                        letter-spacing: 0.5px;
+                        text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
+      Managers
+    </h2>
+    <div style="position: relative;">
+      <img src="../../assets/man.png" 
+           alt="Profile" 
+           (click)="navigateToAdminUpdate()"
+           [routerLink]="['/admin-update',adminId]"
+           style="width: 45px; 
+                  height: 45px; 
+                  border-radius: 50%; 
+                  border: 3px solid rgba(255,255,255,0.7);
+                  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                  transition: all 0.3s ease;
+                  cursor: pointer;">
+      <span style="position: absolute; 
+                   bottom: -2px; 
+                   right: -2px; 
+                   width: 12px; 
+                   height: 12px; 
+                   background-color: #4CD964; 
+                   border-radius: 50%; 
+                   border: 2px solid white;"></span>
+      
+    </div>
+   </div>
+   
+       <div class="stud">
+        
+         
+         <div class="card">
+           <!-- PrimeNG Table -->
+           <p-table 
+             #dt 
+             [value]="admins" 
+             [rows]="itemsPerPage" 
+             [paginator]="true" 
+             [rowsPerPageOptions]="itemsPerPageOptions"
+             [globalFilterFields]="['userName', 'email', 'firstName', 'lastName', 'phoneNumber', 'gender', 'role']"
+             [loading]="loading"
+             dataKey="id"
+             styleClass="p-datatable-gridlines p-datatable-sm"
+             [tableStyle]="{ 'min-width': '75rem' }">
+             
+             <ng-template pTemplate="caption">
+               <div class="flex justify-content-between">
+                 <div>
+                   <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear()" ></button>
+                 </div>
+                 <div class="p-inputgroup">
+                   <span class="p-inputgroup-addon">
+                     <i class="pi pi-search"></i>
+                   </span>
+                   <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" placeholder="Search keyword" />
+                 </div>
+                 <div>
+                   <button pButton label="Add Manager" icon="pi pi-plus" routerLink="/add-owner"></button>
+                   <button pButton label="Download CSV" icon="pi pi-download" (click)="downloadCsvFile()" class="p-button-secondary ml-2"></button>
+                 </div>
+               </div>
+             </ng-template>
+             
+             <ng-template pTemplate="header">
+                <tr>
+                  <th>#</th>
+                  <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+                  <th pSortableColumn="userName">Username <p-sortIcon field="userName"></p-sortIcon></th>
+                  <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
+                  <th pSortableColumn="firstName">First Name <p-sortIcon field="firstName"></p-sortIcon></th>
+                  <th pSortableColumn="lastName">Last Name <p-sortIcon field="lastName"></p-sortIcon></th>
+                  <th pSortableColumn="phoneNumber">Phone <p-sortIcon field="phoneNumber"></p-sortIcon></th>
+                  <th pSortableColumn="address">Address <p-sortIcon field="address"></p-sortIcon></th>
+                  <th pSortableColumn="gender">Gender <p-sortIcon field="gender"></p-sortIcon></th>
+                  <th pSortableColumn="role">Role <p-sortIcon field="role"></p-sortIcon></th>
+                  <th pSortableColumn="schoolTenantId">School Tenant ID <p-sortIcon field="schoolTenantId"></p-sortIcon></th>
+                  <th pSortableColumn="createdOn">Created On <p-sortIcon field="createdOn"></p-sortIcon></th>
+                  <th pSortableColumn="owner">Is Owner <p-sortIcon field="owner"></p-sortIcon></th>
+                  <th>Actions</th>
+                </tr>
+                <tr>
+                  <th></th>
+                  <th>
+                    <input pInputText type="text" (input)="onFilterChange($event, 'id', 'contains')" placeholder="Search ID" class="w-full" />
+                  </th>
+                  <th>
+                    <input pInputText type="text" (input)="onFilterChange($event, 'userName', 'contains')" placeholder="Search username" class="w-full" />
+                  </th>
+                  <th>
+                    <input pInputText type="text" (input)="onFilterChange($event, 'email', 'contains')" placeholder="Search email" class="w-full" />
+                  </th>
+                  <th>
+                    <input pInputText type="text" (input)="onFilterChange($event, 'firstName', 'contains')" placeholder="Search first name" class="w-full" />
+                  </th>
+                  <th>
+                    <input pInputText type="text" (input)="onFilterChange($event, 'lastName', 'contains')" placeholder="Search last name" class="w-full" />
+                  </th>
+                  <th>
+                    <input pInputText type="text" (input)="onFilterChange($event, 'phoneNumber', 'contains')" placeholder="Search phone" class="w-full" />
+                  </th>
+                  <th>
+                    <input pInputText type="text" (input)="onFilterChange($event, 'address', 'contains')" placeholder="Search address" class="w-full" />
+                  </th>
+                  <th>
+                    <input pInputText type="text" (input)="onFilterChange($event, 'gender', 'contains')" placeholder="Search gender" class="w-full" />
+                  </th>
+                  <th></th>
+                  <th>
+                    <input pInputText type="text" (input)="onFilterChange($event, 'schoolTenantId', 'contains')" placeholder="Search School Tenant ID" class="w-full" />
+                  </th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </ng-template>
+              
+              <ng-template pTemplate="body" let-admin let-i="rowIndex">
+                <tr>
+                  <td>{{i + 1}}</td>
+                  <td>{{admin.id}}</td>
+                  <td>{{admin.userName}}</td>
+                  <td>{{admin.email}}</td>
+                  <td>{{admin.firstName}}</td>
+                  <td>{{admin.lastName}}</td>
+                  <td>{{admin.phoneNumber}}</td>
+                  <td>{{admin.address}}</td>
+                  <td>
+                    <p-tag [value]="getGenderText(admin.gender)" 
+                           [severity]="getGenderSeverity(admin.gender)"></p-tag>
+                  </td>
+                  <td>
+                    <p-tag [value]="admin.role" 
+                           [severity]="getRoleSeverity(admin.role)"></p-tag>
+                  </td>
+                  <td>{{admin.schoolTenantId}}</td>
+                  <td>{{admin.createdOn ? (admin.createdOn | date: 'yyyy-MM-dd') : 'N/A'}}</td>
+                  <td>{{admin.owner}}</td>
+                  <td>
+                    <div class="flex gap-2">
+                      <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-sm"
+                         
+                        (click)="delete(admin.id)"
+                        title="Delete"></button>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+             
+             <ng-template pTemplate="emptymessage">
+               <tr>
+                 <td colspan="13" class="text-center">No developers found.</td>
+               </tr>
+             </ng-template>
+             
+             <ng-template pTemplate="summary">
+               <div class="flex justify-content-between">
+                 Total Records: {{admins ? admins.length : 0}}
+               </div>
+             </ng-template>
+           </p-table>
+         </div>
+       </div>
+     </div>
+   </div>

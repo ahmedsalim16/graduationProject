@@ -37,6 +37,7 @@ export class AdminDashboardComponent {
     this.getSchoolsByMonth();
     this.getManagersCount();
      this.getSchoolCount();
+     this.filterAdmins(); // استدعاء دالة تصفية الأدمنين
     this.adminId = this.authService.getAdminId(); // الحصول على ID الأدمن
     console.log('Admin ID:', this.adminId);
   }
@@ -104,6 +105,39 @@ export class AdminDashboardComponent {
   //     }
   //   );
   // }
+  admins: any[] = [];
+  loading: boolean = true;
+  developers: number = 0;
+
+  filterAdmins(): void {
+    this.loading = true;
+    const filters = {
+      role: 'Admin',
+      pageNumber: this.pageNumber,
+      pageSize: this.pagesize,
+    };
+
+    this.shared.filterAdmins(filters).subscribe(
+      (response: any) => {
+        if (response && response.result) {
+          this.admins = response.result.filter((user: any) => 
+            user.schoolTenantId === localStorage.getItem('schoolTenantId')
+          );
+          this.developers = this.admins.length; // Set the developers variable
+        } else {
+          this.admins = [];
+          this.developers = 0; // Set to 0 if no admins found
+        }
+        this.loading = false;
+      },
+      (err) => {
+        console.error('Error while filtering admins:', err);
+        this.admins = [];
+        this.developers = 0; // Set to 0 in case of error
+        this.loading = false;
+      }
+    );
+  }
 
   getSchoolsByMonth(): void {
     const filters = {

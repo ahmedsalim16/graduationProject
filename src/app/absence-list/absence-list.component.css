@@ -510,7 +510,9 @@ body {
     height: none;
     left: 7px;
  } */
-
+ #head{
+  left:0%
+}
   #sidebar:hover {
     width: 180px; /* تكبيره عند التمرير */
   }
@@ -538,6 +540,7 @@ body {
   .header {
     justify-content: space-between;
     text-align: center;
+
   }
   .fa-magnifying-glass::before{
     position: relative;

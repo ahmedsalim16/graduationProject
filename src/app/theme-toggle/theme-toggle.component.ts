@@ -34,6 +34,17 @@ import { ButtonModule } from 'primeng/button';
     :host-context(.custom-sidebar) ::ng-deep .p-button.p-button-text {
       color: var(--sidebar-text) !important;
     }
+    @media (max-width: 768px) {
+      .theme-toggle-btn {
+      width: 2rem;
+      height: 2rem;
+      margin-left:750px;
+      }
+
+      .theme-toggle-btn:hover {
+      transform: none;
+      }
+    }
   `]
 })
 export class ThemeToggleComponent {

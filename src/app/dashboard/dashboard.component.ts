@@ -29,6 +29,7 @@ export class DashboardComponent implements OnInit {
   role: string | null = null;
   parentCount:number=0;
   foods:number=0;
+  Encome:number=0;
   constructor(public shared: SharedService,public authService:AuthService,private router: Router) {}
 
   ngOnInit(): void {
@@ -36,6 +37,7 @@ export class DashboardComponent implements OnInit {
     this.getTotalStudentCount();
     this.getParentCount();
     this.getFoods();
+    this.getEncome(); // الحصول على الدخل اليومي
     // الحصول على عدد الطلاب حسب الجنس
     this.getStudentCountByGender(0); // طلاب ذكور
     this.getStudentCountByGender(1); // طالبات إناث
@@ -53,6 +55,24 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
+  getEncome(): void {
+    this.shared.getDailyEncome().subscribe(
+      (response: any) => {
+        if (response && response.result) {
+          this.Encome = response.result.totalSalesMoney; // Set the Encome variable to the daily income value
+          console.log('Daily Encome:', this.Encome);
+        } else {
+          console.error('No data found or invalid response format.');
+          this.Encome = 0; // Default to 0 if no data is found
+        }
+      },
+      (err) => {
+        console.error('Error while fetching daily income:', err);
+        this.Encome = 0; // Default to 0 in case of an error
+      }
+    );
+  }
+
   getFoods() {
     
     this.shared.getstock().subscribe(

@@ -314,6 +314,29 @@ body {
 
 }
 
+/* 
+@media (max-width :1024px){
+  .container{
+      width: max-content;
+      height: max-content;
+     
+      position: static;
+    }
+}
+@media (max-width :768px){
+  .container{
+      width: max-content;
+      height: max-content;
+      margin-left: 24px;
+      position: static;
+    }
+}
+@media (max-width: 480px) {
+  .container{
+      margin-left: 253px;
+  }
+} */
+
 /* تحسينات عامة */
 
 
@@ -481,30 +504,16 @@ body {
 .sidebar-toggle:hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
-@media (max-width :1024px){
+
+
+
+@media (max-width:1024px){
   .container{
       width: max-content;
       height: max-content;
      
       position: static;
     }
-}
-@media (max-width :768px){
-  .container{
-      width: max-content;
-      height: max-content;
-      margin-left: 24px;
-      position: static;
-    }
-}
-@media (max-width: 480px) {
-  /* .container{
-      margin-left: 253px;
-  } */
-}
-
-
-@media (max-width:1024px){
   .i{
     position: relative;
     left: -3px;
@@ -512,6 +521,13 @@ body {
 }
 
 @media (max-width: 768px) {
+  .container{
+      width: max-content;
+      height: max-content;
+      margin-left: 24px;
+      position: static;
+    }
+  
   #sidebar {
     width: max-content;
     height: 200vh; /* تقليل العرض */
@@ -520,7 +536,9 @@ body {
     overflow: visible;/* إخفاء المحتوى الزائد */
     transition: width 0.3s ease-in-out; /* تأثير لطيف عند الفتح */
   }
- 
+  #head{
+    left:0%
+  }
 
   #sidebar:hover {
     width: 180px; /* تكبيره عند التمرير */
@@ -565,21 +583,21 @@ body {
     flex-direction: column;
     align-items: center;
     margin-left: 0; /* إزالة الهوامش */
-}
+ }
 
-/* جعل ال Chart والتقويم تحت بعض */
-.chart-container,
-.calendar-container {
-    width: 100%; /* جعلهم يأخذون العرض بالكامل */
-    margin-bottom: 20px; /* إضافة تباعد بينهم */
-}
+  /* جعل ال Chart والتقويم تحت بعض */
+  .chart-container,
+  .calendar-container {
+      width: 100%; /* جعلهم يأخذون العرض بالكامل */
+      margin-bottom: 20px; /* إضافة تباعد بينهم */
+  }
 
-/* التأكد من أن القائمة الجانبية لا تعيق العناصر */
+  /* التأكد من أن القائمة الجانبية لا تعيق العناصر */
 
 
-#sidebar:hover {
-    width: 180px;
-}
+  #sidebar:hover {
+      width: 180px;
+  }
 
   #page-content-wrapper.full-width {
     margin-left: 0;
@@ -588,7 +606,10 @@ body {
   .header {
     justify-content: space-between;
     text-align: center;
+    width: 160%;
+    margin-left: 260px;
   }
+  
 
   .menu-btn {
     display: block;

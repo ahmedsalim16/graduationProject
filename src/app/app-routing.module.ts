@@ -26,6 +26,7 @@ import { AdminDashboardComponent } from './managers/admin-dashboard/admin-dashbo
 import { ParentListComponent } from './parent-list/parent-list.component';
 import { AddDeveloperComponent } from './managers/add-developer/add-developer.component';
 import { DevelopersComponent } from './managers/developers/developers.component';
+import { ManagersListComponent } from './managers/managers-list/managers-list.component';
 
 const routes: Routes = [
 { path: '', redirectTo:'/welcome',pathMatch:'full' },
@@ -52,6 +53,7 @@ const routes: Routes = [
 { path: 'add-owner', component: AddOwnerComponent ,canActivate: [AuthGuard]},
 { path: 'add-developer', component: AddDeveloperComponent ,canActivate: [AuthGuard]},
 { path: 'developers', component: DevelopersComponent ,canActivate: [AuthGuard]},
+{ path: 'Managers', component: ManagersListComponent ,canActivate: [AuthGuard]},
 { path: 'csv-file',component:CsvFileComponent},
 { path: '**', component:NotfoundComponent }
 ];

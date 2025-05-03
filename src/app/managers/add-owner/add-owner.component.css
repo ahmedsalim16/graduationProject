@@ -97,7 +97,8 @@
     
   #page-content-wrapper {
       width: 100%;
-      margin-left: 30px;
+      margin: 30px;
+      background-color: #f0f2f5;
       transition: margin-left 0.3s ease-in-out;
     }
   
@@ -407,7 +408,9 @@ img:hover{
     transition: width 0.3s ease-in-out; /* تأثير لطيف عند الفتح */
   }
  
-
+  #head{
+    left:0%
+  }
   #sidebar:hover {
     width: 180px; /* تكبيره عند التمرير */
   }
@@ -437,6 +440,7 @@ img:hover{
   .header {
     justify-content: space-between;
     text-align: center;
+
   }
 
   .menu-btn {

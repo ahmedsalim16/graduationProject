@@ -212,6 +212,9 @@ export class SharedService {
 getstock(){
 return this.http.get("https://school-api.runasp.net/api/Canteen/Product/GetAll")
 }
+getDailyEncome(){
+  return this.http.get("https://school-api.runasp.net/api/Canteen/Product/GetCurrentSalesInfo")
+}
 
 
   // search(search:string){
