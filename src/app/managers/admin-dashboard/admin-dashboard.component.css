@@ -286,30 +286,28 @@ body {
   visibility: visible;
   opacity: 1;
 }
-#main{
-    
-  width: 571px;
-  height: 356px;
-  
- 
-  
+#main {
+  width: 100% !important;
+  height: auto !important;
+  min-height: 300px;
+  max-width: 100%;
+  margin: 0 auto;
+  position: relative;
+  will-change: transform; /* تحسين الأداء */
 }
 
 .container{
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0px;
-  width: 572px;
-  height: 412px;
+  background-color: var(--table-row-hover);
+  width: 100% !important; /* افتراضيًا 100% للهواتف */
   position: relative;
-  top: 0vh;
-  left: -24vw;
-  border-radius:  8px;
-  border: .81px;
+  max-width: 100%;
+  height: auto !important;
+  margin: 40px auto !important;
+  padding: 15px !important;
+  border-radius: 8px;
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
-  0 10px 10px rgba(0,0,0,0.22);
+            0 10px 10px rgba(0,0,0,0.22);
+  overflow: hidden;
   
 
 }
@@ -519,14 +517,37 @@ body {
     left: -3px;
   }
 }
-
+@media (min-width: 768px) {
+  .container {
+    width: 45% !important; /* 45% لأجهزة الكمبيوتر */
+    right: 420px; /* يمكنك تعديل هذا حسب احتياجاتك */
+  }
+}
 @media (max-width: 768px) {
-  .container{
-      width: max-content;
-      height: max-content;
-      margin-left: 24px;
-      position: static;
-    }
+  #main {
+    height: 300px !important;
+    min-height: 300px;
+  }
+  
+  .container {
+    padding: 10px !important;
+    width: 100% !important; /* 100% للهواتف */
+    right: auto; /* إزالة الخاصية right */
+    margin-left: 0;
+    margin-right: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  
+  /* تعديلات خاصة بالثيم المظلم */
+  .dark-theme .container {
+    background-color: var(--card-bg);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+  
+  
+  .user {
+    margin: 10px 5px;
+  }
   
   #sidebar {
     width: max-content;
@@ -557,14 +578,12 @@ body {
     
   }
   .stud{
-    display: flex;
-    justify-content: space-between;
-    border-radius: 12px;
-    width: max-content;
-    position: relative;
-    height: 153px;
-    left: 2%;
-    top: -77px;
+    width: 95% !important;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    height: auto !important;
+    left: 2.5% !important;
+    padding: 15px 5px;
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     
   }
@@ -606,8 +625,8 @@ body {
   .header {
     justify-content: space-between;
     text-align: center;
-    width: 160%;
-    margin-left: 260px;
+    width: 100%;
+    
   }
   
 
@@ -639,18 +658,26 @@ body {
 }
 
 @media (max-width: 480px) {
-  .stud{
-    display: flex;
-    justify-content: space-between;
-    border-radius: 12px;
-    width: max-content;
-    position: relative;
-    height: 153px;
-    left: 39%;
-    top: -77px;
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  .stud {
+    left: 36%;
+    /* Reset the strange positioning */
   }
   .user{
     padding:5px
+  }
+  #main {
+    height: 250px !important;
+    min-height: 250px;
+  }
+  
+  .container {
+    margin: 5px auto !important;
+    padding: 8px !important;
+  }
+  
+  /* إخفاء بعض عناصر الـ Chart على الشاشات الصغيرة */
+  :host ::ng-deep .echarts-tooltip {
+    max-width: 90% !important;
+    font-size: 10px !important;
   }
 }

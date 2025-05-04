@@ -9,7 +9,7 @@
 }
 
 .container{
-    background-color: #fff;
+    background-color: var(--table-row-hover);
     display: flex;
     flex-direction: column;
     align-items: center;

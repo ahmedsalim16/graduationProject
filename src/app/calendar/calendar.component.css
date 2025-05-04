@@ -29,7 +29,7 @@
     bottom: 455px;
     left: 319px;
     
-    background-color: #fff;
+    background-color: var(--table-row-hover);
     border-radius:  8px;
     border: .81px;
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 

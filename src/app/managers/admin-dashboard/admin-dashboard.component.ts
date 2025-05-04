@@ -369,67 +369,149 @@ updateChart(): void {
   if (!this.myChart) {
     const chartDom = document.getElementById('main');
     if (chartDom) {
-      this.myChart = echarts.init(chartDom);
+      this.myChart = echarts.init(chartDom, null, {
+        renderer: 'canvas',
+        devicePixelRatio: window.devicePixelRatio > 1 ? 2 : 1 // تحسين الدقة للشاشات عالية الدقة
+      });
     } else {
       console.error('عنصر الرسم البياني غير موجود');
       return;
     }
   }
 
+  const isMobile = window.innerWidth < 768;
+  
   const option: EChartsOption = {
     title: {
       text: 'Number of Schools',
-      subtext: 'Over Month'
+      subtext: 'Over Month',
+      textStyle: {
+        fontSize: isMobile ? 12 : 14
+      }
     },
     tooltip: {
-      trigger: 'axis'
+      trigger: 'axis',
+      confine: true, // منع الخروج عن حدود الشاشة
+      textStyle: {
+        fontSize: isMobile ? 10 : 12
+      }
     },
     legend: {
-      data: ['Schools']
+      data: ['Schools'],
+      bottom: isMobile ? 10 : 0, // تعديل موقع الأسطورة
+      textStyle: {
+        fontSize: isMobile ? 10 : 12
+      }
     },
     toolbox: {
       show: true,
+      orient: isMobile ? 'horizontal' : 'vertical', // اتجاه الأدوات حسب حجم الشاشة
+      itemSize: isMobile ? 14 : 16,
       feature: {
-        dataView: { show: true, readOnly: false },
-        magicType: { show: true, type: ['line', 'bar'] },
+        dataView: { 
+          show: true, 
+          readOnly: false,
+          optionToContent: this.dataViewFormatter // تنسيق عرض البيانات
+        },
+        magicType: { 
+          show: true, 
+          type: ['line', 'bar'],
+          title: {
+            line: 'Line',
+            bar: 'Bar'
+          }
+        },
         restore: { 
           show: true,
+          title: 'Refresh'
         },
-        saveAsImage: { show: true }
-      }
-    },
-    calculable: true,
-    xAxis: {
-      type: 'category',
-      data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-    },
-    yAxis: {
-      type: 'value'
-    },
-    series: [
-      {
-        name: 'Schools',
-        type: 'bar',
-        data: [...this.schoolCountsByMonth], 
-        markPoint: {
-          data: [
-            { type: 'max', name: 'Max' },
-            { type: 'min', name: 'Min' }
-          ]
-        },
-        markLine: {
-          data: [{ type: 'average', name: 'Avg' }]
+        saveAsImage: { 
+          show: true,
+          title: 'Save',
+          pixelRatio: 2
         }
       }
-    ]
+    },
+    grid: {
+      left: isMobile ? '3%' : '5%',
+      right: isMobile ? '4%' : '5%',
+      bottom: isMobile ? '20%' : '15%',
+      top: isMobile ? '15%' : '20%',
+      containLabel: true
+    },
+    xAxis: {
+      type: 'category',
+      data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      axisLabel: {
+        rotate: isMobile ? 45 : 0, // تدوير التسميات على الهواتف
+        interval: 0, // عرض جميع التسميات
+        fontSize: isMobile ? 9 : 11,
+        margin: isMobile ? 5 : 10
+      }
+    },
+    yAxis: {
+      type: 'value',
+      axisLabel: {
+        fontSize: isMobile ? 9 : 11
+      }
+    },
+    series: [{
+      name: 'Schools',
+      type: 'bar',
+      data: [...this.schoolCountsByMonth],
+      barWidth: isMobile ? '40%' : '60%', // تعديل عرض الأعمدة
+      itemStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          { offset: 0, color: '#83bff6' },
+          { offset: 0.5, color: '#188df0' },
+          { offset: 1, color: '#188df0' }
+        ])
+      },
+      label: {
+        show: isMobile ? false : true, // إخفاء التسميات على الهواتف
+        position: 'top'
+      }
+    }],
+    animation: true,
+    animationDuration: 1000,
+    animationEasing: 'cubicOut'
   };
 
   try {
-    this.myChart.setOption(option, { notMerge: true });
+    this.myChart.setOption(option, { 
+      notMerge: true,
+      lazyUpdate: true // تحسين الأداء
+    });
+    
+    // إعادة حجم الـ Chart عند تغيير حجم النافذة
+    window.addEventListener('resize', () => {
+      setTimeout(() => this.myChart.resize(), 200);
+    });
+    
     console.log('تم تحديث رسم المدارس بنجاح');
   } catch (error) {
     console.error('خطأ في تحديث الرسم البياني:', error);
   }
+}
+
+// دالة مساعدة لتنسيق عرض البيانات
+private dataViewFormatter(opt: any): string {
+  const axisData = opt.xAxis[0].data;
+  const seriesData = opt.series[0].data;
+  
+  let html = '<div style="font-family: sans-serif; font-size: 12px; padding: 10px">';
+  html += '<table style="width:100%; border-collapse:collapse">';
+  html += '<tr><th style="padding:5px; border:1px solid #ddd">Month</th><th style="padding:5px; border:1px solid #ddd">Schools</th></tr>';
+  
+  for (let i = 0; i < axisData.length; i++) {
+    html += `<tr>
+      <td style="padding:5px; border:1px solid #ddd">${axisData[i]}</td>
+      <td style="padding:5px; border:1px solid #ddd">${seriesData[i]}</td>
+    </tr>`;
+  }
+  
+  html += '</table></div>';
+  return html;
 }
   isSchoolOpen = false;
 isAdminOpen = false;
