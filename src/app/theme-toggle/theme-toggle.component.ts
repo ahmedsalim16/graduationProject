@@ -25,9 +25,20 @@ import { ButtonModule } from 'primeng/button';
     .theme-toggle-btn:hover {
       transform: rotate(15deg);
     }
-    
+    body.dark-theme .theme-toggle-btn {
+    color: var(--text-color);
+    background-color: var(--primary-color);
+    border-radius: 5px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  body.dark-theme .theme-toggle-btn:hover {
+    background-color: var(--secondary-color);
+  }
     :host ::ng-deep .p-button.p-button-text {
-      color: var(--text-color);
+      color: var(--table-header-text);
     }
     
     /* Adjustments for sidebar placement */

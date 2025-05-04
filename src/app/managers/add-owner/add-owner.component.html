@@ -124,11 +124,7 @@
                        background-color: #4CD964; 
                        border-radius: 50%; 
                        border: 2px solid white;"></span>
-          <span style="position: absolute;
-                       right: -90px;
-                       color: white;
-                       font-size: 14px;
-                       font-weight: 500;">{{adminName}}</span>
+         
         </div>
       </div>
     
@@ -254,7 +250,7 @@
                           font-size: 14px;
                           margin-bottom: 8px;
                           display: block;">
-              <i class="pi pi-building" style="margin-right: 5px; color: #4b6cb7;"></i> School
+              <i class="pi pi-building" style="margin-right: 5px; color: #4b6cb7; cursor:pointer" (click)="refreshSchoolNames()"></i> School
             </label>
             <p-dropdown [options]="schoolOptions"
                        [(ngModel)]="admin.schoolTenantId"

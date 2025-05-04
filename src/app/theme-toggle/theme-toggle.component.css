@@ -77,3 +77,16 @@
   .theme-toggle-btn {
     border: 1px solid red; /* للتأكد من ظهوره */
   }
+  
+  body.dark-theme .theme-toggle-btn {
+    color: var(--text-color);
+    background-color: var(--primary-color);
+    border-radius: 5px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  body.dark-theme .theme-toggle-btn:hover {
+    background-color: var(--secondary-color);
+  }

@@ -130,6 +130,11 @@ export class AddOwnerComponent implements OnInit {
     );
   }
 
+  refreshSchoolNames(): void {
+    this.schoolOptions = []; // Clear the current options
+    this.getSchoolNames(); // Re-fetch the school names
+  }
+
   // باقي الدوال (logout, toggleDropdown, toggleSidebar) تبقى كما هي
   // ...
 
