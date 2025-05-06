@@ -84,91 +84,99 @@
           icon="pi pi-bars" 
           (click)="toggleSidebar()"></button>
 </div>
-    <!-- Main Content -->
-    <div id="page-content-wrapper" class="flex-grow-1">
-      <app-theme-toggle class="d-block text-end my-2"></app-theme-toggle>
-      <div class="header d-flex justify-content-between align-items-center" 
-      style="background: linear-gradient(to right, #4b6cb7, #182848); 
-             padding: 18px 25px; 
-             border-radius: 12px; 
-             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-             margin-bottom: 25px;
-             margin-top: 60px;">
-   <h2 id="head" style="margin: 0; 
-                       font-size: 24px; 
-                       color: white; 
-                       font-weight: 500;
-                       letter-spacing: 0.5px;
-                       text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
-     Welcome {{adminName}}
-   </h2>
-   <div style="position: relative;">
-     <img src="../../assets/man.png" 
-          alt="Profile" 
-          (click)="navigateToAdminUpdate()"
-          [routerLink]="['/admin-update',adminId]"
-          style="width: 45px; 
-                 height: 45px; 
-                 border-radius: 50%; 
-                 border: 3px solid rgba(255,255,255,0.7);
-                 box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-                 transition: all 0.3s ease;
-                 cursor: pointer;">
-     <span style="position: absolute; 
-                  bottom: -2px; 
-                  right: -2px; 
-                  width: 12px; 
-                  height: 12px; 
-                  background-color: #4CD964; 
-                  border-radius: 50%; 
-                  border: 2px solid white;"></span>
-     
-   </div>
- </div>
+   <!-- Main Content -->
+<div id="page-content-wrapper" class="flex-grow-1">
+  <app-theme-toggle class="d-block text-end my-2"></app-theme-toggle>
+  <div class="header d-flex justify-content-between align-items-center" 
+  style="background: linear-gradient(to right, #4b6cb7, #182848); 
+         padding: 18px 25px; 
+         border-radius: 12px; 
+         box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+         margin-bottom: 25px;
+         margin-top: 60px;">
+    <h2 id="head" style="margin: 0; 
+                   font-size: 24px; 
+                   color: white; 
+                   font-weight: 500;
+                   letter-spacing: 0.5px;
+                   text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
+      Welcome {{adminName}}
+    </h2>
+    <div style="position: relative;">
+      <img src="../../assets/man.png" 
+       alt="Profile" 
+       (click)="navigateToAdminUpdate()"
+       [routerLink]="['/admin-update',adminId]"
+       style="width: 45px; 
+              height: 45px; 
+              border-radius: 50%; 
+              border: 3px solid rgba(255,255,255,0.7);
+              box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+              transition: all 0.3s ease;
+              cursor: pointer;">
+      <span style="position: absolute; 
+               bottom: -2px; 
+               right: -2px; 
+               width: 12px; 
+               height: 12px; 
+               background-color: #4CD964; 
+               border-radius: 50%; 
+               border: 2px solid white;"></span>
+    </div>
+  </div>
 
-      <div class="stud">
-       <div class="user">
-        <div class="i"><i class="fa-solid fa-user-tie" style="color: #ffffff;"></i></div> 
-        <div class="user2">
-            <h5>Schools</h5>
-            <h1>{{count}}</h1>
-        </div>
-       </div>
-       <div class="user" >
-        <div class="i" style="background-color: #D9D9D9;"><i class="fa-solid fa-user-group" style="color: #ffffff;"></i></div> 
-        <div class="user2">
-            <h5>Managers</h5>
-            <h1>{{ManagerCount}}</h1>
-        </div>
-       </div>
-       <div class="user">
-        <div class="i" style="background-color: #C1EAF2;"><i class="fa-solid fa-dollar-sign" style="color: #ffffff;"></i></div> 
-        <div class="user2">
-            <h5>Developers</h5>
-            <h1>{{developers}}</h1>
-        </div>
-       </div>
-       <!-- <div class="user">
-       <div class="i" style="background-color:#5CC2F2;"><i class="fa-solid fa-utensils" style="color: #ffffff;"></i></div> 
-        <div class="user2">
-            <h5>Foods</h5>
-            <h1>32K</h1>
-        </div>
-       </div> -->
+  <div class="stud">
+    <div class="user">
+      <div class="i"><i class="fa-solid fa-user-tie" style="color: #ffffff;"></i></div> 
+      <div class="user2">
+          <h5>Schools</h5>
+          <h1>{{count}}</h1>
       </div>
+    </div>
+    <div class="user" >
+      <div class="i" style="background-color: #D9D9D9;"><i class="fa-solid fa-user-group" style="color: #ffffff;"></i></div> 
+      <div class="user2">
+          <h5>Managers</h5>
+          <h1>{{ManagerCount}}</h1>
+      </div>
+    </div>
+    <div class="user">
+      <div class="i" style="background-color: #C1EAF2;"><i class="pi pi-user-edit" style="color: #ffffff;"></i></div> 
+      <div class="user2">
+          <h5>Developers</h5>
+          <h1>{{developers}}</h1>
+      </div>
+    </div>
+  </div>
 
-      <div class="container">
-
-        <div id="main" style="width: 100%; height: 500px; position: relative;" [class.loaded]="!isChartLoading">
-          <div *ngIf="isChartLoading" class="chart-loader-overlay">
-            <div class="chart-loader">
-              <i class="pi pi-spinner pi-spin" style="font-size: 2rem; color: #4b6cb7;"></i>
-              <p>Loading chart data...</p>
-            </div>
+  <div class="charts-container">
+    <!-- Line/Bar Chart -->
+    <div class="chart-box">
+      <div id="main" style="width: 100%; height: 500px; position: relative;" [class.loaded]="!isChartLoading">
+        <div *ngIf="isChartLoading" class="chart-loader-overlay">
+          <div class="chart-loader">
+            <i class="pi pi-spinner pi-spin" style="font-size: 2rem; color: #4b6cb7;"></i>
+            <p>Loading chart data...</p>
           </div>
         </div>
+      </div>
     </div>
-    <app-calendar style="height: 48px; display: block;"></app-calendar>
+
+    <!-- Pie Chart -->
+    <div class="chart-box">
+      <div id="pieChart" style="width: 100%; height: 500px; position: relative;" [class.loaded]="!isPieChartLoading">
+        <div *ngIf="isPieChartLoading" class="chart-loader-overlay">
+          <div class="chart-loader">
+            <i class="pi pi-spinner pi-spin" style="font-size: 2rem; color: #4b6cb7;"></i>
+            <p>Loading pie chart data...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <app-calendar style="height: 48px; display: block;"></app-calendar>
+</div>
 
 </div>     
 

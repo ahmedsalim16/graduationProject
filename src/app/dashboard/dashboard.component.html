@@ -167,8 +167,22 @@
         </div>
        </div>
       </div>
-
-     <app-chart></app-chart>
+      <div class="charts-container">
+        <!-- Other chart component -->
+        <app-chart></app-chart>
+        
+        <!-- Pie Chart with improved loading state -->
+        <div class="chart-box">
+          <div id="pieChart" style="width: 100%; height: 400px; position: relative;">
+            <div *ngIf="isPieChartLoading" class="chart-loader-overlay" [ngClass]="{'dark-loader': isDarkTheme}">
+              <div class="chart-loader">
+                <i class="pi pi-spinner pi-spin" [ngStyle]="{'font-size': '2rem', 'color': isDarkTheme ? '#4b6cb7' : '#4b6cb7'}"></i>
+                <p [ngStyle]="{'color': isDarkTheme ? '#ffffff' : '#4b6cb7'}">{{refreshInProgress ? 'Refreshing data...' : 'Loading pie chart data...'}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     <app-calendar style="height: 48px; display: block;"></app-calendar>
     
 

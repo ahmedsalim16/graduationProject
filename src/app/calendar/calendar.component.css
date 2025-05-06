@@ -1,148 +1,266 @@
+/* Responsive Calendar CSS */
+
+/* Base calendar container */
 .calendar-container {
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
-  }
-  
-  h2 {
-    text-align: center;
-  }
-  #calender, #calender *, #calender::after, #calender::before {
-    box-sizing: border-box;
-    border-radius: 30px;
-    text-decoration: none;
-   }
-   #calender table{
-    border-radius: 30px;
-   }
-
-  
-  .highlight-date .mat-calendar-body-cell-content {
-    background-color: #03A9F4 !important; /* Light blue for highlight */
-    color: white !important;
-    border-radius: 50%;
-  }
-  
-  .container{
-    width: 46%;
-    position: relative;
-    bottom: 455px;
-    left: 319px;
-    
-    background-color: var(--table-row-hover);
-    border-radius:  8px;
-    border: .81px;
-    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
-    0 10px 10px rgba(0,0,0,0.22);
-    
+  flex: 1;
+  margin: 0;
+  min-width: 0; /* Important for flexbox to allow shrinking */
 }
+
+h2 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+.container.calendar-widget {
+  width: 100% !important;
+  background-color: var(--table-row-hover);
+  border-radius: 8px;
+  padding: 15px !important;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  margin: 0 !important;
+  height: auto !important;
+}
+/* Make sure all calendar elements use border-box */
+#calender,
+#calender *,
+#calender::after,
+#calender::before {
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+/* Calendar table styling */
+#calender table {
+  border-radius: 15px;
+  width: 100%;
+}
+
+/* Calendar overall styling */
+#calender {
+  border-radius: 15px;
+  overflow: hidden;
+  width: 100%;
+  font-size: 14px;
+}
+
+/* Calendar container - replaces the absolute positioning with responsive layout */
+.container {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  background-color: var(--table-row-hover);
+  border-radius: 15px;
+  border: 0.81px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Event styling */
 .custom-event {
-  border-radius: 20px; /* Adjust the shape */
-  padding: 5px; /* Add some padding */
+  border-radius: 10px;
+  padding: 3px 5px;
+  margin: 1px 0;
+  font-size: 12px;
 }
 
- /* تغيير لون الخلفية للأحداث المهمة */
+/* Event colors */
 .event-darkblue {
   background-color: #0D47A1 !important;
   color: white !important;
-  border-radius: 50% !important;
+  border-radius: 8px !important;
 }
 
 .event-lightblue {
   background-color: #03A9F4 !important;
   color: white !important;
-  border-radius: 60% !important;
+  border-radius: 8px !important;
 }
 
-/* تمييز أيام الجمعة */
+/* Highlight specific dates */
+.highlight-date .mat-calendar-body-cell-content {
+  background-color: #03A9F4 !important;
+  color: white !important;
+  border-radius: 50%;
+}
+
+/* Highlight Fridays */
 .fc-daygrid-day.fc-day-fri {
   background-color: #E0E0E0 !important;
 }
 
-/* ضبط شكل التقويم */
+/* Calendar day styling */
 .fc-daygrid-day-number {
   font-weight: bold;
   font-size: 14px;
+  text-decoration: none !important;
+  padding: 5px;
 }
+
+/* Event container in days */
 .fc-daygrid-day-events {
   margin-top: 1px;
   display: flex;
+  flex-direction: column;
+  text-decoration: none !important;
+  min-height: 20px;
 }
-.fc .fc-daygrid-day-events{
+
+/* FullCalendar specific styles */
+.fc .fc-daygrid-day-events {
   display: flex;
+  flex-direction: column;
 }
 
-
-/* تطبيق border-radius على الجدول */
+/* Calendar grid */
 #calender .fc-scrollgrid {
-  /* زوايا دائرية */
-  overflow: hidden; /* لإخفاء الزوايا الزائدة */
+  border-radius: 15px;
+  overflow: hidden;
+  border: 1px solid #ddd;
 }
 
-
-
-/* إزالة text-decoration من الروابط */
-#calender a {
-  text-decoration: none !important;
-}
-
-/* إزالة text-decoration من الأحداث */
+/* Event styling */
 #calender .fc-event {
   text-decoration: none !important;
+  border-radius: 8px;
+  padding: 2px 4px;
+  margin: 1px 0;
+  font-size: 12px;
 }
 
-/* تحسين شكل الأحداث */
-#calender .fc-event {
-  /* زوايا دائرية للأحداث */
-  padding: 5px; /* إضافة بعض المساحة الداخلية */
+/* Toolbar responsive styling */
+.fc .fc-toolbar {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
-
-
-/* تحسين شكل الأرقام في الأيام */
-#calender .fc-daygrid-day-number {
-  font-weight: bold;
-  font-size: 14px;
-  text-decoration: none !important; /* إزالة text-decoration */
+.fc .fc-toolbar-title {
+  font-size: 1.2em;
+  margin: 0;
 }
 
-/* تحسين شكل الأحداث في الأيام */
-#calender .fc-daygrid-day-events {
-  margin-top: 1px;
-  display: flex;
-  text-decoration: none !important; /* إزالة text-decoration */
-}
-
-/* تحسين شكل التقويم بشكل عام */
-#calender {
-  /* زوايا دائرية للتقويم */
+/* Responsive adjustments */
+@media (min-width: 1025px) {
+  .container {
+    max-width: 900px;
+  }
   
-  text-decoration: none; /* لإخفاء الزوايا الزائدة */
-}
-#calender .fc-scrollgrid {
-  border-radius: 30px; /* زوايا دائرية */
-  overflow: hidden; /* لإخفاء الزوايا الزائدة */
+  #calender {
+    font-size: 16px;
+  }
+  
+  #calender .fc-event {
+    padding: 3px 6px;
+    font-size: 14px;
+  }
 }
 
 @media (max-width: 1024px) {
-  .container{
-    width: 55vw;
-    position: static;
-    margin-top: 10px;
+  .container {
+    width: 90%;
+    max-width: 700px;
+  }
+  
+  .fc .fc-toolbar-title {
+    font-size: 1.1em;
   }
 }
+
 @media (max-width: 768px) {
-  .container{
-    width: 72vw;
-    margin-top: 10px;
-    position: static;
+  .container {
+    width: 95%;
+    max-width: none;
+  }
+  
+  .fc .fc-toolbar {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .fc .fc-toolbar-title {
+    font-size: 1em;
+    margin-bottom: 5px;
+  }
+  
+  #calender {
+    font-size: 12px;
   }
 }
+
 @media (max-width: 480px) {
-  .container{
-    width: 150vw;
-        margin-top: 10px;
-        margin-left: 62vw;
-        position: static;
+  .container {
+    width: 100%;
+    margin: 10px 0;
+    border-radius: 10px;
+  }
+  
+  #calender .fc-scrollgrid {
+    border-radius: 10px;
+  }
+  
+  .fc-direction-ltr .fc-toolbar > * > :not(:first-child) {
+    margin-left: 5px;
+  }
+  
+  .fc .fc-button {
+    padding: 0.2em 0.4em;
+    font-size: 0.9em;
+  }
+  
+  .fc-daygrid-day-number {
+    font-size: 12px;
+    padding: 2px;
+  }
+  
+  #calender .fc-event {
+    padding: 1px 2px;
+    font-size: 10px;
+    border-radius: 4px;
+  }
+  
+  /* Makes sure the events are visible on small screens */
+  .fc-daygrid-event-harness {
+    margin-top: 0 !important;
+  }
+  
+  /* Adjust header cells for smaller screens */
+  .fc-col-header-cell {
+    padding: 2px !important;
+  }
+  
+  /* Make the day cells more compact */
+  .fc-daygrid-day-frame {
+    padding: 2px !important;
+  }
+}
+
+/* Fix for event deletion icon */
+.fa-trash {
+  display: inline-block;
+  margin-top: 2px;
+  font-size: 12px;
+}
+
+@media (max-width: 360px) {
+  .fc .fc-toolbar-title {
+    font-size: 0.9em;
+  }
+  
+  .fc .fc-toolbar {
+    padding: 5px;
+  }
+  
+  .fc-header-toolbar {
+    margin-bottom: 5px !important;
+  }
+  
+  /* Show only first letter of day names on very small screens */
+  .fc-col-header-cell-cushion {
+    display: inline-block;
+    width: 1ch;
+    overflow: hidden;
+    text-align: center;
   }
 }

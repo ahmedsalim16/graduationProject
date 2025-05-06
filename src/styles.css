@@ -1,11 +1,10 @@
-
-/* styles.css - Enhanced with sidebar and table theming */
+/* styles.css - Enhanced with consistent theme mapping */
 
 /* Base styles */
 :root {
   --transition-duration: 0.3s;
   
-  /* Sidebar specific variables */
+  /* Default variables that will be overridden by theme */
   --sidebar-bg: #f8f9fa;
   --sidebar-text: #212529;
   --sidebar-hover: rgba(0, 0, 0, 0.05);
@@ -13,7 +12,6 @@
   --sidebar-border: #e9ecef;
   --sidebar-icon: #4b6cb7;
   
-  /* Table specific variables */
   --table-header-bg: #f8f9fa;
   --table-header-text: #212529;
   --table-row-bg: #ffffff;
@@ -35,12 +33,12 @@ body.light-theme {
   --app-border: var(--surface-border);
   --app-card-bg: var(--surface-card);
   
-  /* Inverted sidebar for light theme (dark sidebar) */
-  --sidebar-bg: #1e1e1e;
-  --sidebar-text: #f8f9fa;
-  --sidebar-hover: rgba(255, 255, 255, 0.1);
-  --sidebar-active: rgba(255, 255, 255, 0.15);
-  --sidebar-border: #333333;
+  /* Light sidebar for light theme */
+  --sidebar-bg: #f8f9fa;
+  --sidebar-text: #212529;
+  --sidebar-hover: rgba(0, 0, 0, 0.05);
+  --sidebar-active: rgba(0, 0, 0, 0.1);
+  --sidebar-border: #e9ecef;
   --sidebar-icon: #4b6cb7;
   
   /* Light theme table */
@@ -50,9 +48,10 @@ body.light-theme {
   --table-row-alt-bg: #f8f9fa;
   --table-row-hover: rgba(0, 0, 0, 0.03);
   --table-border: #e9ecef;
+  
   .theme-toggle-btn {
     color: #1e1e1e;
-}
+  }
 }
 
 /* Custom variables for dark theme */
@@ -62,38 +61,36 @@ body.dark-theme {
   --app-border: var(--surface-border);
   --app-card-bg: var(--surface-card);
   
-  /* Inverted sidebar for dark theme (light sidebar) */
-  --sidebar-bg: #ffffff;
-  --sidebar-text: #212529;
-  --sidebar-hover: rgba(0, 0, 0, 0.05);
-  --sidebar-active: rgba(0, 0, 0, 0.1);
-  --sidebar-border: #e9ecef;
+  /* Dark sidebar for dark theme */
+  --sidebar-bg: #1e1e1e;
+  --sidebar-text: #f8f9fa;
+  --sidebar-hover: rgba(255, 255, 255, 0.1);
+  --sidebar-active: rgba(255, 255, 255, 0.15);
+  --sidebar-border: #333333;
   --sidebar-icon: #4b6cb7;
   
   /* Dark theme table */
   --table-header-bg: #1e1e1e;
   --table-header-text: #f8f9fa;
+  --table-row-bg: #121212;
   --table-row-alt-bg: #2d2d2d;
   --table-row-hover: rgba(255, 255, 255, 0.05);
   --table-border: #333333;
+  
   #page-content-wrapper {
-        background-color: #121212;
-    }
-    .stud {
-        background-color: rgba(255, 255, 255, 0.1);
-        color:#ffffff;
-        transition: background-color var(--transition-duration);
-    .theme-toggle-btn {
-        color: rgba(255, 255, 255, 0.05);
-    
-    }
+    background-color: #121212;
   }
-  /* .p-button.p-button-icon-only.p-button-rounded{
-    color:#fff;
-  } */
-
+  
+  .stud {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    transition: background-color var(--transition-duration);
+  }
+  
+  .theme-toggle-btn {
+    color: rgba(255, 255, 255, 0.7);
+  }
 }
-
 
 /* Apply theme variables */
 body {
@@ -215,11 +212,6 @@ body {
   border-radius: 50%;
   transition: border-color var(--transition-duration);
 }
-
-/* Make sure button icons follow the correct color scheme */
-/* .custom-sidebar .p-button.p-button-text {
-  color: var(--sidebar-text) !important;
-} */
 
 /* Theme toggle button specific styling */
 .theme-toggle-btn {

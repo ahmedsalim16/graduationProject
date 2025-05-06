@@ -1,7 +1,6 @@
 @import "primeicons/primeicons.css";
 @import 'primeng/resources/themes/lara-light-indigo/theme.css';
 @import 'primeng/resources/primeng.min.css';
-
 *{
     font-family:sans-serif;
   }
@@ -13,6 +12,51 @@
     position: relative;
     bottom: 60px;
 }
+
+/* New chart container styles */
+.charts-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.chart-box {
+  flex: 1;
+  min-width: 300px;
+  background-color: var(--table-row-hover);
+  border-radius: 8px;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  overflow: hidden;
+  padding: 0px;
+  position: relative;
+
+}
+
+.chart-loader-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.chart-loader {
+  text-align: center;
+}
+
+.chart-loader p {
+  margin-top: 10px;
+  color: #4b6cb7;
+  font-weight: 500;
+}
+
 #search{
     width: 25vw;
     border-radius: 18px;
@@ -31,7 +75,7 @@ img{
   width: 40px;
   height: 35px;
   position: relative;
-  left: -50px;
+  left: -20px;
   cursor: pointer;
 }
 img:hover{
@@ -63,11 +107,6 @@ body {
   transform: translateX(-20%);
   
 }
-#sidebar.hidden .logo img{
-  height: 37px;
-  position: relative;
-  left: 7px;
-}
 
 /* إخفاء النصوص عند الإغلاق */
 #sidebar.hidden .list-group-item,
@@ -91,7 +130,7 @@ body {
   margin-top: 12px;
   font-size: 17px;
   font-weight: bold;
-  padding: 41px;
+  padding: 32px;
   padding-top: 0px;
 }
 #list a{
@@ -105,16 +144,15 @@ body {
 
 .dash i{
   position: relative;
-  top: 3px;
-  left: -4px;
+  top: 8px;
+  left: -8px;
   font-size: 25px;
 }
 .dash{
   opacity: .5;
-  padding-top: 43px;
+  padding-top: 65px;
   display: flex;
   align-items: baseline;
-  justify-content: space-between; /* يجعل السهم في أقصى اليمين */
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   
 }
@@ -137,6 +175,7 @@ body {
       display: flex;
       flex-direction: column;
       align-items: center;
+      margin-top: 10px;
     }
     
   #page-content-wrapper {
@@ -152,8 +191,12 @@ body {
     margin-top: 30px;
     font-weight: bold;
     position:relative;
-    left: 42%;
+    left: 45%;
 
+  }
+  #Welcome{
+    position:relative;
+    left: 170%;
   }
   .stud{
     display: flex;
@@ -172,16 +215,15 @@ body {
     flex-direction: row;
     align-items: center;
   }
-  #Welcome{
-    position: relative;
-    left: 90%;
-  }
   
   h1{
     font-weight: bold;
   }
   .i{
     background-color: #191BA9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 30px;
     border-radius: 28px;
     height: 55px;
@@ -189,29 +231,9 @@ body {
     position: relative;
     left: -19px;
   }
-  .fa-user-tie{
-    position: relative;
-    left: 14px;
-  }
-  .fa-user-group{
-    position: relative;
-    left: 10px;
-    top: 3px;
-
-  }
-  .fa-dollar-sign{
-    position: relative;
-    left: 18px;
-    top: 5px;
-
-  }
-  .fa-utensils{
-    position: relative;
-    left: 13px;
-    top: 5px;
-
-  }
-
+.pi{
+  font-size:revert;
+}
   @keyframes bounceAnimation {
     0%, 100% {
         transform: translateY(0);
@@ -270,14 +292,55 @@ body {
   visibility: visible;
   opacity: 1;
 }
-.school-logo{
-  width: max-content;
-  height: 60px;
+#main {
+  width: 100% !important;
+  height: auto !important;
+  min-height: 300px;
+  max-width: 100%;
+  margin: 0 auto;
   position: relative;
-  left: 2px;
-  margin: 10px;
-  border-radius: 10px;
+  will-change: transform; /* تحسين الأداء */
 }
+
+.container{
+  background-color: var(--table-row-hover);
+  width: 100% !important; /* افتراضيًا 100% للهواتف */
+  position: relative;
+  max-width: 100%;
+  height: auto !important;
+  margin: 40px auto !important;
+  padding: 15px !important;
+  border-radius: 8px;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
+            0 10px 10px rgba(0,0,0,0.22);
+  overflow: hidden;
+  
+
+}
+
+/* 
+@media (max-width :1024px){
+  .container{
+      width: max-content;
+      height: max-content;
+     
+      position: static;
+    }
+}
+@media (max-width :768px){
+  .container{
+      width: max-content;
+      height: max-content;
+      margin-left: 24px;
+      position: static;
+    }
+}
+@media (max-width: 480px) {
+  .container{
+      margin-left: 253px;
+  }
+} */
+
 /* تحسينات عامة */
 
 
@@ -445,14 +508,111 @@ body {
 .sidebar-toggle:hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
+
+
+.dark-loader {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+}
+
+.dark-loader p {
+  color: #ffffff !important;
+}
+
+/* Improved chart loader overlay */
+.chart-loader-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.chart-loader {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.chart-loader p {
+  margin-top: 10px;
+  color: #4b6cb7;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+.pi-spin {
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive styles for charts and other elements */
+@media (max-width: 992px) {
+  .charts-container {
+    flex-direction: column;
+  }
+  
+  .chart-box {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
 @media (max-width:1024px){
+  .container{
+      width: max-content;
+      height: max-content;
+     
+      position: static;
+    }
   .i{
     position: relative;
     left: -3px;
   }
 }
-
+@media (min-width: 768px) {
+  .container {
+    width: 45% !important; /* 45% لأجهزة الكمبيوتر */
+    right: 420px; /* يمكنك تعديل هذا حسب احتياجاتك */
+  }
+}
 @media (max-width: 768px) {
+  #main {
+    height: 300px !important;
+    min-height: 300px;
+  }
+  
+  .container {
+    padding: 10px !important;
+    width: 100% !important; /* 100% للهواتف */
+    right: auto; /* إزالة الخاصية right */
+    margin-left: 0;
+    margin-right: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  
+  /* تعديلات خاصة بالثيم المظلم */
+  .dark-theme .container {
+    background-color: var(--card-bg);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+  
+  
+  .user {
+    margin: 10px 5px;
+  }
+  
   #sidebar {
     width: max-content;
     height: 200vh; /* تقليل العرض */
@@ -482,17 +642,24 @@ body {
     
   }
   .stud{
-    display: flex;
-    justify-content: space-between;
-    border-radius: 12px;
-    width: max-content;
-    position: relative;
-    height: 153px;
-    left: 2%;
-    top: -77px;
+    width: 95% !important;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    height: auto !important;
+    left: 2.5% !important;
+    padding: 15px 5px;
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     
   }
+  
+  .chart-box {
+    height: 300px;
+  }
+  
+  #main, #pieChart {
+    height: 280px !important;
+  }
+  
   .chart-container{
     width: max-content;
     height: max-content;
@@ -500,29 +667,26 @@ body {
     position: static;
   }
  
-
-  
-
   #page-content-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-left: 0; /* إزالة الهوامش */
-}
+ }
 
-/* جعل ال Chart والتقويم تحت بعض */
-.chart-container,
-.calendar-container {
-    width: 100%; /* جعلهم يأخذون العرض بالكامل */
-    margin-bottom: 20px; /* إضافة تباعد بينهم */
-}
+  /* جعل ال Chart والتقويم تحت بعض */
+  .chart-container,
+  .calendar-container {
+      width: 100%; /* جعلهم يأخذون العرض بالكامل */
+      margin-bottom: 20px; /* إضافة تباعد بينهم */
+  }
 
-/* التأكد من أن القائمة الجانبية لا تعيق العناصر */
+  /* التأكد من أن القائمة الجانبية لا تعيق العناصر */
 
 
-#sidebar:hover {
-    width: 180px;
-}
+  #sidebar:hover {
+      width: 180px;
+  }
 
   #page-content-wrapper.full-width {
     margin-left: 0;
@@ -531,9 +695,10 @@ body {
   .header {
     justify-content: space-between;
     text-align: center;
-    width: 160%;
-    margin-left: 260px;
+    width: 100%;
+    
   }
+  
 
   .menu-btn {
     display: block;
@@ -563,18 +728,31 @@ body {
 }
 
 @media (max-width: 480px) {
-  .stud{
-    display: flex;
-    justify-content: space-between;
-    border-radius: 12px;
-    width: max-content;
-    position: relative;
-    height: 153px;
-    left: 39%;
-    top: -77px;
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  .stud {
+    left: 36%;
+    /* Reset the strange positioning */
   }
   .user{
     padding:5px
+  }
+  
+  .chart-box {
+    height: 250px;
+  }
+  
+  #main, #pieChart {
+    height: 230px !important;
+    min-height: 230px;
+  }
+  
+  .container {
+    margin: 5px auto !important;
+    padding: 8px !important;
+  }
+  
+  /* إخفاء بعض عناصر الـ Chart على الشاشات الصغيرة */
+  :host ::ng-deep .echarts-tooltip {
+    max-width: 90% !important;
+    font-size: 10px !important;
   }
 }
