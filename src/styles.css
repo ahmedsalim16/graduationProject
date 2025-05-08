@@ -52,6 +52,20 @@ body.light-theme {
   .theme-toggle-btn {
     color: #1e1e1e;
   }
+   form{
+    background-color: white;
+    
+  }
+  .mt-4{
+    background-color: white;
+    
+
+  }
+  .form-container{
+    background-color: white;
+    
+
+  }
 }
 
 /* Custom variables for dark theme */
@@ -88,7 +102,21 @@ body.dark-theme {
   }
   
   .theme-toggle-btn {
+    color: #1e1e1e;
+  }
+  form{
+    background-color: rgba(255, 255, 255, 0.1);
     color: rgba(255, 255, 255, 0.7);
+  }
+  .mt-4{
+    background-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+
+  }
+  .form-container{
+    background-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+
   }
 }
 

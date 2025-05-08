@@ -169,7 +169,16 @@
       </div>
       <div class="charts-container">
         <!-- Other chart component -->
-        <app-chart></app-chart>
+        <div class="chart-box">
+          <div id="studentChart" style="width: 100%; height: 500px; position: relative;" [class.loaded]="!isStudentChartLoading">
+            <div *ngIf="isStudentChartLoading" class="chart-loader-overlay">
+              <div class="chart-loader">
+                <i class="pi pi-spinner pi-spin" style="font-size: 2rem; color: #4b6cb7;"></i>
+                <p>Loading chart data...</p>
+              </div>
+            </div>
+          </div>
+        </div>
         
         <!-- Pie Chart with improved loading state -->
         <div class="chart-box">

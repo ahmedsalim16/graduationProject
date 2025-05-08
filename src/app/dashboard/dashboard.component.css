@@ -292,7 +292,7 @@ body {
   visibility: visible;
   opacity: 1;
 }
-#main {
+#studentChart {
   width: 100% !important;
   height: auto !important;
   min-height: 300px;
@@ -588,7 +588,7 @@ body {
   }
 }
 @media (max-width: 768px) {
-  #main {
+  #studentChart {
     height: 300px !important;
     min-height: 300px;
   }
@@ -646,7 +646,7 @@ body {
     flex-wrap: wrap;
     justify-content: space-around;
     height: auto !important;
-    left: 2.5% !important;
+    left: 0.5% !important;
     padding: 15px 5px;
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     
@@ -656,7 +656,7 @@ body {
     height: 300px;
   }
   
-  #main, #pieChart {
+  #studentChart, #pieChart {
     height: 280px !important;
   }
   
@@ -740,7 +740,7 @@ body {
     height: 250px;
   }
   
-  #main, #pieChart {
+  #studentChart, #pieChart {
     height: 230px !important;
     min-height: 230px;
   }

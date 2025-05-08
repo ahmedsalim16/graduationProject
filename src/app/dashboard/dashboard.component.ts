@@ -31,7 +31,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   
   // Chart variables
   pieChart: any;
+  studentChart: any; // Added for student chart
   isPieChartLoading: boolean = true;
+  isStudentChartLoading: boolean = true; // Added for student chart
   refreshInProgress: boolean = false;
   resizeHandler: any;
   isDarkTheme = false;
@@ -67,8 +69,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.sidebarVisible = false;
       }
     });
-    
-  
   }
 
   loadAllData(): void {
@@ -83,6 +83,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.initPieChart();
+      this.initStudentChart(); // Initialize student chart
     }, 100);
   }
 
@@ -93,6 +94,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     
     if (this.pieChart) {
       this.pieChart.dispose();
+    }
+    
+    if (this.studentChart) {
+      this.studentChart.dispose();
     }
   }
 
@@ -110,6 +115,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       setTimeout(() => this.checkAndUpdateChart(), 100);
     }
   }
+  
   initPieChart(): void {
     this.isPieChartLoading = true;
 
@@ -117,8 +123,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (chartDom) {
       // Initialize chart with the correct theme
       this.pieChart = echarts.init(chartDom);
-      
-   
       
       // Setup resize handler
       this.setupResizeHandler();
@@ -131,12 +135,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-
-
   setupResizeHandler(): void {
     this.resizeHandler = () => {
       if (this.pieChart) {
         setTimeout(() => this.pieChart.resize(), 200);
+      }
+      if (this.studentChart) {
+        setTimeout(() => this.studentChart.resize(), 200);
       }
     };
     window.addEventListener('resize', this.resizeHandler);
@@ -146,16 +151,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (!this.pieChart) return;
 
     const isMobile = window.innerWidth < 768;
-  
 
     const option: EChartsOption = {
-      
       title: {
         text: 'System Statistics',
         subtext: 'Students, Parents, Income, Food Items',
         left: 'center',
         textStyle: {
-          
           fontSize: isMobile ? 14 : 16
         },
         subtextStyle: {
@@ -179,15 +181,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
           }
           return label;
         },
-        
       },
       legend: {
         orient: 'vertical',
         left: isMobile ? 'center' : 'left',
         top: isMobile ? 'bottom' : 'center',
-        textStyle: {
-          
-        },
+        textStyle: {},
         data: ['Students', 'Parents', 'Income', 'Food Items']
       },
       toolbox: {
@@ -196,29 +195,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
           saveAsImage: {
             show: true,
             title: 'Save as Image',
-            iconStyle: {
-              
-            }
+            iconStyle: {}
           },
           restore: {
             show: true,
             title: 'Refresh Data',
-            iconStyle: {
-              
-            }
+            iconStyle: {}
           },
           dataView: {
             show: true,
             readOnly: false,
             title: 'View Data',
-            
             buttonColor: this.isDarkTheme ? '#333333' : '#eeeeee',
-            
           }
         },
-        iconStyle: {
-         
-        }
+        iconStyle: {}
       },
       series: [{
         name: 'System Statistics',
@@ -227,12 +218,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         avoidLabelOverlap: true,
         itemStyle: {
           borderRadius: 8,
-          
           borderWidth: 2
         },
         label: {
           show: !isMobile,
-         
           formatter: '{b}: {c}',
           textBorderColor: this.isDarkTheme ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)'
         },
@@ -280,9 +269,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.pieChart.on('restore', () => {
       this.refreshPieChartData();
     });
+    
+    if (this.studentChart) {
+      this.studentChart.off('restore');
+      this.studentChart.on('restore', () => {
+        this.refreshStudentChartData();
+      });
+    }
   }
-
-
   
   refreshPieChartData(): void {
     if (this.refreshInProgress) return;
@@ -312,17 +306,224 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.loadAllData();
     }, 300);
   }
+  
+  // ========== Student Chart Functions (Added from first file) ==========
+  initStudentChart(): void {
+    this.isStudentChartLoading = true;
+    
+    const chartDom = document.getElementById('studentChart');
+    if (chartDom) {
+      this.studentChart = echarts.init(chartDom);
+      
+      // Add event listener for the restore button
+      this.studentChart.on('restore', () => {
+        console.log('Restore event triggered');
+        this.refreshStudentChartData();
+      });
+      
+      this.updateStudentChart();
+    } else {
+      console.error('Student chart container not found!');
+      this.isStudentChartLoading = false;
+    }
+  }
+  
+  updateStudentChart(): void {
+    console.log('Updating student chart...');
+    console.log('Male Count:', this.maleStudentCount);
+    console.log('Female Count:', this.femaleStudentCount);
+
+    // Set up the student chart options
+    const studentChartOption: EChartsOption = {
+      title: {
+        text: 'Student Number',
+        textStyle: {
+          color: this.isDarkTheme ? '#ffffff' : '#333333'
+        }
+      },
+      tooltip: {
+        trigger: 'axis',
+      },
+      legend: {
+        data: ['Girls', 'Boys', 'Total Students'],
+        textStyle: {
+          color: this.isDarkTheme ? '#dddddd' : '#333333'
+        }
+      },
+      toolbox: {
+        show: true,
+        feature: {
+          dataView: { show: true, readOnly: false },
+          magicType: { show: true, type: ['line', 'bar'] },
+          restore: { 
+            show: true,
+            onclick: () => {
+              console.log('Restore button clicked');
+              this.refreshStudentChartData();
+            }
+          },
+          saveAsImage: { show: true },
+        },
+        iconStyle: {
+          borderColor: this.isDarkTheme ? '#dddddd' : '#666666'
+        }
+      },
+      calculable: true,
+      xAxis: [
+        {
+          type: 'category',
+          data: ['Total Students'],
+          axisLabel: {
+            color: this.isDarkTheme ? '#dddddd' : '#333333'
+          }
+        },
+      ],
+      yAxis: [
+        {
+          type: 'value',
+          axisLabel: {
+            color: this.isDarkTheme ? '#dddddd' : '#333333'
+          }
+        },
+      ],
+      series: [
+        {
+          name: 'Girls',
+          type: 'bar',
+          data: [this.femaleStudentCount],
+          color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [
+            { offset: 1, color: '#5CC2F2' },
+          ]),
+          markPoint: {
+            data: [
+              { type: 'max', name: 'Max' },
+              { type: 'min', name: 'Min' },
+            ],
+          },
+          markLine: {
+            data: [{ type: 'average', name: 'Avg' }],
+          },
+        },
+        {
+          name: 'Boys',
+          type: 'bar',
+          data: [this.maleStudentCount],
+          color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [
+            { offset: 1, color: '#C1EAF2' },
+          ]),
+          markPoint: {
+            data: [
+              { type: 'max', name: 'Max' },
+              { type: 'min', name: 'Min' },
+            ],
+          },
+          markLine: {
+            data: [{ type: 'average', name: 'Avg' }],
+          },
+        },
+        {
+          name: 'Total Students',
+          type: 'bar',
+          data: [this.studentCount],
+          color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [
+            { offset: 1, color: '#191BA9' },
+          ]),
+          markPoint: {
+            data: [
+              { type: 'max', name: 'Max' },
+              { type: 'min', name: 'Min' },
+            ],
+          },
+          markLine: {
+            data: [{ type: 'average', name: 'Avg' }],
+          },
+        },
+      ],
+    };
+
+    // Set the options and update the chart
+    if (this.studentChart) {
+      this.studentChart.setOption(studentChartOption);
+      this.isStudentChartLoading = false;
+    }
+  }
+  
+  refreshStudentChartData(): void {
+    console.log('بدء تحديث بيانات الطلاب...');
+    this.isStudentChartLoading = true;
+  
+    // Show loading indicator
+    if (this.studentChart) {
+      this.studentChart.showLoading({
+        text: 'Refreshing student data...',
+        color: this.isDarkTheme ? '#4b6cb7' : '#4b6cb7',
+        textColor: this.isDarkTheme ? '#ffffff' : '#333333',
+        maskColor: this.isDarkTheme ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)'
+      });
+    }
+  
+    // Reset student data
+    this.studentCount = 0;
+    this.maleStudentCount = 0;
+    this.femaleStudentCount = 0;
+  
+    // Fetch updated student data in sequence
+    this.shared.getStudentCountByGender().subscribe({
+      next: (totalRes) => {
+        this.studentCount = totalRes.result || 0;
+        
+        this.shared.getStudentCountByGender(0).subscribe({
+          next: (maleRes) => {
+            this.maleStudentCount = maleRes.result || 0;
+            
+            this.shared.getStudentCountByGender(1).subscribe({
+              next: (femaleRes) => {
+                this.femaleStudentCount = femaleRes.result || 0;
+                this.finalizeStudentChartUpdate();
+              },
+              error: (err) => this.handleStudentChartError(err)
+            });
+          },
+          error: (err) => this.handleStudentChartError(err)
+        });
+      },
+      error: (err) => this.handleStudentChartError(err)
+    });
+  }
+  
+  finalizeStudentChartUpdate(): void {
+    console.log('تم استلام جميع بيانات الطلاب');
+    this.updateStudentChart();
+    this.hideStudentChartLoader();
+  }
+  
+  handleStudentChartError(error: any): void {
+    console.error('حدث خطأ في جلب بيانات الطلاب:', error);
+    this.updateStudentChart();
+    this.hideStudentChartLoader();
+  }
+  
+  hideStudentChartLoader(): void {
+    this.isStudentChartLoading = false;
+    if (this.studentChart) {
+      this.studentChart.hideLoading();
+    }
+    console.log('تم إخفاء مؤشر التحميل');
+  }
+
   // ========== Data Fetching Functions ==========
   getTotalStudentCount(): void {
     this.shared.getStudentCountByGender().subscribe(
       (response) => {
         this.studentCount = response.result || 0;
         this.checkAndUpdateChart();
+        this.updateStudentChart(); // Update student chart when data is received
       },
       (err) => {
         console.error('Error fetching total student count:', err);
         this.studentCount = 0;
         this.checkAndUpdateChart();
+        this.updateStudentChart();
       }
     );
   }
@@ -335,11 +536,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
         } else if (gender === 1) {
           this.femaleStudentCount = response.result || 0;
         }
+        this.updateStudentChart(); // Update student chart when data is received
       },
       (err) => {
         console.error(`Error fetching student count for gender ${gender}:`, err);
         if (gender === 0) this.maleStudentCount = 0;
         if (gender === 1) this.femaleStudentCount = 0;
+        this.updateStudentChart();
       }
     );
   }
