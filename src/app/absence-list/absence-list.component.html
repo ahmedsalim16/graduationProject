@@ -5,7 +5,7 @@
         <div class="flex flex-column h-full">
           <!-- Logo and School Name -->
           <div class="logo-container p-3">
-            <div class="flex align-items-center">
+            <div class="flex align-items-center" style="display: flex;">
               <img [src]="schoolLogoUrl" alt="School Logo" class="school-logo mr-2">
               <span class="logo-text">{{schoolName}}</span>
             </div>
@@ -104,139 +104,168 @@
            border-radius: 12px; 
            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
            margin-bottom: 25px;">
- <h2 id="head" style="margin: 0; 
-                     font-size: 24px; 
-                     color: white; 
-                     font-weight: 500;
-                     letter-spacing: 0.5px;
-                     text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
-   Absense List
- </h2>
- <div style="position: relative;">
-   <img src="../../assets/profile.png" 
-        alt="Profile" 
-        (click)="navigateToAdminUpdate()"
-        [routerLink]="['/admin-update',adminId]"
-        style="width: 45px; 
-               height: 45px; 
-               border-radius: 50%; 
-               border: 3px solid rgba(255,255,255,0.7);
-               box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-               transition: all 0.3s ease;
-               cursor: pointer;">
-   <span style="position: absolute; 
-                bottom: -2px; 
-                right: -2px; 
-                width: 12px; 
-                height: 12px; 
-                background-color: #4CD964; 
-                border-radius: 50%; 
-                border: 2px solid white;"></span>
-   
- </div>
-</div>
-<div class="container mt-4">
-  <!-- عنوان الصفحة -->
-  <div class="form-outline mt-3 p-5" style="margin-left: 33vw;">
-    <i class="fa-solid fa-magnifying-glass" style="color: #7fbde4a6;"></i>
-    <input type="search" id="search" [(ngModel)]="searchtext" class="form-control" placeholder="Search...">
-  </div>
-    
-      <!-- فورم الفلاتر -->
-      <div class="card p-3 mb-4">
-        <h5>Filter Students</h5>
-        <div class="row">
-          <!-- إدخال الصف -->
-          <div class="col-md-4 mb-3">
-            <label for="gradeSelect" class="form-label">Grade</label>
-            <select
-              id="gradeSelect"
-              class="form-select"
-              [(ngModel)]="grade"
-            >
-              <option value="" selected>-- Select Grade --</option>
-              <option *ngFor="let g of [1, 2, 3, 4, 5, 6]" [value]="g">
-                Grade {{ g }}
-              </option>
-            </select>
-          </div>
-    
-          <!-- إدخال التاريخ -->
-          <div class="col-md-4 mb-3">
-            <label for="dateInput" class="form-label">Date</label>
-            <input
-              type="date"
-              id="dateInput"
-              class="form-control"
-              [(ngModel)]="startDate"
-            />
-          </div>
-    
-          <!-- زر تطبيق الفلتر -->
-          <div class="col-md-4 mb-3 d-flex align-items-end">
-            <button
-              class="btn btn-primary w-100"
-              (click)="filterStudents()"
-            >
-              Apply Filter
-            </button>
-          </div>
-        </div>
-      </div>
-    
-      <!-- جدول عرض البيانات -->
-      <div class="card">
-        <div class="card-body">
-          <h5>Students List</h5>
-    
-          <!-- الجدول -->
-          <div class="table-responsive">
-            <table class="table table-bordered">
-              <thead class="table-secondary">
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">ID</th>
-                  <th scope="col">Full name</th>
-                  <th scope="col">gender</th>
-                  <th scope="col">grade</th>
-                  <th scope="col">city</th>
-                  <th scope="col">street</th>
-                  <th scope="col">birthDate</th>
-                  <th scope="col">rfidTag_Id</th>
-                  
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let student of filteredStudents | paginate: { itemsPerPage: itemsPerPage, currentPage: pageNumber }; let i = index">
-                  <td>{{ i + 1 }}</td>
-                  <td>{{ student.id }}</td>
-                  <td>{{ student.fullName | titlecase }}</td>
-                  <td>{{ student.gender }}</td>
-                  <td>{{ student.grade }}</td>
-                  <td>{{ student.city }}</td>
-                  <td>{{ student.street }}</td>
-                  <td>{{ student.birthDate ? (student.birthDate | date: 'yyyy-MM-dd') : 'N/A' }}</td>
-                  <td>{{ student.rfidTag_Id }}</td>
-                  
-                </tr>
-                <tr *ngIf="!filteredStudents.length">
-                  <td colspan="9" class="text-center">No data available</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+      <h2 id="head" style="margin: 0; 
+                       font-size: 24px; 
+                       color: white; 
+                       font-weight: 500;
+                       letter-spacing: 0.5px;
+                       text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
+        Absence List
+      </h2>
+      <div style="position: relative;">
+        <img src="../../assets/profile.png" 
+            alt="Profile" 
+            (click)="navigateToAdminUpdate()"
+            [routerLink]="['/admin-update',adminId]"
+            style="width: 45px; 
+                  height: 45px; 
+                  border-radius: 50%; 
+                  border: 3px solid rgba(255,255,255,0.7);
+                  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                  transition: all 0.3s ease;
+                  cursor: pointer;">
+        <span style="position: absolute; 
+                  bottom: -2px; 
+                  right: -2px; 
+                  width: 12px; 
+                  height: 12px; 
+                  background-color: #4CD964; 
+                  border-radius: 50%; 
+                  border: 2px solid white;"></span>
       </div>
     </div>
-    
-      <div class="pagination">
-        <pagination-controls (pageChange)="pagechanged($event)" previousLabel="Prev" nextLabel="Next"></pagination-controls>
-      </div>
-      <div *ngIf="filteredStudents.length" class="col-md-1">
-        <i class="fa-solid fa-download"  id="csv" title="download file.csv" (click)="downloadCsvFile()"></i>
-    
-      </div>
-    </div>
-    
-  </div>
 
+    <!-- Filter Panel -->
+    <div class="card p-3 mb-4">
+      <h5>Filter Students</h5>
+      <div class="grid">
+        <div class="col-12 md:col-4 mb-2">
+          <label for="gradeSelect" class="block mb-1">Grade</label>
+          <p-dropdown id="gradeSelect" 
+               [options]="gradeOptions" 
+               [(ngModel)]="grade" 
+               placeholder="Select Grade" 
+               [showClear]="true"
+               styleClass="w-full" 
+               [appendTo]="'body'" 
+               [dropdownIcon]="'pi pi-angle-right'"></p-dropdown>
+        </div>
+       
+        
+        <div class="col-12 md:col-4 mb-2">
+          <label for="dateInput" class="block mb-1">Date</label>
+          <input style="border-radius: 5px;border: none;" type="date" id="dateInput" 
+                     [(ngModel)]="startDate" 
+                     dateFormat="yy-mm-dd" 
+                     styleClass="w-full">
+        </div>
+        
+        <div class="col-12 md:col-4 mb-2 flex align-items-end">
+          <button pButton 
+                  label="Apply Filter" 
+                  icon="pi pi-filter" 
+                  class="w-full"
+                  (click)="filterStudents()"></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Students Table -->
+    <div class="card">
+      <p-table #dt 
+              [value]="student"
+              [rows]="itemsPerPage"
+              [paginator]="true"
+              [rowsPerPageOptions]="[4, 10, 25, 50]"
+              [globalFilterFields]="['id', 'fullName', 'gender', 'grade', 'city', 'street', 'birthDate', 'rfidTag_Id']"
+              dataKey="id"
+              styleClass="p-datatable-gridlines p-datatable-sm"
+              [tableStyle]="{ 'min-width': '75rem' }">
+              
+        <ng-template pTemplate="caption">
+          <div class="flex justify-content-between align-items-center">
+            <div>
+              <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear()"></button>
+            </div>
+            <div class="p-inputgroup" style="width: 25rem">
+              <span class="p-inputgroup-addon">
+                <i class="pi pi-search"></i>
+              </span>
+              <input pInputText type="text" [(ngModel)]="searchtext" (input)="applyFilterGlobal($event, 'contains')" placeholder="Search keyword" />
+            </div>
+            <div>
+              <button pButton label="Download CSV" icon="pi pi-download" (click)="downloadCsvFile()" class="p-button-secondary"></button>
+            </div>
+          </div>
+        </ng-template>
+        
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 3rem">#</th>
+            <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+            <th pSortableColumn="fullName">Full Name <p-sortIcon field="fullName"></p-sortIcon></th>
+            <th pSortableColumn="gender">Gender <p-sortIcon field="gender"></p-sortIcon></th>
+            <th pSortableColumn="grade">Grade <p-sortIcon field="grade"></p-sortIcon></th>
+            <th pSortableColumn="city">City <p-sortIcon field="city"></p-sortIcon></th>
+            <th pSortableColumn="street">Street <p-sortIcon field="street"></p-sortIcon></th>
+            <th pSortableColumn="birthDate">Birth Date <p-sortIcon field="birthDate"></p-sortIcon></th>
+            <th pSortableColumn="rfidTag_Id">RFID Tag <p-sortIcon field="rfidTag_Id"></p-sortIcon></th>
+          </tr>
+          <tr>
+            <th></th>
+            <th>
+              <input pInputText type="text" (input)="onFilterChange($event, 'id', 'contains')" placeholder="Search ID" class="w-full" />
+            </th>
+            <th>
+              <input pInputText type="text" (input)="onFilterChange($event, 'fullName', 'contains')" placeholder="Search name" class="w-full" />
+            </th>
+            <th>
+              <p-dropdown [options]="genderOptions" (onChange)="onGenderChange($event)" [showClear]="true" placeholder="Select Gender"></p-dropdown>
+            </th>
+            <th>
+              <p-dropdown [options]="gradeFilterOptions" (onChange)="onGradeFilterChange($event)" [showClear]="true" placeholder="Select Grade"></p-dropdown>
+            </th>
+            <th>
+              <input pInputText type="text" (input)="onFilterChange($event, 'city', 'contains')" placeholder="Search city" class="w-full" />
+            </th>
+            <th>
+              <input pInputText type="text" (input)="onFilterChange($event, 'street', 'contains')" placeholder="Search street" class="w-full" />
+            </th>
+            <th></th>
+            <th>
+              <input pInputText type="text" (input)="onFilterChange($event, 'rfidTag_Id', 'contains')" placeholder="Search RFID" class="w-full" />
+            </th>
+          </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="body" let-student let-i="rowIndex">
+          <tr>
+            <td>{{ i + 1 }}</td>
+            <td>{{ student.id }}</td>
+            <td>{{ student.fullName | titlecase }}</td>
+            <td>
+              <p-tag [value]="student.gender" [severity]="getGenderSeverity(student.gender)"></p-tag>
+            </td>
+            <td>{{ student.grade }}</td>
+            <td>{{ student.city }}</td>
+            <td>{{ student.street }}</td>
+            <td>{{ student.birthDate ? (student.birthDate | date: 'yyyy-MM-dd') : 'N/A' }}</td>
+            <td>{{ student.rfidTag_Id }}</td>
+          </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="9" class="text-center">No data available</td>
+          </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="summary">
+          <div class="flex justify-content-between">
+            Total Records: {{student ? student.length : 0}}
+          </div>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

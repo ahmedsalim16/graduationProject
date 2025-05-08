@@ -155,6 +155,7 @@ import { ManagersListComponent } from './managers/managers-list/managers-list.co
     SelectButtonModule,
     ThemeToggleComponent,
     ManagersListComponent,
+    CalendarModule,
     // TranslateModule.forRoot({
     //   loader: {
     //     provide: TranslateLoader,
