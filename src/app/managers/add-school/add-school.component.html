@@ -102,6 +102,18 @@
               border-radius: 12px; 
               box-shadow: 0 4px 20px rgba(0,0,0,0.1);
               margin-bottom: 25px;">
+               <button pButton class="p-button-rounded p-button-text " icon="pi pi-arrow-left" (click)="goBack()" style="background-color: rgba(255,255,255,0.2); 
+                                     border: none;
+                                     color: white;
+                                     width: 42px; 
+                                     height: 42px; 
+                                     border-radius: 50%; 
+                                     display: flex; 
+                                     align-items: center; 
+                                     justify-content: center;
+                                     transition: all 0.3s ease;
+                                      ">
+                    </button>
     <h2 id="head" style="margin: 0; 
                         font-size: 24px; 
                         color: white; 
@@ -336,7 +348,7 @@
         </button>
         <button class="btn" 
         type="button" 
-        (click)="goBack()"
+        (click)="cancel()"
         style="background-color: transparent; 
                border: 1px solid #dce1e9; 
                color: #6c757d;

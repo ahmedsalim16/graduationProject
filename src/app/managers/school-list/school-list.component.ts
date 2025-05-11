@@ -121,6 +121,7 @@ export class SchoolListComponent implements OnInit {
   clear() {
     if (this.table) {
       this.table.clear();
+      this.filterSchools();
     }
   }
   delete(id: string) {

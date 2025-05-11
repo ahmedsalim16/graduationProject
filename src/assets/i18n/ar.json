@@ -44,7 +44,12 @@
     "strong": "قوي",
     "passwordPrompt": "أدخل كلمة المرور",
     "emptyMessage": "لم يتم العثور على نتائج",
-    "emptyFilterMessage": "لم يتم العثور على نتائج"
+    "emptyFilterMessage": "لم يتم العثور على نتائج",
+    "delete": "حذف",
+    "search": "بحث",
+    "show": "عرض",
+    "hide": "إخفاء",
+    "edit": "تعديل"
   },
   "header": {
     "dashboard": "لوحة التحكم",

@@ -16,8 +16,8 @@ import { ThemeService } from '../services/theme.service'; // استيراد خد
 import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component'; 
 // import Quill from 'quill';
 // import { LanguageSwitcherComponent } from '../language-switcher/language-switcher.component';
-// import { TranslateModule } from '@ngx-translate/core';
-
+import { TranslateModule } from '@ngx-translate/core';
+// import { LanguageService } from '../services/language.service';
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.component.html',
@@ -27,7 +27,8 @@ import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
     '../../../node_modules/quill/dist/quill.core.css'
   ],
   standalone:true,
-  imports:[FormsModule,RouterModule,CommonModule,SidebarModule,ThemeToggleComponent],
+  imports: [FormsModule, RouterModule, CommonModule, SidebarModule, ThemeToggleComponent],
+  providers:[],
   template: `<div #editorContainer></div>`
 })
 
@@ -36,7 +37,7 @@ export class MessagesComponent implements OnInit{
       // @ViewChild('editor') editor!: Editor;
       // @ViewChild('editorContainer', { static: true }) editorContainer!: ElementRef;
   // private quill!: Quill;
-        
+          isRtl: boolean = false;
       sidebarVisible: boolean = false;
   emailData = {
     toEmail: '',
@@ -75,8 +76,10 @@ export class MessagesComponent implements OnInit{
 
 
 
-    constructor(public authService:AuthService,private router: Router,private shared:SharedService) {}
+    constructor(public authService:AuthService, private router: Router, private shared:SharedService) {}
     ngOnInit(): void {
+      
+    // this.isRtl = this.languageService.isRtl();
       if (!this.authService.isLoggedIn()) {
         this.router.navigate(['/login']);
         return;

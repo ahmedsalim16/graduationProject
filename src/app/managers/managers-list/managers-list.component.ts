@@ -196,6 +196,7 @@ export class ManagersListComponent implements OnInit{
   clear() {
     if (this.table) {
       this.table.clear();
+      this.filterAdmins();
     }
   }
 

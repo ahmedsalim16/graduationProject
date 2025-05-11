@@ -43,8 +43,8 @@ import { AbsenceListComponent } from './absence-list/absence-list.component';
 import { SignalRService } from './services/signalr.service';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
-// import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-// import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AuthService } from './services/auth.service';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { AddSchoolComponent } from './managers/add-school/add-school.component';
@@ -80,13 +80,21 @@ import { ManagersListComponent } from './managers/managers-list/managers-list.co
 //   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 // }
 
-// دالة تهيئة خدمة اللغة
+// // دالة تهيئة خدمة اللغة
 // export function initLanguageServiceFactory(
 //   languageService: LanguageService
 // ) {
 //   return () => {
 //     return Promise.resolve(languageService.initialize());
 //   };
+// }
+// export function createTranslateLoader(http: HttpClient) {
+//   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+// }
+
+// // مزود لتهيئة خدمة اللغة
+// export function initLanguageServiceFactory(langService: LanguageService) {
+//   return () => langService.initialize();
 // }
 
 @NgModule({

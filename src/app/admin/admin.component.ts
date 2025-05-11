@@ -50,7 +50,11 @@ export class AdminComponent implements OnInit {
       console.error('Admin ID not found!');
     }
   }
-  goBack(): void {
+    goBack(): void {
+    // Logic to navigate back, e.g., using Angular Router
+    window.history.back();
+  }
+  cancel(): void {
   this.admin ={
     userName:'',
     email:'',

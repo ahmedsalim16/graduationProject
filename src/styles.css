@@ -275,3 +275,139 @@ body {
 .p-inputtext, .p-dropdown, .p-multiselect {
   transition: background-color var(--transition-duration), border-color var(--transition-duration), color var(--transition-duration);
 }
+
+
+
+
+/* styles.css - أنماط عامة للدعم اللغة العربية واتجاه RTL */
+
+/* أساسيات تنسيق الاتجاه RTL */
+/* html[dir="rtl"] {
+  text-align: right;
+}
+
+html[dir="ltr"] {
+  text-align: left;
+}
+
+
+html[dir="rtl"] .p-component {
+  direction: rtl;
+}
+
+
+html[dir="rtl"] .p-dropdown-panel {
+  text-align: right;
+}
+
+html[dir="rtl"] .p-button-icon-left {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+
+html[dir="rtl"] .p-button-icon-right {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
+
+html[dir="rtl"] .p-datatable .p-datatable-thead > tr > th,
+html[dir="rtl"] .p-datatable .p-datatable-tbody > tr > td {
+  text-align: right;
+}
+
+html[dir="rtl"] .p-datatable .p-sortable-column-icon {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
+
+html[dir="rtl"] .p-dropdown-trigger {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+html[dir="rtl"] .p-inputtext {
+  padding-right: 0.75rem;
+  padding-left: 2.5rem;
+}
+
+html[dir="rtl"] .p-inputtext-icon-right {
+  right: auto;
+  left: 0.75rem;
+}
+
+html[dir="rtl"] .p-dialog-header-icon {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
+
+html[dir="rtl"] .p-ml-2 {
+  margin-left: 0 !important;
+  margin-right: 0.5rem !important;
+}
+
+html[dir="rtl"] .p-mr-2 {
+  margin-right: 0 !important;
+  margin-left: 0.5rem !important;
+}
+
+html[dir="rtl"] .p-ml-3 {
+  margin-left: 0 !important;
+  margin-right: 1rem !important;
+}
+
+html[dir="rtl"] .p-mr-3 {
+  margin-right: 0 !important;
+  margin-left: 1rem !important;
+}
+
+html[dir="rtl"] .p-pl-2 {
+  padding-left: 0 !important;
+  padding-right: 0.5rem !important;
+}
+
+html[dir="rtl"] .p-pr-2 {
+  padding-right: 0 !important;
+  padding-left: 0.5rem !important;
+}
+
+
+html[dir="rtl"] .p-inputgroup .p-inputgroup-addon:first-child,
+html[dir="rtl"] .p-inputgroup .p-inputgroup-addon:first-child {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+html[dir="rtl"] .p-inputgroup .p-inputgroup-addon:last-child,
+html[dir="rtl"] .p-inputgroup .p-inputgroup-addon:last-child {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+
+html[dir="rtl"] .pi-angle-right:before {
+  content: "\e90d"; 
+}
+
+html[dir="rtl"] .pi-angle-left:before {
+  content: "\e90e"; 
+}
+
+html[dir="rtl"] .pi-angle-double-right:before {
+  content: "\e90b"; 
+}
+
+html[dir="rtl"] .pi-angle-double-left:before {
+  content: "\e90c"; 
+} 
+
+*/
+
