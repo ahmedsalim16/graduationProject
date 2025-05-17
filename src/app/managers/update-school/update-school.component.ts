@@ -26,6 +26,20 @@ selectedFile: File | null = null;
     }
 
   }
+   selectedOption: number | null = null; // القيمة المختارة
+
+    selectOption(option: number): void {
+      this.selectedOption = option; // تحديد الخيار الجديد
+    if (option === 1) {
+      this.schoolData.Plan = 1;
+    }
+    if (option === 2) {
+      this.schoolData.Plan = 2;
+    }
+    if (option === 3) {
+      this.schoolData.Plan = 3;
+    }
+  }
   goBack(): void {
     // Logic to navigate back, e.g., using Angular Router
     window.history.back();
@@ -40,7 +54,8 @@ selectedFile: File | null = null;
     Country: '',
     PhoneNumber: '',
     Email: '',
-    SchoolLogo: null
+    SchoolLogo: null,
+    Plan:0,
   };
   getschoolById(id: string): void {
     this._shared.getSchoolById(id).subscribe(
@@ -56,7 +71,8 @@ selectedFile: File | null = null;
           Country: this.school.country || '',
           PhoneNumber: this.school.phoneNumber || '',
           Email: this.school.email || '',
-          SchoolLogo: this.school.schoolLogo || null  // يمكن أن يكون رابط أو ملف
+          SchoolLogo: this.school.schoolLogo || null ,
+          Plan: this.school.plan || 0, 
         };
 
         // إذا كان هناك حقل Gender مثلاً، يمكنك إضافته إذا كان مطلوبًا في التحديث
@@ -91,7 +107,7 @@ selectedFile: File | null = null;
       // إذا كانت SchoolLogo موجودة كرابط، يمكنك إرساله كنص
       formData.append('SchoolLogo', this.schoolData.SchoolLogo);
     }
-  
+   formData.append('Plan', this.schoolData.Plan);
     console.log('Data being sent:', this.schoolData);
   
     this._shared.updateSchool(formData).subscribe(

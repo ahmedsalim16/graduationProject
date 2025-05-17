@@ -78,5 +78,25 @@
     "parents": "أولياء الأمور",
     "earning": "الأرباح",
     "foods": "الأطعمة"
+  },
+    "general": {
+    "search": "بحث",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "confirmDelete": "هل أنت متأكد من الحذف؟",
+    "yes": "نعم",
+    "no": "لا",
+    "login to your Account": "تسجيل الدخول إلى حسابك"
+  },
+  "LOGIN": {
+    "TITLE": "تسجيل الدخول إلى حسابك",
+    "USERNAME_PLACEHOLDER": "أدخل اسم المستخدم",
+    "PASSWORD_PLACEHOLDER": "أدخل كلمة المرور",
+    "FORGOT_PASSWORD": "هل نسيت كلمة المرور؟",
+    "LOGIN_BUTTON": "تسجيل الدخول",
+    "WELCOME_TITLE": "مرحبًا بكم في لوحة تحكم نظام إدارة المدرسة",
+    "WELCOME_SUBTITLE": "إدارة جميع المهام المتعلقة بالمدرسة بكفاءة.",
+    "GET_STARTED": "ابدأ الآن"
   }
 }

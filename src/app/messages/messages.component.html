@@ -191,23 +191,71 @@
           </div>
           
           <!-- حقل محتوى الرسالة -->
-          <div class="form-group mb-4">
-            <label for="body" class="form-label">
-              <i class="pi pi-file-edit mr-2" style="color: #4b6cb7;"></i>
-              Message
-            </label>
-            <textarea id="body" 
-                     [(ngModel)]="emailData.body" 
-                     name="body" 
-                     class="form-control" 
-                     rows="8"
-                     placeholder="Write your message here..."
-                     style="padding: 15px;
-                            border-radius: 8px;
-                            border: 1px solid #dce1e9;
-                            font-size: 14px;"
-                     required></textarea>
-          </div>
+        <div class="card p-3 mb-4">
+          <label for="body" class="form-label">
+           <i class="pi pi-file-edit mr-2" style="color: #4b6cb7;"></i>
+           Body
+           </label>
+  <p-editor [(ngModel)]="emailData.body" [style]="{'height':'320px'}" name="body">
+    <ng-template pTemplate="header">
+      <span class="ql-formats">
+        <button type="button" class="ql-bold" aria-label="Bold"></button>
+        <button type="button" class="ql-italic" aria-label="Italic"></button>
+        <button type="button" class="ql-underline" aria-label="Underline"></button>
+        <button type="button" class="ql-strike" aria-label="Strike"></button>
+      </span>
+      <span class="ql-formats">
+        <select class="ql-font" aria-label="Font">
+          <option value="arial" class="ql-font-arial">Arial</option>
+          <option value="comic-sans" class="ql-font-comic-sans">Comic Sans</option>
+          <option value="courier-new" class="ql-font-courier-new">Courier New</option>
+          <option value="georgia" class="ql-font-georgia">Georgia</option>
+          <option value="helvetica" class="ql-font-helvetica">Helvetica</option>
+          <option value="lucida" class="ql-font-lucida">Lucida</option>
+          <option value="sans-serif" class="ql-font-arial" selected>Sans Serif</option>
+          <option value="times-new-roman" class="ql-font-times-new-roman">Times New Roman</option>
+        </select>
+        </span>
+        <span class="ql-formats">
+        <select class="ql-size" aria-label="Font Size">
+          <option value="small">Small</option>
+          <option selected>Normal</option>
+          <option value="large">Large</option>
+          <option value="huge">Huge</option>
+        </select>
+      </span>
+      <span class="ql-formats">
+        <button type="button" class="ql-header" value="1" aria-label="Heading 1"></button>
+        <button type="button" class="ql-header" value="2" aria-label="Heading 2"></button>
+        <button type="button" class="ql-blockquote" aria-label="Blockquote"></button>
+        <button type="button" class="ql-code-block" aria-label="Code Block"></button>
+      </span>
+      <span class="ql-formats">
+        <button type="button" class="ql-list" value="ordered" aria-label="Ordered List"></button>
+        <button type="button" class="ql-list" value="bullet" aria-label="Bullet List"></button>
+        <button type="button" class="ql-indent" value="-1" aria-label="Decrease Indent"></button>
+        <button type="button" class="ql-indent" value="+1" aria-label="Increase Indent"></button>
+      </span>
+      <span class="ql-formats">
+        <button type="button" class="ql-direction" value="rtl" aria-label="Text Direction"></button>
+        <select class="ql-align" aria-label="Text Alignment">
+          <option selected></option>
+          <option value="center"></option>
+          <option value="right"></option>
+          <option value="justify"></option>
+        </select>
+      </span>
+      <span class="ql-formats">
+        <button type="button" class="ql-link" aria-label="Insert Link"></button>
+        <button type="button" class="ql-image" aria-label="Insert Image"></button>
+        <button type="button" class="ql-code-block" aria-label="Insert Code Block"></button>
+      </span>
+      <span class="ql-formats">
+        <button type="button" class="ql-clean" aria-label="Remove Formatting"></button>
+      </span>
+    </ng-template>
+  </p-editor>
+</div>
           
           <!-- زر الإرسال -->
           <div class="d-flex justify-content-end mt-4">
@@ -221,7 +269,7 @@
                            color:#fff;
                            background: linear-gradient(to right, #4b6cb7, #182848);
                            border: none;
-                           font-weight: 500;"> Send
+                           font-weight: 500;"> 
             </button>
           </div>
         </form>
@@ -232,6 +280,27 @@
   
   <!-- إضافة CSS إضافي -->
   <style>
+    .ql-font-arial {
+  font-family: Arial, sans-serif;
+}
+.ql-font-comic-sans {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+.ql-font-courier-new {
+  font-family: "Courier New", monospace;
+}
+.ql-font-georgia {
+  font-family: Georgia, serif;
+}
+.ql-font-helvetica {
+  font-family: Helvetica, sans-serif;
+}
+.ql-font-lucida {
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+.ql-font-times-new-roman {
+  font-family: "Times New Roman", serif;
+}
     /* تنسيقات عامة */
     .form-label {
       font-weight: 500; 
@@ -257,6 +326,51 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(75, 108, 183, 0.3) !important;
     }
+    ::ng-deep .p-editor-container {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+
+  .p-editor-toolbar {
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    padding: 0.5rem;
+
+    .ql-formats {
+      margin-right: 12px;
+    }
+
+    button {
+      &:hover {
+        background-color: #e9ecef;
+      }
+    }
+  }
+
+  .p-editor-content {
+    border: 1px solid #ced4da;
+    
+    &.ql-container {
+      font-family: 'Arial', sans-serif;
+      font-size: 14px;
+    }
+
+    .ql-editor {
+      min-height: 250px;
+      padding: 1rem;
+
+      p {
+        margin-bottom: 0.5rem;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+      }
+    }
+  }
+}
     
     /* تنسيقات للهواتف */
     @media (max-width: 768px) {

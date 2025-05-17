@@ -3,6 +3,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { filter } from 'rxjs/operators';
 // import { LanguageService } from './services/language.service';
+// import { LanguageService } from './services/language.service';
 
 @Component({
   selector: 'app-root',
@@ -16,9 +17,11 @@ export class AppComponent {
     private router: Router,
     private authService: AuthService,
     // private languageService: LanguageService
+    // private languageService: LanguageService
   ) {}
 
   ngOnInit() {
+    // this.languageService.initialize();
     // المسارات التي لا تحتاج إلى إعادة توجيه
     const skipRedirectRoutes = [
       '/reset-password',

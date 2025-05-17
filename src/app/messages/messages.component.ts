@@ -7,7 +7,9 @@ import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { Sidebar, SidebarModule } from 'primeng/sidebar';
+import { ActivatedRoute } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
+import { EditorModule } from 'primeng/editor';
 import { RippleModule } from 'primeng/ripple';
 import { StyleClassModule } from 'primeng/styleclass';
 // import { Editor, EditorModule } from 'primeng/editor';
@@ -27,7 +29,7 @@ import { TranslateModule } from '@ngx-translate/core';
     '../../../node_modules/quill/dist/quill.core.css'
   ],
   standalone:true,
-  imports: [FormsModule, RouterModule, CommonModule, SidebarModule, ThemeToggleComponent],
+  imports: [FormsModule, RouterModule, CommonModule, SidebarModule, ThemeToggleComponent,ButtonModule,EditorModule],
   providers:[],
   template: `<div #editorContainer></div>`
 })
@@ -49,30 +51,8 @@ export class MessagesComponent implements OnInit{
   adminName:string | null = localStorage.getItem('username');
   schoolName:string | null = localStorage.getItem('schoolTenantId');
   private subscriptions: Subscription = new Subscription();
-//   ngAfterViewInit() {
-//     this.quill = new Quill(this.editorContainer.nativeElement, {
-//       theme: 'snow',
-//       modules: {
-//          toolbar: [
-//       ['bold', 'italic', 'underline', 'strike'],
-//       ['blockquote', 'code-block'],
-//       [{ 'header': 1 }, { 'header': 2 }],
-//       [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-//       [{ 'script': 'sub'}, { 'script': 'super' }],
-//       [{ 'indent': '-1'}, { 'indent': '+1' }],
-//       [{ 'direction': 'rtl' }],
-//       [{ 'size': ['small', false, 'large', 'huge'] }],
-//       [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-//       [{ 'color': [] }, { 'background': [] }],
-//       [{ 'font': [] }],
-//       [{ 'align': [] }],
-//       ['clean'],
-//       ['link', 'image', 'video']
-//     ]
-  
-// }
-// });
-// }
+editorContent: string = '';
+
 
 
 
@@ -107,6 +87,23 @@ export class MessagesComponent implements OnInit{
       }
     }
   
+  applyFilterGlobal(event: any, filterType: string) {
+    // Implement global filter functionality
+    const filterValue = (event.target as HTMLInputElement).value;
+    console.log('Applying global filter:', filterValue);
+    // This would normally call your table filtering mechanism
+  }
+
+  onFilterChange(event: any, field: string, matchMode: string) {
+    // Implement column filter functionality
+    const filterValue = (event.target as HTMLInputElement).value;
+    console.log('Filtering', field, 'by', filterValue, 'with mode', matchMode);
+    // This would normally set a filter on your table
+  }
+    saveEditorContent() {
+    console.log('Saving editor content:', this.emailData.body);
+    // Implement your save functionality
+  }
     sendEmail() {
       if (!this.validateEmailForm()) {
         return;

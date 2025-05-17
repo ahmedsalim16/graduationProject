@@ -66,8 +66,7 @@
   }
   #edit{
     width: 200px;
-    height: 50px;
-    margin-top: 20px; /* إضافة هامش علوي */
+    height: 50px; 
     display: flex;
     align-items: center;
     justify-content: center;

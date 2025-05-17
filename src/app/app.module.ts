@@ -69,24 +69,35 @@ import { SidebarModule } from 'primeng/sidebar';
 import { RippleModule } from 'primeng/ripple';
 import { StyleClassModule } from 'primeng/styleclass';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { EditorModule } from 'primeng/editor';
 // import { LanguageSwitcherComponent } from './language-switcher/language-switcher.component';
 // import { LanguageService } from './services/language.service';
 import { PrimeNGConfig } from 'primeng/api';
 import { ThemeToggleComponent } from './theme-toggle/theme-toggle.component';
 import { ManagersListComponent } from './managers/managers-list/managers-list.component';
-
+import { PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 // دالة لتحميل ملفات الترجمة
 // export function HttpLoaderFactory(http: HttpClient) {
 //   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 // }
 
-// // دالة تهيئة خدمة اللغة
-// export function initLanguageServiceFactory(
-//   languageService: LanguageService
-// ) {
-//   return () => {
-//     return Promise.resolve(languageService.initialize());
-//   };
+// دالة تهيئة خدمة اللغة
+// export function initializeAppFactory(
+//   translateService: TranslateService,
+//   primeConfig: PrimeNGConfig
+// ): () => Promise<any> {
+//   return () => new Promise((resolve) => {
+//     translateService.setDefaultLang('en');
+//     translateService.use('en').subscribe(() => {
+//       primeConfig.setTranslation({
+//         accept: 'موافق',
+//         reject: 'رفض',
+//         // أضف هنا بقية ترجمات PrimeNG التي تحتاجها
+//       });
+//       resolve(null);
+//     });
+//   });
 // }
 // export function createTranslateLoader(http: HttpClient) {
 //   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -164,6 +175,7 @@ import { ManagersListComponent } from './managers/managers-list/managers-list.co
     ThemeToggleComponent,
     ManagersListComponent,
     CalendarModule,
+    EditorModule,
     // TranslateModule.forRoot({
     //   loader: {
     //     provide: TranslateLoader,
@@ -188,13 +200,18 @@ import { ManagersListComponent } from './managers/managers-list/managers-list.co
     { provide: HTTP_INTERCEPTORS, useClass: customeInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: authInterceptor, multi: true },
     SignalRService,
-    // LanguageService,
-    // {
-    //   provide: APP_INITIALIZER,
-    //   useFactory: initLanguageServiceFactory,
-    //   deps: [LanguageService],
-    //   multi: true
-    // }
+//     LanguageService,
+//     {
+//   provide: APP_INITIALIZER,
+//   useFactory: (languageService: LanguageService) => {
+//     return () => languageService.initialize().catch(err => {
+//       console.error('Language initialization failed', err);
+//       return Promise.resolve(); // Ensure the app continues to load
+//     });
+//   },
+//   deps: [LanguageService],
+//   multi: true
+// }
   ],
   bootstrap: [AppComponent]
 })

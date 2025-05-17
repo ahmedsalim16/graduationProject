@@ -1,81 +1,61 @@
-// import { Injectable } from '@angular/core';
+// import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 // import { TranslateService } from '@ngx-translate/core';
-// import { BehaviorSubject } from 'rxjs';
 // import { PrimeNGConfig } from 'primeng/api';
+// import { isPlatformBrowser } from '@angular/common';
 
 // @Injectable({
 //   providedIn: 'root'
 // })
 // export class LanguageService {
-//   private currentLanguageSubject = new BehaviorSubject<string>('en');
-//   public currentLanguage$ = this.currentLanguageSubject.asObservable();
+//   private currentLang = 'en';
 
 //   constructor(
 //     private translate: TranslateService,
-//     private primengConfig: PrimeNGConfig
+//     private primeConfig: PrimeNGConfig,
+//     @Inject(PLATFORM_ID) private platformId: Object
 //   ) {}
 
-//   initialize(): Promise<void> {
-//     return new Promise((resolve) => {
-//       this.translate.setDefaultLang('en');
-      
-//       try {
-//         const savedLang = localStorage.getItem('language');
-//         const browserLang = navigator.language?.split('-')[0];
-//         const initialLang = savedLang || 
-//                          (browserLang && ['en', 'ar'].includes(browserLang) ? browserLang : 'en');
-        
-//         this.changeLanguage(initialLang);
-//         resolve();
-//       } catch (error) {
-//         console.error('Error initializing language service:', error);
-//         this.changeLanguage('en');
-//         resolve();
-//       }
-//     });
+//  initialize(): Promise<void> {
+//   return new Promise((resolve) => {
+//     this.translate.setDefaultLang('en');
+    
+//     // Delay to ensure everything is loaded
+//     setTimeout(() => {
+//       const lang = localStorage.getItem('language') || 'en';
+//       this.changeLanguage(lang).then(() => {
+//         resolve(); // Ensure the promise resolves
+//       }).catch(err => {
+//         console.error('Error changing language:', err);
+//         resolve(); // Resolve even if there's an error
+//       });
+//     }, 100);
+//   });
+// }
+
+//   async changeLanguage(lang: string): Promise<void> {
+//     await this.translate.use(lang).toPromise();
+//     this.primeConfig.setTranslation(this.getPrimeNGTranslations(lang));
+//     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+//     localStorage.setItem('language', lang);
 //   }
 
-//   changeLanguage(lang: string): void {
-//     if (!['en', 'ar'].includes(lang)) {
-//       lang = 'en'; // الافتراضي للغات غير المدعومة
-//     }
-    
-//     try {
-//       // تعيين اللغة لـ ngx-translate
-//       this.translate.use(lang);
-      
-//       // حفظ في localStorage
-//       localStorage.setItem('language', lang);
-      
-//       // تحديث اتجاه المستند للغات RTL
-//       const isRtl = lang === 'ar';
-//       document.documentElement.dir = isRtl ? 'rtl' : 'ltr';
-//       document.documentElement.lang = lang;
-      
-//       // تعيين صنف محاذاة النص على عنصر body
-//       if (isRtl) {
-//         document.body.classList.add('rtl-text');
-//       } else {
-//         document.body.classList.remove('rtl-text');
-//       }
-      
-//       // تحديث BehaviorSubject
-//       this.currentLanguageSubject.next(lang);
-      
-//       // تحديث ترجمات PrimeNG
-//       this.translate.get('primeng').subscribe(res => {
-//         this.primengConfig.setTranslation(res);
-//       });
-//     } catch (error) {
-//       console.error('Error changing language:', error);
-//     }
+//   private getPrimeNGTranslations(lang: string): any {
+//     return lang === 'ar' ? {
+//       accept: 'موافق',
+//       reject: 'رفض',
+//       // ... بقية الترجمات
+//     } : {
+//       accept: 'Accept',
+//       reject: 'Cancel',
+//       // ... بقية الترجمات
+//     };
 //   }
 
 //   getCurrentLanguage(): string {
-//     return this.currentLanguageSubject.value;
+//     return this.currentLang;
 //   }
 
-//   isRtl(): boolean {
-//     return this.getCurrentLanguage() === 'ar';
+//   isRTL(): boolean {
+//     return this.currentLang === 'ar';
 //   }
 // }

@@ -6,12 +6,12 @@
 			
 			
 			<div class="input-box">
+                <i class="fa-solid fa-envelope" style="margin-left: 12px; margin-top: 8px;"></i>
                 <input class="email" [(ngModel)]="obj.userName" type="text" placeholder="Enter your username"  required/>
-                <i class="fa-solid fa-envelope"></i>
             </div>
             <div class="input-box">
+                <i class="fa-solid fa-lock" style="margin-left: 12px; margin-top: 8px;"></i>
                 <input class="pass" [(ngModel)]="obj.password" [type]="showPassword ? 'text' : 'password'" id="pass" type="password" placeholder="Enter your password"   required/>
-                <i class="fa-solid fa-lock"></i>
                 <i class="fa-solid" [ngClass]="showPassword ? 'fa-eye' : 'fa-eye-slash'"
                     (click)="togglePasswordVisibility()"></i>
             </div>
@@ -37,7 +37,7 @@
 	<div class="overlay-container">
 		<div class="overlay">
 			<div class="overlay-panel overlay-left">
-				<img src="../../assets/a4e461fe3742a7cf10a1008ffcb18744.png" alt="" id="left-img">
+				<img src="../../assets/a4e461fe3742a7cf10a1008ffcb18744.png" alt="" id="left-img" style="position:relative;top:50px">
 				<div class="logo2">
 					<i class="fa-solid fa-graduation-cap animated-icon" style="color: #fff;"></i>
 					<h4>SMART</h4>

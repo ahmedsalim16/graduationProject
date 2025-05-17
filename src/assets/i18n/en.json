@@ -70,5 +70,27 @@
     "parents": "Parents",
     "earning": "Earning",
     "foods": "Foods"
+  },
+   "general": {
+    "search": "Search",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "confirmDelete": "Are you sure you want to delete?",
+    "yes": "Yes",
+    "no": "No",
+    "login to your Account": "Login to your Account"
+  },
+  
+  "LOGIN": {
+    "TITLE": "Login to your Account",
+    "USERNAME_PLACEHOLDER": "Enter your username",
+    "PASSWORD_PLACEHOLDER": "Enter your password",
+    "FORGOT_PASSWORD": "Forgot your password?",
+    "LOGIN_BUTTON": "Login",
+    "WELCOME_TITLE": "Welcome to School Management System Admin Panel",
+    "WELCOME_SUBTITLE": "Efficiently manage all school-related tasks.",
+    "GET_STARTED": "Get Started"
   }
+
 }

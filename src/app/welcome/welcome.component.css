@@ -73,8 +73,8 @@ button.ghost {
 }
 .logo2{
 	position: relative;
-    bottom: 42vh;
-    right: 220px;
+    bottom: 35vh;
+    right: 175px;
 	display: flex;
     flex-direction: column;
     align-items: baseline;
@@ -160,7 +160,7 @@ button.ghost {
     font-size: 18px;
     cursor: pointer;
 }
-.fa-envelope:before {
+/* .fa-envelope:before {
     position: relative;
     right: 400px;
     top: 8px;
@@ -169,7 +169,7 @@ button.ghost {
     position: relative;
     right: 400px;
     top: 8px;
-}
+} */
 
 .fa-eye:before {
     left: -14px;

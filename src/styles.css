@@ -104,10 +104,10 @@ body.dark-theme {
   .theme-toggle-btn {
     color: #1e1e1e;
   }
-  form{
-    background-color: rgba(255, 255, 255, 0.1);
+  /* form{
+    background-color: transparent;
     
-  }
+  } */
   /* .mt-4{
     background-color: rgba(255, 255, 255, 0.1);
     color: rgba(255, 255, 255, 0.7);
@@ -121,11 +121,11 @@ body.dark-theme {
   #upload{
     background-color: rgba(255, 255, 255, 0.1);
   }
-  #school{
+  /* #school{
     background-color: transparent;
-  }
+  } */
   .mb-4{
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: transparent;
     color: #6c757d;
   }
 }
@@ -276,7 +276,35 @@ body {
   transition: background-color var(--transition-duration), border-color var(--transition-duration), color var(--transition-duration);
 }
 
+/* RTL Support */
+/* [dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
 
+[dir="rtl"] .p-dropdown,
+[dir="rtl"] .p-inputtext,
+[dir="rtl"] .p-menuitem-text {
+  text-align: right !important;
+}
+
+[dir="rtl"] .p-calendar .p-inputtext {
+  text-align: right;
+}
+
+[dir="rtl"] .p-datatable .p-datatable-thead > tr > th {
+  text-align: right;
+}
+
+/* Fixes for PrimeNG RTL 
+[dir="rtl"] .p-menubar .p-menubar-root-list {
+  right: 0;
+  left: auto !important;
+}
+
+[dir="rtl"] .p-sidebar-right {
+  transform: translateX(-100%);
+} */
 
 
 /* styles.css - أنماط عامة للدعم اللغة العربية واتجاه RTL */

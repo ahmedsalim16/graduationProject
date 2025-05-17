@@ -12,29 +12,45 @@
 //   templateUrl: './language-switcher.component.html',
 //   styleUrls: ['./language-switcher.component.css'],
 //   standalone: true,
-//   imports: [ButtonModule, SelectButtonModule, RouterModule, CommonModule, FormsModule, TranslateModule]
+//   imports: [ButtonModule, SelectButtonModule, RouterModule, CommonModule, FormsModule, TranslateModule],
+//  template: `
+//     <p-selectButton [options]="languageOptions" 
+//                    [(ngModel)]="currentLanguage" 
+//                    (onChange)="changeLanguage($event.value)"
+//                    [multiple]="false">
+//     </p-selectButton>
+//   `,
+//   styles: [`
+//     :host ::ng-deep .p-selectbutton .p-button {
+//       min-width: 60px;
+//       padding: 0.5rem;
+//     }
+//     :host ::ng-deep .p-selectbutton .p-button.p-highlight {
+//       background-color: var(--primary-color);
+//       border-color: var(--primary-color);
+//     }
+//   `]
 // })
 // export class LanguageSwitcherComponent implements OnInit {
-//   selectedLanguage: string = 'en';
-  
-//   languages = [
-//     { label: 'English', value: 'en' },
-//     { label: 'عربي', value: 'ar' }
+//      currentLanguage: string;
+//   languageOptions = [
+//     { label: 'EN', value: 'en' },
+//     { label: 'AR', value: 'ar' }
 //   ];
-  
+
 //   constructor(private languageService: LanguageService) {}
-  
+
 //   ngOnInit() {
-//     // Initialize with current language
-//     this.selectedLanguage = this.languageService.getCurrentLanguage();
-    
-//     // Subscribe to language changes
-//     this.languageService.currentLanguage$.subscribe(lang => {
-//       this.selectedLanguage = lang;
-//     });
+//     this.currentLanguage = this.languageService.getCurrentLanguage();
 //   }
-  
-//   switchLanguage(lang: string) {
-//     this.languageService.changeLanguage(lang);
+//  toggleLanguage() {
+//     const newLang = this.currentLanguage === 'en' ? 'ar' : 'en';
+//     this.languageService.changeLanguage(newLang);
+//     this.currentLanguage = newLang;
 //   }
+//   changeLanguage(lang: string) {
+//   this.languageService.changeLanguage(lang).catch(err => {
+//     console.error('Error changing language:', err);
+//   });
+// }
 // }

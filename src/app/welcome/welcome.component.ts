@@ -4,6 +4,7 @@ import {  Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { AuthService } from '../services/auth.service';
+// import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-welcome',

@@ -39,6 +39,21 @@ navigateToAdminUpdate(): void {
     console.error('Admin ID not found!');
   }
 }
+
+    selectedOption: number | null = null; // القيمة المختارة
+
+    selectOption(option: number): void {
+      this.selectedOption = option; // تحديد الخيار الجديد
+    if (option === 1) {
+      this.schoolData.Plan = 1;
+    }
+    if (option === 2) {
+      this.schoolData.Plan = 2;
+    }
+    if (option === 3) {
+      this.schoolData.Plan = 3;
+    }
+  }
   goBack(): void {
     // Logic to navigate back, e.g., using Angular Router
     window.history.back();
@@ -51,7 +66,8 @@ cancel(): void {
     Country: '',
     PhoneNumber: '',
     Email: '',
-    SchoolLogo: null
+    SchoolLogo: null,
+    Plan: 0,
   };
 }
 schoolData = {
@@ -61,7 +77,8 @@ schoolData = {
   Country: '',
   PhoneNumber: '',
   Email: '',
-  SchoolLogo: null
+  SchoolLogo: null,
+  Plan: 0,
 };
 
 
@@ -106,7 +123,8 @@ addSchool() {
               Country: '',
               PhoneNumber: '',
               Email: '',
-              SchoolLogo: null
+              SchoolLogo: null,
+              Plan: 0,
             };
     },
     (error) => {
