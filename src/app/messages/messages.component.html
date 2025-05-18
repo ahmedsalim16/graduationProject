@@ -206,14 +206,14 @@
       </span>
       <span class="ql-formats">
         <select class="ql-font" aria-label="Font">
-          <option value="arial" class="ql-font-arial">Arial</option>
-          <option value="comic-sans" class="ql-font-comic-sans">Comic Sans</option>
-          <option value="courier-new" class="ql-font-courier-new">Courier New</option>
-          <option value="georgia" class="ql-font-georgia">Georgia</option>
-          <option value="helvetica" class="ql-font-helvetica">Helvetica</option>
-          <option value="lucida" class="ql-font-lucida">Lucida</option>
-          <option value="sans-serif" class="ql-font-arial" selected>Sans Serif</option>
-          <option value="times-new-roman" class="ql-font-times-new-roman">Times New Roman</option>
+          <option value="arial" >Arial</option>
+          <option value="comic-sans" >Comic Sans</option>
+          <option value="courier-new" >Courier New</option>
+          <option value="georgia" >Georgia</option>
+          <option value="helvetica" >Helvetica</option>
+          <option value="lucida" >Lucida</option>
+          <option value="sans-serif"  selected>Sans Serif</option>
+          <option value="times-new-roman">Times New Roman</option>
         </select>
         </span>
         <span class="ql-formats">
@@ -255,6 +255,22 @@
       </span>
     </ng-template>
   </p-editor>
+  <div class="editor-actions mt-3">
+    <button pButton pRipple 
+            type="button"
+            icon="pi pi-file-pdf" 
+            label="Export to PDF" 
+            class="p-button-success mr-2"
+            style="margin-right: 5px; border-radius: 8px;"
+            (click)="exportToPdf()"></button>
+    <button pButton pRipple 
+            type="button"
+            icon="pi pi-trash" 
+            label="Clear" 
+            class="p-button-danger"
+            style="border-radius: 8px;"
+            (click)="clearEditorContent()"></button>
+  </div>
 </div>
           
           <!-- زر الإرسال -->
