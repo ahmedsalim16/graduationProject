@@ -340,162 +340,49 @@ private setupCustomFonts(quillEditor: any) {
     console.error('Error setting up custom fonts:', error);
   }
 }
+// دالة لاستخراج الصور من محتوى HTML
+private extractImagesFromHtml(htmlContent: string): Promise<{id: string, data: string}[]> {
+  return new Promise((resolve) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlContent, 'text/html');
+    const images = doc.querySelectorAll('img');
+    const imageInfoArray: {id: string, data: string}[] = [];
 
-// تعديل دالة exportToPdf في MessagesComponent
-exportToPdf(): void {
-  // التأكد من وجود محتوى في النص أولاً
-  if (!this.emailData.body) {
-    this.showErrorAlert('لا يوجد محتوى لتصديره!');
-    return;
-  }
-  
-  // الاحتفاظ بتنسيق HTML
-  const htmlContent = this.emailData.body;
-  
-  // استخراج الخط المستخدم من المحتوى
-  let fontFamily = 'Roboto'; // الخط الافتراضي
-  const fontRegex = /font-family:\s*([^;]+)/;
-  const fontMatch = htmlContent.match(fontRegex);
-  if (fontMatch && fontMatch[1]) {
-    fontFamily = fontMatch[1].trim();
-  }
-  
-  // تحويل جميع الصور في المحتوى إلى base64 وتحضير مصفوفة الصور
-  this.extractImagesFromHtml(htmlContent).then(imageInfoArray => {
-    // تعريف الخطوط المتاحة
-    const fonts = {
-      Roboto: {
-        normal: 'Roboto-Regular.ttf',
-        bold: 'Roboto-Bold.ttf',
-        italics: 'Roboto-Italic.ttf',
-        bolditalics: 'Roboto-BoldItalic.ttf'
-      },
-      Arial: {
-        normal: 'Arial-Regular.ttf',
-        bold: 'Arial-Bold.ttf',
-        italics: 'Arial-Italic.ttf',
-        bolditalics: 'Arial-BoldItalic.ttf'
-      }
-    };
-    
-    // تعريف تنسيق المستند
-    const documentDefinition: import('pdfmake/interfaces').TDocumentDefinitions = {
-      content: [
-        { text: 'Exported Email', style: 'header' },
-        { text: ' ', style: 'spacer' },
-        { text: new Date().toLocaleString(), alignment: 'left' },
-        { text: ' ', style: 'spacer' },
-        { text: 'Email: ' + (this.emailData.toEmail || 'Not specified'), style: 'subheader' },
-        { text: 'Subject: ' + (this.emailData.subject || 'Not specified'), style: 'subheader' },
-        { text: ' ', style: 'bigspacer' },
-        { text: 'Message Content:', style: 'bodyHeader' },
-        // استخدام المحتوى HTML مباشرة مع تحويله إلى تنسيق pdfmake
-        {
-          stack: this.parseHtmlContentForPdf(htmlContent, imageInfoArray)
-        },
-        { text: ' ', style: 'bigspacer' },
-        { text: 'Admin Name: ' + (this.adminName || 'Not specified'), style: 'subheader' },
-        { text: 'School Name: ' + (this.schoolName || 'Not specified'), style: 'subheader' },
-      ],
-      styles: {
-        header: {
-          fontSize: 18,
-          bold: true,
-          margin: [0, 0, 0, 10]
-        },
-        subheader: {
-          fontSize: 14,
-          bold: true,
-          margin: [0, 5, 0, 0]
-        },
-        bodyHeader: {
-          fontSize: 14,
-          bold: true,
-          margin: [0, 0, 0, 5],
-          decoration: 'underline'
-        },
-        content: {
-          fontSize: 12,
-          margin: [0, 5, 0, 0]
-        },
-        paragraph: {
-          fontSize: 12,
-          margin: [0, 0, 0, 5] // مسافة للفصل بين الفقرات
-        },
-        spacer: {
-          margin: [0, 10, 0, 0]
-        },
-        bigspacer: {
-          margin: [0, 15, 0, 0]
-        },
-        image: {
-          margin: [0, 5, 0, 5]
+    images.forEach((img, index) => {
+      const imgSrc = img.getAttribute('src');
+      if (imgSrc) {
+        // إنشاء معرف فريد للصورة
+        const imgId = `img_${index}`;
+        img.setAttribute('data-img-id', imgId);
+        
+        // إذا كانت الصورة بتنسيق base64
+        if (imgSrc.startsWith('data:image')) {
+          imageInfoArray.push({
+            id: imgId,
+            data: imgSrc
+          });
+        } else {
+          // محاولة تحميل الصور الخارجية (قد تحتاج إلى معالجة CORS)
+          this.getBase64Image(imgSrc).then(base64Data => {
+            imageInfoArray.push({
+              id: imgId,
+              data: base64Data
+            });
+          }).catch(() => {
+            console.warn('Failed to load image:', imgSrc);
+          });
         }
-      },
-      defaultStyle: {
-        font: fontFamily
       }
-    };
-    
-    // إنشاء وتنزيل ملف PDF
-    try {
-      const pdfDocGenerator = pdfMake.createPdf(documentDefinition);
-      pdfDocGenerator.download('email_document.pdf');
-      
-      this.showSuccessAlert('PDF exported successfully');
-      console.log('تم تصدير ملف PDF بنجاح');
-    } catch (error) {
-      this.showErrorAlert('Error exporting PDF');
-      console.error('خطأ في تصدير ملف PDF:', error);
-    }
-  }).catch(error => {
-    this.showErrorAlert('Error processing images in the content');
-    console.error('خطأ في معالجة الصور:', error);
+    });
+
+    resolve(imageInfoArray);
   });
 }
 
-// استخراج الصور من محتوى HTML وتحويلها إلى base64
-private async extractImagesFromHtml(htmlContent: string): Promise<{id: string, data: string}[]> {
-  const imageInfoArray: {id: string, data: string}[] = [];
-  const tempDiv = document.createElement('div');
-  tempDiv.innerHTML = htmlContent;
-  
-  const images = tempDiv.querySelectorAll('img');
-  
-  // معالجة كل صورة على حدة
-  for (let i = 0; i < images.length; i++) {
-    const img = images[i];
-    const imgSrc = img.getAttribute('src');
-    
-    if (imgSrc) {
-      try {
-        // إنشاء معرف فريد للصورة
-        const imgId = 'img_' + Math.random().toString(36).substring(2, 15);
-        
-        // إضافة المعرف إلى عنصر الصورة للتعرف عليه لاحقاً
-        img.setAttribute('data-img-id', imgId);
-        
-        // تحويل الصورة إلى base64 إذا لم تكن كذلك بالفعل
-        const imgData = await this.getBase64Image(imgSrc);
-        
-        // إضافة معلومات الصورة إلى المصفوفة
-        imageInfoArray.push({
-          id: imgId,
-          data: imgData
-        });
-      } catch (error) {
-        console.error('خطأ في معالجة الصورة:', error);
-      }
-    }
-  }
-  
-  return imageInfoArray;
-}
-
-// تحويل مصدر الصورة إلى base64
+// دالة لتحويل الصور إلى base64
 private getBase64Image(src: string): Promise<string> {
   return new Promise((resolve, reject) => {
-    // إذا كانت الصورة بالفعل بتنسيق base64، أعد تنسيقها مباشرة
+    // إذا كانت الصورة بالفعل بتنسيق base64
     if (src.startsWith('data:image')) {
       resolve(src);
       return;
@@ -517,7 +404,6 @@ private getBase64Image(src: string): Promise<string> {
       
       ctx.drawImage(img, 0, 0);
       
-      // الحصول على الصورة بتنسيق base64
       try {
         const dataURL = canvas.toDataURL('image/png');
         resolve(dataURL);
@@ -526,81 +412,189 @@ private getBase64Image(src: string): Promise<string> {
       }
     };
     
-    img.onerror = (error) => {
-      reject('Error loading image: ' + error);
+    img.onerror = () => {
+      reject('Error loading image');
     };
     
     img.src = src;
   });
 }
+// تعديل دالة exportToPdf في MessagesComponent
+exportToPdf(): void {
+  if (!this.emailData.body) {
+    this.showErrorAlert('لا يوجد محتوى لتصديره!');
+    return;
+  }
+
+  // استخراج الصور من محتوى HTML
+  this.extractImagesFromHtml(this.emailData.body).then(imageInfoArray => {
+    // تعريف محتوى PDF
+    const content: any[] = [
+      { text: 'Exported Email', style: 'header' },
+      { text: ' ', style: 'spacer' },
+      { text: new Date().toLocaleString(), alignment: 'left' },
+      { text: ' ', style: 'spacer' },
+      { text: 'Email: ' + (this.emailData.toEmail || 'Not specified'), style: 'subheader' },
+      { text: 'Subject: ' + (this.emailData.subject || 'Not specified'), style: 'subheader' },
+      { text: ' ', style: 'bigspacer' },
+      { text: 'Message Content:', style: 'bodyHeader' },
+      {
+        stack: this.parseHtmlContentForPdf(this.emailData.body, imageInfoArray)
+      },
+      { text: ' ', style: 'bigspacer' },
+      { text: 'Admin Name: ' + (this.adminName || 'Not specified'), style: 'subheader' },
+      { text: 'School Name: ' + (this.schoolName || 'Not specified'), style: 'subheader' }
+    ];
+
+    // تعريف تنسيق المستند
+    const documentDefinition = {
+      content: content,
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true,
+          margin: [0, 0, 0, 10] as [number, number, number, number]
+        },
+        subheader: {
+          fontSize: 14,
+          bold: true,
+          margin: [0, 5, 0, 0] as [number, number, number, number]
+        },
+        bodyHeader: {
+          fontSize: 14,
+          bold: true,
+          margin: [0, 0, 0, 5] as [number, number, number, number],
+          decoration: 'underline' as 'underline'
+        },
+        paragraph: {
+          fontSize: 12,
+          margin: [0, 0, 0, 5] as [number, number, number, number]
+        },
+        spacer: {
+          margin: [0, 10, 0, 0] as [number, number, number, number]
+        },
+        bigspacer: {
+          margin: [0, 15, 0, 0] as [number, number, number, number]
+        },
+        image: {
+          margin: [0, 5, 0, 5] as [number, number, number, number]
+        }
+      }
+    };
+
+    // إنشاء وتنزيل ملف PDF
+    try {
+      const pdfDocGenerator = pdfMake.createPdf(documentDefinition);
+      pdfDocGenerator.download('email_document.pdf');
+      this.showSuccessAlert('PDF exported successfully');
+    } catch (error) {
+      this.showErrorAlert('Error exporting PDF');
+      console.error('خطأ في تصدير ملف PDF:', error);
+    }
+  }).catch(error => {
+    this.showErrorAlert('Error processing images in the content');
+    console.error('خطأ في معالجة الصور:', error);
+  });
+}
+
+
+
 
 // دالة جديدة لتحويل محتوى HTML إلى تنسيق مناسب لـ pdfMake مع دعم الصور
 private parseHtmlContentForPdf(htmlContent: string, imageInfoArray: {id: string, data: string}[]): any[] {
   if (!htmlContent) return [];
   
-  const tempDiv = document.createElement('div');
-  tempDiv.innerHTML = htmlContent;
-  
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlContent, 'text/html');
+  const body = doc.body;
   const result: any[] = [];
-  
-  // تحويل العناصر HTML إلى تنسيق pdfMake
-  this.parseHtmlNode(tempDiv, result, imageInfoArray);
-  
+
+  const processNode = (node: Node) => {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const text = node.textContent?.trim();
+      if (text) {
+        result.push({ text: text, style: 'paragraph' });
+      }
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      const element = node as HTMLElement;
+      
+      // معالجة الصور
+      if (element.tagName.toLowerCase() === 'img') {
+        const imgId = element.getAttribute('data-img-id');
+        if (imgId) {
+          const imageInfo = imageInfoArray.find(img => img.id === imgId);
+          if (imageInfo) {
+            result.push({
+              image: imageInfo.data,
+              width: 300,
+              margin: [0, 5, 0, 5]
+            });
+          }
+        }
+      }
+      // معالجة العناصر الأخرى
+      else {
+        Array.from(element.childNodes).forEach(processNode);
+      }
+    }
+  };
+
+  Array.from(body.childNodes).forEach(processNode);
   return result;
 }
 
 private parseHtmlNode(node: Node, result: any[], imageInfoArray?: {id: string, data: string}[]): void {
   const children = node.childNodes;
-  
+
   for (let i = 0; i < children.length; i++) {
     const child = children[i];
-    
+
     if (child.nodeType === Node.TEXT_NODE) {
-      // نص عادي
       const text = child.textContent?.trim();
       if (text) {
         result.push({ text: text, style: 'paragraph' });
       }
     } else if (child.nodeType === Node.ELEMENT_NODE) {
       const element = child as HTMLElement;
-      
+
       switch (element.tagName.toLowerCase()) {
-        case 'p':
+        case 'p': {
           const paragraphContent: any[] = [];
           this.parseHtmlNode(element, paragraphContent, imageInfoArray);
-          
+
           // دعم اتجاه النص من اليمين إلى اليسار
-          const isRtl = this.hasRtlText(element.textContent || '') || 
-                      element.dir === 'rtl' || 
-                      getComputedStyle(element).direction === 'rtl';
-                      
-          result.push({ 
-            text: paragraphContent.map(p => typeof p.text === 'string' ? p.text : '').join(' '), 
+          const isRtl = this.hasRtlText
+            ? this.hasRtlText(element.textContent || '')
+            : false;
+          const dir = element.getAttribute('dir');
+          const computedDir = getComputedStyle(element).direction;
+          const rtl = isRtl || dir === 'rtl' || computedDir === 'rtl';
+
+          result.push({
+            text: paragraphContent.map(p => typeof p.text === 'string' ? p.text : '').join(' '),
             style: 'paragraph',
-            alignment: isRtl ? 'right' : 'left'
+            alignment: rtl ? 'right' : 'left'
           });
           break;
-          
+        }
         case 'h1':
         case 'h2':
         case 'h3':
         case 'h4':
         case 'h5':
-        case 'h6':
+        case 'h6': {
           const headingContent: any[] = [];
           this.parseHtmlNode(element, headingContent, imageInfoArray);
-          result.push({ 
-            text: headingContent.map(h => typeof h.text === 'string' ? h.text : '').join(' '), 
+          result.push({
+            text: headingContent.map(h => typeof h.text === 'string' ? h.text : '').join(' '),
             style: 'subheader',
-            fontSize: 20 - parseInt(element.tagName.charAt(1)) // حجم الخط يعتمد على مستوى العنوان
+            fontSize: 20 - parseInt(element.tagName.charAt(1))
           });
           break;
-          
+        }
         case 'ul':
-        case 'ol':
+        case 'ol': {
           const listItems: any[] = [];
-          
-          // معالجة عناصر القائمة
           for (let j = 0; j < element.children.length; j++) {
             if (element.children[j].tagName.toLowerCase() === 'li') {
               const liContent: any[] = [];
@@ -608,38 +602,36 @@ private parseHtmlNode(node: Node, result: any[], imageInfoArray?: {id: string, d
               listItems.push(liContent.map(li => typeof li.text === 'string' ? li.text : '').join(' '));
             }
           }
-          
           result.push({
             ul: element.tagName.toLowerCase() === 'ul' ? listItems : undefined,
             ol: element.tagName.toLowerCase() === 'ol' ? listItems : undefined,
             style: 'paragraph'
           });
           break;
-          
+        }
         case 'br':
           result.push({ text: '\n' });
           break;
-          
         case 'strong':
-        case 'b':
+        case 'b': {
           const boldContent: any[] = [];
           this.parseHtmlNode(element, boldContent, imageInfoArray);
           result.push({ text: boldContent.map(b => typeof b.text === 'string' ? b.text : '').join(' '), bold: true });
           break;
-          
+        }
         case 'em':
-        case 'i':
+        case 'i': {
           const italicContent: any[] = [];
           this.parseHtmlNode(element, italicContent, imageInfoArray);
           result.push({ text: italicContent.map(i => typeof i.text === 'string' ? i.text : '').join(' '), italics: true });
           break;
-          
-        case 'u':
+        }
+        case 'u': {
           const underlineContent: any[] = [];
           this.parseHtmlNode(element, underlineContent, imageInfoArray);
           result.push({ text: underlineContent.map(u => typeof u.text === 'string' ? u.text : '').join(' '), decoration: 'underline' });
           break;
-          
+        }
         case 'img':
           // معالجة الصور
           if (imageInfoArray) {
@@ -647,30 +639,22 @@ private parseHtmlNode(node: Node, result: any[], imageInfoArray?: {id: string, d
             if (imgId) {
               const imageInfo = imageInfoArray.find(info => info.id === imgId);
               if (imageInfo) {
-                // إضافة الصورة إلى المستند
                 result.push({
                   image: imageInfo.data,
-                  width: element.clientWidth > 0 ? Math.min(element.clientWidth, 500) : 200, // حد أقصى للعرض
+                  width: element.clientWidth > 0 ? Math.min(element.clientWidth, 500) : 200,
                   style: 'image'
                 });
               }
             } else {
-              // إذا لم تتم معالجة الصورة مسبقًا، حاول معالجتها الآن
               const imgSrc = element.getAttribute('src');
               if (imgSrc) {
-                // إنشاء معرف فريد للصورة
                 const newImgId = 'img_' + Math.random().toString(36).substring(2, 15);
-                
-                // احفظ المعرف مؤقتًا في عنصر الصورة
                 element.setAttribute('data-img-id', newImgId);
-                
-                // أضف مهمة لتحميل الصورة (ستعمل بشكل غير متزامن)
                 this.getBase64Image(imgSrc).then(base64Data => {
                   imageInfoArray.push({
                     id: newImgId,
                     data: base64Data
                   });
-                  
                   result.push({
                     image: base64Data,
                     width: element.clientWidth > 0 ? Math.min(element.clientWidth, 500) : 200,
@@ -683,17 +667,16 @@ private parseHtmlNode(node: Node, result: any[], imageInfoArray?: {id: string, d
             }
           }
           break;
-          
         case 'div':
         case 'span':
-        default:
-          // معالجة العناصر العامة
+        default: {
           const generalContent: any[] = [];
           this.parseHtmlNode(element, generalContent, imageInfoArray);
           if (generalContent.length > 0) {
             result.push(...generalContent);
           }
           break;
+        }
       }
     }
   }
