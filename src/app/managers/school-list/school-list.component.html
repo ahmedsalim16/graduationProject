@@ -137,11 +137,11 @@
           [rows]="itemsPerPage" 
           [paginator]="true" 
           [rowsPerPageOptions]="itemsPerPageOptions"
-          [globalFilterFields]="['name', 'country', 'phonenumber', 'email']"
+          [globalFilterFields]="['name', 'phonenumber', 'email']"
           [loading]="loading"
           dataKey="schooltenantid"
           styleClass="p-datatable-gridlines p-datatable-sm"
-          [tableStyle]="{ 'min-width': '75rem' }">
+          [tableStyle]="{ 'min-width': '50rem' }">
           
           <ng-template pTemplate="caption">
             <div class="flex justify-content-between">
@@ -166,10 +166,7 @@
               <th>#</th>
               <th pSortableColumn="schooltenantid">ID <p-sortIcon field="schooltenantid"></p-sortIcon></th>
               <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
-              <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon></th>
-              <th pSortableColumn="address">Address <p-sortIcon field="address"></p-sortIcon></th>
-              <th pSortableColumn="country">Country <p-sortIcon field="country"></p-sortIcon></th>
-              <th pSortableColumn="phonenumber">Phone <p-sortIcon field="phonenumber"></p-sortIcon></th>
+              <th pSortableColumn="phonenumber">Country <p-sortIcon field="phonenumber"></p-sortIcon></th>
               <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
               <th>Logo</th>
               <th pSortableColumn="createdon">Created On <p-sortIcon field="createdon"></p-sortIcon></th>
@@ -184,16 +181,7 @@
                 <input pInputText type="text" (input)="onFilterChange($event, 'name', 'contains')" placeholder="Search name" class="w-full" />
               </th>
               <th>
-                <input pInputText type="text" (input)="onFilterChange($event, 'description', 'contains')" placeholder="Search description" class="w-full" />
-              </th>
-              <th>
-                <input pInputText type="text" (input)="onFilterChange($event, 'address', 'contains')" placeholder="Search address" class="w-full" />
-              </th>
-              <th>
-                <input pInputText type="text" (input)="onFilterChange($event, 'country', 'contains')" placeholder="Search country" class="w-full" />
-              </th>
-              <th>
-                <input pInputText type="text" (input)="onFilterChange($event, 'phonenumber', 'contains')" placeholder="Search phone" class="w-full" />
+                <input pInputText type="text" (input)="onFilterChange($event, 'phonenumber', 'contains')" placeholder="Search country" class="w-full" />
               </th>
               <th>
                 <input pInputText type="text" (input)="onFilterChange($event, 'email', 'contains')" placeholder="Search email" class="w-full" />
@@ -205,14 +193,20 @@
           </ng-template>
           
           <ng-template pTemplate="body" let-school let-i="rowIndex">
-            <tr>
+            <tr 
+              pTooltip=""
+              [tooltipOptions]="{
+                tooltipLabel: getSchoolTooltip(school),
+                positionStyle: 'absolute',
+                tooltipStyleClass: 'school-tooltip',
+                showDelay: 300,
+                hideDelay: 200
+              }"
+              class="hover-row">
               <td>{{i + 1}}</td>
               <td>{{school.schooltenantid}}</td>
               <td>{{school.name}}</td>
-              <td>{{school.description}}</td>
-              <td>{{school.address}}</td>
               <td>{{school.country}}</td>
-              <td>{{school.phonenumber}}</td>
               <td>{{school.email}}</td>
               <td>
                 <img [src]="getImageUrl(school.schoollogo)" alt="School Logo" class="school-logo" loading="lazy">
@@ -233,7 +227,7 @@
           
           <ng-template pTemplate="emptymessage">
             <tr>
-              <td colspan="11" class="text-center">No schools found.</td>
+              <td colspan="8" class="text-center">No schools found.</td>
             </tr>
           </ng-template>
           
@@ -247,3 +241,44 @@
     </div>
   </div>
 </div>
+
+<style>
+/* Custom tooltip styles */
+::ng-deep .school-tooltip {
+  max-width: 400px !important;
+  white-space: pre-line !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+  border-radius: 8px !important;
+  padding: 15px !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  border: none !important;
+}
+
+::ng-deep .school-tooltip .p-tooltip-arrow {
+  border-top-color: #667eea !important;
+}
+
+/* Hover effect for table rows */
+.hover-row {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.hover-row:hover {
+  background-color: rgba(102, 126, 234, 0.1) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* School logo styling */
+.school-logo {
+ width: 120px;
+    height: 70px;
+    border-radius: 10%;
+  object-fit: cover;
+  border: 2px solid #e9ecef;
+}
+</style>

@@ -19,6 +19,7 @@ import { RippleModule } from 'primeng/ripple';
 import { StyleClassModule } from 'primeng/styleclass';
 import { ThemeService } from '../../services/theme.service'; // استيراد خدمة الثيم
 import { ThemeToggleComponent } from '../../theme-toggle/theme-toggle.component'; 
+import { TooltipModule } from 'primeng/tooltip';
 @Component({
   selector: 'app-school-list',
   templateUrl: './school-list.component.html',
@@ -33,7 +34,7 @@ import { ThemeToggleComponent } from '../../theme-toggle/theme-toggle.component'
     MultiSelectModule,
     DropdownModule,
     HttpClientModule,
-    ButtonModule,RouterModule,SidebarModule,ThemeToggleComponent
+    ButtonModule,RouterModule,SidebarModule,ThemeToggleComponent,TooltipModule
   ]
 })
 export class SchoolListComponent implements OnInit {
@@ -219,5 +220,19 @@ logout(): void {
       }
       // إذا ضغط على "لا"، فلن يحدث شيء ويتم إغلاق النافذة تلقائياً
     });
+  }
+    getSchoolTooltip(school: any): string {
+    return `
+🏫 School Details:
+
+📝 Name: ${school.name || 'N/A'}
+🆔 ID: ${school.schooltenantid || 'N/A'}
+📋 Description: ${school.description || 'N/A'}
+📍 Address: ${school.address || 'N/A'}
+🌍 Country: ${school.country || 'N/A'}
+📞 Phone: ${school.phonenumber || 'N/A'}
+📧 Email: ${school.email || 'N/A'}
+📅 Created: ${school.createdon ? new Date(school.createdon).toLocaleDateString('en-GB') : 'N/A'}
+    `.trim();
   }
 }
