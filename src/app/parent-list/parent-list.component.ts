@@ -19,6 +19,7 @@ import { RippleModule } from 'primeng/ripple';
 import { StyleClassModule } from 'primeng/styleclass';
 import { ThemeService } from '../services/theme.service'; // استيراد خدمة الثيم
 import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component'; 
+import { TooltipModule } from 'primeng/tooltip';
 @Component({
   selector: 'app-parent-list',
   templateUrl: './parent-list.component.html',
@@ -33,7 +34,7 @@ import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
     MultiSelectModule,
     DropdownModule,
     HttpClientModule,
-    ButtonModule,RouterModule,SidebarModule,ThemeToggleComponent
+    ButtonModule,RouterModule,SidebarModule,ThemeToggleComponent,TooltipModule
   ]
 })
 export class ParentListComponent implements OnInit {
@@ -305,4 +306,22 @@ export class ParentListComponent implements OnInit {
       }
     );
   }
+      getManagerTooltip(parent: any): string {
+      return `
+👤 Manager Details:
+
+🆔 ID: ${parent.id || 'N/A'}
+👤 Username: ${parent.userName || 'N/A'}
+📧 Email: ${parent.email || 'N/A'}
+📝 First Name: ${parent.firstName || 'N/A'}
+📝 Last Name: ${parent.lastName || 'N/A'}
+📞 Phone: ${parent.phoneNumber || 'N/A'}
+📍 Address: ${parent.address || 'N/A'}
+⚧ Gender: ${this.getGenderText(parent.gender) || 'N/A'}
+💼 Role: ${parent.role || 'N/A'}
+🏫 School Tenant ID: ${parent.schoolTenantId || 'N/A'}
+👑 Is Owner: ${parent.owner ? 'Yes' : 'No'}
+📅 Created: ${parent.createdOn ? new Date(parent.createdOn).toLocaleDateString('en-GB') : 'N/A'}
+      `.trim();
+    }
 }

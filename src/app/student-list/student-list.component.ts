@@ -19,6 +19,7 @@ import { RippleModule } from 'primeng/ripple';
 import { StyleClassModule } from 'primeng/styleclass';
 import { ThemeService } from '../services/theme.service'; // استيراد خدمة الثيم
 import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component'; 
+import { TooltipModule } from 'primeng/tooltip';
 @Component({
   selector: 'app-student-list',
   templateUrl: './student-list.component.html',
@@ -36,7 +37,7 @@ import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
     RouterModule,
     ButtonModule,
     SidebarModule,
-    ThemeToggleComponent
+    ThemeToggleComponent,TooltipModule,
   ]
 })
 export class StudentListComponent implements OnInit {
@@ -374,4 +375,24 @@ export class StudentListComponent implements OnInit {
     }
     return genderValue === 0 ? 'info' : 'warning';
   }
+   // إضافة هذه الدالة إلى StudentListComponent class
+
+getStudentTooltip(student: any): string {
+  return `
+🎓 Student Details:
+
+🆔 ID: ${student.id || 'N/A'}
+👤 Full Name: ${student.fullname || 'N/A'}
+⚧ Gender: ${this.getGenderText(student.gender)}
+🎒 Grade: ${student.grade || 'N/A'}
+🏙️ City: ${student.city || 'N/A'}
+🛣️ Street: ${student.street || 'N/A'}
+🎂 Birth Date: ${student.birthdate ? new Date(student.birthdate).toLocaleDateString('en-GB') : 'N/A'}
+🏷️ RFID Tag: ${student.rfidtag_id || 'N/A'}
+👨‍👩‍👧‍👦 Parent ID: ${student.parentid || 'N/A'}
+📧 Parent Email: ${student.parentemail || 'N/A'}
+🏫 School: ${this.schoolName || 'N/A'}
+📅 Created: ${student.createdon ? new Date(student.createdon).toLocaleDateString('en-GB') : 'N/A'}
+  `.trim();
+}
 }

@@ -211,7 +211,16 @@
           </ng-template>
           
           <ng-template pTemplate="body" let-admin let-i="rowIndex">
-            <tr>
+              <tr 
+                pTooltip=""
+                [tooltipOptions]="{
+                  tooltipLabel: getManagerTooltip(admin),
+                  positionStyle: 'absolute',
+                  tooltipStyleClass: 'manager-tooltip',
+                  showDelay: 300,
+                  hideDelay: 200
+                }"
+                class="hover-row">
               <td>{{i + 1}}</td>
               <td>{{admin.id}}</td>
               <td>{{admin.userName}}</td>
@@ -261,3 +270,34 @@
     </div>
   </div>
 </div>
+<style>
+/* Custom tooltip styles */
+::ng-deep .manager-tooltip {
+  max-width: 400px !important;
+  white-space: pre-line !important;
+  background: linear-gradient(135deg, #5ca8db 0%, #060ae9 100%) !important;
+  color: white !important;
+  border-radius: 8px !important;
+  padding: 15px !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  border: none !important;
+}
+
+::ng-deep .manager-tooltip .p-tooltip-arrow {
+  border-top-color: #667eea !important;
+}
+
+/* Hover effect for table rows */
+.hover-row {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.hover-row:hover {
+  background-color: rgba(102, 126, 234, 0.1) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+</style>

@@ -19,6 +19,7 @@ import { RippleModule } from 'primeng/ripple';
 import { StyleClassModule } from 'primeng/styleclass';
 import { ThemeService } from '../../services/theme.service'; // استيراد خدمة الثيم
 import { ThemeToggleComponent } from '../../theme-toggle/theme-toggle.component'; 
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-managers-list',
@@ -34,7 +35,7 @@ import { ThemeToggleComponent } from '../../theme-toggle/theme-toggle.component'
       MultiSelectModule,
       DropdownModule,
       HttpClientModule,
-      ButtonModule,RouterModule,SidebarModule,ThemeToggleComponent
+      ButtonModule,RouterModule,SidebarModule,ThemeToggleComponent,TooltipModule
     ]
 })
 export class ManagersListComponent implements OnInit{
@@ -238,7 +239,27 @@ export class ManagersListComponent implements OnInit{
             'success'
           );
         }
-        // إذا ضغط على "لا"، فلن يحدث شيء ويتم إغلاق النافذة تلقائياً
+        // إذا ضغط على "لا"، فلن يحدث شيء ويتم إغلاف النافذة تلقائياً
       });
+    }
+
+    // إضافة دالة tooltip للمديرين
+    getManagerTooltip(admin: any): string {
+      return `
+👤 Manager Details:
+
+🆔 ID: ${admin.id || 'N/A'}
+👤 Username: ${admin.userName || 'N/A'}
+📧 Email: ${admin.email || 'N/A'}
+📝 First Name: ${admin.firstName || 'N/A'}
+📝 Last Name: ${admin.lastName || 'N/A'}
+📞 Phone: ${admin.phoneNumber || 'N/A'}
+📍 Address: ${admin.address || 'N/A'}
+⚧ Gender: ${this.getGenderText(admin.gender) || 'N/A'}
+💼 Role: ${admin.role || 'N/A'}
+🏫 School Tenant ID: ${admin.schoolTenantId || 'N/A'}
+👑 Is Owner: ${admin.owner ? 'Yes' : 'No'}
+📅 Created: ${admin.createdOn ? new Date(admin.createdOn).toLocaleDateString('en-GB') : 'N/A'}
+      `.trim();
     }
 }
