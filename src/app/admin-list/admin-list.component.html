@@ -182,6 +182,8 @@
               <th pSortableColumn="role">Role <p-sortIcon field="role"></p-sortIcon></th>
               
               <th>Actions</th>
+              <th></th>
+              <th></th>
             </tr>
             <tr>
               <th></th>
@@ -243,8 +245,7 @@
               <td>
                 <p-tag [value]="admin.role" [severity]="getSeverity(admin.role)"></p-tag>
               </td>
-              <td>{{admin.createdOn ? (admin.createdOn | date: 'yyyy-MM-dd') : 'N/A'}}</td>
-              <td>{{admin.owner}}</td>
+            
               <td>
                 <div class="flex gap-2">
                   <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-success p-button-sm" 
@@ -257,6 +258,8 @@
                     title="Delete"></button>
                 </div>
               </td>
+              <td></td>
+              <td></td>
             </tr>
           </ng-template>
           

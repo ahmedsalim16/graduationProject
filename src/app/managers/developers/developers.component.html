@@ -173,8 +173,8 @@
               <th pSortableColumn="address">Address <p-sortIcon field="address"></p-sortIcon></th>
               <th pSortableColumn="gender">Gender <p-sortIcon field="gender"></p-sortIcon></th>
               <th pSortableColumn="role">Role <p-sortIcon field="role"></p-sortIcon></th>
-              <th pSortableColumn="createdOn">Created On <p-sortIcon field="createdOn"></p-sortIcon></th>
-              <th pSortableColumn="owner">Is Owner <p-sortIcon field="owner"></p-sortIcon></th>
+
+              
               <th>Actions</th>
             </tr>
             <tr>
@@ -237,8 +237,7 @@
                 <p-tag [value]="admin.role" 
                        [severity]="getRoleSeverity(admin.role)"></p-tag>
               </td>
-              <td>{{admin.createdOn ? (admin.createdOn | date: 'yyyy-MM-dd') : 'N/A'}}</td>
-              <td>{{admin.owner}}</td>
+
               <td>
                 <div class="flex gap-2">
                   <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-success p-button-sm" 
