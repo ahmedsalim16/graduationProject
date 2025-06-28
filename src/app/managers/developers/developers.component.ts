@@ -21,6 +21,7 @@ import { ThemeService } from '../../services/theme.service'; // استيراد �
 import { ThemeToggleComponent } from '../../theme-toggle/theme-toggle.component'; 
 import { TooltipModule } from 'primeng/tooltip';
 import { Theme } from '@fullcalendar/core/internal';
+import { ImageStorageServiceService } from '../../services/image-storage-service.service';
 @Component({
   selector: 'app-developers',
   templateUrl: './developers.component.html',
@@ -47,7 +48,8 @@ export class DevelopersComponent implements OnInit {
   constructor(
     public shared: SharedService,
     public authService: AuthService,
-    private router: Router
+    private router: Router,
+    private adminImageService: ImageStorageServiceService,
   ) {}
 
   admins: any[] = [];
@@ -70,6 +72,17 @@ export class DevelopersComponent implements OnInit {
     this.filterAdmins();
     this.adminId = this.authService.getAdminId();
   }
+
+ // الحصول على صورة الأدمن
+  getAdminImage(adminId: string): string {
+    return this.adminImageService.getAdminImageOrDefault(adminId);
+  }
+
+  // التحقق من وجود صورة مخصصة
+  hasCustomImage(adminId: string): boolean {
+    return this.adminImageService.hasCustomImage(adminId);
+  }
+
   goBack(): void {
     // Logic to navigate back, e.g., using Angular Router
     window.history.back();

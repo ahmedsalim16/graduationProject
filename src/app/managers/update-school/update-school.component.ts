@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth.service';
 import { SharedService } from '../../services/shared.service';
 import { ThemeService } from '../../services/theme.service'; // استيراد خدمة الثيم
 import { ThemeToggleComponent } from '../../theme-toggle/theme-toggle.component'; 
+import { ImageStorageServiceService } from '../../services/image-storage-service.service';
 @Component({
   selector: 'app-update-school',
   templateUrl: './update-school.component.html',
@@ -12,19 +13,29 @@ import { ThemeToggleComponent } from '../../theme-toggle/theme-toggle.component'
 })
 export class UpdateSchoolComponent implements OnInit {
 school:any = {};
+adminId: string | null = null;
 selectedFile: File | null = null;
-  constructor(private act: ActivatedRoute,private _shared:SharedService,private router:Router,public authService:AuthService) { 
+  constructor(private act: ActivatedRoute,private _shared:SharedService,private router:Router,public authService:AuthService,private adminImageService: ImageStorageServiceService,) { 
 
   }
   ngOnInit(): void {
     
-    
+    this.adminId = this.authService.getAdminId();
     const schoolId = this.act.snapshot.paramMap.get('id');
     console.log('School ID from URL:', schoolId);
     if (schoolId) {
       this.getschoolById(schoolId); // استدعاء البيانات
     }
 
+  }
+   // الحصول على صورة الأدمن
+  getAdminImage(adminId: string): string {
+    return this.adminImageService.getAdminImageOrDefault(adminId);
+  }
+
+  // التحقق من وجود صورة مخصصة
+  hasCustomImage(adminId: string): boolean {
+    return this.adminImageService.hasCustomImage(adminId);
   }
    selectedOption: number | null = null; // القيمة المختارة
 

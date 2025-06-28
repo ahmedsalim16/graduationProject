@@ -32,19 +32,37 @@ export class AuthService {
   }
   // تسجيل الخروج
   logout(): void {
-    const savedEvents = localStorage.getItem('events');
-
-    // مسح كل البيانات من التخزين المحلي
-    localStorage.clear();
+  // حفظ الأحداث
+  const savedEvents = localStorage.getItem('events');
   
-    // إعادة حفظ الأحداث إذا كانت موجودة
-    if (savedEvents) {
-      localStorage.setItem('events', savedEvents);
+  // حفظ جميع صور الأدمن قبل مسح localStorage
+  const adminImages: {[key: string]: string} = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith('admin_image_')) {
+      const value = localStorage.getItem(key);
+      if (value) {
+        adminImages[key] = value;
+      }
     }
-    this.userLoggedIn.next(false); // إزالة التوكن من التخزين المحلي
-    this.router.navigate(['/welcome']); // الانتقال إلى صفحة تسجيل الدخول
   }
 
+  // مسح كل البيانات من التخزين المحلي
+  localStorage.clear();
+
+  // إعادة حفظ الأحداث إذا كانت موجودة
+  if (savedEvents) {
+    localStorage.setItem('events', savedEvents);
+  }
+
+  // إعادة حفظ صور الأدمن
+  Object.keys(adminImages).forEach(key => {
+    localStorage.setItem(key, adminImages[key]);
+  });
+
+  this.userLoggedIn.next(false);
+  this.router.navigate(['/welcome']);
+}
   // التحقق مما إذا كان المستخدم مسجلاً دخوله
   isLoggedIn(): boolean {
     if (typeof window !== 'undefined') { // ✅ التأكد من أن `window` متاح

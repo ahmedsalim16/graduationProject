@@ -15,6 +15,8 @@ export class AdminUpdateComponent {
 admin:any = {};
   id:any;
  roles = JSON.parse(localStorage.getItem('roles') || '[]');
+  selectedImage: string | null = null;
+  defaultProfileImage = '../../assets/profile.png';
   constructor(private act: ActivatedRoute,private _shared:SharedService,private router:Router,public authService:AuthService) { 
 
   }
@@ -24,9 +26,75 @@ admin:any = {};
     const adminId = this.act.snapshot.paramMap.get('id'); // الحصول على ID من مسار URL
     if (adminId) {
       this.getadminById(adminId); // استدعاء البيانات
+      this.loadSavedImage(adminId);
     }
-
   }
+
+loadSavedImage(adminId: string): void {
+    const savedImage = localStorage.getItem(`admin_image_${adminId}`);
+    if (savedImage) {
+      this.selectedImage = savedImage;
+    }
+  }
+  
+  // دالة لاختيار وتحويل الصورة
+  onImageSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      // التحقق من نوع الملف
+      if (!file.type.startsWith('image/')) {
+        Swal.fire({
+          icon: 'error',
+          title: 'خطأ',
+          text: 'يرجى اختيار ملف صورة صالح',
+          timer: 2000,
+          showConfirmButton: false
+        });
+        return;
+      }
+      
+      // التحقق من حجم الملف (أقل من 2MB)
+      if (file.size > 2 * 1024 * 1024) {
+        Swal.fire({
+          icon: 'error',
+          title: 'خطأ',
+          text: 'حجم الصورة يجب أن يكون أقل من 2MB',
+          timer: 2000,
+          showConfirmButton: false
+        });
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.selectedImage = e.target.result;
+        // حفظ الصورة في localStorage
+        if (this.admin.id) {
+          localStorage.setItem(`admin_image_${this.admin.id}`, this.selectedImage!);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+  
+  // إزالة الصورة
+  removeImage(): void {
+    this.selectedImage = null;
+    if (this.admin.id) {
+      localStorage.removeItem(`admin_image_${this.admin.id}`);
+    }
+    // إعادة تعيين input file
+    const fileInput = document.getElementById('imageInput') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+    }
+  }
+  
+  // الحصول على مصدر الصورة الحالي
+  getCurrentImageSrc(): string {
+    return this.selectedImage || this.defaultProfileImage;
+  }
+
   goBack(): void {
     // Logic to navigate back, e.g., using Angular Router
     window.history.back();

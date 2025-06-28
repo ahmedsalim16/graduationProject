@@ -6,6 +6,7 @@ import { EChartsOption } from 'echarts';
 import * as echarts from 'echarts';
 import { Sidebar } from 'primeng/sidebar';
 import Swal from 'sweetalert2';
+import { ImageStorageServiceService } from '../services/image-storage-service.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -43,7 +44,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     return this.isDarkTheme;
   }
   
-  constructor(public shared: SharedService, public authService: AuthService, private router: Router) {
+  constructor(public shared: SharedService, public authService: AuthService, private router: Router,private adminImageService: ImageStorageServiceService,) {
     // Check if user has a theme preference stored
     const storedTheme = localStorage.getItem('theme');
     if (storedTheme) {
@@ -70,6 +71,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
     });
   }
+
 
   loadAllData(): void {
     this.getTotalStudentCount();
@@ -101,6 +103,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
+   // الحصول على صورة الأدمن
+  getAdminImage(adminId: string): string {
+    return this.adminImageService.getAdminImageOrDefault(adminId);
+  }
+
+  // التحقق من وجود صورة مخصصة
+  hasCustomImage(adminId: string): boolean {
+    return this.adminImageService.hasCustomImage(adminId);
+  }
   // ========== Theme Functions ==========
 
 

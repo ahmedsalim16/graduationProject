@@ -23,6 +23,7 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { ThemeService } from '../services/theme.service'; // استيراد خدمة الثيم
 import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component'; 
 import { TooltipModule } from 'primeng/tooltip';
+import { ImageStorageServiceService } from '../services/image-storage-service.service';
 @Component({
   selector: 'app-admin-list',
   templateUrl: './admin-list.component.html',
@@ -45,7 +46,7 @@ export class AdminListComponent implements OnInit {
   
   sidebarVisible: boolean = false;
   pagination: any;
-  constructor(public shared: SharedService, public authService: AuthService, private router: Router) {}
+  constructor(public shared: SharedService, public authService: AuthService, private router: Router,private adminImageService: ImageStorageServiceService,) {}
   
   admins: any[] = [];
   searchtext: string = '';
@@ -94,6 +95,16 @@ export class AdminListComponent implements OnInit {
       }
     });
   }
+ // الحصول على صورة الأدمن
+  getAdminImage(adminId: string): string {
+    return this.adminImageService.getAdminImageOrDefault(adminId);
+  }
+
+  // التحقق من وجود صورة مخصصة
+  hasCustomImage(adminId: string): boolean {
+    return this.adminImageService.hasCustomImage(adminId);
+  }
+
   navigateToAdminUpdate(): void {
     if (this.adminId) {
       this.router.navigate(['/admin-update', this.adminId]);

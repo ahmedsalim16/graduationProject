@@ -20,6 +20,7 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { ThemeService } from '../services/theme.service'; // استيراد خدمة الثيم
 import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component'; 
 import { TooltipModule } from 'primeng/tooltip';
+import { ImageStorageServiceService } from '../services/image-storage-service.service';
 @Component({
   selector: 'app-student-list',
   templateUrl: './student-list.component.html',
@@ -48,7 +49,8 @@ export class StudentListComponent implements OnInit {
   constructor(
     public shared: SharedService,
     private router: Router,
-    public authService: AuthService
+    public authService: AuthService,
+    private adminImageService: ImageStorageServiceService,
   ) {}
   
   students: any[] = [];
@@ -100,6 +102,16 @@ export class StudentListComponent implements OnInit {
     });
   }
   
+ // الحصول على صورة الأدمن
+  getAdminImage(adminId: string): string {
+    return this.adminImageService.getAdminImageOrDefault(adminId);
+  }
+
+  // التحقق من وجود صورة مخصصة
+  hasCustomImage(adminId: string): boolean {
+    return this.adminImageService.hasCustomImage(adminId);
+  }
+
   loadStudents() {
     localStorage.getItem('token');
     this.loading = true;

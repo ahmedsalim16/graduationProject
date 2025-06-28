@@ -22,6 +22,7 @@ import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 // import Quill from 'quill';
 // import { LanguageSwitcherComponent } from '../language-switcher/language-switcher.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { ImageStorageServiceService } from '../services/image-storage-service.service';
 // import { LanguageService } from '../services/language.service';
 @Component({
   selector: 'app-messages',
@@ -59,7 +60,7 @@ export class MessagesComponent implements OnInit{
 
 
 
-    constructor(public authService:AuthService, private router: Router, private shared:SharedService) {}
+    constructor(public authService:AuthService, private router: Router, private shared:SharedService,private adminImageService: ImageStorageServiceService,) {}
     ngOnInit(): void {
       
     // this.isRtl = this.languageService.isRtl();
@@ -78,7 +79,17 @@ export class MessagesComponent implements OnInit{
       
       window.addEventListener('resize', this.handleResize);
     }
-  
+   // الحصول على صورة الأدمن
+  getAdminImage(adminId: string): string {
+    return this.adminImageService.getAdminImageOrDefault(adminId);
+  }
+
+  // التحقق من وجود صورة مخصصة
+  hasCustomImage(adminId: string): boolean {
+    return this.adminImageService.hasCustomImage(adminId);
+  }
+
+
     ngOnDestroy(): void {
       window.removeEventListener('resize', this.handleResize);
       this.subscriptions.unsubscribe();

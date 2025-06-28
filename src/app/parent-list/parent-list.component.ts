@@ -20,6 +20,7 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { ThemeService } from '../services/theme.service'; // استيراد خدمة الثيم
 import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component'; 
 import { TooltipModule } from 'primeng/tooltip';
+import { ImageStorageServiceService } from '../services/image-storage-service.service';
 @Component({
   selector: 'app-parent-list',
   templateUrl: './parent-list.component.html',
@@ -45,7 +46,8 @@ export class ParentListComponent implements OnInit {
   constructor(
     public shared: SharedService,
     public authService: AuthService,
-    private router: Router
+    private router: Router,
+    private adminImageService: ImageStorageServiceService,
   ) {}
 
   parents: any[] = [];
@@ -78,6 +80,16 @@ export class ParentListComponent implements OnInit {
         this.sidebarVisible = false;
       }
     });
+  }
+
+ // الحصول على صورة الأدمن
+  getAdminImage(adminId: string): string {
+    return this.adminImageService.getAdminImageOrDefault(adminId);
+  }
+
+  // التحقق من وجود صورة مخصصة
+  hasCustomImage(adminId: string): boolean {
+    return this.adminImageService.hasCustomImage(adminId);
   }
 
   filterParents() {

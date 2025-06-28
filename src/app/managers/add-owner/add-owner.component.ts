@@ -9,6 +9,7 @@ import { RippleModule } from 'primeng/ripple';
 import { StyleClassModule } from 'primeng/styleclass';
 import { ThemeService } from '../../services/theme.service'; // استيراد خدمة الثيم
 import { ThemeToggleComponent } from '../../theme-toggle/theme-toggle.component'; 
+import { ImageStorageServiceService } from '../../services/image-storage-service.service';
 @Component({
   selector: 'app-add-owner',
   templateUrl: './add-owner.component.html',
@@ -27,7 +28,8 @@ export class AddOwnerComponent implements OnInit {
   constructor(
     public shared: SharedService,
     public authService: AuthService,
-    private router: Router
+    private router: Router,
+    private adminImageService: ImageStorageServiceService,
   ) {}
 
   ngOnInit(): void {
@@ -35,6 +37,17 @@ export class AddOwnerComponent implements OnInit {
     this.adminId = this.authService.getAdminId();
     console.log('Admin ID:', this.adminId);
   }
+
+ // الحصول على صورة الأدمن
+  getAdminImage(adminId: string): string {
+    return this.adminImageService.getAdminImageOrDefault(adminId);
+  }
+
+  // التحقق من وجود صورة مخصصة
+  hasCustomImage(adminId: string): boolean {
+    return this.adminImageService.hasCustomImage(adminId);
+  }
+
     goBack(): void {
     // Logic to navigate back, e.g., using Angular Router
     window.history.back();

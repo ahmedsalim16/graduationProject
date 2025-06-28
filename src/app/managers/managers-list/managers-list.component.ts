@@ -20,6 +20,7 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { ThemeService } from '../../services/theme.service'; // استيراد خدمة الثيم
 import { ThemeToggleComponent } from '../../theme-toggle/theme-toggle.component'; 
 import { TooltipModule } from 'primeng/tooltip';
+import { ImageStorageServiceService } from '../../services/image-storage-service.service';
 
 @Component({
   selector: 'app-managers-list',
@@ -47,7 +48,8 @@ export class ManagersListComponent implements OnInit{
   constructor(
     public shared: SharedService,
     public authService: AuthService,
-    private router: Router
+    private router: Router,
+    private adminImageService: ImageStorageServiceService,
   ) {}
 
   admins: any[] = [];
@@ -70,6 +72,17 @@ export class ManagersListComponent implements OnInit{
     this.filterAdmins();
     this.adminId = this.authService.getAdminId();
   }
+
+ // الحصول على صورة الأدمن
+  getAdminImage(adminId: string): string {
+    return this.adminImageService.getAdminImageOrDefault(adminId);
+  }
+
+  // التحقق من وجود صورة مخصصة
+  hasCustomImage(adminId: string): boolean {
+    return this.adminImageService.hasCustomImage(adminId);
+  }
+
   goBack(): void {
     // Logic to navigate back, e.g., using Angular Router
     window.history.back();

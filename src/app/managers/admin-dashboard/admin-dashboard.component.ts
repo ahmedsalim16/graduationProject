@@ -13,6 +13,7 @@ import { of } from 'rxjs';
 import Swal from 'sweetalert2';
 import { ThemeService } from '../../services/theme.service';
 import { ThemeToggleComponent } from '../../theme-toggle/theme-toggle.component'; 
+import { ImageStorageServiceService } from '../../services/image-storage-service.service';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -41,7 +42,7 @@ export class AdminDashboardComponent {
   developers: number = 0;
   resizeHandler: any;
 
-  constructor(public shared: SharedService, public authService: AuthService, private router: Router) {}
+  constructor(public shared: SharedService, public authService: AuthService, private router: Router,private adminImageService: ImageStorageServiceService,) {}
 
   ngOnInit(): void {
     this.getSchoolsByMonth();
@@ -51,6 +52,17 @@ export class AdminDashboardComponent {
     this.adminId = this.authService.getAdminId();
     console.log('Admin ID:', this.adminId);
   }
+
+ // الحصول على صورة الأدمن
+  getAdminImage(adminId: string): string {
+    return this.adminImageService.getAdminImageOrDefault(adminId);
+  }
+
+  // التحقق من وجود صورة مخصصة
+  hasCustomImage(adminId: string): boolean {
+    return this.adminImageService.hasCustomImage(adminId);
+  }
+
 
   ngAfterViewInit(): void {
     this.initChart();

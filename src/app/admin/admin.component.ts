@@ -11,6 +11,7 @@ import { RippleModule } from 'primeng/ripple';
 import { StyleClassModule } from 'primeng/styleclass';
 import { ThemeService } from '../services/theme.service'; // استيراد خدمة الثيم
 import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component'; 
+import { ImageStorageServiceService } from '../services/image-storage-service.service';
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -24,7 +25,7 @@ export class AdminComponent implements OnInit {
   adminId: string | null = null;
   adminName:string | null = localStorage.getItem('username');
   schoolName:string | null = localStorage.getItem('schoolTenantId');
-  constructor(public shared:SharedService,public authService:AuthService,private router: Router){
+  constructor(public shared:SharedService,public authService:AuthService,private router: Router,private adminImageService: ImageStorageServiceService,){
    this.login=new Loginmodel();
   }
   ngOnInit(): void {
@@ -41,6 +42,16 @@ export class AdminComponent implements OnInit {
         this.sidebarVisible = false;
       }
     });
+  }
+
+ // الحصول على صورة الأدمن
+  getAdminImage(adminId: string): string {
+    return this.adminImageService.getAdminImageOrDefault(adminId);
+  }
+
+  // التحقق من وجود صورة مخصصة
+  hasCustomImage(adminId: string): boolean {
+    return this.adminImageService.hasCustomImage(adminId);
   }
 
   navigateToAdminUpdate(): void {

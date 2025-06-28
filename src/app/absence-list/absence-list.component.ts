@@ -12,6 +12,7 @@ import { ThemeService } from '../services/theme.service';
 import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
 import { Table } from 'primeng/table';
 import { CalendarModule } from 'primeng/calendar';
+import { ImageStorageServiceService } from '../services/image-storage-service.service';
 @Component({
   selector: 'app-absence-list',
   templateUrl: './absence-list.component.html',
@@ -69,7 +70,8 @@ export class AbsenceListComponent {
   constructor(
     public shared: SharedService, 
     public authService: AuthService,
-    private router: Router
+    private router: Router,
+    private adminImageService: ImageStorageServiceService,
   ) {}
 
   ngOnInit(): void {
@@ -90,6 +92,16 @@ export class AbsenceListComponent {
     
     // Load initial data
     this.filterStudents();
+  }
+
+ // الحصول على صورة الأدمن
+  getAdminImage(adminId: string): string {
+    return this.adminImageService.getAdminImageOrDefault(adminId);
+  }
+
+  // التحقق من وجود صورة مخصصة
+  hasCustomImage(adminId: string): boolean {
+    return this.adminImageService.hasCustomImage(adminId);
   }
 
   toggleSidebar(): void {
