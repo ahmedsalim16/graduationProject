@@ -603,6 +603,12 @@ body {
 :host ::ng-deep .p-sidebar-close:hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
+.justify-content-between {
+          display: flex;
+          align-items: center;
+          
+        }
+  
 @media (max-width: 768px) {
   #sidebar {
      width: max-content;
@@ -730,5 +736,11 @@ body {
       left: -30px;
   
     }
+    .justify-content-between {
+          display: block;
+          
+          
+        }
+  
   }
 }
