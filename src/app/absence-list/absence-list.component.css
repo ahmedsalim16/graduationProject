@@ -203,6 +203,8 @@ body {
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  position: relative;
+  left: -15px;
   object-fit: cover;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;

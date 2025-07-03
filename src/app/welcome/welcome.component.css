@@ -71,6 +71,7 @@ button.ghost {
 	background-color: transparent;
 	border-color: #FFFFFF;
 }
+
 .logo2{
 	position: relative;
     bottom: 35vh;
@@ -92,8 +93,8 @@ button.ghost {
 }
 .logo2 h5{
     position: relative;
-    left: 31px;
-    top: -14px;
+    left: 90px;
+    top: -32px;
 	color: #fff;
 }
 .logo i{
@@ -108,8 +109,8 @@ button.ghost {
 }
 .logo h5{
     position: relative;
-    left: 31px;
-    top: -14px;
+    left: 90px;
+    top: -32px;
 }
 #login{
     border-radius: 20px;
