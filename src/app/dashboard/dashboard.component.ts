@@ -7,6 +7,7 @@ import * as echarts from 'echarts';
 import { Sidebar } from 'primeng/sidebar';
 import Swal from 'sweetalert2';
 import { ImageStorageServiceService } from '../services/image-storage-service.service';
+import { CalendarComponent } from '../calendar/calendar.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,6 +30,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   parentCount: number = 0;
   foods: number = 0;
   Encome: number = 0;
+  totalIncome: number = 0; 
   
   // Chart variables
   pieChart: any;
@@ -587,48 +589,79 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
   }
 
-  getFoods(): void {
-    this.shared.getstock().subscribe(
-      (response: any) => {
-        if (response?.result && Array.isArray(response.result)) {
-          const stock = response.result.filter(
-            (user: any) => user.schoolTenantId === localStorage.getItem('schoolTenantId')
-          );
-          this.foods = stock.length;
-          this.checkAndUpdateChart();
-        } else {
-          console.error('No data found or invalid response format.');
+ getFoods(): void {
+  this.shared.getstock().subscribe(
+    (response: any) => {
+      if (response?.result && Array.isArray(response.result)) {
+        const currentTenantId = localStorage.getItem('schoolTenantId');
+        
+        // Debug: طباعة القيم للتأكد
+        console.log('Current Tenant ID from localStorage:', currentTenantId);
+        console.log('Response data:', response.result);
+        console.log('First item tenant ID:', response.result[0]?.schoolTenantId);
+        
+        // التحقق من وجود الـ tenant ID
+        if (!currentTenantId) {
+          console.error('No schoolTenantId found in localStorage');
           this.foods = 0;
           this.checkAndUpdateChart();
+          return;
         }
-      },
-      (err) => {
-        console.error('Error while fetching foods:', err);
+      
+        const stock = response.result;
+        
+        console.log('Filtered stock:', stock);
+        console.log('Stock length:', stock.length);
+        
+        this.foods = stock.length;
+        this.checkAndUpdateChart();
+      } else {
+        console.error('No data found or invalid response format.');
         this.foods = 0;
         this.checkAndUpdateChart();
       }
-    );
-  }
+    },
+    (err) => {
+      console.error('Error while fetching foods:', err);
+      this.foods = 0;
+      this.checkAndUpdateChart();
+    }
+  );
+}
 
-  getEncome(): void {
-    this.shared.getDailyEncome().subscribe(
-      (response: any) => {
-        if (response?.result) {
-          this.Encome = response.result.totalSalesMoney || 0;
-          this.checkAndUpdateChart();
-        } else {
-          console.error('No data found or invalid response format.');
-          this.Encome = 0;
-          this.checkAndUpdateChart();
-        }
-      },
-      (err) => {
-        console.error('Error while fetching daily income:', err);
+ 
+
+getEncome(): void {
+  this.shared.getDailyEncome().subscribe(
+    (response: any) => {
+      if (response?.result) {
+        const dailyIncome = response.result.totalSalesMoney || 0;
+        this.Encome = dailyIncome; // الدخل اليومي الحالي
+        this.totalIncome += dailyIncome; // إضافة الدخل اليومي للدخل الكلي
+        this.checkAndUpdateChart();
+      } else {
+        console.error('No data found or invalid response format.');
         this.Encome = 0;
         this.checkAndUpdateChart();
       }
-    );
-  }
+    },
+    (err) => {
+      console.error('Error while fetching daily income:', err);
+      this.Encome = 0;
+      this.checkAndUpdateChart();
+    }
+  );
+}
+
+// فنكشن لإعادة تعيين الدخل الكلي إذا كنت تريد البدء من جديد
+resetTotalIncome(): void {
+  this.totalIncome = 0;
+}
+
+// فنكشن للحصول على الدخل الكلي
+getTotalIncome(): number {
+  return this.totalIncome;
+}
 
   // ========== UI Functions ==========
   navigateToAdminUpdate(): void {

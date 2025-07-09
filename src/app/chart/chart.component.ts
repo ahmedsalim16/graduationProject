@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { EChartsOption } from 'echarts';
 import * as echarts from 'echarts';
 import { SharedService } from '../services/shared.service';
+import { forkJoin } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-chart',
@@ -9,69 +11,143 @@ import { SharedService } from '../services/shared.service';
   styleUrls: ['./chart.component.css'],
 })
 export class ChartComponent implements OnInit {
-  studentCount: number = 0; // العدد الكلي للطلاب
-  maleStudentCount: number = 0; // عدد الطلاب الذكور
-  femaleStudentCount: number = 0; // عدد الطالبات الإناث
-
-  myChart: any; // الرسم البياني
-  option: EChartsOption = {}; // إعدادات الرسم البياني
+  gradeData: { grade: number; count: number }[] = [];
+  
+  myChart: any;
+  option: EChartsOption = {};
+  isChartLoading: boolean = true;
 
   constructor(public shared: SharedService) {}
 
   ngOnInit(): void {
     this.initChart();
-  this.loadInitialData();
-  }
-  getTotalStudentCount(): void {
-    this.shared.getStudentCountByGender().subscribe(
-      (response) => {
-        this.studentCount = response.result || 0; // العدد الكلي للطلاب
-      },
-      (err) => {
-        console.error('Error fetching total student count:', err);
-        this.studentCount = 0;
-      }
-    );
+    this.loadGradeData();
   }
 
-  getStudentCountByGender(gender: number): void {
-    console.log(`Fetching student count for gender ${gender}...`); // نقطة تصحيح
-    this.shared.getStudentCountByGender(gender).subscribe(
-      (response) => {
-        console.log(`Response for gender ${gender}:`, response); // نقطة تصحيح
-        if (gender === 0) {
-          this.maleStudentCount = response.result || 0; // عدد الذكور
-        } else if (gender === 1) {
-          this.femaleStudentCount = response.result || 0; // عدد الإناث
-        }
-
-        // تحديث الرسم البياني بعد استلام البيانات
-        this.updateChart();
-      },
-      (err) => {
-        console.error(`Error fetching student count for gender ${gender}:`, err);
-        if (gender === 0) this.maleStudentCount = 0;
-        if (gender === 1) this.femaleStudentCount = 0;
-
-        // تحديث الرسم البياني حتى في حالة الخطأ
-        this.updateChart();
-      }
-    );
-  }
-  loadInitialData(): void {
+  // دالة لجلب عدد الطلاب لكل grade
+  loadGradeData(): void {
     this.isChartLoading = true;
-    this.getTotalStudentCount();
-    this.getStudentCountByGender(0);
-    this.getStudentCountByGender(1);
+    
+    if (this.myChart) {
+      this.myChart.showLoading();
+    }
+
+    // إعادة تعيين البيانات
+    this.gradeData = [];
+
+    // إنشاء مصفوفة من الطلبات لكل grade من 1 إلى 8
+    const gradeRequests = [];
+    
+    // Define a type for the expected response
+    type FilterStudentsResponse = { result: any[] };
+
+    for (let grade = 1; grade <= 8; grade++) {
+      // طلب العدد الإجمالي لكل grade
+      const totalRequest = this.shared.filterStudents({
+        grade: grade,
+        pageNumber: 1,
+        pageSize: 9999 // رقم كبير لجلب كل البيانات
+      }) as unknown as import('rxjs').Observable<FilterStudentsResponse>;
+
+      // طلب عدد الذكور لكل grade
+      const maleRequest = this.shared.filterStudents({
+        grade: grade,
+        gender: 0, // الذكور
+        pageNumber: 1,
+        pageSize: 9999
+      }) as unknown as import('rxjs').Observable<FilterStudentsResponse>;
+
+      // طلب عدد الإناث لكل grade
+      const femaleRequest = this.shared.filterStudents({
+        grade: grade,
+        gender: 1, // الإناث
+        pageNumber: 1,
+        pageSize: 9999
+      }) as unknown as import('rxjs').Observable<FilterStudentsResponse>;
+
+      // دمج الطلبات الثلاثة لكل grade
+      gradeRequests.push(
+        forkJoin([totalRequest, maleRequest, femaleRequest]).pipe(
+          map(([totalRes, maleRes, femaleRes]) => ({
+            grade: grade,
+            count: (totalRes as FilterStudentsResponse)?.result?.length || 0,
+            maleCount: (maleRes as FilterStudentsResponse)?.result?.length || 0,
+            femaleCount: (femaleRes as FilterStudentsResponse)?.result?.length || 0
+          }))
+        )
+      );
+    }
+
+    // تنفيذ جميع الطلبات معاً
+    forkJoin(gradeRequests).subscribe({
+      next: (results) => {
+        this.gradeData = results;
+        console.log('Grade Data:', this.gradeData);
+        this.updateChart();
+        this.hideLoader();
+      },
+      error: (err) => {
+        console.error('Error loading grade data:', err);
+        this.handleChartError(err);
+      }
+    });
   }
+
+  // دالة بديلة إذا كانت forkJoin لا تعمل - استخدام Promise.all
+  loadGradeDataAlternative(): void {
+    this.isChartLoading = true;
+    
+    if (this.myChart) {
+      this.myChart.showLoading();
+    }
+
+    this.gradeData = [];
+
+    const promises = [];
+    
+    for (let grade = 1; grade <= 8; grade++) {
+      const gradePromise = this.getGradeCount(grade);
+      promises.push(gradePromise);
+    }
+
+    Promise.all(promises).then((results) => {
+      this.gradeData = results;
+      console.log('Grade Data:', this.gradeData);
+      this.updateChart();
+      this.hideLoader();
+    }).catch((err) => {
+      console.error('Error loading grade data:', err);
+      this.handleChartError(err);
+    });
+  }
+
+  // دالة مساعدة للحصول على عدد الطلاب لكل grade
+  getGradeCount(grade: number): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.shared.filterStudents({
+        grade: grade,
+        pageNumber: 1,
+        pageSize: 9999
+      }).subscribe({
+        next: (response: any) => {
+          const count = response?.result?.length || 0;
+          resolve({ grade, count });
+        },
+        error: (err) => {
+          console.error(`Error fetching count for grade ${grade}:`, err);
+          resolve({ grade, count: 0 }); // إرجاع 0 في حالة الخطأ
+        }
+      });
+    });
+  }
+
   initChart(): void {
     const chartDom = document.getElementById('main');
     if (chartDom) {
       this.myChart = echarts.init(chartDom);
       
-      // إضافة حدث global listener للتأكد من عمل الأزرار
       this.myChart.on('restore', () => {
-        console.log('Restore event triggered'); // هذا يجب أن يظهر عند النقر
+        console.log('Restore event triggered');
         this.refreshChartData();
       });
       
@@ -80,26 +156,24 @@ export class ChartComponent implements OnInit {
       console.error('Chart container not found!');
     }
   }
-  isChartLoading: boolean = true;
+
   updateChart(): void {
-    console.log('Updating chart...'); // نقطة تصحيح
-    console.log('Male Count:', this.maleStudentCount);
-    console.log('Female Count:', this.femaleStudentCount);
+    console.log('Updating chart with grade data...');
+    
+    // إعداد البيانات للرسم البياني
+    const gradeLabels = this.gradeData.map(item => `Grade ${item.grade}`);
+    const totalData = this.gradeData.map(item => item.count);
 
-    // إعداد البيانات الديناميكية
-    const boysData = Array(12).fill(this.maleStudentCount); // بيانات الأشهر للذكور
-    const girlsData = Array(12).fill(this.femaleStudentCount); // بيانات الأشهر للإناث
-
-    // إعداد الخيارات
     this.option = {
       title: {
-        text: 'Student Number',
+        text: 'Students Count by Grade',
+        left: 'center'
       },
       tooltip: {
         trigger: 'axis',
-      },
-      legend: {
-        data: ['Girls', 'Boys', 'Total Students'], // إضافة "Total Students" في المفتاح
+        axisPointer: {
+          type: 'shadow'
+        }
       },
       toolbox: {
         show: true,
@@ -110,8 +184,8 @@ export class ChartComponent implements OnInit {
             show: true,
             onclick: () => {
               console.log('Restore button clicked');
-              this.refreshChartData(); // استدعاء دالة refreshChartData عند النقر على Restore
-            } // إضافة دالة عند النقر على Restore
+              this.refreshChartData();
+            }
           },
           saveAsImage: { show: true },
         },
@@ -120,22 +194,31 @@ export class ChartComponent implements OnInit {
       xAxis: [
         {
           type: 'category',
-          data: ['Total Students'], // صف واحد فقط
+          data: gradeLabels,
+          axisLabel: {
+            interval: 0,
+            rotate: 0
+          }
         },
       ],
       yAxis: [
         {
           type: 'value',
+          name: 'Number of Students'
         },
       ],
       series: [
         {
-          name: 'Girls',
+          name: 'Students',
           type: 'bar',
-          data: [this.femaleStudentCount], // البيانات للإناث
+          data: totalData,
           color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [
-            { offset: 1, color: '#5CC2F2' },
+            { offset: 0, color: '#4f46e5' },
+            { offset: 1, color: '#06b6d4' }
           ]),
+          itemStyle: {
+            borderRadius: [4, 4, 0, 0]
+          },
           markPoint: {
             data: [
               { type: 'max', name: 'Max' },
@@ -143,110 +226,38 @@ export class ChartComponent implements OnInit {
             ],
           },
           markLine: {
-            data: [{ type: 'average', name: 'Avg' }],
+            data: [{ type: 'average', name: 'Average' }],
           },
-        },
-        {
-          name: 'Boys',
-          type: 'bar',
-          data: [this.maleStudentCount], // البيانات للذكور
-          color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [
-            { offset: 1, color: '#C1EAF2' },
-          ]),
-          markPoint: {
-            data: [
-              { type: 'max', name: 'Max' },
-              { type: 'min', name: 'Min' },
-            ],
-          },
-          markLine: {
-            data: [{ type: 'average', name: 'Avg' }],
-          },
-        },
-        {
-          name: 'Total Students',
-          type: 'bar',
-          data: [this.studentCount], // العدد الكلي للطلاب
-          color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [
-            { offset: 1, color: '#191BA9' },
-          ]),
-          markPoint: {
-            data: [
-              { type: 'max', name: 'Max' },
-              { type: 'min', name: 'Min' },
-            ],
-          },
-          markLine: {
-            data: [{ type: 'average', name: 'Avg' }],
-          },
-        },
+        }
       ],
     };
-    
 
-    // رسم الـ Chart أو تحديثه
     if (!this.myChart) {
       const chartDom = document.getElementById('main');
       if (chartDom) {
         this.myChart = echarts.init(chartDom);
       }
     }
-  
+
     if (this.myChart) {
       this.myChart.setOption(this.option);
       this.isChartLoading = false;
-    } 
+    }
   }
+
   refreshChartData(): void {
     console.log('بدء تحديث البيانات...');
-    this.isChartLoading = true;
-  
-    // إظهار حالة التحميل
-    if (this.myChart) {
-      this.myChart.showLoading();
-    }
-  
-    // إعادة تعيين البيانات
-    this.studentCount = 0;
-    this.maleStudentCount = 0;
-    this.femaleStudentCount = 0;
-  
-    // تسلسل طلبات API مع ضمان إخفاء الـ Loader
-    this.shared.getStudentCountByGender().subscribe({
-      next: (totalRes) => {
-        this.studentCount = totalRes.result || 0;
-        
-        this.shared.getStudentCountByGender(0).subscribe({
-          next: (maleRes) => {
-            this.maleStudentCount = maleRes.result || 0;
-            
-            this.shared.getStudentCountByGender(1).subscribe({
-              next: (femaleRes) => {
-                this.femaleStudentCount = femaleRes.result || 0;
-                this.finalizeChartUpdate();
-              },
-              error: (err) => this.handleChartError(err)
-            });
-          },
-          error: (err) => this.handleChartError(err)
-        });
-      },
-      error: (err) => this.handleChartError(err)
-    });
+    this.loadGradeData();
   }
-  
-  finalizeChartUpdate(): void {
-    console.log('تم استلام جميع البيانات');
-    this.updateChart();
-    this.hideLoader();
-  }
-  
+
   handleChartError(error: any): void {
     console.error('حدث خطأ في جلب البيانات:', error);
+    // إظهار رسم بياني فارغ أو رسالة خطأ
+    this.gradeData = [];
     this.updateChart();
     this.hideLoader();
   }
-  
+
   hideLoader(): void {
     this.isChartLoading = false;
     if (this.myChart) {
