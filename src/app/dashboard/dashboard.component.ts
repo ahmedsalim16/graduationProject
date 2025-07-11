@@ -34,12 +34,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
   
   // Chart variables
   pieChart: any;
-  studentChart: any; // Added for student chart
+  studentChart: any;
   isPieChartLoading: boolean = true;
-  isStudentChartLoading: boolean = true; // Added for student chart
+  isStudentChartLoading: boolean = true;
   refreshInProgress: boolean = false;
   resizeHandler: any;
   isDarkTheme = false;
+
+  // Grade data for student chart
+  gradeData: { [key: string]: number } = {};
+  gradeList: string[] = ['Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5', 'Grade 6', 'Grade 7', 'Grade 8'];
 
   // Check for system theme preference
   @HostBinding('class.dark-theme') get darkMode() {
@@ -74,20 +78,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-
   loadAllData(): void {
     this.getTotalStudentCount();
     this.getParentCount();
     this.getFoods();
     this.getEncome();
-    this.getStudentCountByGender(0);
-    this.getStudentCountByGender(1);
+    this.getStudentCountByGender(0); // Male
+    this.getStudentCountByGender(1); // Female
+    this.getStudentCountByGrade(); // New function for grade data
   }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.initPieChart();
-      this.initStudentChart(); // Initialize student chart
+      this.initStudentChart();
     }, 100);
   }
 
@@ -105,7 +109,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-   // الحصول على صورة الأدمن
+  // الحصول على صورة الأدمن
   getAdminImage(adminId: string): string {
     return this.adminImageService.getAdminImageOrDefault(adminId);
   }
@@ -114,12 +118,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   hasCustomImage(adminId: string): boolean {
     return this.adminImageService.hasCustomImage(adminId);
   }
-  // ========== Theme Functions ==========
-
 
   // ========== Enhanced Pie Chart Functions ==========
   checkAndUpdateChart(): void {
-    if (this.studentCount !== undefined && 
+    if (this.maleStudentCount !== undefined && 
+        this.femaleStudentCount !== undefined &&
         this.parentCount !== undefined &&
         this.Encome !== undefined && 
         this.foods !== undefined) {
@@ -134,13 +137,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     const chartDom = document.getElementById('pieChart');
     if (chartDom) {
-      // Initialize chart with the correct theme
       this.pieChart = echarts.init(chartDom);
-      
-      // Setup resize handler
       this.setupResizeHandler();
-      
-      // Check and update chart when data is ready
       this.checkAndUpdateChart();
     } else {
       console.error('Pie chart container not found!');
@@ -168,7 +166,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const option: EChartsOption = {
       title: {
         text: 'System Statistics',
-        subtext: 'Students, Parents, Income, Food Items',
+        subtext: 'Students by Gender',
         left: 'center',
         textStyle: {
           fontSize: isMobile ? 14 : 16
@@ -200,7 +198,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         left: isMobile ? 'center' : 'left',
         top: isMobile ? 'bottom' : 'center',
         textStyle: {},
-        data: ['Students', 'Parents', 'Income', 'Food Items']
+        data: ['Male Students', 'Female Students']
       },
       toolbox: {
         show: true,
@@ -257,10 +255,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
           }
         },
         data: [
-          { value: this.studentCount, name: 'Students', itemStyle: { color: '#FF6384' } },
-          { value: this.parentCount, name: 'Parents', itemStyle: { color: '#36A2EB' } },
-          { value: this.Encome, name: 'Income', itemStyle: { color: '#FFCE56' } },
-          { value: this.foods, name: 'Food Items', itemStyle: { color: '#4BC0C0' } }
+          { value: this.maleStudentCount, name: 'Male Students', itemStyle: { color: '#36A2EB' } },
+          { value: this.femaleStudentCount, name: 'Female Students', itemStyle: { color: '#FF6384' } },
+          
         ]
       }],
       animation: true,
@@ -272,8 +269,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.pieChart.hideLoading();
     this.isPieChartLoading = false;
     this.refreshInProgress = false;
-
-    // Add refresh event listener
     this.setupChartEvents();
   }
 
@@ -320,7 +315,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }, 300);
   }
   
-  // ========== Student Chart Functions (Added from first file) ==========
+  // ========== Student Chart Functions (Updated for Grades) ==========
   initStudentChart(): void {
     this.isStudentChartLoading = true;
     
@@ -328,7 +323,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (chartDom) {
       this.studentChart = echarts.init(chartDom);
       
-      // Add event listener for the restore button
       this.studentChart.on('restore', () => {
         console.log('Restore event triggered');
         this.refreshStudentChartData();
@@ -342,119 +336,105 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
   
   updateStudentChart(): void {
-    console.log('Updating student chart...');
-    console.log('Male Count:', this.maleStudentCount);
-    console.log('Female Count:', this.femaleStudentCount);
+    console.log('Updating student chart with grade data...');
+    console.log('Grade Data:', this.gradeData);
 
-    // Set up the student chart options
+    const gradeNames = Object.keys(this.gradeData);
+    const gradeValues = Object.values(this.gradeData);
+
+    // Ensure grades are always ordered from Grade 1 to Grade 8
+    const orderedGradeNames = this.gradeList;
+    const orderedGradeValues = orderedGradeNames.map(grade => this.gradeData[grade] ?? 0);
+
     const studentChartOption: EChartsOption = {
       title: {
-        text: 'Student Number',
-        textStyle: {
-          color: this.isDarkTheme ? '#ffffff' : '#333333'
-        }
+      text: 'Students by Grade',
+      textStyle: {
+        color: this.isDarkTheme ? '#4b5563' : '#4b5563'
+      }
       },
       tooltip: {
-        trigger: 'axis',
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow'
+      },
+      formatter: (params: any) => {
+        if (Array.isArray(params)) {
+        const param = params[0];
+        return `${param.name}: ${param.value} students`;
+        }
+        return `${params.name}: ${params.value} students`;
+      }
       },
       legend: {
-        data: ['Girls', 'Boys', 'Total Students'],
-        textStyle: {
-          color: this.isDarkTheme ? '#dddddd' : '#333333'
-        }
+      data: ['Students Count'],
+      textStyle: {
+        color: this.isDarkTheme ? '#4b5563' : '#4b5563'
+      }
       },
       toolbox: {
+      show: true,
+      feature: {
+        dataView: { show: true, readOnly: false },
+        magicType: { show: true, type: ['line', 'bar'] },
+        restore: { 
         show: true,
-        feature: {
-          dataView: { show: true, readOnly: false },
-          magicType: { show: true, type: ['line', 'bar'] },
-          restore: { 
-            show: true,
-            onclick: () => {
-              console.log('Restore button clicked');
-              this.refreshStudentChartData();
-            }
-          },
-          saveAsImage: { show: true },
-        },
-        iconStyle: {
-          borderColor: this.isDarkTheme ? '#dddddd' : '#666666'
+        onclick: () => {
+          console.log('Restore button clicked');
+          this.refreshStudentChartData();
         }
+        },
+        saveAsImage: { show: true },
+      },
+      iconStyle: {
+        borderColor: this.isDarkTheme ? '#4b5563' : '#4b5563'
+      }
       },
       calculable: true,
       xAxis: [
-        {
-          type: 'category',
-          data: ['Total Students'],
-          axisLabel: {
-            color: this.isDarkTheme ? '#dddddd' : '#333333'
-          }
-        },
+      {
+        type: 'category',
+        data: orderedGradeNames,
+        axisLabel: {
+        color: this.isDarkTheme ? '#4b5563' : '#4b5563',
+        rotate: 45,
+        interval: 0
+        }
+      },
       ],
       yAxis: [
-        {
-          type: 'value',
-          axisLabel: {
-            color: this.isDarkTheme ? '#dddddd' : '#333333'
-          }
-        },
+      {
+        type: 'value',
+        axisLabel: {
+        color: this.isDarkTheme ? '#4b5563' : '#4b5563'
+        }
+      },
       ],
       series: [
-        {
-          name: 'Girls',
-          type: 'bar',
-          data: [this.femaleStudentCount],
-          color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [
-            { offset: 1, color: '#5CC2F2' },
-          ]),
-          markPoint: {
-            data: [
-              { type: 'max', name: 'Max' },
-              { type: 'min', name: 'Min' },
-            ],
-          },
-          markLine: {
-            data: [{ type: 'average', name: 'Avg' }],
-          },
+      {
+        name: 'Students Count',
+        type: 'bar',
+        data: orderedGradeValues,
+        itemStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          { offset: 0, color: '#83bff6' },
+          { offset: 0.5, color: '#188df0' },
+          { offset: 1, color: '#188df0' }
+        ])
         },
-        {
-          name: 'Boys',
-          type: 'bar',
-          data: [this.maleStudentCount],
-          color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [
-            { offset: 1, color: '#C1EAF2' },
-          ]),
-          markPoint: {
-            data: [
-              { type: 'max', name: 'Max' },
-              { type: 'min', name: 'Min' },
-            ],
-          },
-          markLine: {
-            data: [{ type: 'average', name: 'Avg' }],
-          },
+        markPoint: {
+        data: [
+          { type: 'max', name: 'Max' },
+          { type: 'min', name: 'Min' },
+        ],
         },
-        {
-          name: 'Total Students',
-          type: 'bar',
-          data: [this.studentCount],
-          color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [
-            { offset: 1, color: '#191BA9' },
-          ]),
-          markPoint: {
-            data: [
-              { type: 'max', name: 'Max' },
-              { type: 'min', name: 'Min' },
-            ],
-          },
-          markLine: {
-            data: [{ type: 'average', name: 'Avg' }],
-          },
+        markLine: {
+        data: [{ type: 'average', name: 'Average' }],
         },
+      }
       ],
     };
 
-    // Set the options and update the chart
     if (this.studentChart) {
       this.studentChart.setOption(studentChartOption);
       this.isStudentChartLoading = false;
@@ -462,58 +442,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
   
   refreshStudentChartData(): void {
-    console.log('بدء تحديث بيانات الطلاب...');
+    console.log('بدء تحديث بيانات الطلاب حسب الصف...');
     this.isStudentChartLoading = true;
   
-    // Show loading indicator
     if (this.studentChart) {
       this.studentChart.showLoading({
-        text: 'Refreshing student data...',
+        text: 'Refreshing grade data...',
         color: this.isDarkTheme ? '#4b6cb7' : '#4b6cb7',
         textColor: this.isDarkTheme ? '#ffffff' : '#333333',
         maskColor: this.isDarkTheme ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)'
       });
     }
   
-    // Reset student data
-    this.studentCount = 0;
-    this.maleStudentCount = 0;
-    this.femaleStudentCount = 0;
+    // Reset grade data
+    this.gradeData = {};
   
-    // Fetch updated student data in sequence
-    this.shared.getStudentCountByGender().subscribe({
-      next: (totalRes) => {
-        this.studentCount = totalRes.result || 0;
-        
-        this.shared.getStudentCountByGender(0).subscribe({
-          next: (maleRes) => {
-            this.maleStudentCount = maleRes.result || 0;
-            
-            this.shared.getStudentCountByGender(1).subscribe({
-              next: (femaleRes) => {
-                this.femaleStudentCount = femaleRes.result || 0;
-                this.finalizeStudentChartUpdate();
-              },
-              error: (err) => this.handleStudentChartError(err)
-            });
-          },
-          error: (err) => this.handleStudentChartError(err)
-        });
-      },
-      error: (err) => this.handleStudentChartError(err)
-    });
-  }
-  
-  finalizeStudentChartUpdate(): void {
-    console.log('تم استلام جميع بيانات الطلاب');
-    this.updateStudentChart();
-    this.hideStudentChartLoader();
-  }
-  
-  handleStudentChartError(error: any): void {
-    console.error('حدث خطأ في جلب بيانات الطلاب:', error);
-    this.updateStudentChart();
-    this.hideStudentChartLoader();
+    // Fetch updated grade data
+    this.getStudentCountByGrade();
   }
   
   hideStudentChartLoader(): void {
@@ -524,19 +469,68 @@ export class DashboardComponent implements OnInit, OnDestroy {
     console.log('تم إخفاء مؤشر التحميل');
   }
 
+  // ========== New Function to Get Student Count by Grade ==========
+  getStudentCountByGrade(): void {
+    // Initialize grade data
+    this.gradeData = {};
+    
+    // Counter to track completed requests
+    let completedRequests = 0;
+    const totalGrades = this.gradeList.length;
+    
+    this.gradeList.forEach(grade => {
+      // Extract the numeric part from the grade string, e.g., 'Grade 1' -> 1
+      const gradeNumber = parseInt(grade.replace(/\D/g, ''), 10);
+
+      const filters = {
+        grade: gradeNumber,
+        pageNumber: 1,
+        pageSize: 1000, // Large number to get all students
+      };
+      
+      this.shared.filterStudents(filters).subscribe(
+        (response: any) => {
+          if (response && response.result && Array.isArray(response.result)) {
+            this.gradeData[grade] = response.result.length;
+          } else {
+            this.gradeData[grade] = 0;
+          }
+          
+          completedRequests++;
+          
+          // Update chart when all requests are completed
+          if (completedRequests === totalGrades) {
+            this.updateStudentChart();
+            this.hideStudentChartLoader();
+          }
+        },
+        (err) => {
+          console.error(`Error fetching student count for grade ${grade}:`, err);
+          this.gradeData[grade] = 0;
+          
+          completedRequests++;
+          
+          // Update chart when all requests are completed
+          if (completedRequests === totalGrades) {
+            this.updateStudentChart();
+            this.hideStudentChartLoader();
+          }
+        }
+      );
+    });
+  }
+
   // ========== Data Fetching Functions ==========
   getTotalStudentCount(): void {
     this.shared.getStudentCountByGender().subscribe(
       (response) => {
         this.studentCount = response.result || 0;
         this.checkAndUpdateChart();
-        this.updateStudentChart(); // Update student chart when data is received
       },
       (err) => {
         console.error('Error fetching total student count:', err);
         this.studentCount = 0;
         this.checkAndUpdateChart();
-        this.updateStudentChart();
       }
     );
   }
@@ -549,13 +543,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
         } else if (gender === 1) {
           this.femaleStudentCount = response.result || 0;
         }
-        this.updateStudentChart(); // Update student chart when data is received
+        this.checkAndUpdateChart();
       },
       (err) => {
         console.error(`Error fetching student count for gender ${gender}:`, err);
         if (gender === 0) this.maleStudentCount = 0;
         if (gender === 1) this.femaleStudentCount = 0;
-        this.updateStudentChart();
+        this.checkAndUpdateChart();
       }
     );
   }
@@ -589,79 +583,73 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
   }
 
- getFoods(): void {
-  this.shared.getstock().subscribe(
-    (response: any) => {
-      if (response?.result && Array.isArray(response.result)) {
-        const currentTenantId = localStorage.getItem('schoolTenantId');
+  getFoods(): void {
+    this.shared.getstock().subscribe(
+      (response: any) => {
+        if (response?.result && Array.isArray(response.result)) {
+          const currentTenantId = localStorage.getItem('schoolTenantId');
+          
+          console.log('Current Tenant ID from localStorage:', currentTenantId);
+          console.log('Response data:', response.result);
+          console.log('First item tenant ID:', response.result[0]?.schoolTenantId);
+          
+          if (!currentTenantId) {
+            console.error('No schoolTenantId found in localStorage');
+            this.foods = 0;
+            this.checkAndUpdateChart();
+            return;
+          }
         
-        // Debug: طباعة القيم للتأكد
-        console.log('Current Tenant ID from localStorage:', currentTenantId);
-        console.log('Response data:', response.result);
-        console.log('First item tenant ID:', response.result[0]?.schoolTenantId);
-        
-        // التحقق من وجود الـ tenant ID
-        if (!currentTenantId) {
-          console.error('No schoolTenantId found in localStorage');
+          const stock = response.result;
+          
+          console.log('Filtered stock:', stock);
+          console.log('Stock length:', stock.length);
+          
+          this.foods = stock.length;
+          this.checkAndUpdateChart();
+        } else {
+          console.error('No data found or invalid response format.');
           this.foods = 0;
           this.checkAndUpdateChart();
-          return;
         }
-      
-        const stock = response.result;
-        
-        console.log('Filtered stock:', stock);
-        console.log('Stock length:', stock.length);
-        
-        this.foods = stock.length;
-        this.checkAndUpdateChart();
-      } else {
-        console.error('No data found or invalid response format.');
+      },
+      (err) => {
+        console.error('Error while fetching foods:', err);
         this.foods = 0;
         this.checkAndUpdateChart();
       }
-    },
-    (err) => {
-      console.error('Error while fetching foods:', err);
-      this.foods = 0;
-      this.checkAndUpdateChart();
-    }
-  );
-}
+    );
+  }
 
- 
-
-getEncome(): void {
-  this.shared.getDailyEncome().subscribe(
-    (response: any) => {
-      if (response?.result) {
-        const dailyIncome = response.result.totalSalesMoney || 0;
-        this.Encome = dailyIncome; // الدخل اليومي الحالي
-        this.totalIncome += dailyIncome; // إضافة الدخل اليومي للدخل الكلي
-        this.checkAndUpdateChart();
-      } else {
-        console.error('No data found or invalid response format.');
+  getEncome(): void {
+    this.shared.getDailyEncome().subscribe(
+      (response: any) => {
+        if (response?.result) {
+          const dailyIncome = response.result.totalSalesMoney || 0;
+          this.Encome = dailyIncome;
+          this.totalIncome += dailyIncome;
+          this.checkAndUpdateChart();
+        } else {
+          console.error('No data found or invalid response format.');
+          this.Encome = 0;
+          this.checkAndUpdateChart();
+        }
+      },
+      (err) => {
+        console.error('Error while fetching daily income:', err);
         this.Encome = 0;
         this.checkAndUpdateChart();
       }
-    },
-    (err) => {
-      console.error('Error while fetching daily income:', err);
-      this.Encome = 0;
-      this.checkAndUpdateChart();
-    }
-  );
-}
+    );
+  }
 
-// فنكشن لإعادة تعيين الدخل الكلي إذا كنت تريد البدء من جديد
-resetTotalIncome(): void {
-  this.totalIncome = 0;
-}
+  resetTotalIncome(): void {
+    this.totalIncome = 0;
+  }
 
-// فنكشن للحصول على الدخل الكلي
-getTotalIncome(): number {
-  return this.totalIncome;
-}
+  getTotalIncome(): number {
+    return this.totalIncome;
+  }
 
   // ========== UI Functions ==========
   navigateToAdminUpdate(): void {
